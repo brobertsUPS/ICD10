@@ -98,7 +98,7 @@ CREATE TABLE Condition_location (
 	
 CREATE TABLE Sub_location (
 	LID INTEGER NOT NULL,
-	sub_locationID INTEGER NOT NULL,
+	parent_locationID INTEGER NOT NULL,
 	PRIMARY KEY (LID, sub_locationID),
 	FOREIGN KEY (LID) REFERENCES Condition_location (LID) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (parent_locationID) REFERENCES Condition_location(LID) ON DELETE CASCADE ON UPDATE CASCADE
