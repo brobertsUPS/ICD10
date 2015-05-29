@@ -11,6 +11,13 @@ import UIKit
 class DetailViewController: UIViewController {
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
+    @IBOutlet weak var ICD10Code: UILabel! 
+    @IBOutlet weak var ICD9Code: UILabel!
+    @IBOutlet weak var conditionDescription: UILabel!
+    
+    var ICD10Text:String!
+    var ICD9Text:String!
+    var conditionDescriptionText:String!
 
 
     var detailItem: AnyObject? {
@@ -19,7 +26,7 @@ class DetailViewController: UIViewController {
             self.configureView()
         }
     }
-
+    
     func configureView() {
         // Update the user interface for the detail item.
         if let detail: AnyObject = self.detailItem {
@@ -33,6 +40,10 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
+        ICD10Code.text = self.ICD10Text
+        ICD9Code.text = self.ICD9Text
+        conditionDescription.text = self.conditionDescriptionText
+        
     }
 
     override func didReceiveMemoryWarning() {

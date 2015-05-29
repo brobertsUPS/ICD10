@@ -129,8 +129,31 @@ class MasterViewController: UITableViewController {
         if segue.identifier == "showCodes" {
             
             let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+            var statement:COpaquePointer = nil
+            let query = "SELECT ICD10_code, description_text, ICD9_code FROM Condition_location NATURAL JOIN Located_in NATURAL JOIN ICD10_condition WHERE LID = \(id)"
+            if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
+                
+                if sqlite3_step(statement) == SQLITE_ROW { // if we got the row back successfully
+                    
+                    let icd10Code = sqlite3_column_text(statement, 0)
+                    let icd10CodeString = String.fromCString(UnsafePointer<CChar>(icd10Code))!
+                    println(icd10CodeString)
+                    controller.ICD10Text = icd10CodeString
+                    
+                    let description = sqlite3_column_text(statement, 1)
+                    let descriptionString = String.fromCString(UnsafePointer<CChar>(description))!
+                    println(descriptionString)
+                    controller.conditionDescriptionText = descriptionString
+                    
+                    let icd9Code = sqlite3_column_text(statement, 2)
+                    let icd9CodeString = String.fromCString(UnsafePointer<CChar>(icd9Code))!
+                    println(icd9CodeString)
+                    controller.ICD9Text = icd9CodeString
+                    
+                }
+            }
             
-            controller.detailItem = locationName
+            //controller.detailItem = locationName
             
             controller.title = locationName
             
