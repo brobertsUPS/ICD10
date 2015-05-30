@@ -75,7 +75,7 @@ class MasterViewController: UITableViewController {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
         let documentsDirectory = paths[0] as! NSString
         println(documentsDirectory)
-        return documentsDirectory.stringByAppendingPathComponent("testDB.sqlite3") as String
+        return documentsDirectory.stringByAppendingPathComponent("testDML.sqlite3") as String
     }
     
     
