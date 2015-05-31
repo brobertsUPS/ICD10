@@ -15,7 +15,6 @@
 		ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADE77F401B1782F900CE48F1 /* LaunchScreen.xib */; };
 		ADE77F4E1B1782F900CE48F1 /* ICD10Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F4D1B1782F900CE48F1 /* ICD10Tests.swift */; };
 		ADE77F581B17BCCB00CE48F1 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ADE77F571B17BCCB00CE48F1 /* libsqlite3.dylib */; };
-		ADE77F5E1B17C08000CE48F1 /* testDB.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = ADE77F5D1B17C08000CE48F1 /* testDB.sqlite3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +41,6 @@
 		ADE77F4D1B1782F900CE48F1 /* ICD10Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICD10Tests.swift; sourceTree = "<group>"; };
 		ADE77F571B17BCCB00CE48F1 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		ADE77F591B17BD1D00CE48F1 /* ICD10-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ICD10-Bridging-Header.h"; sourceTree = "<group>"; };
-		ADE77F5D1B17C08000CE48F1 /* testDB.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; name = testDB.sqlite3; path = ../../../../Desktop/testDB.sqlite3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +84,6 @@
 		ADE77F321B1782F900CE48F1 /* ICD10 */ = {
 			isa = PBXGroup;
 			children = (
-				ADE77F5D1B17C08000CE48F1 /* testDB.sqlite3 */,
 				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
 				ADE77F371B1782F900CE48F1 /* MasterViewController.swift */,
 				ADE77F391B1782F900CE48F1 /* DetailViewController.swift */,
@@ -206,7 +203,6 @@
 			files = (
 				ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */,
 				ADE77F3F1B1782F900CE48F1 /* Images.xcassets in Resources */,
-				ADE77F5E1B17C08000CE48F1 /* testDB.sqlite3 in Resources */,
 				AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,6 +354,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ICD10/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ICD10/ICD10-Bridging-Header.h";
@@ -371,6 +368,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ICD10/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ICD10/ICD10-Bridging-Header.h";
@@ -390,6 +388,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = ICD10Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ICD10.app/ICD10";
@@ -405,6 +404,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = ICD10Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ICD10.app/ICD10";
