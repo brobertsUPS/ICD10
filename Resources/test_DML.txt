@@ -1,175 +1,233 @@
 -- Condition_location*********************************************************************************************
 --select * from condition_location;
 
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Esophagus");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Gastric/Stomach");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Small Bowel");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Colon");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Liver");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Biliary/Pancreas");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Cancer");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Symptoms/Findings");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (1, "Esophagus");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (2, "Gastric/Stomach");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (3, "Small Bowel");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (4, "Colon");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (5, "Liver");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (6, "Biliary/Pancreas");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (7, "Cancer");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (8, "Symptoms/Findings");
 --Esophagus
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Barrett's");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Chest pain, noncardiac");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Dysphagia");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Esophagitis");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Foreign body (Esophagus)");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "GERD");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Stricture/Stenosis");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Varices with bleeding");
---GERD
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Without Esophogitis");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "With Esophogitis");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (9, "Barrett's");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (10, "Chest pain, noncardiac");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (11, "Dysphagia");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (12, "Esophagitis");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (13, "Foreign body (Esophagus)");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (14, "GERD");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (15, "Stricture/Stenosis");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (16, "Varices with bleeding");
 --Gastric Stomach
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Anorexia");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Dyspepsia");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Dieulafoy");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Foreign body (Gastric/Stomach)");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Gastroenteritis");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Gastroparesis");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Gastritis");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Nausea alone");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Nausea with vomiting");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Outlet obstruction");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Peptic ulcer, with heme");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Peptic ulcer, without heme");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Duodenal ulcer, with obstruction");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Duodenal ulver, without obstruction");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Vomiting, persistent");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (19, "Anorexia");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (20, "Dyspepsia");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (21, "Dieulafoy");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (22, "Foreign body (Gastric/Stomach)");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (23, "Gastroenteritis");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (24, "Gastroparesis");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (25, "Gastritis");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (26, "Nausea alone");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (27, "Nausea with vomiting");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (28, "Outlet obstruction");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (29, "Peptic ulcer, with heme");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (30, "Peptic ulcer, without heme");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (31, "Duodenal ulcer, with obstruction");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (32, "Duodenal ulver, without obstruction");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (33, "Vomiting, persistent");
 --Small bowel
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Ileus, paralytic");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Intestinal obstruction, other specified");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Intestinal obstruction, nonspecified");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (34, "Ileus, paralytic");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (35, "Intestinal obstruction, other specified");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (36, "Intestinal obstruction, nonspecified");
 --Colon
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Angiodysplasia, colon");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Antony, colon");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Change in bowels");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Coilitis");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Constipation");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Diarrhea");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Diverticulitis - without bleeding");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Diverticulitis - with bleeding");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Diverticulosis - without bleeding");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Diverticulosis - with bleeding");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Fecal incontinence");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Megacolon");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Volvulus");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (37, "Angiodysplasia, colon");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (38, "Antony, colon");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (39, "Change in bowels");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (40, "Coilitis");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (41, "Constipation");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (42, "Diarrhea");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (43, "Diverticulitis - without bleeding");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (44, "Diverticulitis - with bleeding");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (45, "Diverticulosis - without bleeding");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (46, "Diverticulosis - with bleeding");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (47, "Fecal incontinence");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (48, "Megacolon");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (49, "Volvulus");
 --Coilitis
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Chrohns - small intestine");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Chrohns - large intestine");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Chrohns - small and large intestine");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Chrohns - unspecified");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Gastroenteritis - unspecified");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Ischemic");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "UC - L side");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "UC - proctitis");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "UC - proctocolitis");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "UC - universal");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "UC - unspecified");
-
+INSERT INTO Condition_location ( LID, location_name ) VALUES (50, "Chrohns - small intestine");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (51, "Chrohns - large intestine");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (52, "Chrohns - small and large intestine");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (53, "Chrohns - unspecified");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (54, "Gastroenteritis - unspecified");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (55, "Ischemic");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (56, "UC - L side");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (57, "UC - proctitis");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (58, "UC - proctocolitis");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (59, "UC - universal");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (60, "UC - unspecified");
 --Liver
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Abnormal LFT's");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Ascites - Malignant");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Ascites - Other");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Cirrhosis - liver with EtOH");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Cirrhosis - liver without EtOH");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Hepatic encephalopathy");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Hepatic failure");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Hepatitus - acute EtOH");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Hepatitus C");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Hepatitus - chronic uspecified");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Hepatitus - autoimmune");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (61, "Abnormal LFT's");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (62, "Ascites - Malignant");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (63, "Ascites - Other");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (64, "Cirrhosis - liver with EtOH");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (65, "Cirrhosis - liver without EtOH");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (66, "Hepatic encephalopathy");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (67, "Hepatic failure");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (68, "Hepatitus - acute EtOH");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (69, "Hepatitus C");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (70, "Hepatitus - chronic uspecified");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (71, "Hepatitus - autoimmune");
 --Bilary/pancreas
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Bile duct without obstruction");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Bile duct with obstruction");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Pancreatitis, acute");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Pancreatits, chronic");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (72, "Bile duct without obstruction");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (73, "Bile duct with obstruction");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (74, "Pancreatitis, acute");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (75, "Pancreatits, chronic");
 --Cancer
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Biliary Tract, unspecified");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Colon - unspecified");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Disseminated");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Esophageal");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Liver (primary)");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Liver (secondary)");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Pancreatic");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Rectal");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Stomach");
-
+INSERT INTO Condition_location ( LID, location_name ) VALUES (76, "Biliary Tract, unspecified");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (77, "Colon - unspecified");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (78, "Disseminated");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (79, "Esophageal");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (80, "Liver (primary)");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (81, "Liver (secondary)");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (82, "Pancreatic");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (83, "Rectal");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (84, "Stomach");
 --Diarrhea
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "C diff / infectious");
-
-/*
+INSERT INTO Condition_location ( LID, location_name ) VALUES (85, "C diff / infectious");
 --Symptoms
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Abdominal Pain");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Abnormal GI Xray");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Abnormal Stool (WBC/ob+)");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Anemia - Iron Deficient");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Anemia - Other");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Change in bowels (symptom)");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "GI hemorrhage, unspecified");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Hematemesis");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Jaundice - biliary obstruction");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Jaundice - hyperbili");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Malnutrition");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Melena/blood in stool");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Naseau");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Nauseau with vomiting");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Occult blood in stool");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Polyps");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Post Op GI Disorder");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Rectal bleeding");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Ulcer");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Volvulus of intestine");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Vomiting - persistent (symptom)");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Weight Loss");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (86, "Abdominal Pain");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (87, "Abnormal GI Xray");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (88, "Abnormal Stool (WBC/ob+)");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (89, "Anemia - Iron Deficient");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (90, "Anemia - Other");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (91, "Change in bowels (symptom)");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (92, "GI hemorrhage, unspecified");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (93, "Hematemesis");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (94, "Jaundice - biliary obstruction");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (95, "Jaundice - hyperbili");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (96, "Malnutrition");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (97, "Melena/blood in stool");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (98, "Naseau");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (99, "Nauseau with vomiting");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (100, "Occult blood in stool");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (101, "Polyps");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (102, "Post Op GI Disorder");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (103, "Rectal bleeding");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (104, "Ulcer");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (105, "Volvulus of intestine");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (106, "Vomiting - persistent (symptom)");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (107, "Weight Loss");
 --abdominal pain
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Unspecified (ab)");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "RUQ");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "LUQ");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "RLQ");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "LLQ");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Periumbilical");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Epigastric");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Other specified Site");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Generalized");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (108, "Unspecified (ab)");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (109, "RUQ");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (110, "LUQ");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (111, "RLQ");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (112, "LLQ");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (113, "Periumbilical");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (114, "Epigastric");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (115, "Other specified Site");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (116, "Generalized");
 --polyps
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Esophogeal polyps");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Stomach polyps");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Small bowel polyps");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Colon polyps");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Rectal polyps");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (117, "Esophogeal polyps");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (118, "Stomach polyps");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (119, "Small bowel polyps");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (120, "Colon polyps");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (121, "Rectal polyps");
 --Ulcer
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Peptic with bleeding");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "Peptic without bleeding");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "DU with bleeding without obstruction");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (NULL, "DU with bleeding with obstruction");
-*/
+INSERT INTO Condition_location ( LID, location_name ) VALUES (122, "Peptic with bleeding");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (123, "Peptic without bleeding");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (124, "DU with bleeding without obstruction");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (125, "DU with bleeding with obstruction");
 
---ICD10_condition*********************************************************************************************
---select * from ICD10_condtition;
 
-INSERT INTO ICD10_condition (ICD10_code, description_text, ICD9_code, condition_name, favorite) VALUES ("K21.9", "Gastro-esophageal reflux without esophagitis", "530.81", "Esophageal reflux",0);
+--*********************************************************************************************************
 
 --Barretts esophagus 
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (9,1);
-INSERT INTO ICD10_condition (ICD10_code, description_text, ICD9_code, condition_name, favorite) VALUES ("K22.70", "Barrett's esophagus without dysplasia", "530.85", "Barrett's esophagus",0);
-INSERT INTO Located_in (ICD10_code, LID) VALUES ("K22.70",1);
-INSERT INTO ICD10_condition (ICD10_code, description_text, ICD9_code, condition_name, favorite) VALUES ("K22.710", "Barrett's esophagus with low grade dysplasia", "530.85", "Barrett's esophagus",0);
-INSERT INTO Located_in (ICD10_code, LID) VALUES ("K22.710",1);
-INSERT INTO ICD10_condition (ICD10_code, description_text, ICD9_code, condition_name, favorite) VALUES ("K22.711", "Barrett's esophagus with high grade dysplasia", "530.85", "Barrett's esophagus",0);
-INSERT INTO Located_in (ICD10_code, LID) VALUES ("K22.711",1);
-INSERT INTO ICD10_condition (ICD10_code, description_text, ICD9_code, condition_name, favorite) VALUES ("K22.719", "Barrett's esophagus with dysplasia, unspecified", "530.85", "Barrett's esophagus",0);
-INSERT INTO Located_in (ICD10_code, LID) VALUES ("K22.719",1);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (126, "Barrett's esophagus without dysplasia");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (126,9);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K22.70", "Barrett's esophagus without dysplasia", 0);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("530.85", "Barrett's esophagus");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K22.70","530.85");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K22.70",126);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (127, "Barrett's esophagus with low grade dysplasia");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (127,9);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K22.710", "Barrett's esophagus with low grade dysplasia",0);
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K22.710","530.85");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K22.710",127);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (128, "Barrett's esophagus with high grade dysplasia");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (128,9);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K22.711", "Barrett's esophagus with high grade dysplasia",0);
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K22.711","530.85");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K22.711",128);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (129, "Barrett's esophagus with dysplasia, unspecified");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (129,9);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K22.719", "Barrett's esophagus with dysplasia, unspecifieåd",0);
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K22.719","530.85");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K22.719",129);
 
 --Chest pain, non cardiac
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (10,1);
 
+INSERT INTO Condition_location ( LID, location_name ) VALUES (130, "Chest pain, unspecified");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (130,10);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R07.9", "Chest pain, unspecified",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("786.50", "Chest pain, unspecified");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R07.9", "786.50");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R07.9",130);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (131, "Chest pain on breathing");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (131,10);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R07.1", "Chest pain on breathing",0);
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R07.1","786.50");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R07.1",131); 
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (132, "Pleurodynia");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (132,10);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R07.81", "Pleurodynia",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R07.81", "786.50");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R07.81",132);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (133, "Other chest pain");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (133,10);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R07.89", "Other chest pain",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R07.89","786.50");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R07.89",133);
+
 --Dysphagia
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (11,1);
 
+INSERT INTO Condition_location ( LID, location_name ) VALUES (134, "Aphagia");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (134,11);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R13.0", "Aphagia",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("787.20", "Dysphagia");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R13.0", "787.20");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R13.0",134);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (135, "Dysphagia");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (135,11);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R13.10", "Dysphagia",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R13.10","787.20");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R13.10",135);
+
 --Esophagitis -reflux
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (12,1);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (136, "Gastro-esophageal reflux with esophagitis");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (136,12);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K21.9", "Gastro-esophageal reflux with esophagitis",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("530.11", "Esophagits");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K21.9","530.11");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K21.9",136);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (137, "Gastro-esophageal reflux without esophagitis");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (137,12);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K21.0", "Gastro-esophageal reflux without esophagitis",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K21.0","530.11");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K21.0",137);
 
 --Foreign Body
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (13,1);
@@ -177,27 +235,193 @@ INSERT INTO Sub_location (LID, parent_locationID) VALUES (13,1);
 --GERD
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (14,1);
 
+INSERT INTO Condition_location ( LID, location_name ) VALUES (138, "Gastro-esophageal reflux with esophagitis");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (138,14);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("530.81", "GERD");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K21.9","530.81");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K21.9",138);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (139, "Gastro-esophageal reflux without esophagitis");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (139,14);
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K21.0","530.81");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K21.0",139);
+
 --Stricture/stenosis
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (15,1);
 
---Varices with bleeding
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K22.2", "Esophageal obstruction",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("530.3", "Stricture and stenosis of esophagus");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K22.2","530.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K22.2",15);
+
+--Varices
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (16,1);
 
+INSERT INTO Condition_location ( LID, location_name ) VALUES (140, "Without bleeding");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (140,16);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("I85.00", "Varices without bleeding",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("456.1", "Varices");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("I85.00","456.1");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("I85.00",140);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (141, "With bleeding");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (141,16);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("I85.1", "Varices with bleeding",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("456.0", "Varices");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("I85.1","456.0");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("I85.1",141);
+
 --Gastric
+--Anorexia
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (19,2);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R63.0", "Anorexia",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("783.0", "Anorexia");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R63.0","783.0");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R63.0",19);
+
+--Dyspepsia
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (20,2);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (142, "Epicastric pain (dyspepsia)");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (142,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R10.13", "Epicastric pain (dyspepsia)",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("536.8", "Dyspepsia");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R10.13","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R10.13",142);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (143, "Functional dyspepsia");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (143,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K30", "Functional dyspepsia",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K30","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K30",143);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (144, "Acute dilatation of stomach");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (144,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.10", "Acute dilatation of stomach",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.10","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.10",144);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (145, "Adult hypertrophic pyloric stenosis");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (145,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.1", "Adult hypertrophic pyloric stenosis",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.1","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.1",145);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (146, "Hourglass stricture and stenosis");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (146,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.2", "Hourglass stricture and stenosis",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.2","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.2",146);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (147, "Pylorospasm, not elsewhere classified");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (147,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.3", "Pylorospasm, not elsewhere classified",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.3","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.3",147);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (148, "Gastric diverticulum");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (148,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.4", "Gastric diverticulum",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.4","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.4",148);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (149, "Obstruction of duodenum");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (149,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.5", "Obstruction of duodenum",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.5","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.5",149);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (150, "Fistula of stomach and duodenum");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (150,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.6", "Fistula of stomach and duodenum",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.6","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.6",150);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (151, "Polyp of stomach and duodenum");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (151,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.7", "Polyp of stomach and duodenum",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.7","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.7",151);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (152, "Angiodysplasia of stomach and duodenum with bleeding");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (152,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.811", "Angiodysplasia of stomach and duodenum with bleeding",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.811","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.811",152);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (153, "Angiodysplasia of stomach and duodenum without bleeding");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (153,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.819", "Angiodysplasia of stomach and duodenum without bleeding",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.819","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.819",153);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (154, "Dieulafoy lesion of stomach and duodenum");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (154,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.82", "Dieulafoy lesion of stomach and duodenum",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.82","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.82",154);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (155, "Achlorhydria");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (155,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.83", "Achlorhydria",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.83","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.83",155);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (156, "Gastroparesis");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (156,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.84", "Gastroparesis",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.84","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.84",156);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (157, "Other disorders of stomach and duodenum");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (157,20);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K31.89", "Other disorders of stomach and duodenum",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K31.89","536.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K31.89",157);
+
+--Dieulafoy
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (21,2);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K63.81", "Dieulafoy lesion of intestine",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("569.86", "Dieulafoy");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K63.81","569.86");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K63.81",21);
+
+--Foreign body
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (22,2);
+
+--Gastroenteritis
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (23,2);
+
+--Gastroparesis
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (24,2);
+
+--Gastritis
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (25,2);
+
+--Naseau Alone
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (26,2);
+
+--Naseau with vomiting
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (27,2);
+
+--Outlet obstruction
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (28,2);
+
+--Peptic Ulcer, with heme
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (29,2);
+
+--peptic ulcer without heme
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (30,2);
+
+--Duodenal ulcer with heme
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (31,2);
+
+--Duodenal ulcer without heme
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (32,2);
+
+--Vomiting, persistent
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (33,2);
 
 --small bowel
@@ -267,19 +491,53 @@ INSERT INTO Sub_location (LID, parent_locationID) VALUES (59,40);
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (60,40);
 
 --GERD
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (17,14);
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (18,14);
+--INSERT INTO Sub_location (LID, parent_locationID) VALUES (17,14);
+--INSERT INTO Sub_location (LID, parent_locationID) VALUES (18,14);
 
--- Located_in***************************************************************************************************
---select * from Located_in;
+--Symptoms
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (86,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (87,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (88,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (89,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (90,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (91,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (92,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (93,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (94,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (95,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (96,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (97,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (98,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (99,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (100,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (101,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (102,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (103,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (104,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (105,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (106,8);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (107,8);
 
-INSERT INTO Located_in (ICD10_code, LID) VALUES ("K21.9",3);
+--Abdominal Pain
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (108,86);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (109,86);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (110,86);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (111,86);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (112,86);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (113,86);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (114,86);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (115,86);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (116,86);
 
+--Polyps
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (117,101);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (118,101);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (119,101);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (120,101);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (121,101);
 
--- Afects***************************************************************************************************
---select * from Affects;
---INSERT INTO Affects (ICD9_code, condition_name, favorite) VALUES (
-
---select * from Condition_location NATURAL JOIN Located_in NATURAL JOIN ICD10_condition;
-
-
+--Ulcer
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (122,104);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (123,104);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (124,104);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (125,104);

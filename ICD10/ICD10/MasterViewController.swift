@@ -73,7 +73,7 @@ class MasterViewController: UITableViewController {
     
     func dataFilePath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        let documentsDirectory = paths[0] as NSString
+        let documentsDirectory = paths[0] as! NSString
         println(documentsDirectory)
         return documentsDirectory.stringByAppendingPathComponent("testDML.sqlite3") as String
     }
@@ -109,7 +109,6 @@ class MasterViewController: UITableViewController {
         if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
             
             while sqlite3_step(statement) == SQLITE_ROW { //for every sub location
-                println("HIT")
                 let locationID = Int(sqlite3_column_int(statement, 0))
                 let locationName = sqlite3_column_text(statement, 1)
                 let locationNameString = String.fromCString(UnsafePointer<CChar>(locationName))
@@ -124,13 +123,14 @@ class MasterViewController: UITableViewController {
         
         let indexPath = self.tableView.indexPathForSelectedRow()
         let (id, locationName) = objects[indexPath!.row]
+        println(id)
         let newSubLocations = findSubLocations(id)
         
         if segue.identifier == "showCodes" {
             
-            let controller = (segue.destinationViewController as UINavigationController).topViewController as DetailViewController
+            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
             var statement:COpaquePointer = nil
-            let query = "SELECT ICD10_code, description_text, ICD9_code FROM Condition_location NATURAL JOIN Located_in NATURAL JOIN ICD10_condition WHERE LID = \(id)"
+            let query = "select ICD10_code, description_text, ICD9_code from (SELECT * from condition_location NATURAL JOIN located_in where LID = \(id))  NATURAL JOIN ICD10_condition NATURAL JOIN characterized_by natural join ICD9_condition"
             if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
                 
                 if sqlite3_step(statement) == SQLITE_ROW { // if we got the row back successfully
@@ -161,7 +161,7 @@ class MasterViewController: UITableViewController {
             
             controller.navigationItem.leftItemsSupplementBackButton = true
         } else {
-            let controller = (segue.destinationViewController as UINavigationController).topViewController as MasterViewController
+            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
             controller.objects = newSubLocations
             controller.title = locationName
             controller.navigationItem.leftItemsSupplementBackButton = true
@@ -179,7 +179,7 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
 
         let (id, location_name) = objects[indexPath.row]
         cell.textLabel!.text = location_name
