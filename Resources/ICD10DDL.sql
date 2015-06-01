@@ -78,11 +78,12 @@ CREATE TABLE ICD9_condition (
 */
 
 CREATE TABLE ICD10_condition (
-	ICD10_code TEXT PRIMARY KEY NOT NULL,
+	ICD10_code TEXT NOT NULL,
 	description_text TEXT,
 	ICD9_code TEXT NOT NULL,
 	condition_name TEXT NOT NULL,
-	favorite INTEGER
+	favorite INTEGER,
+	PRIMARY KEY (ICD10_code, ICD9_code)
 	--FOREIGN KEY (ICD9_code) REFERENCES ICD9_condition (ICD9_code) ON DELETE CASCADE ON UPDATE CASCADE
 	);
 	
