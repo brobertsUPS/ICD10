@@ -4,6 +4,7 @@ INSERT INTO Condition_location ( LID, location_name ) VALUES (1, "Esophagus");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (2, "Gastric/Stomach");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (3, "Small Bowel");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (4, "Colon");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (220, "Inflammatory Bowel Disease");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (5, "Liver");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (6, "Biliary/Pancreas");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (7, "Cancer");
@@ -57,7 +58,7 @@ INSERT INTO Condition_location ( LID, location_name ) VALUES (50, "Chrohns - sma
 INSERT INTO Condition_location ( LID, location_name ) VALUES (51, "Chrohns - large intestine");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (52, "Chrohns - small and large intestine");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (53, "Chrohns - unspecified");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (54, "Gastroenteritis - unspecified");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (54, "Gastroenteritis, U");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (55, "Ischemic");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (56, "UC - L side");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (57, "UC - proctitis");
@@ -144,26 +145,26 @@ INSERT INTO Condition_location ( LID, location_name ) VALUES (125, "DU with blee
 --Barretts esophagus 
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (9,1);
 
-INSERT INTO Condition_location ( LID, location_name ) VALUES (126, "Barrett's esophagus without dysplasia");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (126, "Without dysplasia");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (126,9);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K22.70", "Barrett's esophagus without dysplasia", 0);
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("530.85", "Barrett's esophagus");
 INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K22.70","530.85");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K22.70",126);
 
-INSERT INTO Condition_location ( LID, location_name ) VALUES (127, "Barrett's esophagus with low grade dysplasia");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (127, "With low grade dysplasia");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (127,9);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K22.710", "Barrett's esophagus with low grade dysplasia",0);
 INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K22.710","530.85");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K22.710",127);
 
-INSERT INTO Condition_location ( LID, location_name ) VALUES (128, "Barrett's esophagus with high grade dysplasia");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (128, "With high grade dysplasia");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (128,9);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K22.711", "Barrett's esophagus with high grade dysplasia",0);
 INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K22.711","530.85");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K22.711",128);
 
-INSERT INTO Condition_location ( LID, location_name ) VALUES (129, "Barrett's esophagus with dysplasia, unspecified");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (129, "With dysplasia, unspecified");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (129,9);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K22.719", "Barrett's esophagus with dysplasia, unspecifieåd",0);
 INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K22.719","530.85");
@@ -440,6 +441,14 @@ INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("535.40", "Other 
 INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K29.60","535.40");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K29.60",162);
 
+--Hiatal Hernia
+INSERT INTO Condition_location ( LID, location_name ) VALUES (190, "Hiatal Hernia");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (190,2);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K44.9", "Hiatal Hernia without obstruct or gangrene",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("553.3", "Hiatal Hernia");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K44.9","553.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K44.9",190);
+
 --Naseau Alone
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (26,2);
 
@@ -463,8 +472,8 @@ INSERT INTO Sub_location (LID, parent_locationID) VALUES (28,2);
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (29,2);
 
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K27.4", "Peptic ulcer with hemorrhage",0); 
-INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("533.4", "Peptic ulcer with heme");
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K27.4","533.4");
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("533.40", "Peptic ulcer with heme");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K27.4","533.40");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K27.4",29);
 
 --peptic ulcer without heme
@@ -488,8 +497,8 @@ INSERT INTO Sub_location (LID, parent_locationID) VALUES (32,2);
 
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K27.7", "Duodenal ulcer without obstruction",0); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("532.40", "Duodenal ulcer without obstruction");
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K26.4","532.40");
-INSERT INTO Located_in (ICD10_code, LID) VALUES ("K26.4",32);
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K27.7","532.40");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K27.7",32);
 
 --Vomiting, persistent
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (33,2);
@@ -545,38 +554,271 @@ INSERT INTO Located_in (ICD10_code, LID) VALUES ("K55.21",164);
 --Antony, colon
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (38,4);
 
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K59.8", "Antony, colon",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("564.89", "Antony, colon");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K59.8","564.89");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K59.8",38);
+
+
 --Change in bowels
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (39,4);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R19.8", "Other specified symptoms involving GI",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("787.99", "Change in bowels");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R19.8","787.99");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R19.8",39);
 
 --Coilitis
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (40,4);
 
+--Gastroenteritis, U
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (191, "Unspecified");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (191,54);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K52.9", "Gastroenteritis, unspecified",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("558.9", "Gastroenteritis, U");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K52.9","558.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K52.9",191);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (192, "Other specified, non-infect");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (192,54);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K52.89", "Gastroennteritis, other specified, non-infect",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K52.89","558.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K52.89",192);
+
 --Constipation
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (41,4);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("564.00", "Constipation, unspecified");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (193, "Unspecified");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (193,41);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K59.00", "Gastroenteritis, unspecified",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K59.00","564.00");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K59.00",193);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (194, "Slow transit");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (194,41);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K59.01", "Gastroenteritis, slow transit",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K59.01","564.00");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K59.01",194);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (195, "Outlet dysfxn");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (195,41);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K59.02", "Gastroenteritis, outlet dysfxn",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K59.02","564.00");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K59.02",195);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (196, "Other");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (196,41);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K59.09", "Gastroenteritis, other",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K59.09","564.00");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K59.09",196);
 
 --Diarrhea
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (42,4);
 
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R19.7", "Diarrhea, unspecified",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("787.91", "Diarrhea");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R19.7","787.91");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R19.7",42);
+
 --Diverticulitis without beeding
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (43,4);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K57.32", "Dverticulitis without perf, abcess, or bleeding",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("562.11", "Diverticulitis without bleeding");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K57.32","562.11");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K57.32",43);
 
 --Diverticulitis with bleeding
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (44,4);
 
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("___.__", "Dverticulitis with bleeding",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("582.13", "Diverticulitis with bleeding");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("___.__","582.13");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("___.__",44);
+
 --Diverticulosis without bleeding
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (45,4);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K57.30", "Dverticulosis without perf, abcess, or bleeding",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("562.10", "Diverticulosis without bleeding");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K57.30","562.10");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K57.30",45);
 
 --Diverticulosis with bleeding
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (46,4);
 
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K57.31", "Dverticulosis without perf, abcess, with bleeding",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("562.12", "Diverticulosis with bleeding");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K57.31","562.12");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K57.31",46);
+
+--FHx of colon polyps 
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (197, "FHx of colon polyps");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (197,4);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("Z83.71", "FHx of colon polyps",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("V18.51", "FHx of colon polyps");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("Z83.71","V18.51");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("Z83.71",197);
+
 --Fecal incontinence
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (47,4);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R15.9", "Full incontinence of feces",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("787.60", "Fecal Incontinece");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R15.9","787.60");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R15.9",47);
+
+--Hemorrhoid, internal
+INSERT INTO Condition_location ( LID, location_name ) VALUES (198, "Hemorrhoid, internal");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (198,4);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("455", "Hemorrhoid, internal");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (199, "1st degree");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (199,198);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K64.0", "Hemorrhoid, 1st degree",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K64.0","455");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K64.0",199);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (200, "2nd degree");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (200,198);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K64.1", "Hemorrhoid, 2nd degree",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K64.1","455");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K64.1",200);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (201, "3rd degree");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (201,198);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K64.2", "Hemorrhoid, 3rd degree",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K64.2","455");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K64.2",201);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (202, "4th degree");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (202,198);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K64.3", "Hemorrhoid, 4th degree",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K64.3","455");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K64.3",202);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (203, "Other");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (203,198);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K64.8", "Hemorrhoid, other",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K64.8","455");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K64.8",203);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (204, "Unspecified");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (204,198);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K64.9", "Hemorrhoid, unspecified",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K64.9","455");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K64.9",204);
+
+--History of colon polyps
+INSERT INTO Condition_location ( LID, location_name ) VALUES (205, "History of colon polyps");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (205,4);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("Z86.010", "History of colon polyps",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("V12.72", "History of colon polyps");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("Z86.010","V12.72");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("Z86.010",205);
+
+--Irritable bowel syndrome
+INSERT INTO Condition_location ( LID, location_name ) VALUES (206, "Irritable bowel syndrome");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (206,4);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("564.1", "Irritable bowel syndrome");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (207, "IBS with diarrhea");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (207,206);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K58.0", "With diarrhea",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K58.0","564.1");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K58.0",207);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (208, "Without diarrhea");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (208,206);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K58.9", "IBS without diarrhea",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K58.9","564.1");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K58.9",208);
 
 --Megacolon
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (48,4);
 
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K59.3", "Megacolon",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("564.7", "Megacolon");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K59.3","564.7");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K59.3",48);
+
+--polyp
+INSERT INTO Condition_location ( LID, location_name ) VALUES (209, "Polyp, colon");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (209,4);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("211.3", "Polyp, colon");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (210, "unspecified");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (210,209);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("D12.6", "Polyp, colon, unspecified",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("D12.6","211.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("D12.6",210);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (211, "Cecum");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (211,209);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("D12.0", "Polyp, colon, cecum",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("D12.0","211.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("D12.0",211);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (212, "Appendix");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (212,209);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("D12.1", "Polyp, colon, appendix",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("D12.1","211.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("D12.1",212);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (213, "Ascending colon");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (213,209);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("D12.2", "Polyp, acending colon",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("D12.2","211.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("D12.2",213);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (214, "Transverse colon");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (214,209);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("D12.3", "Polyp, transverse colon",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("D12.3","211.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("D12.3",214);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (215, "Descending colon");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (215,209);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("D12.4", "Polyp, descending colon",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("D12.4","211.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("D12.4",215);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (216, "Sigmoid colon");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (216,209);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("D12.5", "Polyp, sigmoid colon",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("D12.5","211.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("D12.5",216);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (217, "Rectosigmoid jxn");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (217,209);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("D12.7", "Polyp, rectosigmoid jxn",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("D12.7","211.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("D12.7",217);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (218, "Rectum");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (218,209);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("D12.8", "Polyp, rectum",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("D12.8","211.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("D12.8",218);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (219, "Anal canal");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (219,209);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("D12.9", "Polyp, anal canal",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("D12.9","211.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("D12.9",219);
+
 --Volvulus
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (49,4);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K56.2", "Volvus",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("560.2", "Volvus");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K56.2","560.2");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K56.2",49);
 
 --Liver
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (61,5);
@@ -608,151 +850,159 @@ INSERT INTO Sub_location (LID, parent_locationID) VALUES (82,7);
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (83,7);
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (84,7);
 
---Diarrhea
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (85,42);
+--C diff / infectious
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (85,4);
 
---Coilitis
-
-INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("555.9", "Regional enteritis of unspecified site");
+--Inflammatory bowel disease
+INSERT INTO Condition_location ( LID, location_name ) VALUES (224, "Crohns Disease");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (224,220);
 --Crohns - sm intest
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (50,40);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (50,224);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("555", "Chrohns small intestine");
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (165, "Without complications");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (165,50);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.00", "Crohn's disease of small intestine without complications",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.00","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.00","555");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.00",165);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (166, "With rectal bleeding");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (166,50);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.011", "Crohn's disease of small intestine with rectal bleeding",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.011","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.011","555");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.011",166);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (167, "With intestinal obstruction");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (167,50);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.012", "Crohn's disease of small intestine with intestinal obstruction",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.012","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.012","555");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.012",167);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (168, "With fistula");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (168,50);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.013", "Crohn's disease of small intestine with fistula",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.013","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.013","555");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.013",168);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (169, "With abscess");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (169,50);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.014", "Crohn's disease of small intestine with abcess",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.014","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.014","555");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.014",169);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (170, "With other complication");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (170,50);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.018", "Crohn's disease of small intestine with other complication",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.018","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.018","555");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.018",170);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (171, "With unspecified compications");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (171,50);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.019", "Crohn's disease of small intestine with unspecified complications",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.019","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.019","555");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.019",171);
 
 --Crohns - lg intest
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (51,40);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (51,224);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("555.1", "Chrohns large intestine");
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (172, "Without complications (large intest)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (172,51);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.10", "Crohn's disease of large intestine without complications",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.10","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.10","555.1");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.10",172);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (173, "With rectal bleeding (large intest)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (173,51);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.111", "Crohn's disease of large intestine with rectal bleeding",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.111","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.111","555.1");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.111",173);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (174, "With intestinal obstruction (large intest)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (174,51);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.112", "Crohn's disease of large intestine with intestinal obstruction",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.112","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.112","555.1");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.112",174);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (175, "With fistula (large intest)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (175,51);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.113", "Crohn's disease of large intestine with fistula",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.113","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.113","555.1");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.113",175);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (176, "With abscess (large intest)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (176,51);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.114", "Crohn's disease of large intestine with abcess",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.114","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.114","555.1");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.114",176);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (177, "With other complication (large intest)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (177,51);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.118", "Crohn's disease of large intestine with other complication",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.118","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.118","555.1");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.118",177);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (178, "With unspecified compications (large intest)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (178,51);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.119", "Crohn's disease of large intestine with unspecified complications",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.119","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.119","555.1");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.119",178);
 
 --Crohns - sm and lg intest
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (52,40);
-
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (52,224);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("555.2", "Chrohns small and large intestine");
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (179, "Without complications (small and large)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (179,52);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.80", "Crohn's disease of small and large intestine without complications",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.80","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.80","555.2");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.80",179);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (180, "With rectal bleeding (small and large)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (180,52);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.811", "Crohn's disease of small and large intestine with rectal bleeding",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.811","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.811","555.2");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.811",180);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (181, "With intestinal obstruction (small and large)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (181,52);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.812", "Crohn's disease of small and large intestine with intestinal obstruction",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.812","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.812","555.2");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.812",181);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (182, "With fistula (small and large)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (182,52);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.813", "Crohn's disease of small and large intestine with fistula",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.813","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.813","555.2");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.813",182);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (183, "With abscess (small and large)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (183,52);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.814", "Crohn's disease of small and large intestine with abcess",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.814","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.814","555.2");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.814",183);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (184, "With other complication (small and large)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (184,52);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.818", "Crohn's disease of small and large intestine with other complication",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.818","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.818","555.2");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.818",184);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (185, "With unspecified compications (small and large)");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (185,52);
 INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.819", "Crohn's disease of small and large intestine with unspecified complications",0); 
-INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.819","555.9");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.819","555.2");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.819",185);
 
-
 --Crohns - unspec
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (53,40);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (53,224);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("555.9", "Crohns unspecified");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (221, "Without complications (unspecified)");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (221,53);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.90", "Crohn's disease, unspecified, without complications",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.90","555.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.90",221);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (186, "With rectal bleeding, unspecified");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (186,53);
@@ -778,12 +1028,357 @@ INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K5
 INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.914","555.9");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.914",189);
 
+INSERT INTO Condition_location ( LID, location_name ) VALUES (222, "Without other complications (unspecified)");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (222,53);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.918", "Crohn's disease, with other complications",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.918","555.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.918",222);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (223, "Without unspecified complications (unspecified)");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (223,53);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K50.919", "Crohn's disease, with other complications",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K50.919","555.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K50.919",223);
+
+--UC - Unspecified without complications
+INSERT INTO Condition_location ( LID, location_name ) VALUES (225, "UC - universal");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (225,220);
+
+--UC pancolitis
+INSERT INTO Condition_location ( LID, location_name ) VALUES (226, "UC pancolitis");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (226,225);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("556.6", "UC pancolitis");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (276, "Pancolitis without complications");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (276,226);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.00", "Pancolitis without complications",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.00","556.6");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.00",276);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (277, "Pancolitis with rectal bleeding");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (277,226);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.011", "Pancolitis with rectal bleeding",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.011","556.6");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.011",277);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (278, "Pancolitis with SBO");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (278,226);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.012", "Pancolitis with SBO",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.012","556.6");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.012",278);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (279, "Pancolitis with fistula");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (279,226);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.013", "Pancolitis with fistula",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.013","556.6");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.013",279);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (280, "Pancolitis with abcess");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (280,226);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.014", "Pancolitis with abcess",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.014","556.6");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.014",280);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (281, "Pancolitis with other complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (281,226);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.018", "Pancolitis with other complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.018","556.6");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.018",281);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (282, "Pancolitis with unspecified complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (282,226);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.019", "Pancolitis with unspecified complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.019","556.6");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.019",282);
+
+--UC proctitis
+INSERT INTO Condition_location ( LID, location_name ) VALUES (227, "UC proctitis");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (227,225);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("556.2", "UC proctitis");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (234, "Proctitis without complications");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (234,227);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.20", "Proctitis without complications",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.20","556.2");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.20",234);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (235, "Proctitis with rectal bleeding");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (235,227);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.211", "Proctitis with rectal bleeding",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.211","556.2");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.211",235);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (236, "Proctitis with SBO");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (236,227);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.212", "Proctitis with SBO",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.212","556.2");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.212",236);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (237, "Proctitis with fistula");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (237,227);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.213", "Proctitis with fistula",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.213","556.2");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.213",237);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (238, "Proctitis with abcess");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (238,227);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.214", "Proctitis with abcess",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.214","556.2");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.214",238);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (239, "Proctitis with other complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (239,227);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.218", "Proctitis with other complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.218","556.2");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.218",239);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (240, "Proctitis with unspecified complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (240,227);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.219", "Proctitis with unspecified complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.219","556.2");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.219",240);
+
+--UC rectosigmoiditis
+INSERT INTO Condition_location ( LID, location_name ) VALUES (228, "UC rectosigmoiditis");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (228,225);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("556.3", "UC rectosigmoiditis");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (241, "Rectosigmoiditis without complications");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (241,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.30", "Rectosigmoiditis without complications",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.30","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.30",241);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (242, "Rectosigmoiditis with rectal bleeding");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (242,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.311", "Rectosigmoiditis with rectal bleeding",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.311","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.311",242);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (243, "Rectosigmoiditis with SBO");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (243,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.312", "Rectosigmoiditis with SBO",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.312","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.312",243);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (244, "Rectosigmoiditis with fistula");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (244,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.313", "Rectosigmoiditis with fistula",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.313","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.313",244);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (245, "Rectosigmoiditis with abcess");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (245,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.314", "Rectosigmoiditis with abcess",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.314","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.314",245);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (246, "Rectosigmoiditis with other complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (246,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.318", "Rectosigmoiditis with other complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.318","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.318",246);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (247, "Rectosigmoiditis with unspecified complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (247,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.319", "Rectosigmoiditis with unspecified complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.319","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.319",247);
+
+--Inflam polyps of colon
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (248, "Inflam polyps of colon without complications");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (248,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.40", "Inflam polyps of colon without complications",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.40","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.40",248);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (249, "Inflam polyps of colon with rectal bleeding");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (249,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.411", "Inflam polyps of colon with rectal bleeding",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.411","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.411",249);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (250, "Inflam polyps of colon with SBO");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (250,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.412", "Inflam polyps of colon with SBO",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.412","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.412",250);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (251, "Inflam polyps of colon with fistula");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (251,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.413", "Inflam polyps of colon with fistula",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.413","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.413",251);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (252, "Inflam polyps of colon with abcess");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (252,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.414", "Inflam polyps of colon with abcess",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.414","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.414",252);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (253, "Inflam polyps of colon with other complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (253,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.418", "Inflam polyps of colon with other complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.418","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.418",253);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (254, "Inflam polyps of colon with unspecified complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (254,228);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.419", "Inflam polyps of colon with unspecified complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.419","556.3");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.419",254);
+
+--Left sided colitis
+INSERT INTO Condition_location ( LID, location_name ) VALUES (229, "UC left");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (229,225);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("556.5", "UC left");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (255, "Left sided colitis without complications");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (255,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.50", "Left sided colitis without complications",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.50","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.50",255);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (256, "Left sided colitis with rectal bleeding");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (256,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.511", "Left sided colitis with rectal bleeding",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.511","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.511",256);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (257, "Left sided colitis with SBO");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (257,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.512", "Left sided colitis with SBO",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.512","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.512",257);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (258, "Left sided colitis with fistula");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (258,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.513", "Left sided colitis with fistula",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.513","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.513",258);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (259, "Left sided colitis with abcess");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (259,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.514", "Left sided colitis with abcess",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.514","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.514",259);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (260, "Left sided colitis with other complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (260,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.518", "Left sided colitis with other complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.518","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.518",260);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (261, "Left sided colitis with unspecified complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (261,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.519", "Left sided colitis with unspecified complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.519","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.519",261);
+
+--Other UC
+INSERT INTO Condition_location ( LID, location_name ) VALUES (262, "Other UC without complications");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (262,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.80", "Other UC without complications",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.80","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.80",262);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (263, "Other UC with rectal bleeding");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (263,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.811", "Other UC with rectal bleeding",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.811","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.811",263);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (264, "Other UC with SBO");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (264,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.812", "Other UC with SBO",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.812","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.812",264);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (265, "Other UC with fistula");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (265,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.813", "Other UC with fistula",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.813","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.813",265);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (266, "Other UC with abcess");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (266,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.814", "Other UC with abcess",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.814","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.814",266);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (267, "Other UC with other complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (267,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.818", "Other UC with other complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.818","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.818",267);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (268, "Other UC with unspecified complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (268,229);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.819", "Other UC with unspecified complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.819","556.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.819",268);
+
+--UC unspecified
+INSERT INTO Condition_location ( LID, location_name ) VALUES (230, "UC unspecified");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (230,225);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("556.9", "UC left");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (269, "UC unspecified without complications");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (269,230);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.90", "UC unspecified without complications",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.90","556.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.90",269);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (270, "UC unspecified with rectal bleeding");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (270,230);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.911", "UC unspecified with rectal bleeding",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.911","556.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.911",270);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (271, "UC unspecified with SBO");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (271,230);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.912", "UC unspecified with SBO",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.912","556.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.912",271);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (272, "UC unspecified with fistula");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (272,230);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.913", "UC unspecified with fistula",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.913","556.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.913",272);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (273, "UC unspecified with abcess");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (273,230);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.914", "UC unspecified with abcess",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.914","556.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.914",273);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (274, "UC unspecified with other complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (274,230);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.918", "UC unspecified with other complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.918","556.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.918",274);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (275, "UC unspecified with unspecified complication");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (275,230);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K51.919", "UC unspecified with unspecified complication",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K51.919","556.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K51.919",275);
+
 
 --Gastroenteritis, unspecified
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (54,40);
 
 --Ischemic
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (55,40);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K55.1", "Ischemic",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("557.1", "Ischemic");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K55.1","557.1");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K55.1",55);
+
+--INSERT 
 
 --UC - L side
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (56,40);
