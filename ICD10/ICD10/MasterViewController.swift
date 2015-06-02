@@ -39,19 +39,33 @@ class MasterViewController: UITableViewController {
             self.detailViewController = controllers[controllers.count-1].topViewController as? DetailViewController
         }
         
-        //get the database open
-        
+        let theFileManager = NSFileManager.defaultManager()
         let filePath = dataFilePath()
         println(filePath)
-        var result = sqlite3_open(filePath, &database)
-        
-        if result != SQLITE_OK {
-            sqlite3_close(database)
-            println("Failed To Open Database")
-            return
+        if theFileManager.fileExistsAtPath(filePath) {
+            println("File Found!")
+            // And then open the DB File
+            openDBPath(filePath)
+        }
+        else {
+            // Copy the file from the Bundle and write it to the Device:
+            let pathToBundledDB = NSBundle.mainBundle().pathForResource("testDML", ofType: "sqlite3")
+            let pathToDevice = dataFilePath()
+            var error:NSError?
+
+            if (theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice, error: &error)) {
+                // success
+            }
+            else {
+                // failure 
+            }
         }
         
+        //get the database open
+        openDBPath(filePath)
         
+        println(filePath)
+
         println("LOADED")
         if objects.count == 0 {//get the root locations when we load up
             let query = "SELECT * FROM Condition_location cl WHERE NOT EXISTS (SELECT * FROM Sub_location sl WHERE cl.LID = sl.LID)"
@@ -71,10 +85,19 @@ class MasterViewController: UITableViewController {
         }
     }
     
+    func openDBPath(filePath:String) {
+        var result = sqlite3_open(filePath, &database)
+        
+        if result != SQLITE_OK {
+            sqlite3_close(database)
+            println("Failed To Open Database")
+            return
+        }
+    }
+    
     func dataFilePath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
         let documentsDirectory = paths[0] as! NSString
-        println(documentsDirectory)
         return documentsDirectory.stringByAppendingPathComponent("testDML.sqlite3") as String
     }
     
