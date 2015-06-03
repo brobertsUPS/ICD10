@@ -91,6 +91,18 @@ CREATE TABLE Characterized_by (
 	FOREIGN KEY (ICD9_code) REFERENCES ICD9_condition (ICD9_code) ON DELETE CASCADE ON UPDATE CASCADE
 	);
 	
+CREATE TABLE Extension (
+	Extension_code TEXT PRIMARY KEY NOT NULL
+	);
+	
+CREATE TABLE Has_Extension (
+	ICD10_code TEXT,
+	Extension_code TEXT,
+	PRIMARY KEY (ICD10_code, Extension_code),
+	FOREIGN KEY (ICD10_code) REFERENCES ICD10_condition (ICD10_code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (Extension_code) REFERENCES Extension (Extension_code) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+	
 CREATE TABLE Diagnosed_with (
 	aptID INTEGER NOT NULL,
 	ICD10_code INTEGER NOT NULL,
