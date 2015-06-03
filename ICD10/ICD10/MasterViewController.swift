@@ -54,16 +54,13 @@ class MasterViewController: UITableViewController {
             var error:NSError?
 
             if (theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice, error: &error)) {
-                // success
+                //get the database open
+                openDBPath(filePath)
             }
             else {
                 // failure 
             }
         }
-        
-        //get the database open
-        openDBPath(filePath)
-        
         println(filePath)
 
         println("LOADED")

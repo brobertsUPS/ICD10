@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD4FAE761B18D9260010B411 /* Main.storyboard */; };
+		ADBB83AA1B1F7A6B00E55B6F /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = ADBB83A91B1F7A6B00E55B6F /* testDML.sqlite3 */; };
 		ADE77F361B1782F900CE48F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F351B1782F900CE48F1 /* AppDelegate.swift */; };
 		ADE77F381B1782F900CE48F1 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F371B1782F900CE48F1 /* MasterViewController.swift */; };
 		ADE77F3A1B1782F900CE48F1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F391B1782F900CE48F1 /* DetailViewController.swift */; };
@@ -29,7 +30,7 @@
 
 /* Begin PBXFileReference section */
 		AD4FAE771B18D9260010B411 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		AD9033E21B1E5537009D8641 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
+		ADBB83A91B1F7A6B00E55B6F /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		ADE77F301B1782F900CE48F1 /* ICD10.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICD10.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE77F341B1782F900CE48F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADE77F351B1782F900CE48F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -85,7 +86,7 @@
 		ADE77F321B1782F900CE48F1 /* ICD10 */ = {
 			isa = PBXGroup;
 			children = (
-				AD9033E21B1E5537009D8641 /* testDML.sqlite3 */,
+				ADBB83A91B1F7A6B00E55B6F /* testDML.sqlite3 */,
 				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
 				ADE77F371B1782F900CE48F1 /* MasterViewController.swift */,
 				ADE77F391B1782F900CE48F1 /* DetailViewController.swift */,
@@ -206,6 +207,7 @@
 				ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */,
 				ADE77F3F1B1782F900CE48F1 /* Images.xcassets in Resources */,
 				AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */,
+				ADBB83AA1B1F7A6B00E55B6F /* testDML.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
