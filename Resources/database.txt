@@ -1,3 +1,148 @@
+CREATE TABLE Patient (
+	pID INTEGER PRIMARY KEY NOT NULL,
+	email TEXT NOT NULL, 
+	date_of_birth TEXT NOT NULL,
+	f_name TEXT NOT NULL,
+	l_name TEXT NOT NULL
+	);
+	
+CREATE TABLE Place_of_service (
+	placeID INTEGER PRIMARY KEY NOT NULL,
+	place_description TEXT
+	);
+	
+CREATE TABLE Appointment (
+	aptID INTEGER PRIMARY KEY NOT NULL,
+	date TEXT,
+	placeID TEXT NOT NULL,
+	FOREIGN KEY (placeID) REFERENCES Place_of_service (placeID) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+
+CREATE TABLE Attends (
+	pID INTEGER,
+	aptID INTEGER,
+	PRIMARY KEY (pID, aptID),
+	FOREIGN KEY (pID) REFERENCES Patient(pID) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (aptID) REFERENCES Appointment(aptID) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+
+CREATE TABLE Practice (
+	mpID INTEGER PRIMARY KEY NOT NULL,
+	name TEXT NOT NULL
+	);
+	
+CREATE TABLE Doctor (
+	dID INTEGER PRIMARY KEY NOT NULL,
+	email TEXT NOT NULL,
+	f_name TEXT NOT NULL,
+	l_name TEXT NOT NULL,
+	mpID INTEGER NOT NULL,
+	FOREIGN KEY (mpID) REFERENCES Practice (mpID) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+	
+CREATE TABLE Performs (
+	dID INTEGER NOT NULL,
+	aptID INTEGER NOT NULL,
+	PRIMARY KEY (dID, aptID),
+	FOREIGN KEY (dID) REFERENCES Doctor (dID) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (aptID) REFERENCES Appointment (aptID) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+	
+CREATE TABLE Referred_by (
+	pID INTEGER NOT NULL,
+	dID INTEGER NOT NULL, 
+	PRIMARY KEY (pID,dID),
+	FOREIGN KEY (pID) REFERENCES Patient (pID) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (dID) REFERENCES Doctor (dID) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+	
+CREATE TABLE Apt_type (
+	apt_code INTEGER PRIMARY KEY NOT NULL,
+	type_description TEXT,
+	code_description TEXT
+	);
+	
+CREATE TABLE Has_type (
+	aptID INTEGER NOT NULL,
+	apt_code INTEGER NOT NULL,
+	PRIMARY KEY (aptID, apt_code),
+	FOREIGN KEY (aptID) REFERENCES Appointment (atpID) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (apt_code) REFERENCES Apt_type (apt_code) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+
+CREATE TABLE ICD9_condition (
+	ICD9_code TEXT PRIMARY KEY NOT NULL,
+	condition_name TEXT NOT NULL
+	);
+
+
+CREATE TABLE ICD10_condition (
+	ICD10_code TEXT PRIMARY KEY NOT NULL,
+	description_text TEXT,
+	favorite INTEGER
+	--FOREIGN KEY (ICD9_code) REFERENCES ICD9_condition (ICD9_code) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+	
+CREATE TABLE Characterized_by (
+	ICD10_code TEXT,
+	ICD9_code TEXT,
+	PRIMARY KEY (ICD10_code, ICD9_code),
+	FOREIGN KEY (ICD10_code) REFERENCES ICD10_condition (ICD10_code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (ICD9_code) REFERENCES ICD9_condition (ICD9_code) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+	
+CREATE TABLE Diagnosed_with (
+	aptID INTEGER NOT NULL,
+	ICD10_code INTEGER NOT NULL,
+	PRIMARY KEY (aptID, ICD10_code),
+	FOREIGN KEY (aptID) REFERENCES Appointment (aptID) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (ICD10_code) REFERENCES ICD10_condition (ICD10_code) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+	
+CREATE TABLE Condition_location (
+	LID INTEGER PRIMARY KEY NOT NULL,
+	location_name TEXT
+	);
+	
+CREATE TABLE Sub_location (
+	LID INTEGER NOT NULL,
+	parent_locationID INTEGER NOT NULL,
+	PRIMARY KEY (LID, parent_locationID),
+	FOREIGN KEY (LID) REFERENCES Condition_location (LID) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (parent_locationID) REFERENCES Condition_location(LID) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+	/*
+CREATE TABLE Affects (
+	ICD9_code TEXT NOT NULL,
+	LID INTEGER NOT NULL,
+	PRIMARY KEY (ICD9_code, LID),
+	FOREIGN KEY (ICD9_code) REFERENCES Condition (ICD9_code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (LID) REFERENCES Condition_location (LID) ON DELETE CASCADE ON UPDATE CASCADE
+	);	
+*/	
+CREATE TABLE Located_in (
+	ICD10_code TEXT NOT NULL,
+	LID INTEGER NOT NULL,
+	PRIMARY KEY (ICD10_code, LID),
+	FOREIGN KEY (ICD10_code) REFERENCES ICD10_condition (ICD10_code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (LID) REFERENCES Condition_location (LID) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+	/*
+CREATE TABLE Symptom (
+	sID INTEGER PRIMARY KEY NOT NULL,
+	symptom_text TEXT
+	);
+	
+CREATE TABLE Describes (
+	ICD10_code TEXT NOT NULL,
+	sID INTEGER NOT NULL,
+	PRIMARY KEY (ICD10_code, sID),
+	FOREIGN KEY (ICD10_code) REFERENCES ICD10_condition (ICD10_code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (sID) REFERENCES Symptom (sID) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+	*/
+
+
 -- Condition_location*********************************************************************************************
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (1, "Esophagus");
@@ -60,11 +205,11 @@ INSERT INTO Condition_location ( LID, location_name ) VALUES (52, "Chrohns - sma
 INSERT INTO Condition_location ( LID, location_name ) VALUES (53, "Chrohns - unspecified");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (54, "Gastroenteritis, U");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (55, "Ischemic");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (56, "UC - L side");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (57, "UC - proctitis");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (58, "UC - proctocolitis");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (59, "UC - universal");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (60, "UC - unspecified");
+--INSERT INTO Condition_location ( LID, location_name ) VALUES (56, "UC - L side");
+--INSERT INTO Condition_location ( LID, location_name ) VALUES (57, "UC - proctitis");
+--INSERT INTO Condition_location ( LID, location_name ) VALUES (58, "UC - proctocolitis");
+--INSERT INTO Condition_location ( LID, location_name ) VALUES (59, "UC - universal");
+--INSERT INTO Condition_location ( LID, location_name ) VALUES (60, "UC - unspecified");
 --Liver
 INSERT INTO Condition_location ( LID, location_name ) VALUES (61, "Abnormal LFT's");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (62, "Ascites - Malignant");
@@ -86,7 +231,7 @@ INSERT INTO Condition_location ( LID, location_name ) VALUES (75, "Pancreatits, 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (76, "Biliary Tract, unspecified");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (77, "Colon - unspecified");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (78, "Disseminated");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (79, "Esophageal");
+--INSERT INTO Condition_location ( LID, location_name ) VALUES (79, "Esophageal");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (80, "Liver (primary)");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (81, "Liver (secondary)");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (82, "Pancreatic");
@@ -821,34 +966,287 @@ INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K56.2","560.2");
 INSERT INTO Located_in (ICD10_code, LID) VALUES ("K56.2",49);
 
 --Liver
+--Abnormal LFT's
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (61,5);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R74.0", "Abnormal LFT's",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("790.4", "Abnormal LFT's");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R74.0","790.4");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R74.0",61);
+
+--Ascites - Malignant
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (62,5);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R18.0", "Ascites - Malignant",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("789.51", "Ascites - Malignant");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R18.0","789.51");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R18.0",62);
+
+--Ascites - Other
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (63,5);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("R18.8", "Ascites - Other",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("789.59", "Ascites - Other");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("R18.8","789.59");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("R18.8",63);
+
+--Cirrhosis - liver with EtOH
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (64,5);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("571.2", "Cirrhosis - liver with EtOH");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (283, "Alcoholic without ascites");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (283,64);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K70.30", "Cirrhosis, Alcoholic without ascites",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K70.30","571.2");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K70.30",283);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (284, "Alcoholic with ascites");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (284,64);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K70.31", "Cirrhosis, Alcoholic with ascites",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K70.31","571.2");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K70.31",284);
+
+--Cirrhosis - liver without EtOH
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (65,5);
+
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("571.5", "Cirrhosis - liver without EtOH");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (285, "Unspecified");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (285,65);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K74.60", "Cirrhosis, Unspecified",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K74.60","571.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K74.60",285);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (286, "Other");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (286,65);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K74.69", "Cirrhosis, Other",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K74.69","571.5");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K74.69",286);
+
+--Hepatic ecephalopathy
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (66,5);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K72.9", "Hepatic ecephalopathy",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("572.2", "Hepatic ecephalopathy");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K72.9","572.2");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K72.9",66);
+
+--Hepatic failure
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (67,5);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K72.00", "Hepatic failure",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("570", "Hepatic failure");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K72.00","570");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K72.00",67);
+
+--Hepatitus - acute EtOH
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (68,5);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K72.10", "Hepatitus - acute EtOH",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("571.1", "Hepatitus - acute EtOH");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K72.10","571.1");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K72.10",68);
+
+--Hepatitus C
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (69,5);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K75.9", "Hepatitus C",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("70.54", "Hepatitus C");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K75.9","70.54");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K75.9",69);
+
+--Hepatitus - chronic unspecified
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (70,5);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K73.9", "Hepatitus - chronic unspecified",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("571.40", "Hepatitus - chronic unspecified");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K73.9","571.40");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K73.9",70);
+
+--Hepatitus - autoimmune
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (71,5);
 
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K75.4", "Hepatitus - autoimmune",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("571.42", "Hepatitus - autoimmune");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K75.4","571.42");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K75.4",71);
+
 --Biliary/Pancreas
+--Bile duct stone without obstruction
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (72,6);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K80.50", "Bile duct stone without obstruction",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("574.50", "Bile duct stone without obstruction");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K80.50","574.50");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K80.50",72);
+
+--Bile duct with obstruction
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (73,6);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K80.51", "Bile duct with obstruction",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("574.51", "Bile duct with obstruction");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K80.51","574.51");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K80.51",73);
+
+--Pancreatitis, acute
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (74,6);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K85.9", "Pancreatitis, acute",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("577.0", "Pancreatitis, acute");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K85.9","577.0");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K85.9",74);
+
+--Pancreatitis, chronic
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (75,6);
 
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K86.1", "Pancreatitis, chronic",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("577.1", "Pancreatitis, chronic");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K86.1","577.1");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K86.1",75);
+
+--Pancreatic cyst/pseudoc
+INSERT INTO Condition_location ( LID, location_name ) VALUES (287, "Pancreatic cyst/pseudoc");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (287,6);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("577.2", "Pancreatitis, acute");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (288, "Pancreatic cyst");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (288,287);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K86.2", "Pancreatic cyst",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K86.2","577.2");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K86.2",288);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (289, "Pancreatic pseudocyst");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (289,287);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("K86.3", "Pancreatic pseudocyst",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("K86.3","577.2");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("K86.3",289);
+
 --Cancer
+--Biliary Tract, unspecified
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (76,7);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("C24.9", "Cancer, biliary Tract, unspecified",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("156.9", "Cancer, biliary Tract, unspecified");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("C24.9","156.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("C24.9",76);
+
+--Colon unspecified
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (77,7);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("C18.8", "Cancer, colon unspecified",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("153.8", "Cancer, colon unspecified");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("C18.8","153.8");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("C18.8",77);
+
+--Disseminated
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (78,7);
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (79,7);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("C80.0", "Cancer, disseminated",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("199.0", "Cancer, disseminated");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("C80.0","199.0");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("C80.0",78);
+
+--Esophagus
+INSERT INTO Condition_location ( LID, location_name ) VALUES (290, "Esophageal Cancer");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (290,7);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("150.9", "Esophageal Cancer");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (291, "Unspecified");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (291,290);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("C15.9", "Esophageal cancer - unspecified",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("C15.9","150.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("C15.9",291);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (292, "Upper 1/3 of esoph");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (292,290);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("C15.3", "Esophageal cancer - Upper 1/3 of esoph",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("C15.3","150.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("C15.3",292);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (293, "Middle 1/3 of esoph");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (293,290);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("C15.4", "Esophageal cancer - Middle 1/3 of esoph",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("C15.4","150.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("C15.4",293);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (294, "Lower 1/3 of esoph");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (294,290);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("C15.5", "Esophageal cancer - Lower 1/3 of esoph",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("C15.5","150.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("C15.5",294);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (295, "Overlapping site");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (295,290);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("C15.8", "Esophageal cancer - Overlapping site",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("C15.8","150.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("C15.8",295);
+
+--Liver primary
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (80,7);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("C22.0", "Cancer, Liver primary",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("155.0", "Cancer, Liver primary");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("C22.0","155.0");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("C22.0",80);
+
+--Liver secondary
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (81,7);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("C78.7", "Cancer, Liver secondary",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("197.7", "Cancer, Liver secondary");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("C78.7","197.7");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("C78.7",81);
+
+--Pancreas
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (82,7);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("C25.9", "Cancer, Pancreas",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("157.9", "Cancer, Pancreas");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("C25.9","157.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("C25.9",82);
+
+--Rectum
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (83,7);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("C20", "Cancer, Rectum",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("154.1", "Cancer, Rectum");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("C20","154.1");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("C20",83);
+
+--Stomach
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (84,7);
+
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("C16.9", "Cancer, Stomach",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("151.9", "Cancer, Stomach");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("C16.9","151.9");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("C16.9",84);
+
+--History of Colan CA
+INSERT INTO Condition_location ( LID, location_name ) VALUES (296, "History of colon cancer");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (296,7);
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("V10.05", "History of colon cancer");
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (297, "Hx of Colon CA");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (297,296);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("Z85.038", "Hx of Colon CA",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("Z85.038","V10.05");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("Z85.038",297);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (298, "Hx of Colon carcinoid");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (298,296);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("Z85.030", "Hx of Colon carcinoid",0); 
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("Z85.030","V10.05");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("Z85.030",298);
+
+--Family hx of GI tract C
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (299, "History of colon cancer");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (299,7);
+INSERT INTO ICD10_condition (ICD10_code, description_text, favorite) VALUES ("Z80.0", "Family hx of GI tract CA",0); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("V16.0", "Family hx of GI tract CA");
+INSERT INTO Characterized_by (ICD10_code, ICD9_code) VALUES ("Z80.0","V16.0");
+INSERT INTO Located_in (ICD10_code, LID) VALUES ("Z80.0",299);
+
 
 --C diff / infectious
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (85,4);
@@ -1381,19 +1779,19 @@ INSERT INTO Located_in (ICD10_code, LID) VALUES ("K55.1",55);
 --INSERT 
 
 --UC - L side
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (56,40);
+--INSERT INTO Sub_location (LID, parent_locationID) VALUES (56,40);
 
 --UC - proctitis
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (57,40);
+--INSERT INTO Sub_location (LID, parent_locationID) VALUES (57,40);
 
 --UC - proctocolitis
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (58,40);
+--INSERT INTO Sub_location (LID, parent_locationID) VALUES (58,40);
 
 --UC - universal
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (59,40);
+--INSERT INTO Sub_location (LID, parent_locationID) VALUES (59,40);
 
 --UC - unspecified
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (60,40);
+--INSERT INTO Sub_location (LID, parent_locationID) VALUES (60,40);
 
 --GERD
 --INSERT INTO Sub_location (LID, parent_locationID) VALUES (17,14);
