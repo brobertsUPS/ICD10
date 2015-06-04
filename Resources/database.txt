@@ -92,15 +92,10 @@ CREATE TABLE Characterized_by (
 	);
 	
 CREATE TABLE Extension (
-	Extension_code TEXT PRIMARY KEY NOT NULL
-	);
-	
-CREATE TABLE Has_Extension (
-	ICD10_code TEXT,
-	Extension_code TEXT,
-	PRIMARY KEY (ICD10_code, Extension_code),
-	FOREIGN KEY (ICD10_code) REFERENCES ICD10_condition (ICD10_code) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (Extension_code) REFERENCES Extension (Extension_code) ON DELETE CASCADE ON UPDATE CASCADE
+	Extension_code TEXT NOT NULL,
+	ICD10_code TEXT NOT NULL,
+	PRIMARY KEY (Extension_code, ICD10_code),
+	FOREIGN KEY (ICD10_code) REFERENCES ICD10_condition (ICD10_code) ON DELETE CASCADE ON UPDATE CASCADE
 	);
 	
 CREATE TABLE Diagnosed_with (
