@@ -1,6 +1,5 @@
 CREATE TABLE Patient (
 	pID INTEGER PRIMARY KEY NOT NULL,
-	email TEXT NOT NULL, 
 	date_of_birth TEXT NOT NULL,
 	f_name TEXT NOT NULL,
 	l_name TEXT NOT NULL
@@ -25,19 +24,16 @@ CREATE TABLE Attends (
 	FOREIGN KEY (pID) REFERENCES Patient(pID) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (aptID) REFERENCES Appointment(aptID) ON DELETE CASCADE ON UPDATE CASCADE
 	);
-
+/*
 CREATE TABLE Practice (
 	mpID INTEGER PRIMARY KEY NOT NULL,
 	name TEXT NOT NULL
 	);
-	
+*/
 CREATE TABLE Doctor (
 	dID INTEGER PRIMARY KEY NOT NULL,
-	email TEXT NOT NULL,
 	f_name TEXT NOT NULL,
-	l_name TEXT NOT NULL,
-	mpID INTEGER NOT NULL,
-	FOREIGN KEY (mpID) REFERENCES Practice (mpID) ON DELETE CASCADE ON UPDATE CASCADE
+	l_name TEXT NOT NULL
 	);
 	
 CREATE TABLE Performs (
@@ -153,8 +149,15 @@ CREATE TABLE Describes (
 	FOREIGN KEY (sID) REFERENCES Symptom (sID) ON DELETE CASCADE ON UPDATE CASCADE
 	);
 	*/
-
-
+--Patients and doctors********************************************************************************************************
+INSERT INTO Patient (pID, date_of_birth, f_name, l_name) VALUES (1, "12-04-1993", "Brandon", "Roberts");
+INSERT INTO Patient (pID, date_of_birth, f_name, l_name) VALUES (2, "03-22-1931", "William", "Shatner");
+INSERT INTO Patient (pID, date_of_birth, f_name, l_name) VALUES (3, "12-28-1932", "Nichelle", "Nichols");
+INSERT INTO Patient (pID, date_of_birth, f_name, l_name) VALUES (4, "03-31-1931", "Leonard", "Nimoy");
+INSERT INTO Patient (pID, date_of_birth, f_name, l_name) VALUES (5, "03-03-1920", "James", "Doohan");
+INSERT INTO Patient (pID, date_of_birth, f_name, l_name) VALUES (6, "04-20-1937", "George", "Takei");
+INSERT INTO Practice (mpID,name) VALUES (1, "Gastroenterology Associates");
+INSERT INTO Doctor (dID, email, f_name, l_name, mpID) VALUES (1, "Rodneyjoe@mac.com", "Rodney", "Joe",1);
 -- Condition_location*********************************************************************************************
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (1, "Esophagus");

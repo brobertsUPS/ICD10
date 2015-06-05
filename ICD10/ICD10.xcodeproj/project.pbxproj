@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD4FAE761B18D9260010B411 /* Main.storyboard */; };
-		ADBB83AA1B1F7A6B00E55B6F /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = ADBB83A91B1F7A6B00E55B6F /* testDML.sqlite3 */; };
+		ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAB0D381B210E71004C770C /* BillViewController.swift */; };
+		ADD4A8C41B220FC00083FAF1 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */; };
+		ADD4A8C61B22266A0083FAF1 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = ADD4A8C51B22265E0083FAF1 /* testDML.sqlite3 */; };
 		ADE77F361B1782F900CE48F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F351B1782F900CE48F1 /* AppDelegate.swift */; };
 		ADE77F381B1782F900CE48F1 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F371B1782F900CE48F1 /* MasterViewController.swift */; };
 		ADE77F3A1B1782F900CE48F1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F391B1782F900CE48F1 /* DetailViewController.swift */; };
@@ -30,7 +32,9 @@
 
 /* Begin PBXFileReference section */
 		AD4FAE771B18D9260010B411 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		ADBB83A91B1F7A6B00E55B6F /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
+		ADAB0D381B210E71004C770C /* BillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewController.swift; sourceTree = "<group>"; };
+		ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		ADD4A8C51B22265E0083FAF1 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		ADE77F301B1782F900CE48F1 /* ICD10.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICD10.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE77F341B1782F900CE48F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADE77F351B1782F900CE48F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,12 +90,14 @@
 		ADE77F321B1782F900CE48F1 /* ICD10 */ = {
 			isa = PBXGroup;
 			children = (
-				ADBB83A91B1F7A6B00E55B6F /* testDML.sqlite3 */,
+				ADD4A8C51B22265E0083FAF1 /* testDML.sqlite3 */,
 				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
 				ADE77F371B1782F900CE48F1 /* MasterViewController.swift */,
 				ADE77F391B1782F900CE48F1 /* DetailViewController.swift */,
 				ADE77F3E1B1782F900CE48F1 /* Images.xcassets */,
 				AD4FAE761B18D9260010B411 /* Main.storyboard */,
+				ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */,
+				ADAB0D381B210E71004C770C /* BillViewController.swift */,
 				ADE77F401B1782F900CE48F1 /* LaunchScreen.xib */,
 				ADE77F331B1782F900CE48F1 /* Supporting Files */,
 				ADE77F591B17BD1D00CE48F1 /* ICD10-Bridging-Header.h */,
@@ -173,6 +179,7 @@
 				TargetAttributes = {
 					ADE77F2F1B1782F900CE48F1 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 56GZU39DYW;
 					};
 					ADE77F461B1782F900CE48F1 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -204,10 +211,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADD4A8C61B22266A0083FAF1 /* testDML.sqlite3 in Resources */,
 				ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */,
 				ADE77F3F1B1782F900CE48F1 /* Images.xcassets in Resources */,
 				AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */,
-				ADBB83AA1B1F7A6B00E55B6F /* testDML.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +233,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADE77F3A1B1782F900CE48F1 /* DetailViewController.swift in Sources */,
+				ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */,
+				ADD4A8C41B220FC00083FAF1 /* SearchTableViewController.swift in Sources */,
 				ADE77F381B1782F900CE48F1 /* MasterViewController.swift in Sources */,
 				ADE77F361B1782F900CE48F1 /* AppDelegate.swift in Sources */,
 			);
@@ -357,9 +366,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = ICD10/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ICD10/ICD10-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -370,9 +383,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = ICD10/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ICD10/ICD10-Bridging-Header.h";
 			};
 			name = Release;

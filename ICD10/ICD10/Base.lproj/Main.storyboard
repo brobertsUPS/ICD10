@@ -18,7 +18,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8fS-aE-onr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-38" y="-630"/>
+            <point key="canvasLocation" x="-282" y="-630"/>
         </scene>
         <!--Detail-->
         <scene sceneID="yUG-lL-AsK">
@@ -112,7 +112,172 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="709" y="129"/>
+            <point key="canvasLocation" x="1411" y="97"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="sEH-71-QjC">
+            <objects>
+                <navigationController id="J5E-ut-JHD" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0Qa-v3-bXO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="A0e-2y-MTR" kind="relationship" relationship="rootViewController" id="IEA-mT-zCI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XOY-kC-I4c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1343" y="45"/>
+        </scene>
+        <!--Bill View Controller-->
+        <scene sceneID="y4A-YN-rO1">
+            <objects>
+                <viewController id="A0e-2y-MTR" customClass="BillViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WV2-Ev-4IZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="hf0-r0-ddn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Zmo-Eh-4mm">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Patient:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WiF-Xc-XGO">
+                                <rect key="frame" x="16" y="90" width="67" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Doctor:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Edo-5W-iaW">
+                                <rect key="frame" x="16" y="130" width="67" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search Patients" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vjf-44-CSm">
+                                <rect key="frame" x="91" y="86" width="254" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="touchUpOutside" id="33e-Pu-Gte"/>
+                                    <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="touchDown" id="UEn-4d-7Wj"/>
+                                    <action selector="userChangedPatientSearch:" destination="A0e-2y-MTR" eventType="editingChanged" id="eLE-fT-7M2"/>
+                                    <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="patientSearchPopover" popoverAnchorView="Vjf-44-CSm" id="chO-NC-ljJ">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search Doctors" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ak3-nr-RY1">
+                                <rect key="frame" x="91" y="126" width="254" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Date of Birth" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9PO-MH-fLT">
+                                <rect key="frame" x="378" y="86" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sNf-wa-msA">
+                                <rect key="frame" x="515" y="86" width="30" height="30"/>
+                                <state key="normal" title="Add">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="addPatient:" destination="A0e-2y-MTR" eventType="touchUpInside" id="MmF-KV-zgq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1XE-BG-S9D">
+                                <rect key="frame" x="515" y="130" width="30" height="30"/>
+                                <state key="normal" title="Add">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="addDoctor:" destination="A0e-2y-MTR" eventType="touchUpInside" id="EJl-fn-E9r"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Jw-rT-KQs">
+                                <rect key="frame" x="231" y="427" width="139" height="30"/>
+                                <state key="normal" title="Begin ICD10 Search">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="RMx-3f-FxP" kind="show" id="4Rw-AG-LLr"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Jcx-q4-ATe"/>
+                    <connections>
+                        <outlet property="doctorTextField" destination="Ak3-nr-RY1" id="gtG-12-n0G"/>
+                        <outlet property="patientDOBTextField" destination="9PO-MH-fLT" id="dJC-3d-waA"/>
+                        <outlet property="patientTextField" destination="Vjf-44-CSm" id="db1-Ct-Syp"/>
+                        <outlet property="searchDisplayController" destination="IFO-E7-LBW" id="hYa-oS-8JA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q50-df-xDS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="DC2-90-3QU">
+                    <connections>
+                        <outlet property="delegate" destination="A0e-2y-MTR" id="f1L-aG-5mc"/>
+                        <outlet property="searchContentsController" destination="A0e-2y-MTR" id="RnX-x7-qDY"/>
+                        <outlet property="searchResultsDataSource" destination="A0e-2y-MTR" id="xi7-AT-0XV"/>
+                        <outlet property="searchResultsDelegate" destination="A0e-2y-MTR" id="yEl-il-cQQ"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="IFO-E7-LBW">
+                    <connections>
+                        <outlet property="delegate" destination="A0e-2y-MTR" id="Mqa-KF-PxX"/>
+                        <outlet property="searchContentsController" destination="A0e-2y-MTR" id="rce-Dk-ziW"/>
+                        <outlet property="searchResultsDataSource" destination="A0e-2y-MTR" id="JKN-xS-mrI"/>
+                        <outlet property="searchResultsDelegate" destination="A0e-2y-MTR" id="qbu-xu-M9W"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="-287" y="97"/>
+        </scene>
+        <!--Search Table View Controller-->
+        <scene sceneID="TkV-MA-MYG">
+            <objects>
+                <tableViewController id="ofU-rG-bPg" customClass="SearchTableViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="33" sectionHeaderHeight="22" sectionFooterHeight="22" id="UcX-OS-uCG">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResultCell" textLabel="mWd-Gd-XLJ" detailTextLabel="99S-nj-Rwz" rowHeight="33" style="IBUITableViewCellStyleSubtitle" id="a8J-oo-Gb4">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="a8J-oo-Gb4" id="LMP-cK-dd0">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mWd-Gd-XLJ">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="99S-nj-Rwz">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ofU-rG-bPg" id="6Za-9u-ccG"/>
+                            <outlet property="delegate" destination="ofU-rG-bPg" id="kdg-do-shX"/>
+                        </connections>
+                    </tableView>
+                    <value key="contentSizeForViewInPopover" type="size" width="200" height="400"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="200" height="300"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kTj-uQ-Rl1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-287" y="691"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
@@ -120,13 +285,13 @@
                 <splitViewController id="H1p-Uh-vWS" sceneMemberID="viewController">
                     <toolbarItems/>
                     <connections>
-                        <segue destination="RMx-3f-FxP" kind="relationship" relationship="masterViewController" id="BlO-5A-QYV"/>
-                        <segue destination="vC3-pB-5Vb" kind="relationship" relationship="detailViewController" id="Tll-UG-LXB"/>
+                        <segue destination="RMx-3f-FxP" kind="relationship" relationship="masterViewController" id="I9s-dg-KWB"/>
+                        <segue destination="J5E-ut-JHD" kind="relationship" relationship="detailViewController" id="HCd-Af-Ppa"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cZU-Oi-B1e" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-856" y="-330"/>
+            <point key="canvasLocation" x="-1343" y="-794"/>
         </scene>
         <!--Master-->
         <scene sceneID="smW-Zh-WAh">
@@ -164,7 +329,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Locations" id="Zdf-7t-Un8"/>
                     <connections>
-                        <segue destination="vC3-pB-5Vb" kind="show" identifier="showCodes" id="P4I-hN-ian"/>
+                        <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showCodes" id="P4I-hN-ian"/>
                         <segue destination="RMx-3f-FxP" kind="show" identifier="showLocations" id="GsY-pw-BcS"/>
                     </connections>
                 </tableViewController>
@@ -185,11 +350,10 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SLD-UC-DBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-45" y="129"/>
+            <point key="canvasLocation" x="709" y="97"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="P4I-hN-ian"/>
-        <segue reference="GsY-pw-BcS"/>
+        <segue reference="I9s-dg-KWB"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -41,9 +41,7 @@ class MasterViewController: UITableViewController {
         
         let theFileManager = NSFileManager.defaultManager()
         let filePath = dataFilePath()
-        println(filePath)
         if theFileManager.fileExistsAtPath(filePath) {
-            println("File Found!")
             // And then open the DB File
             openDBPath(filePath)
         }
@@ -53,19 +51,18 @@ class MasterViewController: UITableViewController {
             let pathToDevice = dataFilePath()
             var error:NSError?
 
-            if (theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice, error: &error)) {
+            if (theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice, error: nil)) {
                 //get the database open
-                openDBPath(filePath)
+                openDBPath(pathToDevice)
             }
             else {
                 // failure 
             }
         }
-        println(filePath)
 
         println("LOADED")
         if objects.count == 0 {//get the root locations when we load up
-            let query = "SELECT * FROM Condition_location cl WHERE NOT EXISTS (SELECT * FROM Sub_location sl WHERE cl.LID = sl.LID)"
+            let query = "SELECT * FROM Condition_location cl WHERE NOT EXISTS (SELECT * FROM Sub_location sl WHERE cl.LID = sl.LID) ORDER BY location_name"
             
             var statement:COpaquePointer = nil
             if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
@@ -75,7 +72,6 @@ class MasterViewController: UITableViewController {
                     let locationName = sqlite3_column_text(statement, 1)
                     let locationNameString = String.fromCString(UnsafePointer<CChar>(locationName))
                     let tuple = (locationID,locationNameString!)
-                    println(tuple)
                     objects.append(tuple)
                 }
             }
@@ -123,7 +119,7 @@ class MasterViewController: UITableViewController {
         
         //get get the sub locations and their names (does an exact match query 
         //to only natural join on one row from the sub_location table
-        let query = "SELECT * FROM Condition_location NATURAL JOIN (SELECT * FROM Sub_location WHERE Parent_locationID=\(locationID));"
+        let query = "SELECT * FROM Condition_location NATURAL JOIN (SELECT * FROM Sub_location WHERE Parent_locationID=\(locationID)) ORDER BY location_name"
         
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
@@ -150,7 +146,7 @@ class MasterViewController: UITableViewController {
             
             let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
             var statement:COpaquePointer = nil
-            let query = "select ICD10_code, description_text, ICD9_code from (SELECT * from condition_location NATURAL JOIN located_in where LID = \(id))  NATURAL JOIN ICD10_condition NATURAL JOIN characterized_by natural join ICD9_condition"
+            let query = "SELECT ICD10_code, description_text, ICD9_code from (SELECT * FROM condition_location NATURAL JOIN located_in WHERE LID = \(id))  NATURAL JOIN ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition"
             if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
                 
                 if sqlite3_step(statement) == SQLITE_ROW { // if we got the row back successfully
@@ -199,8 +195,8 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-
         let (id, location_name) = objects[indexPath.row]
         cell.textLabel!.text = location_name
         return cell
