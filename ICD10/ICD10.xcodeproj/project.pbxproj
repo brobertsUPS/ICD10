@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD0BB1861B25F9AA00CAA677 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD0BB1851B25F9A300CAA677 /* testDML.sqlite3 */; };
 		AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD4FAE761B18D9260010B411 /* Main.storyboard */; };
 		ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAB0D381B210E71004C770C /* BillViewController.swift */; };
 		ADD4A8C41B220FC00083FAF1 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */; };
-		ADD4A8C61B22266A0083FAF1 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = ADD4A8C51B22265E0083FAF1 /* testDML.sqlite3 */; };
 		ADE77F361B1782F900CE48F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F351B1782F900CE48F1 /* AppDelegate.swift */; };
 		ADE77F381B1782F900CE48F1 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F371B1782F900CE48F1 /* MasterViewController.swift */; };
 		ADE77F3A1B1782F900CE48F1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F391B1782F900CE48F1 /* DetailViewController.swift */; };
@@ -18,7 +18,6 @@
 		ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADE77F401B1782F900CE48F1 /* LaunchScreen.xib */; };
 		ADE77F4E1B1782F900CE48F1 /* ICD10Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F4D1B1782F900CE48F1 /* ICD10Tests.swift */; };
 		ADE77F581B17BCCB00CE48F1 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ADE77F571B17BCCB00CE48F1 /* libsqlite3.dylib */; };
-		E15EFCAB1B254F6500301ED6 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = ADD4A8C51B22265E0083FAF1 /* testDML.sqlite3 */; };
 		E15EFCAC1B254F6E00301ED6 /* libsqlite3.dylib in Resources */ = {isa = PBXBuildFile; fileRef = ADE77F571B17BCCB00CE48F1 /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
@@ -33,10 +32,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AD0BB1851B25F9A300CAA677 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		AD4FAE771B18D9260010B411 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ADAB0D381B210E71004C770C /* BillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewController.swift; sourceTree = "<group>"; };
 		ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
-		ADD4A8C51B22265E0083FAF1 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		ADE77F301B1782F900CE48F1 /* ICD10.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICD10.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE77F341B1782F900CE48F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADE77F351B1782F900CE48F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -92,7 +91,7 @@
 		ADE77F321B1782F900CE48F1 /* ICD10 */ = {
 			isa = PBXGroup;
 			children = (
-				ADD4A8C51B22265E0083FAF1 /* testDML.sqlite3 */,
+				AD0BB1851B25F9A300CAA677 /* testDML.sqlite3 */,
 				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
 				ADE77F371B1782F900CE48F1 /* MasterViewController.swift */,
 				ADE77F391B1782F900CE48F1 /* DetailViewController.swift */,
@@ -213,7 +212,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADD4A8C61B22266A0083FAF1 /* testDML.sqlite3 in Resources */,
+				AD0BB1861B25F9AA00CAA677 /* testDML.sqlite3 in Resources */,
 				ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */,
 				ADE77F3F1B1782F900CE48F1 /* Images.xcassets in Resources */,
 				AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */,
@@ -225,7 +224,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E15EFCAC1B254F6E00301ED6 /* libsqlite3.dylib in Resources */,
-				E15EFCAB1B254F6500301ED6 /* testDML.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -136,7 +136,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
             sqlite3_step(statement)
             println("inserted patient \(fullName)")
-
         }
     }
     
