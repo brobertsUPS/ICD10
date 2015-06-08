@@ -18,6 +18,8 @@
 		ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADE77F401B1782F900CE48F1 /* LaunchScreen.xib */; };
 		ADE77F4E1B1782F900CE48F1 /* ICD10Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F4D1B1782F900CE48F1 /* ICD10Tests.swift */; };
 		ADE77F581B17BCCB00CE48F1 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ADE77F571B17BCCB00CE48F1 /* libsqlite3.dylib */; };
+		E15EFCAB1B254F6500301ED6 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = ADD4A8C51B22265E0083FAF1 /* testDML.sqlite3 */; };
+		E15EFCAC1B254F6E00301ED6 /* libsqlite3.dylib in Resources */ = {isa = PBXBuildFile; fileRef = ADE77F571B17BCCB00CE48F1 /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -222,6 +224,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E15EFCAC1B254F6E00301ED6 /* libsqlite3.dylib in Resources */,
+				E15EFCAB1B254F6500301ED6 /* testDML.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,7 +373,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = ICD10/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -386,7 +390,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = ICD10/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -407,6 +411,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = ICD10Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ICD10.app/ICD10";
@@ -422,6 +427,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = ICD10Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ICD10.app/ICD10";

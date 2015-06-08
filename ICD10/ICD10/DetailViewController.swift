@@ -18,6 +18,7 @@ class DetailViewController: UIViewController {
     var ICD10Text:String!
     var ICD9Text:String!
     var conditionDescriptionText:String!
+    var titleName:String!
 
 
     var detailItem: AnyObject? {
@@ -43,7 +44,9 @@ class DetailViewController: UIViewController {
         ICD10Code.text = self.ICD10Text
         ICD9Code.text = self.ICD9Text
         conditionDescription.text = self.conditionDescriptionText
-        
+        self.navigationItem.title = titleName
+        println("Title name is \(titleName)")
+        self.navigationItem.leftItemsSupplementBackButton = true
     }
 
     override func didReceiveMemoryWarning() {

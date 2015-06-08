@@ -30,15 +30,6 @@ class MasterViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        //self.navigationItem.leftBarButtonItem = self.editButtonItem()
-
-        //let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
-        //self.navigationItem.rightBarButtonItem = addButton
-        if let split = self.splitViewController {
-            let controllers = split.viewControllers
-            self.detailViewController = controllers[controllers.count-1].topViewController as? DetailViewController
-        }
-        
         let theFileManager = NSFileManager.defaultManager()
         let filePath = dataFilePath()
         if theFileManager.fileExistsAtPath(filePath) {
@@ -90,24 +81,15 @@ class MasterViewController: UITableViewController {
     
     func dataFilePath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        let documentsDirectory = paths[0] as! NSString
+        let documentsDirectory = paths[0] as NSString
         return documentsDirectory.stringByAppendingPathComponent("testDML.sqlite3") as String
     }
-    
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    /*
-    func insertNewObject(sender: AnyObject) {
-        objects.insert(NSDate(), atIndex: 0)
-        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-    }
-    */
     // MARK: - Segues
     
     /**
@@ -143,18 +125,21 @@ class MasterViewController: UITableViewController {
         let newSubLocations = findSubLocations(id)
         
         if segue.identifier == "showCodes" {
-            
-            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+            println("query prepared")
+            println(id)
+            let controller = (segue.destinationViewController as UINavigationController).topViewController as DetailViewController
             var statement:COpaquePointer = nil
             let query = "SELECT ICD10_code, description_text, ICD9_code from (SELECT * FROM condition_location NATURAL JOIN located_in WHERE LID = \(id))  NATURAL JOIN ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition"
+            
             if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
                 
                 if sqlite3_step(statement) == SQLITE_ROW { // if we got the row back successfully
-                    
+                    println("Hit step")
                     let icd10Code = sqlite3_column_text(statement, 0)
                     let icd10CodeString = String.fromCString(UnsafePointer<CChar>(icd10Code))!
                     println(icd10CodeString)
                     controller.ICD10Text = icd10CodeString
+                    println(controller.ICD10Text)
                     
                     let description = sqlite3_column_text(statement, 1)
                     let descriptionString = String.fromCString(UnsafePointer<CChar>(description))!
@@ -169,15 +154,13 @@ class MasterViewController: UITableViewController {
                 }
             }
             
-            //controller.detailItem = locationName
+            controller.detailItem = locationName
             
             controller.title = locationName
-            
-            //setup the codes for the location
-            
+            controller.titleName = locationName
             controller.navigationItem.leftItemsSupplementBackButton = true
         } else {
-            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
+            let controller = (segue.destinationViewController as UINavigationController).topViewController as MasterViewController
             controller.objects = newSubLocations
             controller.title = locationName
             controller.navigationItem.leftItemsSupplementBackButton = true
@@ -196,7 +179,7 @@ class MasterViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
         let (id, location_name) = objects[indexPath.row]
         cell.textLabel!.text = location_name
         return cell

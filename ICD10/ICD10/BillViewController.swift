@@ -58,6 +58,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         super.viewDidLoad()
         checkDatabaseFileAndOpen()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePatient:",name:"loadPatient", object: nil)
+        self.navigationItem.title = "Bill"
     }
     
     /**
@@ -78,20 +79,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     **/
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "patientSearchPopover" {
-            let popoverViewController = (segue.destinationViewController as! UIViewController) as! SearchTableViewController
+            let popoverViewController = (segue.destinationViewController as UIViewController) as SearchTableViewController
             searchTableViewController = popoverViewController               //set our view controller as the patientSearchPopover
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
+            println("Hit patientSearch")
         }
         
-        /*
-        if segue.identifier == "beginSearch" {
-            let splitViewController = segue.destinationViewController as! UISplitViewController
-            let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-            navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
-            splitViewController.delegate = self
-        }
-        */
     }
     
     /**
@@ -196,7 +190,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     **/
     func dataFilePath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        let documentsDirectory = paths[0] as! NSString
+        let documentsDirectory = paths[0] as NSString
         return documentsDirectory.stringByAppendingPathComponent("testDML.sqlite3") as String
     }
     
