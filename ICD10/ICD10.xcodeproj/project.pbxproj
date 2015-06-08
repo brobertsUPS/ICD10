@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AD0BB1861B25F9AA00CAA677 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD0BB1851B25F9A300CAA677 /* testDML.sqlite3 */; };
+		AD0BB1881B26331500CAA677 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD0BB1871B26330E00CAA677 /* testDML.sqlite3 */; };
+		AD0BB18A1B26564300CAA677 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0BB1891B26564300CAA677 /* HomeViewController.swift */; };
+		AD0BB18C1B265A3000CAA677 /* ViewBillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0BB18B1B265A3000CAA677 /* ViewBillViewController.swift */; };
+		AD0BB18E1B265A4A00CAA677 /* PatientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0BB18D1B265A4A00CAA677 /* PatientsViewController.swift */; };
+		AD0BB1901B265A5C00CAA677 /* DoctorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0BB18F1B265A5C00CAA677 /* DoctorsViewController.swift */; };
+		AD0BB1921B265A6D00CAA677 /* DirectCodeSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0BB1911B265A6D00CAA677 /* DirectCodeSearchViewController.swift */; };
 		AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD4FAE761B18D9260010B411 /* Main.storyboard */; };
 		ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAB0D381B210E71004C770C /* BillViewController.swift */; };
 		ADD4A8C41B220FC00083FAF1 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */; };
@@ -32,7 +37,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AD0BB1851B25F9A300CAA677 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
+		AD0BB1871B26330E00CAA677 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
+		AD0BB1891B26564300CAA677 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		AD0BB18B1B265A3000CAA677 /* ViewBillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBillViewController.swift; sourceTree = "<group>"; };
+		AD0BB18D1B265A4A00CAA677 /* PatientsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientsViewController.swift; sourceTree = "<group>"; };
+		AD0BB18F1B265A5C00CAA677 /* DoctorsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoctorsViewController.swift; sourceTree = "<group>"; };
+		AD0BB1911B265A6D00CAA677 /* DirectCodeSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectCodeSearchViewController.swift; sourceTree = "<group>"; };
 		AD4FAE771B18D9260010B411 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ADAB0D381B210E71004C770C /* BillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewController.swift; sourceTree = "<group>"; };
 		ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
@@ -91,15 +101,20 @@
 		ADE77F321B1782F900CE48F1 /* ICD10 */ = {
 			isa = PBXGroup;
 			children = (
-				AD0BB1851B25F9A300CAA677 /* testDML.sqlite3 */,
+				AD0BB1871B26330E00CAA677 /* testDML.sqlite3 */,
 				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
 				ADE77F371B1782F900CE48F1 /* MasterViewController.swift */,
 				ADE77F391B1782F900CE48F1 /* DetailViewController.swift */,
-				ADE77F3E1B1782F900CE48F1 /* Images.xcassets */,
-				AD4FAE761B18D9260010B411 /* Main.storyboard */,
+				AD0BB18B1B265A3000CAA677 /* ViewBillViewController.swift */,
+				AD0BB18D1B265A4A00CAA677 /* PatientsViewController.swift */,
+				AD0BB18F1B265A5C00CAA677 /* DoctorsViewController.swift */,
+				AD0BB1911B265A6D00CAA677 /* DirectCodeSearchViewController.swift */,
+				AD0BB1891B26564300CAA677 /* HomeViewController.swift */,
 				ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */,
 				ADAB0D381B210E71004C770C /* BillViewController.swift */,
 				ADE77F401B1782F900CE48F1 /* LaunchScreen.xib */,
+				AD4FAE761B18D9260010B411 /* Main.storyboard */,
+				ADE77F3E1B1782F900CE48F1 /* Images.xcassets */,
 				ADE77F331B1782F900CE48F1 /* Supporting Files */,
 				ADE77F591B17BD1D00CE48F1 /* ICD10-Bridging-Header.h */,
 			);
@@ -212,7 +227,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD0BB1861B25F9AA00CAA677 /* testDML.sqlite3 in Resources */,
+				AD0BB1881B26331500CAA677 /* testDML.sqlite3 in Resources */,
 				ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */,
 				ADE77F3F1B1782F900CE48F1 /* Images.xcassets in Resources */,
 				AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */,
@@ -235,10 +250,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADE77F3A1B1782F900CE48F1 /* DetailViewController.swift in Sources */,
+				AD0BB1901B265A5C00CAA677 /* DoctorsViewController.swift in Sources */,
 				ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */,
+				AD0BB18C1B265A3000CAA677 /* ViewBillViewController.swift in Sources */,
 				ADD4A8C41B220FC00083FAF1 /* SearchTableViewController.swift in Sources */,
 				ADE77F381B1782F900CE48F1 /* MasterViewController.swift in Sources */,
 				ADE77F361B1782F900CE48F1 /* AppDelegate.swift in Sources */,
+				AD0BB18E1B265A4A00CAA677 /* PatientsViewController.swift in Sources */,
+				AD0BB1921B265A6D00CAA677 /* DirectCodeSearchViewController.swift in Sources */,
+				AD0BB18A1B26564300CAA677 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

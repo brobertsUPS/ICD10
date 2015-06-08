@@ -14,8 +14,6 @@ class MasterViewController: UITableViewController {
     var objects = [(Int,String)]()
     var database:COpaquePointer = nil
     
-    private let locationCell = "Location"
-    private let symptomsCell = "Symptoms"
     private let favoritesCell = "Favorites"
 
 

@@ -10,8 +10,11 @@ import UIKit
 
 class SearchTableViewController: UITableViewController {
     
-    var searchResults:[(String,String)]=[]          //The list of results from the text field
-    var selectedPatient:(String,String) = ("","")   //The DOB and the patient's full name
+    var tupleSearchResults:[(String,String)]=[]          //The list of results from the text field
+    var selectedTuple:(String,String) = ("","")   //The DOB and the patient's full name
+    var doctorSearchResults:[String] = []
+    var selectedDoctor:String = ""
+    var searchType = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,26 +32,48 @@ class SearchTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResults.count
+        if searchType == "doctor" {
+            return doctorSearchResults.count
+        }else {
+            return tupleSearchResults.count
+        }
     }
 
     /**
-    *   Displays the patient's full name as the title and the date of birth for the detail
+    *   Displays the cell's title and detail
     **/
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+        println(searchType)
         let cell = tableView.dequeueReusableCellWithIdentifier("searchResultCell", forIndexPath: indexPath) as! UITableViewCell
-        let (dob, patientName) = searchResults[indexPath.row]
-        cell.textLabel!.text = patientName
-        cell.detailTextLabel!.text = dob
+    
+        if searchType == "doctor" {
+            
+            let doctorName = doctorSearchResults[indexPath.row]
+            println(doctorName)
+            cell.textLabel!.text = doctorName
+        } else {
+            let (dob, patientName) = tupleSearchResults[indexPath.row]
+            cell.textLabel!.text = patientName
+            cell.detailTextLabel!.text = dob
+        }
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
-        let (dob, name) = searchResults[indexPath.row]
-        selectedPatient = (dob,name)
-        let parentController = self.parentViewController
-        NSNotificationCenter.defaultCenter().postNotificationName("loadPatient", object: name)
-        
+        if searchType == "doctor" {
+            selectedDoctor = doctorSearchResults[indexPath.row]
+            NSNotificationCenter.defaultCenter().postNotificationName("loadDoctor", object: selectedDoctor)
+        }else if searchType == "patient"{
+            let (dob, name) = tupleSearchResults[indexPath.row]
+            selectedTuple = (dob,name)
+            let parentController = self.parentViewController
+            NSNotificationCenter.defaultCenter().postNotificationName("loadPatient", object: name)
+        }else {
+            let (code_description, code) = tupleSearchResults[indexPath.row]
+            selectedTuple = (code_description,code)
+            let parentController = self.parentViewController
+            NSNotificationCenter.defaultCenter().postNotificationName("loadTuple", object: code)
+
+        }
     }
 }

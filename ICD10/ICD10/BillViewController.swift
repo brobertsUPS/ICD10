@@ -8,36 +8,126 @@
 
 import UIKit
 
-class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, UISplitViewControllerDelegate {
+class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
     
     var database:COpaquePointer = nil
     var searchTableViewController: SearchTableViewController? = nil
     
-    var visitDate:String = ""
-    var patient:String = ""
-    var referringPhys:String = ""
-    var site:String = ""
-    var room:String = ""
-    var cpt:String = ""
-    var mc:String = ""
-    var pc:String = ""
-    var ICD10:[String] = []
-    var ICD9:[String] = []
-    
     @IBOutlet weak var patientTextField: UITextField!
     @IBOutlet weak var patientDOBTextField: UITextField!
-    
     @IBOutlet weak var doctorTextField: UITextField!
+    @IBOutlet weak var siteTextField: UITextField!
+    @IBOutlet weak var roomTextField: UITextField!
+    @IBOutlet weak var cptTextField: UITextField!
+    @IBOutlet weak var mcTextField: UITextField!
+    @IBOutlet weak var pcTextField: UITextField!
+    @IBOutlet weak var ICD10TextField: UITextField!
     
     
+    //****************************************** Clicks and Actions ******************************************************************************
     
+    /**
+    *   Registers the click in the text box and calls the appropriate segue
+    **/
     @IBAction func clickedInTextBox(sender: UITextField) {
-        if sender == patientTextField {
-            println("Same")
+        if sender.tag == 0 {
+            println("Patient")
             self.performSegueWithIdentifier("patientSearchPopover", sender: self)
         }
+        
+        if sender.tag == 2 {
+            self.performSegueWithIdentifier("doctorSearchPopover", sender: self)
+        }
+        
+        if sender.tag == 5 {
+            self.performSegueWithIdentifier("cptSearch", sender: self)
+        }
+        if sender.tag == 6 {
+            self.performSegueWithIdentifier("mcSearch", sender: self)
+        }
+        if sender.tag == 7 {
+            self.performSegueWithIdentifier("pcSearch", sender: self)
+        }
     }
-
+    
+    /**
+    *   Registers clicking return and resigns the keyboard
+    **/
+    @IBAction func textFieldDoneEditing(sender:UITextField){
+        sender.resignFirstResponder()
+        searchTableViewController = nil
+    }
+    
+    /**
+    *   Registers clicking the background and resigns any responder that could possibly be up
+    **/
+    @IBAction func backgroundTap(sender: UIControl){
+        
+        patientTextField.resignFirstResponder()
+        patientDOBTextField.resignFirstResponder()
+        doctorTextField.resignFirstResponder()
+        siteTextField.resignFirstResponder()
+        roomTextField.resignFirstResponder()
+        cptTextField.resignFirstResponder()
+        mcTextField.resignFirstResponder()
+        pcTextField.resignFirstResponder()
+        ICD10TextField.resignFirstResponder()
+        self.dismissViewControllerAnimated(true, completion: nil)
+        searchTableViewController = nil
+    }
+    
+    
+    //****************************************** Segues ******************************************************************************
+    
+    /**
+    *   Stops any segue that is not directly called by clicking in search boxes
+    */
+    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+        if identifier == "beginICD10Search" {
+            return true
+        }
+        return false
+    }
+    
+    /**
+    *   Navigates to the correct popup the user clicked into
+    **/
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "beginICD10Search" {
+            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
+        }else{
+            let popoverViewController = (segue.destinationViewController as! UIViewController) as! SearchTableViewController
+            searchTableViewController = popoverViewController               //set our view controller as the patientSearchPopover
+            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+            popoverViewController.popoverPresentationController!.delegate = self
+            
+            //do the initial empty searches
+            
+            if segue.identifier == "patientSearchPopover"{
+                popoverViewController.tupleSearchResults = patientSearch()
+                popoverViewController.searchType = "patient"
+            }
+            
+            if segue.identifier == "doctorSearchPopover" {
+                popoverViewController.doctorSearchResults = doctorSearch()
+                popoverViewController.searchType = "doctor"
+            }
+            
+            if segue.identifier == "cptSearch"{
+                popoverViewController.tupleSearchResults = codeSearch("C")
+            }
+            if segue.identifier == "mcSearch"{
+                popoverViewController.tupleSearchResults = codeSearch("M")
+            }
+            if segue.identifier == "pcSearch"{
+                popoverViewController.tupleSearchResults = codeSearch("P")
+            }
+        }
+    }
+    
+    //****************************************** Changes in text fields ******************************************************************************
+    
     /**
     ** Updates the table view in the popup for any patients that match the patient input
     **/
@@ -45,48 +135,49 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         let patients = patientSearch()                                  //retrieve any patients that match the input
         if let patientSearchViewController = searchTableViewController {//only update the view if we have selected it
-            patientSearchViewController.searchResults = patients
+            patientSearchViewController.tupleSearchResults = patients
             patientSearchViewController.tableView.reloadData()                        //update the list in the popup
         }
     }
     
     /**
-    *   Open the database and adds a notification ovserver to this view controller. 
-    *   Observer listens for a click on the patient popup
+    *   Updates the table view in the popup for any doctors that match the input
     **/
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        checkDatabaseFileAndOpen()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePatient:",name:"loadPatient", object: nil)
-        self.navigationItem.title = "Bill"
+    @IBAction func userChangedDoctorSearch(sender:UITextField){
+        let doctors = doctorSearch()
+        if let doctorSearchViewController = searchTableViewController {
+            println("changing doctor search")
+            doctorSearchViewController.doctorSearchResults = doctors
+            doctorSearchViewController.tableView.reloadData()
+        }
     }
     
     /**
-    *   Updates the patient text field with selected data when the user selects a row in the patient popup window
-    *   Closes the popup after updating the patientTextField
+    *   Updates the table view in the popup for any visit codes that match the input
     **/
-    func updatePatient(notification: NSNotification){
-        //load data here
-        let tuple = searchTableViewController?.selectedPatient
-        var (dob,name) = tuple!
-        self.patientTextField.text = name
-        self.patientDOBTextField.text = dob
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-
-    /**
-    *   Navigates to the correct popup the user clicked into
-    **/
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "patientSearchPopover" {
-            let popoverViewController = (segue.destinationViewController as! UIViewController) as! SearchTableViewController
-            searchTableViewController = popoverViewController               //set our view controller as the patientSearchPopover
-            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
-            popoverViewController.popoverPresentationController!.delegate = self
-            println("Hit patientSearch")
+    @IBAction func userChangedVisitCodeSearch(sender:UITextField) {
+        var visitCodes:[(String,String)] = []
+        println("code search \(sender.tag)")
+        
+        if sender.tag == 5 {//CPT search
+            println("CPT Search")
+            visitCodes = codeSearch("C")
+            
+        } else if sender.tag == 6 { //MC search
+            visitCodes = codeSearch("M")
+        } else if sender.tag == 7 { //PC search
+            visitCodes = codeSearch("P")
+        }
+        
+        if let visitCodeViewController = searchTableViewController {
+            visitCodeViewController.tupleSearchResults = visitCodes
+            visitCodeViewController.tableView.reloadData()
         }
         
     }
+    
+    
+    //****************************************** Searches ******************************************************************************
     
     /**
     *   Searches for any patients matching the text that was input into the patient textfield.
@@ -96,7 +187,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         var patients:[(String, String)] = []
         
-        let inputPatient = patientTextField.text;   //get the typed information
+        let inputPatient = patientTextField.text   //get the typed information
         println(inputPatient)
         let patientSearch = "SELECT * FROM Patient WHERE f_name LIKE '%\(inputPatient)%' OR l_name LIKE '%\(inputPatient)%';"//search and update the patients array
         var statement:COpaquePointer = nil
@@ -121,6 +212,130 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return patients
     }
     
+    /**
+    *   Searches for any doctors matching the text that was input into the doctor textfield.
+    *   @return doctors, a list of doctors matching the user input
+    **/
+    func doctorSearch() -> [String] {
+        
+        var doctors:[String] = []
+        
+        let inputDoctor = doctorTextField.text
+        println(inputDoctor)
+        
+        let doctorSearch = "SELECT f_name, l_name FROM Doctor WHERE f_name LIKE '%\(inputDoctor)%' OR l_name LIKE '%\(inputDoctor)%';"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(database, doctorSearch, -1, &statement, nil) == SQLITE_OK {
+            while sqlite3_step(statement) == SQLITE_ROW {
+                
+                let doctorFName = sqlite3_column_text(statement, 0)
+                let doctorFNameString = String.fromCString(UnsafePointer<CChar>(doctorFName))
+                
+                let doctorLName = sqlite3_column_text(statement, 1)
+                let doctorLNameString = String.fromCString(UnsafePointer<CChar>(doctorLName))
+                
+                let doctorFullName = doctorFNameString! + " " + doctorLNameString!
+                doctors.append(doctorFullName)
+            }
+        }
+        println(doctors)
+        return doctors
+    }
+    
+    /**
+    *   Searches for any code matching the text or code that was input into the visit code textField
+    **/
+    func codeSearch(type:String) -> [(String,String)]{
+        
+        var visitCodes:[(String,String)] = []
+        
+        var codeType = type
+        var inputSearch = ""
+        
+        if codeType == "C" {
+            inputSearch = cptTextField.text
+        }else if codeType == "M" {
+            inputSearch = mcTextField.text
+        } else if codeType == "P" {
+            inputSearch = pcTextField.text
+        }
+        println(codeType)
+        println(inputSearch)
+        let codeSearch = "SELECT apt_code, code_description FROM Apt_type WHERE type_description='\(codeType)' AND (code_description LIKE '%\(inputSearch)%' OR apt_code LIKE '%\(inputSearch)%');"
+        
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(database, codeSearch, -1, &statement, nil) == SQLITE_OK {
+            while sqlite3_step(statement) == SQLITE_ROW {
+                
+                let apt_code = sqlite3_column_text(statement, 0)
+                let apt_codeString = String.fromCString(UnsafePointer<CChar>(apt_code))
+                
+                let code_description = sqlite3_column_text(statement, 1)
+                let code_descriptionString = String.fromCString(UnsafePointer<CChar>(code_description))
+                
+                let tuple = (apt_codeString!, code_descriptionString!)
+                visitCodes.append(tuple)
+            }
+        }
+        println("Visitcode \(visitCodes)")
+        return visitCodes
+    }
+
+
+    
+    //****************************************** Update text fields ******************************************************************************
+    
+    /**
+    *   Updates the patient text field with selected data when the user selects a row in the patient popup window
+    *   Closes the popup after updating the patientTextField
+    **/
+    func updatePatient(notification: NSNotification){
+        //load data here
+        let tuple = searchTableViewController?.selectedTuple
+        var (dob,name) = tuple!
+        self.patientTextField.text = name
+        self.patientDOBTextField.text = dob
+        self.dismissViewControllerAnimated(true, completion: nil)
+        patientTextField.resignFirstResponder()
+    }
+    
+    /**
+    *   Updates the doctor text field witht the selected doctor
+    **/
+    func updateDoctor(notification: NSNotification) {
+        let doctorName = searchTableViewController?.selectedDoctor
+        self.doctorTextField.text = doctorName
+        self.dismissViewControllerAnimated(true, completion: nil)
+        doctorTextField.resignFirstResponder()
+    }
+    
+    /**
+    *   Updates the cpt code text field witht the selected code
+    **/
+    func updateCPT(notification:NSNotification){
+        
+        let tuple = searchTableViewController?.selectedTuple
+        var (code_description,updatedCPTCode) = tuple!
+        
+        if cptTextField.isFirstResponder() {
+            self.cptTextField.text = code_description
+            cptTextField.resignFirstResponder()
+        } else if mcTextField.isFirstResponder(){
+            self.mcTextField.text = code_description
+            mcTextField.resignFirstResponder()
+        } else if pcTextField.isFirstResponder() {
+            self.pcTextField.text = code_description
+            pcTextField.resignFirstResponder()
+        }
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+
+    
+    //****************************************** Adding to Database ******************************************************************************
     /**
     *   Adds the patient to the database
     **/
@@ -156,6 +371,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             
         }
     }
+    
+    //****************************************** Checking and opening Database ******************************************************************************
     
     /**
     *   Checks that the database file is on the device. If not, copies the database file to the device. 
@@ -204,6 +421,21 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             println("Failed To Open Database")
             return
         }
+    }
+    
+    //****************************************** Default override methods ******************************************************************************
+    
+    /**
+    *   Open the database and adds a notification ovserver to this view controller.
+    *   Observer listens for a click on the patient popup
+    **/
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        checkDatabaseFileAndOpen()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePatient:",name:"loadPatient", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDoctor:",name:"loadDoctor", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCPT:",name:"loadTuple", object: nil)
+        self.navigationItem.title = "Bill"
     }
     
     /**
