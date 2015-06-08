@@ -79,7 +79,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     **/
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "patientSearchPopover" {
-            let popoverViewController = (segue.destinationViewController as UIViewController) as SearchTableViewController
+            let popoverViewController = (segue.destinationViewController as! UIViewController) as! SearchTableViewController
             searchTableViewController = popoverViewController               //set our view controller as the patientSearchPopover
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
@@ -190,7 +190,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     **/
     func dataFilePath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        let documentsDirectory = paths[0] as NSString
+        let documentsDirectory = paths[0] as! NSString
         return documentsDirectory.stringByAppendingPathComponent("testDML.sqlite3") as String
     }
     

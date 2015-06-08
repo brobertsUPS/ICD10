@@ -81,7 +81,7 @@ class MasterViewController: UITableViewController {
     
     func dataFilePath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        let documentsDirectory = paths[0] as NSString
+        let documentsDirectory = paths[0] as! NSString
         return documentsDirectory.stringByAppendingPathComponent("testDML.sqlite3") as String
     }
 
@@ -127,7 +127,7 @@ class MasterViewController: UITableViewController {
         if segue.identifier == "showCodes" {
             println("query prepared")
             println(id)
-            let controller = (segue.destinationViewController as UINavigationController).topViewController as DetailViewController
+            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
             var statement:COpaquePointer = nil
             let query = "SELECT ICD10_code, description_text, ICD9_code from (SELECT * FROM condition_location NATURAL JOIN located_in WHERE LID = \(id))  NATURAL JOIN ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition"
             
@@ -160,7 +160,7 @@ class MasterViewController: UITableViewController {
             controller.titleName = locationName
             controller.navigationItem.leftItemsSupplementBackButton = true
         } else {
-            let controller = (segue.destinationViewController as UINavigationController).topViewController as MasterViewController
+            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
             controller.objects = newSubLocations
             controller.title = locationName
             controller.navigationItem.leftItemsSupplementBackButton = true
@@ -179,7 +179,7 @@ class MasterViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         let (id, location_name) = objects[indexPath.row]
         cell.textLabel!.text = location_name
         return cell
