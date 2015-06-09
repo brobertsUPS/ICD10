@@ -12,7 +12,7 @@ class ViewBillViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.navigationItem.title = "Bills"
         // Do any additional setup after loading the view.
     }
 

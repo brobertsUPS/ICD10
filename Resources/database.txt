@@ -156,75 +156,75 @@ INSERT INTO Doctor (dID, email, f_name, l_name, mpID) VALUES (1, "Rodneyjoe@mac.
 --Appointment Type************************************************************************************************
 
 --Consult
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("99251","C","Prob Foc/Straight");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("99252","C","Exp Prob Foc/Straight");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("99253","C","Detailed/Low");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("99254","C","Compreh/Moderate");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("99255","C","Comreh/High");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99251","C","Prob Foc/Straight");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99252","C","Exp Prob Foc/Straight");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99253","C","Detailed/Low");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99254","C","Compreh/Moderate");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99255","C","Comreh/High");
 
 --Medicare
 
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("99221","M","Detailed/Straight or Low");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("99222","M","Compreh/Moderate");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("99223","M","Compreh/High");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("99238","M","Dishcarge Day Mang.");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("99239","M","More than 30 min");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99221","M","Detailed/Straight or Low");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99222","M","Compreh/Moderate");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99223","M","Compreh/High");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99238","M","Dishcarge Day Mang.");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99239","M","More than 30 min");
 
 -Procedure
 --Colonoscopy
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("45378","P","Colonoscopy - Dx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("45380","P","Colonoscopy - w/bx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("45381","P","Colonoscopy - w/submucosal inj");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("45382","P","Colonoscopy - w/cauter, control bleed");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("45384","P","Colonoscopy - w/hot bx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("45385","P","Colonoscopy -w/snare");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("45378","P","Colonoscopy - Dx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("45380","P","Colonoscopy - w/bx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("45381","P","Colonoscopy - w/submucosal inj");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("45382","P","Colonoscopy - w/cauter, control bleed");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("45384","P","Colonoscopy - w/hot bx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("45385","P","Colonoscopy -w/snare");
 
 --EGD
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43235","P","EGD - Dx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43236","P","EGD - w/directed submucosal inj");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43239","P","EGD - w/bx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43243","P","EGD - w/sclerotherapy varices");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43244","P","EGD - w/band ligation");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43246","P","EGD - w/PEG tube placement");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43247","P","EGD - w/fb removal");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43248","P","EGD - w/wire dilate");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43249","P","EGD - w/baloon<30mm");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43251","P","EGD - w/snare lesion removal");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43255","P","EGD - w/control bleeding");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43235","P","EGD - Dx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43236","P","EGD - w/directed submucosal inj");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43239","P","EGD - w/bx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43243","P","EGD - w/sclerotherapy varices");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43244","P","EGD - w/band ligation");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43246","P","EGD - w/PEG tube placement");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43247","P","EGD - w/fb removal");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43248","P","EGD - w/wire dilate");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43249","P","EGD - w/baloon<30mm");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43251","P","EGD - w/snare lesion removal");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43255","P","EGD - w/control bleeding");
 
 --ERCP
 
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43260","P","ERCP - Dx/collect specimen(s)");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43261","P","ERCP - w/bx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43262","P","ERCP - w/sphincterotomy/papilloto");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43264","P","ERCP - w/calculus/debris removal");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43265","P","ERCP - w/lithotripsy/rem calull/debris");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43274","P","ERCP - w/stent placement");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43275","P","ERCP - Foreign body/stent removal");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("43276","P","ERCP - Remobal and exchange stent");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43260","P","ERCP - Dx/collect specimen(s)");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43261","P","ERCP - w/bx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43262","P","ERCP - w/sphincterotomy/papilloto");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43264","P","ERCP - w/calculus/debris removal");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43265","P","ERCP - w/lithotripsy/rem calull/debris");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43274","P","ERCP - w/stent placement");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43275","P","ERCP - Foreign body/stent removal");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("43276","P","ERCP - Remobal and exchange stent");
 
 --Flex Sigmoidoscopy
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("45330","P","Flex Sigmoidoscopy - Dx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("45331","P","Flex Sigmoidoscopy - w/bx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("45334","P","Flex Sigmoidoscopy - w/bleed control");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("45337","P","Flex Sigmoidoscopy - w/decomp volvulus");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("45330","P","Flex Sigmoidoscopy - Dx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("45331","P","Flex Sigmoidoscopy - w/bx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("45334","P","Flex Sigmoidoscopy - w/bleed control");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("45337","P","Flex Sigmoidoscopy - w/decomp volvulus");
 
 --Small Intestine
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("44360","P","Small Intestine - Dx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("44361","P","Small Intestine - w/bx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("44365","P","Small Intestine - w/hot bx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("44364","P","Small Intestine - w/snare");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("44366","P","Small Intestine - w/bleed control");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("44382","P","Small Intestine - Ileoscopy w/bx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44360","P","Small Intestine - Dx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44361","P","Small Intestine - w/bx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44365","P","Small Intestine - w/hot bx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44364","P","Small Intestine - w/snare");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44366","P","Small Intestine - w/bleed control");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44382","P","Small Intestine - Ileoscopy w/bx");
 
 --Stoma, colon
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("44388","P","Stoma, colon - Dx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("44389","P","Stoma, colon - w/bx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("44392","P","Stoma, colon - w/hot bx");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("44394","P","Stoma, colon - w/snare");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("91010","P","Stoma, colon - Motility, esoph");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("91122","P","Stoma, colon - Manometry, anorectal");
-INSERT INTO Type (apt_code, type_description, code_description) VALUES ("91110","P","Stoma, colon - Capsule");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44388","P","Stoma, colon - Dx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44389","P","Stoma, colon - w/bx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44392","P","Stoma, colon - w/hot bx");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44394","P","Stoma, colon - w/snare");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("91010","P","Stoma, colon - Motility, esoph");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("91122","P","Stoma, colon - Manometry, anorectal");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("91110","P","Stoma, colon - Capsule");
 
 
 -- Condition_location*********************************************************************************************

@@ -80,6 +80,15 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJw-2e-hmC">
+                                <rect key="frame" x="266" y="488" width="69" height="30"/>
+                                <state key="normal" title="Use In Bill">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="findPreviousBill:" destination="JEX-9P-axG" eventType="touchUpInside" id="ZLA-o7-ARU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -88,6 +97,7 @@
                             <constraint firstAttribute="centerX" secondItem="6eC-Jm-2xc" secondAttribute="centerX" id="7BD-5K-wG4"/>
                             <constraint firstItem="3d5-N6-MW9" firstAttribute="centerX" secondItem="6eC-Jm-2xc" secondAttribute="centerX" id="A3w-po-Gfa"/>
                             <constraint firstItem="yBO-T5-1Kc" firstAttribute="leading" secondItem="xAr-bD-cdy" secondAttribute="leading" id="ANA-Kb-WQN"/>
+                            <constraint firstItem="HJw-2e-hmC" firstAttribute="top" secondItem="cVj-EY-w3i" secondAttribute="bottom" constant="20" id="E3B-Gl-1F8"/>
                             <constraint firstItem="xAr-bD-cdy" firstAttribute="trailing" secondItem="yBO-T5-1Kc" secondAttribute="trailing" id="M9c-ec-ZrH"/>
                             <constraint firstAttribute="centerX" secondItem="cVj-EY-w3i" secondAttribute="centerX" id="NHc-GW-mbD"/>
                             <constraint firstItem="cVj-EY-w3i" firstAttribute="top" secondItem="3d5-N6-MW9" secondAttribute="bottom" constant="8" symbolic="YES" id="NqN-4V-jTd"/>
@@ -98,6 +108,7 @@
                             <constraint firstItem="6eC-Jm-2xc" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leadingMargin" id="bXF-gc-net"/>
                             <constraint firstItem="xAr-bD-cdy" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="42" id="e2E-sq-4ey"/>
                             <constraint firstItem="3d5-N6-MW9" firstAttribute="top" secondItem="6eC-Jm-2xc" secondAttribute="bottom" constant="46" id="hSV-Bt-ZTL"/>
+                            <constraint firstItem="HJw-2e-hmC" firstAttribute="centerX" secondItem="cVj-EY-w3i" secondAttribute="centerX" id="oHe-o6-DQL"/>
                             <constraint firstItem="EYP-o2-CRr" firstAttribute="top" secondItem="xAr-bD-cdy" secondAttribute="bottom" constant="8" symbolic="YES" id="opK-eY-S1E"/>
                             <constraint firstItem="GAO-Cl-Wes" firstAttribute="top" secondItem="cVj-EY-w3i" secondAttribute="bottom" constant="132" id="rxo-EN-b0w"/>
                         </constraints>
@@ -112,7 +123,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1575" y="289"/>
+            <point key="canvasLocation" x="-591" y="255"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7s3-gp-jAa">
@@ -128,7 +139,93 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3AJ-Th-PSk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3687" y="-564"/>
+            <point key="canvasLocation" x="-3949" y="-559"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="2Pu-Uj-Xpj">
+            <objects>
+                <navigationController id="JSA-aS-SlI" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hPV-g3-Tiq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="66n-S4-wJC" kind="relationship" relationship="rootViewController" id="ifX-sD-7h8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4DP-W7-gal" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3935" y="246"/>
+        </scene>
+        <!--View Bill View Controller-->
+        <scene sceneID="E9M-xZ-lyw">
+            <objects>
+                <viewController id="66n-S4-wJC" customClass="ViewBillViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="QBV-oq-blx"/>
+                        <viewControllerLayoutGuide type="bottom" id="bnc-5t-SBO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6mx-ej-HIQ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ifh-ih-YzI"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uUt-uD-gcD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3935" y="989"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="p6b-U5-aZX">
+            <objects>
+                <navigationController id="5G0-JG-Ki6" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="iBq-ay-eer">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="zwR-B6-ggC" kind="relationship" relationship="rootViewController" id="L6L-VG-wHm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j9l-rh-EKl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3311" y="246"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="vJA-As-GO8">
+            <objects>
+                <navigationController id="UQ7-gq-5W3" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eCb-yL-7MG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="qaI-WS-JBW" kind="relationship" relationship="rootViewController" id="uD3-Ne-dtP"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tyw-Ok-O5g" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2067" y="246"/>
+        </scene>
+        <!--Doctors View Controller-->
+        <scene sceneID="qCM-hc-IvP">
+            <objects>
+                <viewController id="qaI-WS-JBW" customClass="DoctorsViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4GW-cK-6lK"/>
+                        <viewControllerLayoutGuide type="bottom" id="hfS-QB-5Ys"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3U6-7Q-SE4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Saf-fL-VBC"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sPE-t8-oU1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2067" y="989"/>
         </scene>
         <!--Home-->
         <scene sceneID="xrp-wS-Qln">
@@ -153,7 +250,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="J5E-ut-JHD" kind="show" id="EXL-lG-4Fh"/>
+                                    <segue destination="J5E-ut-JHD" kind="show" identifier="makeNewBill" id="EXL-lG-4Fh"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LCT-Ft-H7l">
@@ -165,6 +262,9 @@
                                 <state key="normal" title="View Bills">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="JSA-aS-SlI" kind="show" identifier="viewBills" id="SlY-RJ-b20"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WfU-xs-CXo">
                                 <rect key="frame" x="200" y="182" width="200" height="50"/>
@@ -175,6 +275,9 @@
                                 <state key="normal" title="Patients">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="bql-bT-kRb" kind="show" identifier="viewPatients" id="uBD-bG-7yb"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDP-yd-23Z">
                                 <rect key="frame" x="200" y="240" width="200" height="50"/>
@@ -185,6 +288,9 @@
                                 <state key="normal" title="Doctors">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="UQ7-gq-5W3" kind="show" identifier="viewDoctors" id="51l-Zf-cu8"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JeC-aC-vLJ">
                                 <rect key="frame" x="200" y="298" width="200" height="50"/>
@@ -192,6 +298,9 @@
                                 <state key="normal" title="Direct Code Search">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="5G0-JG-Ki6" kind="show" identifier="viewDirectCodeSearch" id="xTd-P6-BIg"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -218,6 +327,60 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fdi-wq-qsC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2950" y="-559"/>
+        </scene>
+        <!--Direct Code Search View Controller-->
+        <scene sceneID="pfb-fa-mc2">
+            <objects>
+                <viewController id="zwR-B6-ggC" customClass="DirectCodeSearchViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5TG-Pn-NgE"/>
+                        <viewControllerLayoutGuide type="bottom" id="tM9-dd-i5J"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KTJ-3d-QnC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="BFX-fA-gup"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C4Y-vI-9KW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3301" y="989"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ekT-pU-0Xq">
+            <objects>
+                <navigationController id="bql-bT-kRb" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qSH-MA-8eC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="cHt-9l-m8g" kind="relationship" relationship="rootViewController" id="poS-M6-DOq"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IIX-6S-lvB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2685" y="246"/>
+        </scene>
+        <!--Patients View Controller-->
+        <scene sceneID="7Hs-W6-I3D">
+            <objects>
+                <viewController id="cHt-9l-m8g" customClass="PatientsViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cob-Fz-tD5"/>
+                        <viewControllerLayoutGuide type="bottom" id="VjU-vu-8Sc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="md3-eb-KFu">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="oKY-L6-3GR"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FSk-hk-ska" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2685" y="989"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="sEH-71-QjC">
@@ -656,7 +819,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kTj-uQ-Rl1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1185" y="42"/>
+            <point key="canvasLocation" x="-1333" y="154"/>
         </scene>
         <!--Master-->
         <scene sceneID="smW-Zh-WAh">
@@ -715,7 +878,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SLD-UC-DBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="761" y="289"/>
+            <point key="canvasLocation" x="623" y="127"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

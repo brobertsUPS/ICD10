@@ -12,7 +12,7 @@ class DoctorsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.navigationItem.title = "Doctors"
         // Do any additional setup after loading the view.
     }
 

@@ -55,5 +55,12 @@ class DetailViewController: UIViewController {
     }
 
 
+    @IBAction func findPreviousBill(sender: UIButton) {
+        let controllers = self.navigationController?.viewControllers
+        
+       // for int i=0; i< controllers.count; i++ {
+      //
+       // }
+    }
 }
 
