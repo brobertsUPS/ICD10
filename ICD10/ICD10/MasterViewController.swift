@@ -180,9 +180,6 @@ class MasterViewController: UITableViewController {
         }else {
             self.performSegueWithIdentifier("showLocations", sender: self)
         }
-        
-        
-     
     }
 
 

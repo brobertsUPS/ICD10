@@ -12,6 +12,7 @@ class PatientsTableViewController: UITableViewController {
     
     var patients:[(String, String)] = []
     var ids:[Int] = []
+    var emails:[String] = []
     var database:COpaquePointer = nil
 
     override func viewDidLoad() {
@@ -26,6 +27,8 @@ class PatientsTableViewController: UITableViewController {
         if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
                 
+                let patientID = Int(sqlite3_column_int(statement, 0))
+                
                 let patientDOB = sqlite3_column_text(statement, 1)
                 let patientDOBString = String.fromCString(UnsafePointer<CChar>(patientDOB))
                 
@@ -39,6 +42,7 @@ class PatientsTableViewController: UITableViewController {
                 
                 let tuple = (patientDOBString!, patientFullName)
                 patients.append(tuple)
+                ids.append(patientID)
             }
         }
 
@@ -76,49 +80,28 @@ class PatientsTableViewController: UITableViewController {
         cell.detailTextLabel!.text = dob
         return cell
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+   
+        let indexPath = self.tableView.indexPathForSelectedRow()
+        let (dob, fullName) = patients[indexPath!.row]
+        let pID = ids[indexPath!.row]
+        
+        let controller = segue.destinationViewController as! EditPatientViewController
+        
+        var fullNameArr = split(fullName) {$0 == " "}
+        var firstName: String = fullNameArr[0]
+        var lastName: String =  fullNameArr[1]
+        
+        controller.firstName = firstName
+        controller.lastName = lastName
+        controller.dob = dob
+        controller.id = pID
+        
+        
     }
-    */
+
 }

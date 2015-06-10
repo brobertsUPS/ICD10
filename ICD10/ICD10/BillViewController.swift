@@ -11,7 +11,7 @@ import UIKit
 class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
     
     var database:COpaquePointer = nil
-    var searchTableViewController: SearchTableViewController! = nil
+    var searchTableViewController: SearchTableViewController?
     
     @IBOutlet weak var patientTextField: UITextField!
     @IBOutlet weak var patientDOBTextField: UITextField!
@@ -71,7 +71,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         mcTextField.resignFirstResponder()
         pcTextField.resignFirstResponder()
         ICD10TextField.resignFirstResponder()
-        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
@@ -298,19 +297,19 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     func updatePatient(notification: NSNotification){
         //load data here
         println("SearchTableViewController \(self.searchTableViewController)")
-        let tuple = self.searchTableViewController?.selectedTuple
-        if let updatedTuple = tuple {
-            let (dob,name) = updatedTuple
+        if let controller = searchTableViewController {
+            let tuple = controller.selectedTuple
+            let (dob,name) = tuple
             self.patientTextField.text = name
             self.patientDOBTextField.text = dob
-            //self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismissViewControllerAnimated(true, completion: nil)
             patientTextField.resignFirstResponder()
-
         }
         //unwrap optional if searchTableViewController was not nil
         
-            }
-    
+    }
+
+
     /**
     *   Updates the doctor text field witht the selected doctor
     **/
