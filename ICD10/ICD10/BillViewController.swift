@@ -11,7 +11,7 @@ import UIKit
 class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
     
     var database:COpaquePointer = nil
-    var searchTableViewController: SearchTableViewController? = nil
+    var searchTableViewController: SearchTableViewController! = nil
     
     @IBOutlet weak var patientTextField: UITextField!
     @IBOutlet weak var patientDOBTextField: UITextField!
@@ -23,6 +23,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var pcTextField: UITextField!
     @IBOutlet weak var ICD10TextField: UITextField!
     
+    var textFieldText:[String] = []
     
     //****************************************** Clicks and Actions ******************************************************************************
     
@@ -31,7 +32,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     **/
     @IBAction func clickedInTextBox(sender: UITextField) {
         if sender.tag == 0 {
-            println("Patient")
             self.performSegueWithIdentifier("patientSearchPopover", sender: self)
         }
         
@@ -55,7 +55,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     **/
     @IBAction func textFieldDoneEditing(sender:UITextField){
         sender.resignFirstResponder()
-        searchTableViewController = nil
     }
     
     /**
@@ -73,7 +72,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         pcTextField.resignFirstResponder()
         ICD10TextField.resignFirstResponder()
         self.dismissViewControllerAnimated(true, completion: nil)
-        searchTableViewController = nil
     }
     
     
@@ -95,10 +93,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "beginICD10Search" {
-            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
+            let controller = segue.destinationViewController as! MasterViewController
+            controller.billViewController = self
         }else{
             let popoverViewController = (segue.destinationViewController as! UIViewController) as! SearchTableViewController
-            searchTableViewController = popoverViewController               //set our view controller as the patientSearchPopover
+            println("Popover \(popoverViewController)")
+            self.searchTableViewController = popoverViewController               //set our view controller as the patientSearchPopover
+            
+            println("searchTableviewcontr \(searchTableViewController)")
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
             
@@ -123,6 +125,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             if segue.identifier == "pcSearch"{
                 popoverViewController.tupleSearchResults = codeSearch("P")
             }
+            
+            
         }
     }
     
@@ -293,19 +297,26 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     **/
     func updatePatient(notification: NSNotification){
         //load data here
-        let tuple = searchTableViewController?.selectedTuple
-        var (dob,name) = tuple!
-        self.patientTextField.text = name
-        self.patientDOBTextField.text = dob
-        self.dismissViewControllerAnimated(true, completion: nil)
-        patientTextField.resignFirstResponder()
-    }
+        println("SearchTableViewController \(self.searchTableViewController)")
+        let tuple = self.searchTableViewController?.selectedTuple
+        if let updatedTuple = tuple {
+            let (dob,name) = updatedTuple
+            self.patientTextField.text = name
+            self.patientDOBTextField.text = dob
+            //self.dismissViewControllerAnimated(true, completion: nil)
+            patientTextField.resignFirstResponder()
+
+        }
+        //unwrap optional if searchTableViewController was not nil
+        
+            }
     
     /**
     *   Updates the doctor text field witht the selected doctor
     **/
     func updateDoctor(notification: NSNotification) {
         let doctorName = searchTableViewController?.selectedDoctor
+        println("SearchTableViewController update doctor \(self.searchTableViewController)")
         self.doctorTextField.text = doctorName
         self.dismissViewControllerAnimated(true, completion: nil)
         doctorTextField.resignFirstResponder()
@@ -368,58 +379,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
             sqlite3_step(statement)
             println("inserted doctor \(fullName)")
-            
-        }
-    }
-    
-    //****************************************** Checking and opening Database ******************************************************************************
-    
-    /**
-    *   Checks that the database file is on the device. If not, copies the database file to the device. 
-    *   Connects to the database after file is verified to be in the right spot.
-    **/
-    func checkDatabaseFileAndOpen() {
-        let theFileManager = NSFileManager.defaultManager()
-        let filePath = dataFilePath()
-        if theFileManager.fileExistsAtPath(filePath) {
-            // And then open the DB File
-            openDBPath(filePath)
-        }
-        else {
-            // Copy the file from the Bundle and write it to the Device:
-            let pathToBundledDB = NSBundle.mainBundle().pathForResource("testDML", ofType: "sqlite3")
-            let pathToDevice = dataFilePath()
-            var error:NSError?
-            
-            if (theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice, error: nil)) {
-                //get the database open
-                openDBPath(pathToDevice)
-            }
-            else {
-                // failure
-            }
-        }
-    }
-    
-    /**
-    *   Gets the path of the database file on the device
-    **/
-    func dataFilePath() -> String {
-        let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        let documentsDirectory = paths[0] as! NSString
-        return documentsDirectory.stringByAppendingPathComponent("testDML.sqlite3") as String
-    }
-    
-    /**
-    *   Makes a connection to the database file located at the provided filePath
-    **/
-    func openDBPath(filePath:String) {
-        var result = sqlite3_open(filePath, &database)
-        
-        if result != SQLITE_OK {
-            sqlite3_close(database)
-            println("Failed To Open Database")
-            return
         }
     }
     
@@ -431,11 +390,23 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     **/
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkDatabaseFileAndOpen()
+        let dbManager = DatabaseManager()
+        database = dbManager.checkDatabaseFileAndOpen()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePatient:",name:"loadPatient", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDoctor:",name:"loadDoctor", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCPT:",name:"loadTuple", object: nil)
-        self.navigationItem.title = "Bill"
+        
+        if self.textFieldText.count > 0 {
+            patientTextField.text = textFieldText[0]
+            patientDOBTextField.text = textFieldText[1]
+            doctorTextField.text = textFieldText[2]
+            siteTextField.text = textFieldText[3]
+            roomTextField.text = textFieldText[4]
+            cptTextField.text = textFieldText[5]
+            mcTextField.text = textFieldText[6]
+            pcTextField.text = textFieldText[7]
+            ICD10TextField.text = textFieldText[8]
+        }
     }
     
     /**

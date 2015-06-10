@@ -10,6 +10,8 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    var billViewController:BillViewController? = nil
+    
     @IBOutlet weak var detailDescriptionLabel: UILabel!
     @IBOutlet weak var ICD10Code: UILabel! 
     @IBOutlet weak var ICD9Code: UILabel!
@@ -53,14 +55,48 @@ class DetailViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    /*
+@IBOutlet weak var patientTextField: UITextField!
+@IBOutlet weak var patientDOBTextField: UITextField!
+@IBOutlet weak var doctorTextField: UITextField!
+@IBOutlet weak var siteTextField: UITextField!
+@IBOutlet weak var roomTextField: UITextField!
+@IBOutlet weak var cptTextField: UITextField!
+@IBOutlet weak var mcTextField: UITextField!
+@IBOutlet weak var pcTextField: UITextField!
+@IBOutlet weak var ICD10TextField: UITextField!
+*/
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "verifyBill" {
+            let controller = segue.destinationViewController as! BillViewController
+            
+            controller.textFieldText.append(self.billViewController!.patientTextField!.text!)
+            controller.textFieldText.append(self.billViewController!.patientDOBTextField!.text!)
+            controller.textFieldText.append(self.billViewController!.doctorTextField!.text!)
+            controller.textFieldText.append(self.billViewController!.siteTextField!.text!)
+            controller.textFieldText.append(self.billViewController!.roomTextField!.text!)
+            controller.textFieldText.append(self.billViewController!.cptTextField!.text!)
+            controller.textFieldText.append(self.billViewController!.mcTextField!.text!)
+            controller.textFieldText.append(self.billViewController!.pcTextField!.text!)
+            controller.textFieldText.append(ICD10Text!)
+        }
+    }
 
 
     @IBAction func findPreviousBill(sender: UIButton) {
-        let controllers = self.navigationController?.viewControllers
-        
-       // for int i=0; i< controllers.count; i++ {
-      //
-       // }
+        println("Find previous bill")
+        if let controllers = self.navigationController!.viewControllers {
+            println("View controllers found")
+            for controller in controllers {
+                var controllerIsBillViewController = controller.isKindOfClass(BillViewController)
+                println("Is billViewController? \(controllerIsBillViewController)")
+                if let masterviewController  =  controller as? BillViewController{ //found the navigation controller we are looking for
+                    println("Found the view controller")
+                }
+            }
+        }
     }
 }
 

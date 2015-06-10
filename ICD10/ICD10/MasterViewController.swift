@@ -13,10 +13,15 @@ class MasterViewController: UITableViewController {
     var detailViewController: DetailViewController? = nil
     var objects = [(Int,String)]()
     var database:COpaquePointer = nil
+    var billViewController:BillViewController? = nil
     
     private let favoritesCell = "Favorites"
 
 
+    required init(coder aDecoder: NSCoder!) {
+        super.init(coder: aDecoder)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
@@ -27,29 +32,9 @@ class MasterViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        let theFileManager = NSFileManager.defaultManager()
-        let filePath = dataFilePath()
-        if theFileManager.fileExistsAtPath(filePath) {
-            // And then open the DB File
-            openDBPath(filePath)
-        }
-        else {
-            // Copy the file from the Bundle and write it to the Device:
-            let pathToBundledDB = NSBundle.mainBundle().pathForResource("testDML", ofType: "sqlite3")
-            let pathToDevice = dataFilePath()
-            var error:NSError?
-
-            if (theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice, error: nil)) {
-                //get the database open
-                openDBPath(pathToDevice)
-            }
-            else {
-                // failure 
-            }
-        }
-
-        println("LOADED")
+        let dbManager = DatabaseManager()
+        database = dbManager.checkDatabaseFileAndOpen()
+        
         if objects.count == 0 {//get the root locations when we load up
             let query = "SELECT * FROM Condition_location cl WHERE NOT EXISTS (SELECT * FROM Sub_location sl WHERE cl.LID = sl.LID) ORDER BY location_name"
             
@@ -67,22 +52,6 @@ class MasterViewController: UITableViewController {
         }
     }
     
-    func openDBPath(filePath:String) {
-        var result = sqlite3_open(filePath, &database)
-        
-        if result != SQLITE_OK {
-            sqlite3_close(database)
-            println("Failed To Open Database")
-            return
-        }
-    }
-    
-    func dataFilePath() -> String {
-        let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        let documentsDirectory = paths[0] as! NSString
-        return documentsDirectory.stringByAppendingPathComponent("testDML.sqlite3") as String
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -121,11 +90,12 @@ class MasterViewController: UITableViewController {
         let (id, locationName) = objects[indexPath!.row]
         println(id)
         let newSubLocations = findSubLocations(id)
-        
-        if segue.identifier == "showCodes" {
+        println("Sublocation size: \(newSubLocations.count)")
+      
+        if newSubLocations.count == 0 && segue.identifier == "showCodes" {
             println("query prepared")
             println(id)
-            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+            let controller = segue.destinationViewController as! DetailViewController
             var statement:COpaquePointer = nil
             let query = "SELECT ICD10_code, description_text, ICD9_code from (SELECT * FROM condition_location NATURAL JOIN located_in WHERE LID = \(id))  NATURAL JOIN ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition"
             
@@ -157,12 +127,16 @@ class MasterViewController: UITableViewController {
             controller.title = locationName
             controller.titleName = locationName
             controller.navigationItem.leftItemsSupplementBackButton = true
-        } else {
+            controller.billViewController = self.billViewController
+        } else if segue.identifier == "showLocations" && newSubLocations.count > 0 {
+            
             let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
             controller.objects = newSubLocations
             controller.title = locationName
             controller.navigationItem.leftItemsSupplementBackButton = true
+            controller.billViewController = self.billViewController
         }
+
     }
 
     // MARK: - Table View
@@ -203,9 +177,12 @@ class MasterViewController: UITableViewController {
         
         if newSubLocations.count == 0 {
             self.performSegueWithIdentifier("showCodes", sender: self)
-        } else {
+        }else {
             self.performSegueWithIdentifier("showLocations", sender: self)
         }
+        
+        
+     
     }
 
 

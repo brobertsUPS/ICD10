@@ -43,7 +43,6 @@ class SearchTableViewController: UITableViewController {
     *   Displays the cell's title and detail
     **/
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        println(searchType)
         let cell = tableView.dequeueReusableCellWithIdentifier("searchResultCell", forIndexPath: indexPath) as! UITableViewCell
     
         if searchType == "doctor" {
@@ -64,14 +63,14 @@ class SearchTableViewController: UITableViewController {
             selectedDoctor = doctorSearchResults[indexPath.row]
             NSNotificationCenter.defaultCenter().postNotificationName("loadDoctor", object: selectedDoctor)
         }else if searchType == "patient"{
+            
             let (dob, name) = tupleSearchResults[indexPath.row]
-            selectedTuple = (dob,name)
-            let parentController = self.parentViewController
+            self.selectedTuple = (dob,name)
+            println("Set patient \(dob) and \(name)")
             NSNotificationCenter.defaultCenter().postNotificationName("loadPatient", object: name)
         }else {
             let (code_description, code) = tupleSearchResults[indexPath.row]
             selectedTuple = (code_description,code)
-            let parentController = self.parentViewController
             NSNotificationCenter.defaultCenter().postNotificationName("loadTuple", object: code)
 
         }
