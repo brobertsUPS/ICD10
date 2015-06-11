@@ -10,7 +10,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    var billViewController:BillViewController? = nil    //A bill that is passed along to hold all of the codes for the final bill
+    var billViewController:BillViewController?     //A bill that is passed along to hold all of the codes for the final bill
     
     @IBOutlet weak var detailDescriptionLabel: UILabel! //Labels for the codes (update these when the view is loaded)
     @IBOutlet weak var ICD10Code: UILabel! 
@@ -25,6 +25,7 @@ class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.resignFirstResponder()
         
         ICD10Code.text = self.ICD10Text
         ICD9Code.text = self.ICD9Text
@@ -53,7 +54,13 @@ class DetailViewController: UIViewController {
             controller.textFieldText.append(self.billViewController!.cptTextField!.text!)
             controller.textFieldText.append(self.billViewController!.mcTextField!.text!)
             controller.textFieldText.append(self.billViewController!.pcTextField!.text!)
-            controller.textFieldText.append(ICD10Text!)
+            //controller.textFieldText.append(ICD10Text!)
+            
+            controller.icdCodes = self.billViewController!.icdCodes //carry the codes
+            
+            
+            let tuple = (icd10: ICD10Text!,icd9: ICD9Text!)
+            controller.icdCodes.append(tuple)
         }
     }
 }

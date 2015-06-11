@@ -13,7 +13,7 @@ class DirectSearchTableViewController: UITableViewController{
     var database:COpaquePointer = nil
     var codeInfo:[(code:String, description:String)] = []
     var selectedCode:(icd10:String, description:String, icd9:String)?
-    var billViewController:BillViewController? = nil
+    var billViewController:BillViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()

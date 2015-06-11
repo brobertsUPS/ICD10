@@ -12,6 +12,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     var database:COpaquePointer = nil                           //The database connection
     var searchTableViewController: SearchTableViewController?   //A view controller for the popup table view
+    var billViewController:BillViewController?    //A bill that is passed along to hold all of the codes for the final bill
     
     @IBOutlet weak var patientTextField: UITextField!
     @IBOutlet weak var patientDOBTextField: UITextField!
@@ -51,7 +52,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             cptTextField.text = textFieldText[5]
             mcTextField.text = textFieldText[6]
             pcTextField.text = textFieldText[7]
-            ICD10TextField.text = textFieldText[8]
+        }
+        
+        for var i=0; i<icdCodes.count; i++ {
+            let (icd10, icd9) = icdCodes[i]
+            switch i {
+            case 0:ICD10TextField.text = "\(icd10)"
+            default: ICD10TextField.text = "\(ICD10TextField.text), \(icd10)"
+            }
         }
     }
     

@@ -18,7 +18,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     var detailViewController: DetailViewController? = nil                   //The detail page of the application
     var objects:[(id:Int,name:String)] = []
     var database:COpaquePointer = nil
-    var billViewController:BillViewController? = nil
+    var billViewController:BillViewController?
     
     private let favoritesCell = "Favorites"
     
