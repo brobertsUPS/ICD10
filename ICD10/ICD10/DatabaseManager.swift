@@ -1,10 +1,10 @@
-//
-//  DatabaseManager.swift
-//  ICD10
-//
-//  Created by Brandon S Roberts on 6/9/15.
-//  Copyright (c) 2015 Brandon S Roberts. All rights reserved.
-//
+/*
+*  DatabaseManager.swift
+*  A class to manage the database connection.
+*
+*  Created by Brandon S Roberts on 6/9/15.
+*  Copyright (c) 2015 Brandon S Roberts. All rights reserved.
+*/
 
 import UIKit
 
@@ -18,20 +18,16 @@ struct DatabaseManager {
         let theFileManager = NSFileManager.defaultManager()
         let filePath = dataFilePath()
         if theFileManager.fileExistsAtPath(filePath) {
-            // And then open the DB File
-            return openDBPath(filePath)
-        }
-        else {
-            // Copy the file from the Bundle and write it to the Device:
-            let pathToBundledDB = NSBundle.mainBundle().pathForResource("testDML", ofType: "sqlite3")
+            return openDBPath(filePath) // And then open the DB File
+        } else {
+            
+            let pathToBundledDB = NSBundle.mainBundle().pathForResource("testDML", ofType: "sqlite3")// Copy the file from the Bundle and write it to the Device
             let pathToDevice = dataFilePath()
             var error:NSError?
             
             if (theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice, error: nil)) {
-                //get the database open
-               return openDBPath(pathToDevice)
-            }
-            else {
+               return openDBPath(pathToDevice)//get the database open
+            } else {
                return nil // failure
             }
         }

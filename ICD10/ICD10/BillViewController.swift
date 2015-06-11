@@ -1,17 +1,17 @@
-//
-//  BillViewController.swift
-//  ICD10
-//
-//  Created by Brandon S Roberts on 6/4/15.
-//  Copyright (c) 2015 Brandon S Roberts. All rights reserved.
-//
+/*
+*  BillViewController.swift
+*   A class to represent a bill/visit in a medical practice
+*
+*  Created by Brandon S Roberts on 6/4/15.
+*  Copyright (c) 2015 Brandon S Roberts. All rights reserved.
+*/
 
 import UIKit
 
 class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
     
-    var database:COpaquePointer = nil
-    var searchTableViewController: SearchTableViewController?
+    var database:COpaquePointer = nil                           //The database connection
+    var searchTableViewController: SearchTableViewController?   //A view controller for the popup table view
     
     @IBOutlet weak var patientTextField: UITextField!
     @IBOutlet weak var patientDOBTextField: UITextField!
@@ -23,7 +23,50 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var pcTextField: UITextField!
     @IBOutlet weak var ICD10TextField: UITextField!
     
-    var textFieldText:[String] = []
+    var textFieldText:[String] = []                             //A list of saved items for the bill
+    var icdCodes:[(icd10:String,icd9:String)] = []              //A list of saved codes for the bill
+    
+    //****************************************** Default override methods ******************************************************************************
+    
+    /**
+    *   Open the database and adds a notification ovserver to this view controller.
+    *   Observer listens for a click on the patient popup
+    **/
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let dbManager = DatabaseManager()
+        database = dbManager.checkDatabaseFileAndOpen()
+        self.navigationItem.title = "Bill"
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePatient:",name:"loadPatient", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDoctor:",name:"loadDoctor", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCPT:",name:"loadTuple", object: nil)
+        
+        if self.textFieldText.count > 0 {
+            patientTextField.text = textFieldText[0]
+            patientDOBTextField.text = textFieldText[1]
+            doctorTextField.text = textFieldText[2]
+            siteTextField.text = textFieldText[3]
+            roomTextField.text = textFieldText[4]
+            cptTextField.text = textFieldText[5]
+            mcTextField.text = textFieldText[6]
+            pcTextField.text = textFieldText[7]
+            ICD10TextField.text = textFieldText[8]
+        }
+    }
+    
+    /**
+    *   Makes this view popup under the text fields and not in a new window
+    **/
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.None
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
     
     //****************************************** Clicks and Actions ******************************************************************************
     
@@ -31,22 +74,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     *   Registers the click in the text box and calls the appropriate segue
     **/
     @IBAction func clickedInTextBox(sender: UITextField) {
-        if sender.tag == 0 {
-            self.performSegueWithIdentifier("patientSearchPopover", sender: self)
-        }
         
-        if sender.tag == 2 {
-            self.performSegueWithIdentifier("doctorSearchPopover", sender: self)
-        }
-        
-        if sender.tag == 5 {
-            self.performSegueWithIdentifier("cptSearch", sender: self)
-        }
-        if sender.tag == 6 {
-            self.performSegueWithIdentifier("mcSearch", sender: self)
-        }
-        if sender.tag == 7 {
-            self.performSegueWithIdentifier("pcSearch", sender: self)
+        switch sender.tag {
+        case 0:self.performSegueWithIdentifier("patientSearchPopover", sender: self)
+        case 2:self.performSegueWithIdentifier("doctorSearchPopover", sender: self)
+        case 5:self.performSegueWithIdentifier("cptSearch", sender: self)
+        case 6:self.performSegueWithIdentifier("mcSearch", sender: self)
+        case 7:self.performSegueWithIdentifier("pcSearch", sender: self)
+        default:break
         }
     }
     
@@ -61,7 +96,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     *   Registers clicking the background and resigns any responder that could possibly be up
     **/
     @IBAction func backgroundTap(sender: UIControl){
-        
         patientTextField.resignFirstResponder()
         patientDOBTextField.resignFirstResponder()
         doctorTextField.resignFirstResponder()
@@ -77,7 +111,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     //****************************************** Segues ******************************************************************************
     
     /**
-    *   Stops any segue that is not directly called by clicking in search boxes
+    *   Stops any segue that is not directly called by a user action
     */
     override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
         if identifier == "beginICD10Search" {
@@ -96,36 +130,24 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             controller.billViewController = self
         }else{
             let popoverViewController = (segue.destinationViewController as! UIViewController) as! SearchTableViewController
-            println("Popover \(popoverViewController)")
-            self.searchTableViewController = popoverViewController               //set our view controller as the patientSearchPopover
-            
-            println("searchTableviewcontr \(searchTableViewController)")
+            self.searchTableViewController = popoverViewController                          //set our view controller as the SearchPopover
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
             
             //do the initial empty searches
             
-            if segue.identifier == "patientSearchPopover"{
-                popoverViewController.tupleSearchResults = patientSearch()
+            switch segue.identifier! {
+            case "patientSearchPopover":
+                popoverViewController.tupleSearchResults = patientSearch(patientTextField!.text)
                 popoverViewController.searchType = "patient"
-            }
-            
-            if segue.identifier == "doctorSearchPopover" {
-                popoverViewController.doctorSearchResults = doctorSearch()
+            case "doctorSearchPopover":
+                popoverViewController.doctorSearchResults = doctorSearch(doctorTextField!.text)
                 popoverViewController.searchType = "doctor"
+            case "cptSearch":popoverViewController.tupleSearchResults = codeSearch("C")
+            case "mcSearch":popoverViewController.tupleSearchResults = codeSearch("M")
+            case "pcSearch":popoverViewController.tupleSearchResults = codeSearch("P")
+            default:break
             }
-            
-            if segue.identifier == "cptSearch"{
-                popoverViewController.tupleSearchResults = codeSearch("C")
-            }
-            if segue.identifier == "mcSearch"{
-                popoverViewController.tupleSearchResults = codeSearch("M")
-            }
-            if segue.identifier == "pcSearch"{
-                popoverViewController.tupleSearchResults = codeSearch("P")
-            }
-            
-            
         }
     }
     
@@ -135,11 +157,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     ** Updates the table view in the popup for any patients that match the patient input
     **/
     @IBAction func userChangedPatientSearch(sender: UITextField) {
-        
-        let patients = patientSearch()                                  //retrieve any patients that match the input
+        let patients = patientSearch(patientTextField!.text)                                  //retrieve any patients that match the input
         if let patientSearchViewController = searchTableViewController {//only update the view if we have selected it
             patientSearchViewController.tupleSearchResults = patients
-            patientSearchViewController.tableView.reloadData()                        //update the list in the popup
+            patientSearchViewController.tableView.reloadData()          //update the list in the popup
         }
     }
     
@@ -147,7 +168,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     *   Updates the table view in the popup for any doctors that match the input
     **/
     @IBAction func userChangedDoctorSearch(sender:UITextField){
-        let doctors = doctorSearch()
+        let doctors = doctorSearch(doctorTextField!.text)
         if let doctorSearchViewController = searchTableViewController {
             println("changing doctor search")
             doctorSearchViewController.doctorSearchResults = doctors
@@ -162,14 +183,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         var visitCodes:[(String,String)] = []
         println("code search \(sender.tag)")
         
-        if sender.tag == 5 {//CPT search
-            println("CPT Search")
-            visitCodes = codeSearch("C")
-            
-        } else if sender.tag == 6 { //MC search
-            visitCodes = codeSearch("M")
-        } else if sender.tag == 7 { //PC search
-            visitCodes = codeSearch("P")
+        switch sender.tag {
+        case 5:visitCodes = codeSearch("C")
+        case 6:visitCodes = codeSearch("M")
+        case 7:visitCodes = codeSearch("P")
+        default:break
         }
         
         if let visitCodeViewController = searchTableViewController {
@@ -186,12 +204,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     *   Searches for any patients matching the text that was input into the patient textfield.
     *   @return patients, a list of patients matching the user input
     **/
-    func patientSearch() ->[(String, String)] {
+    func patientSearch(inputPatient:String) ->[(String, String)] {
         
         var patients:[(String, String)] = []
         
-        let inputPatient = patientTextField.text   //get the typed information
-        println(inputPatient)
         let patientSearch = "SELECT * FROM Patient WHERE f_name LIKE '%\(inputPatient)%' OR l_name LIKE '%\(inputPatient)%';"//search and update the patients array
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(database, patientSearch, -1, &statement, nil) == SQLITE_OK {
@@ -211,7 +227,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 patients.append(tuple)
             }
         }
-        println(patients)
         return patients
     }
     
@@ -219,12 +234,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     *   Searches for any doctors matching the text that was input into the doctor textfield.
     *   @return doctors, a list of doctors matching the user input
     **/
-    func doctorSearch() -> [String] {
+    func doctorSearch(inputDoctor:String) -> [String] {
         
         var doctors:[String] = []
-        
-        let inputDoctor = doctorTextField.text
-        println(inputDoctor)
         
         let doctorSearch = "SELECT f_name, l_name FROM Doctor WHERE f_name LIKE '%\(inputDoctor)%' OR l_name LIKE '%\(inputDoctor)%';"
         var statement:COpaquePointer = nil
@@ -248,25 +260,21 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     /**
     *   Searches for any code matching the text or code that was input into the visit code textField
+    *   @return visitCodes, a list of code tuples (code, description)
     **/
-    func codeSearch(type:String) -> [(String,String)]{
+    func codeSearch(codeType:String) -> [(String,String)]{
         
         var visitCodes:[(String,String)] = []
-        
-        var codeType = type
         var inputSearch = ""
         
-        if codeType == "C" {
-            inputSearch = cptTextField.text
-        }else if codeType == "M" {
-            inputSearch = mcTextField.text
-        } else if codeType == "P" {
-            inputSearch = pcTextField.text
+        switch codeType {
+        case "C":inputSearch = cptTextField.text
+        case "M":inputSearch = mcTextField.text
+        case "P":inputSearch = pcTextField.text
+        default:break
         }
-        println(codeType)
-        println(inputSearch)
-        let codeSearch = "SELECT apt_code, code_description FROM Apt_type WHERE type_description='\(codeType)' AND (code_description LIKE '%\(inputSearch)%' OR apt_code LIKE '%\(inputSearch)%');"
         
+        let codeSearch = "SELECT apt_code, code_description FROM Apt_type WHERE type_description='\(codeType)' AND (code_description LIKE '%\(inputSearch)%' OR apt_code LIKE '%\(inputSearch)%');"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(database, codeSearch, -1, &statement, nil) == SQLITE_OK {
@@ -282,22 +290,23 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 visitCodes.append(tuple)
             }
         }
-        println("Visitcode \(visitCodes)")
         return visitCodes
     }
 
 
     
-    //****************************************** Update text fields ******************************************************************************
+    /****************************************** Update text fields ******************************************************************************
+    *
+    *   NOTE: The notification that calls this function is sent to all bill view controllers on the stack. 
+    *   This function updates all of them if the user clicked in the corresponding text box
+    **/
     
     /**
     *   Updates the patient text field with selected data when the user selects a row in the patient popup window
     *   Closes the popup after updating the patientTextField
     **/
     func updatePatient(notification: NSNotification){
-        //load data here
-        println("SearchTableViewController \(self.searchTableViewController)")
-        if let controller = searchTableViewController {
+        if let controller = searchTableViewController { //only update if the searchTableViewController is there
             let tuple = controller.selectedTuple
             let (dob,name) = tuple
             self.patientTextField.text = name
@@ -305,17 +314,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             self.dismissViewControllerAnimated(true, completion: nil)
             patientTextField.resignFirstResponder()
         }
-        //unwrap optional if searchTableViewController was not nil
-        
     }
-
 
     /**
     *   Updates the doctor text field witht the selected doctor
     **/
     func updateDoctor(notification: NSNotification) {
         let doctorName = searchTableViewController?.selectedDoctor
-        println("SearchTableViewController update doctor \(self.searchTableViewController)")
         self.doctorTextField.text = doctorName
         self.dismissViewControllerAnimated(true, completion: nil)
         doctorTextField.resignFirstResponder()
@@ -344,9 +349,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
     }
     
-
-    
     //****************************************** Adding to Database ******************************************************************************
+    
     /**
     *   Adds the patient to the database
     **/
@@ -380,44 +384,5 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             sqlite3_step(statement)
             println("inserted doctor \(fullName)")
         }
-    }
-    
-    //****************************************** Default override methods ******************************************************************************
-    
-    /**
-    *   Open the database and adds a notification ovserver to this view controller.
-    *   Observer listens for a click on the patient popup
-    **/
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let dbManager = DatabaseManager()
-        database = dbManager.checkDatabaseFileAndOpen()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePatient:",name:"loadPatient", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDoctor:",name:"loadDoctor", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCPT:",name:"loadTuple", object: nil)
-        
-        if self.textFieldText.count > 0 {
-            patientTextField.text = textFieldText[0]
-            patientDOBTextField.text = textFieldText[1]
-            doctorTextField.text = textFieldText[2]
-            siteTextField.text = textFieldText[3]
-            roomTextField.text = textFieldText[4]
-            cptTextField.text = textFieldText[5]
-            mcTextField.text = textFieldText[6]
-            pcTextField.text = textFieldText[7]
-            ICD10TextField.text = textFieldText[8]
-        }
-    }
-    
-    /**
-    *   Makes this view popup under the text fields and not in a new window
-    **/
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.None
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }

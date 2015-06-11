@@ -1,6 +1,6 @@
 //
 //  DoctorsTableViewController.swift
-//  ICD10
+//  A table view for all of the doctors in the database
 //
 //  Created by Brandon S Roberts on 6/9/15.
 //  Copyright (c) 2015 Brandon S Roberts. All rights reserved.
@@ -55,24 +55,14 @@ class DoctorsTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 1
-    }
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int { return 1 }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return doctors.count
-    }
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return doctors.count }
 
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("doctorsPageResultCell", forIndexPath: indexPath) as! UITableViewCell
         let doctorName = doctors[indexPath.row]
         cell.textLabel!.text = doctorName
-
         return cell
     }
     
@@ -91,7 +81,6 @@ class DoctorsTableViewController: UITableViewController {
         var lastName: String =  fullNameArr[1]
         
         let controller = segue.destinationViewController as! EditDoctorViewController
-        
         
         controller.firstName = firstName
         controller.lastName = lastName

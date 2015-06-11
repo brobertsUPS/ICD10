@@ -1,6 +1,6 @@
 //
 //  EditPatientViewController.swift
-//  ICD10
+//  A class to edit the patient information
 //
 //  Created by Brandon S Roberts on 6/10/15.
 //  Copyright (c) 2015 Brandon S Roberts. All rights reserved.
@@ -31,8 +31,6 @@ class EditPatientViewController: UIViewController {
         lastNameField.text = lastName
         dobField.text = dob
         emailField.text = email
-        
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,16 +50,6 @@ class EditPatientViewController: UIViewController {
             println("GOOD")
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     /**
     *   Registers clicking return and resigns the keyboard

@@ -1,6 +1,6 @@
 //
 //  SearchTableViewController.swift
-//  ICD10
+//  A class to display search results for the bill page
 //
 //  Created by Brandon S Roberts on 6/5/15.
 //  Copyright (c) 2015 Brandon S Roberts. All rights reserved.
@@ -11,7 +11,7 @@ import UIKit
 class SearchTableViewController: UITableViewController {
     
     var tupleSearchResults:[(String,String)]=[]          //The list of results from the text field
-    var selectedTuple:(String,String) = ("","")   //The DOB and the patient's full name
+    var selectedTuple:(String,String) = ("","")         //The DOB and the patient's full name
     var doctorSearchResults:[String] = []
     var selectedDoctor:String = ""
     var searchType = ""
@@ -27,9 +27,7 @@ class SearchTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int { return 1 }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchType == "doctor" {
@@ -46,7 +44,6 @@ class SearchTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("searchResultCell", forIndexPath: indexPath) as! UITableViewCell
     
         if searchType == "doctor" {
-            
             let doctorName = doctorSearchResults[indexPath.row]
             println(doctorName)
             cell.textLabel!.text = doctorName
@@ -63,7 +60,6 @@ class SearchTableViewController: UITableViewController {
             selectedDoctor = doctorSearchResults[indexPath.row]
             NSNotificationCenter.defaultCenter().postNotificationName("loadDoctor", object: selectedDoctor)
         }else if searchType == "patient"{
-            
             let (dob, name) = tupleSearchResults[indexPath.row]
             self.selectedTuple = (dob,name)
             println("Set patient \(dob) and \(name)")

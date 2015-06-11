@@ -1,6 +1,6 @@
 //
 //  MasterViewController.swift
-//  ICD10
+//  A class to be the drill down navigation of the application. Also contains a direct search to add to bill.
 //
 //  Created by Brandon S Roberts on 5/28/15.
 //  Copyright (c) 2015 Brandon S Roberts. All rights reserved.
@@ -8,32 +8,25 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
+    
+  
+    @IBOutlet weak var searchBar: UITextField!                              //The text field to search for direct codes
+    var directSearchTableViewController:DirectSearchTableViewController?
+    var selectedCode:(icd10:String, description:String, icd9:String)?
 
-    var detailViewController: DetailViewController? = nil
-    var objects = [(Int,String)]()
+    var detailViewController: DetailViewController? = nil                   //The detail page of the application
+    var objects:[(id:Int,name:String)] = []
     var database:COpaquePointer = nil
     var billViewController:BillViewController? = nil
     
     private let favoritesCell = "Favorites"
-
-
-    required init(coder aDecoder: NSCoder!) {
-        super.init(coder: aDecoder)
-    }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-            self.clearsSelectionOnViewWillAppear = false
-            self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         let dbManager = DatabaseManager()
         database = dbManager.checkDatabaseFileAndOpen()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "codeSelected:",name:"loadCode", object: nil)
         
         if objects.count == 0 {//get the root locations when we load up
             let query = "SELECT * FROM Condition_location cl WHERE NOT EXISTS (SELECT * FROM Sub_location sl WHERE cl.LID = sl.LID) ORDER BY location_name"
@@ -45,8 +38,7 @@ class MasterViewController: UITableViewController {
                     let locationID = Int(sqlite3_column_int(statement, 0))
                     let locationName = sqlite3_column_text(statement, 1)
                     let locationNameString = String.fromCString(UnsafePointer<CChar>(locationName))
-                    let tuple = (locationID,locationNameString!)
-                    objects.append(tuple)
+                    objects.append(id:locationID,name:locationNameString!)
                 }
             }
         }
@@ -56,18 +48,91 @@ class MasterViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            self.clearsSelectionOnViewWillAppear = false
+            self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
+        }
+    }
+    
+    /**
+    *   Registers the click in the text box and calls the appropriate segue
+    **/
+    @IBAction func clickedInTextBox(sender: UITextField) {
+        self.performSegueWithIdentifier("showDirectSearchPopup", sender: self)
+    }
+
+    /**
+    *   Registers clicking return and resigns the keyboard
+    **/
+    @IBAction func textFieldDoneEditing(sender:UITextField){
+        sender.resignFirstResponder()
+    }
+    
+    /**
+    *   Registers a change in the search bar and updates the search field
+    **/
+    @IBAction func userChangedCodeSearch(sender: UITextField) {
+        
+        let codeInformation = searchCodes(sender.text)
+        if let codeSearchViewController = directSearchTableViewController {
+            codeSearchViewController.codeInfo = codeInformation
+            codeSearchViewController.tableView.reloadData()
+        }
+    }
+    
+    /**
+    *   Searches for code or descriptions that match the input
+    **/
+    func searchCodes(searchInput:String) -> [(code:String,description:String)]{
+        
+        var codeInformation:[(code:String,description:String)] = []
+        
+        let query = "SELECT ICD10_code, description_text FROM ICD10_condition WHERE description_text LIKE '%\(searchInput)%' OR ICD10_code LIKE '%\(searchInput)%';"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
+            while sqlite3_step(statement) == SQLITE_ROW {
+                let ICD10Code = sqlite3_column_text(statement, 0)
+                let ICD10CodeString = String.fromCString(UnsafePointer<CChar>(ICD10Code))
+                
+                let codeDescription = sqlite3_column_text(statement, 1)
+                let codeDescriptionString = String.fromCString(UnsafePointer<CChar>(codeDescription))
+            
+                codeInformation.append(code:ICD10CodeString!, description:codeDescriptionString!)
+            }
+        }
+        return codeInformation
+    }
+    
+    /**
+    *   Notifies this class of the selection made in the directSearchTableViewController
+    **/
+    func codeSelected(notification: NSNotification) {
+        if let controller = directSearchTableViewController {
+            let tuple = controller.selectedCode
+            let (icd10,description,icd9) = tuple!
+            self.searchBar.text = icd10
+            self.dismissViewControllerAnimated(true, completion: nil)
+            searchBar.resignFirstResponder()
+            selectedCode = tuple!
+            performSegueWithIdentifier("showDirectSearchCode", sender: self)
+        }
+    }
 
     // MARK: - Segues
     
     /**
     *   Fills an array with the sublocations of the selected item
     **/
-    func findSubLocations(locationID:Int) -> [(Int,String)]{
+    func findSubLocations(locationID:Int) -> [(id:Int,name:String)]{
         
-        var sub_locations = [(Int,String)]()    //make new locations list for the sub_locations of the selected item
+        var sub_locations:[(id:Int,name:String)] = []    //make new locations list for the sub_locations of the selected item
         
-        //get get the sub locations and their names (does an exact match query 
-        //to only natural join on one row from the sub_location table
+        //get get the sub locations and their names (does an exact match query
+        //that only natural joins on one row from the sub_location table
         let query = "SELECT * FROM Condition_location NATURAL JOIN (SELECT * FROM Sub_location WHERE Parent_locationID=\(locationID)) ORDER BY location_name"
         
         var statement:COpaquePointer = nil
@@ -77,77 +142,95 @@ class MasterViewController: UITableViewController {
                 let locationID = Int(sqlite3_column_int(statement, 0))
                 let locationName = sqlite3_column_text(statement, 1)
                 let locationNameString = String.fromCString(UnsafePointer<CChar>(locationName))
-                let tuple = (locationID,locationNameString!)
-                sub_locations.append(tuple)
+                sub_locations.append(id:locationID,name:locationNameString!)
             }
         }
         return sub_locations
     }
     
+    // MARK: - Segue ***************************************************************************************************************************
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        let indexPath = self.tableView.indexPathForSelectedRow()
-        let (id, locationName) = objects[indexPath!.row]
-        println(id)
-        let newSubLocations = findSubLocations(id)
-        println("Sublocation size: \(newSubLocations.count)")
-      
-        if newSubLocations.count == 0 && segue.identifier == "showCodes" {
-            println("query prepared")
-            println(id)
-            let controller = segue.destinationViewController as! DetailViewController
-            var statement:COpaquePointer = nil
-            let query = "SELECT ICD10_code, description_text, ICD9_code from (SELECT * FROM condition_location NATURAL JOIN located_in WHERE LID = \(id))  NATURAL JOIN ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition"
+        if segue.identifier == "showDirectSearchPopup" {
             
-            if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
+            let popoverViewController = (segue.destinationViewController as! UINavigationController).topViewController as! DirectSearchTableViewController
+            self.directSearchTableViewController = popoverViewController
+            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+            popoverViewController.popoverPresentationController!.delegate = self
+            popoverViewController.billViewController = billViewController
+            popoverViewController.navigationItem.title = "Direct Search"
+            
+        } else if segue.identifier == "showDirectSearchCode"{
+            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+            controller.ICD10Text = selectedCode!.icd10
+            controller.conditionDescriptionText = selectedCode!.description
+            controller.ICD9Text = selectedCode!.icd9
+            
+            controller.title = selectedCode!.description
+            controller.titleName = selectedCode!.description
+            
+            controller.navigationItem.leftItemsSupplementBackButton = true
+            controller.billViewController = self.billViewController
+        } else {
+        
+            let indexPath = self.tableView.indexPathForSelectedRow()
+            let (id, locationName) = objects[indexPath!.row]
+            let newSubLocations = findSubLocations(id)
+            
+            if newSubLocations.count == 0 && segue.identifier == "showCodes" {
                 
-                if sqlite3_step(statement) == SQLITE_ROW { // if we got the row back successfully
-                    println("Hit step")
-                    let icd10Code = sqlite3_column_text(statement, 0)
-                    let icd10CodeString = String.fromCString(UnsafePointer<CChar>(icd10Code))!
-                    println(icd10CodeString)
-                    controller.ICD10Text = icd10CodeString
-                    println(controller.ICD10Text)
+                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+                var statement:COpaquePointer = nil
+                
+                let query = "SELECT ICD10_code, description_text, ICD9_code from (SELECT * FROM condition_location NATURAL JOIN located_in WHERE LID = \(id))  NATURAL JOIN ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition"
+                
+                if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
                     
-                    let description = sqlite3_column_text(statement, 1)
-                    let descriptionString = String.fromCString(UnsafePointer<CChar>(description))!
-                    println(descriptionString)
-                    controller.conditionDescriptionText = descriptionString
-                    
-                    let icd9Code = sqlite3_column_text(statement, 2)
-                    let icd9CodeString = String.fromCString(UnsafePointer<CChar>(icd9Code))!
-                    println(icd9CodeString)
-                    controller.ICD9Text = icd9CodeString
-                    
+                    if sqlite3_step(statement) == SQLITE_ROW { // if we got the row back successfully
+                        
+                        let icd10Code = sqlite3_column_text(statement, 0)
+                        let icd10CodeString = String.fromCString(UnsafePointer<CChar>(icd10Code))!
+                        
+                        let description = sqlite3_column_text(statement, 1)
+                        let descriptionString = String.fromCString(UnsafePointer<CChar>(description))!
+                        
+                        let icd9Code = sqlite3_column_text(statement, 2)
+                        let icd9CodeString = String.fromCString(UnsafePointer<CChar>(icd9Code))!
+                        
+                        controller.ICD10Text = icd10CodeString
+                        controller.conditionDescriptionText = descriptionString
+                        controller.ICD9Text = icd9CodeString
+                    }
                 }
+                controller.title = locationName
+                controller.titleName = locationName
+                controller.navigationItem.title = "Bill"
+                controller.navigationItem.leftItemsSupplementBackButton = true
+                controller.billViewController = self.billViewController
+            } else if (segue.identifier == "showLocations" && newSubLocations.count > 0) {
+                
+                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
+                controller.objects = newSubLocations
+                controller.title = locationName
+                controller.navigationItem.leftItemsSupplementBackButton = true
+                controller.billViewController = self.billViewController
             }
-            
-            controller.detailItem = locationName
-            
-            controller.title = locationName
-            controller.titleName = locationName
-            controller.navigationItem.leftItemsSupplementBackButton = true
-            controller.billViewController = self.billViewController
-        } else if segue.identifier == "showLocations" && newSubLocations.count > 0 {
-            
-            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
-            controller.objects = newSubLocations
-            controller.title = locationName
-            controller.navigationItem.leftItemsSupplementBackButton = true
-            controller.billViewController = self.billViewController
         }
-
     }
-
-    // MARK: - Table View
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+    
+    /**
+    *   Makes this view popup under the text fields and not in a new window
+    **/
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.None
     }
+    
+    // MARK: - Table View ***************************************************************************************************************************
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int { return 1 }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return objects.count
-    }
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return objects.count }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -155,20 +238,6 @@ class MasterViewController: UITableViewController {
         let (id, location_name) = objects[indexPath.row]
         cell.textLabel!.text = location_name
         return cell
-    }
-
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return false
-    }
-
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            objects.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-        }
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
@@ -181,7 +250,4 @@ class MasterViewController: UITableViewController {
             self.performSegueWithIdentifier("showLocations", sender: self)
         }
     }
-
-
 }
-

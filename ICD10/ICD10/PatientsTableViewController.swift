@@ -1,6 +1,6 @@
 //
 //  PatientsTableViewController.swift
-//  
+//  A class to list all of the patients in the database
 //
 //  Created by Brandon S Roberts on 6/9/15.
 //
@@ -10,8 +10,8 @@ import UIKit
 
 class PatientsTableViewController: UITableViewController {
     
-    var patients:[(String, String)] = []
-    var ids:[Int] = []
+    var patients:[(dob:String, name:String)] = []    //the patients
+    var ids:[Int] = []                              //The ids in the database (used in selection)
     var emails:[String] = []
     var database:COpaquePointer = nil
 
@@ -43,19 +43,11 @@ class PatientsTableViewController: UITableViewController {
                 
                 let patientFullName = patientFNameString! + " " + patientLNameString!
                 
-                let tuple = (patientDOBString!, patientFullName)
-                patients.append(tuple)
+                patients.append(dob:patientDOBString!,name:patientFullName)
                 ids.append(patientID)
                 emails.append(patientEmailString!)
             }
         }
-
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,17 +57,9 @@ class PatientsTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 1
-    }
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int { return 1 }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return patients.count
-    }
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return patients.count }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("patientPageResultCell", forIndexPath: indexPath) as! UITableViewCell
