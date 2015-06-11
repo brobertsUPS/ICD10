@@ -38,11 +38,15 @@ class PatientsTableViewController: UITableViewController {
                 let patientLName = sqlite3_column_text(statement, 3)
                 let patientLNameString = String.fromCString(UnsafePointer<CChar>(patientLName))
                 
+                let patientEmail = sqlite3_column_text(statement, 4)
+                let patientEmailString = String.fromCString(UnsafePointer<CChar>(patientEmail))
+                
                 let patientFullName = patientFNameString! + " " + patientLNameString!
                 
                 let tuple = (patientDOBString!, patientFullName)
                 patients.append(tuple)
                 ids.append(patientID)
+                emails.append(patientEmailString!)
             }
         }
 
@@ -89,7 +93,7 @@ class PatientsTableViewController: UITableViewController {
         let indexPath = self.tableView.indexPathForSelectedRow()
         let (dob, fullName) = patients[indexPath!.row]
         let pID = ids[indexPath!.row]
-        
+        let email = emails[indexPath!.row]
         let controller = segue.destinationViewController as! EditPatientViewController
         
         var fullNameArr = split(fullName) {$0 == " "}
@@ -100,6 +104,7 @@ class PatientsTableViewController: UITableViewController {
         controller.lastName = lastName
         controller.dob = dob
         controller.id = pID
+        controller.email = email
         
         
     }

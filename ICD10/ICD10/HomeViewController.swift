@@ -37,6 +37,10 @@ class HomeViewController: UIViewController {
         if segue.identifier == "showDoctors" {
             let controller = segue.destinationViewController as! DoctorsTableViewController
         }
+        
+        if segue.identifier == "directCodeSearch"{
+            let controller = segue.destinationViewController as! DirectSearchTableViewController
+        }
     }
     
 

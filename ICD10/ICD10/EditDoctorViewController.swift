@@ -38,7 +38,7 @@ class EditDoctorViewController: UIViewController {
     }
     
     @IBAction func saveDoctorInfo(sender: UIButton) {
-        let query = "UPDATE Doctor SET email= '\(emailField.text)', f_name='\(firstNameField.text)', l_name='\(lastNameField.text)' WHERE dID='\(id)';"
+        let query = "UPDATE Doctor SET email='\(emailField.text)', f_name='\(firstNameField.text)', l_name='\(lastNameField.text)' WHERE dID='\(id)';"
         var statement:COpaquePointer = nil
         println("Selected")
         if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {

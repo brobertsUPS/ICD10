@@ -325,22 +325,23 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     *   Updates the cpt code text field witht the selected code
     **/
     func updateCPT(notification:NSNotification){
-        
-        let tuple = searchTableViewController?.selectedTuple
-        var (code_description,updatedCPTCode) = tuple!
-        
-        if cptTextField.isFirstResponder() {
-            self.cptTextField.text = code_description
-            cptTextField.resignFirstResponder()
-        } else if mcTextField.isFirstResponder(){
-            self.mcTextField.text = code_description
-            mcTextField.resignFirstResponder()
-        } else if pcTextField.isFirstResponder() {
-            self.pcTextField.text = code_description
-            pcTextField.resignFirstResponder()
+        if let controller = searchTableViewController {
+            let tuple = controller.selectedTuple
+            var (code_description,updatedCPTCode) = tuple
+            
+            if cptTextField.isFirstResponder() {
+                self.cptTextField.text = code_description
+                cptTextField.resignFirstResponder()
+            } else if mcTextField.isFirstResponder(){
+                self.mcTextField.text = code_description
+                mcTextField.resignFirstResponder()
+            } else if pcTextField.isFirstResponder() {
+                self.pcTextField.text = code_description
+                pcTextField.resignFirstResponder()
+            }
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
 
@@ -356,7 +357,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         var lastName: String =  fullNameArr[1]
         var dateOfBirth = patientDOBTextField.text
         
-        let query = "INSERT INTO Patient (pID,date_of_birth,f_name,l_name) VALUES (NULL, '\(dateOfBirth)', '\(firstName)', '\(lastName)')"
+        let query = "INSERT INTO Patient (pID,date_of_birth,f_name,l_name, email) VALUES (NULL, '\(dateOfBirth)', '\(firstName)', '\(lastName)', '')"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
             sqlite3_step(statement)
@@ -373,7 +374,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         var firstName: String = fullNameArr[0]
         var lastName: String =  fullNameArr[1]
         
-        let query = "INSERT INTO Doctor (dID,f_name,l_name) VALUES (NULL,'\(firstName)', '\(lastName)')"
+        let query = "INSERT INTO Doctor (dID,f_name,l_name, email) VALUES (NULL,'\(firstName)', '\(lastName)', '')"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
             sqlite3_step(statement)

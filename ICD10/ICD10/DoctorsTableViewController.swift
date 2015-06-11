@@ -29,15 +29,14 @@ class DoctorsTableViewController: UITableViewController {
                 
                 let doctorID = Int(sqlite3_column_int(statement, 0))
                 
-                let doctorEmail = sqlite3_column_text(statement, 1)
-                let doctorEmailString = String.fromCString(UnsafePointer<CChar>(doctorEmail))
-                
-                
-                let doctorFName = sqlite3_column_text(statement, 2)
+                let doctorFName = sqlite3_column_text(statement, 1)
                 let doctorFNameString = String.fromCString(UnsafePointer<CChar>(doctorFName))
                 
-                let doctorLName = sqlite3_column_text(statement, 3)
+                let doctorLName = sqlite3_column_text(statement, 2)
                 let doctorLNameString = String.fromCString(UnsafePointer<CChar>(doctorLName))
+                
+                let doctorEmail = sqlite3_column_text(statement, 3)
+                let doctorEmailString = String.fromCString(UnsafePointer<CChar>(doctorEmail))
                 
                 let doctorFullName = doctorFNameString! + " " + doctorLNameString!
                 doctors.append(doctorFullName)

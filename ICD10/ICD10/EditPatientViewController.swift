@@ -30,6 +30,7 @@ class EditPatientViewController: UIViewController {
         firstNameField.text = firstName
         lastNameField.text = lastName
         dobField.text = dob
+        emailField.text = email
         
         // Do any additional setup after loading the view.
     }
@@ -41,12 +42,14 @@ class EditPatientViewController: UIViewController {
     
     @IBAction func savePatientInfo(sender: UIButton) {
         //save all info to the database
-        let query = "UPDATE Patient SET date_of_birth= '\(dobField.text)', f_name='\(firstNameField.text)', l_name='\(lastNameField.text)' WHERE pID='\(id)';"
+        let query = "UPDATE Patient SET date_of_birth='\(dobField.text)', f_name='\(firstNameField.text)', l_name='\(lastNameField.text)', email='\(emailField.text)' WHERE pID='\(id)';"
+        
         var statement:COpaquePointer = nil
         println("Selected")
         if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
             sqlite3_step(statement)
             //popup saying it worked
+            println("GOOD")
         }
     }
 

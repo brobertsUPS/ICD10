@@ -226,6 +226,12 @@
                                     <action selector="textFieldDoneEditing:" destination="ogA-jA-Qlj" eventType="editingDidEndOnExit" id="lWO-36-h4V"/>
                                 </connections>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ds3-lH-vaC">
+                                <rect key="frame" x="16" y="190" width="84" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WQM-TZ-kie">
                                 <rect key="frame" x="108" y="148" width="476" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -253,7 +259,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XlK-lF-yja">
-                                <rect key="frame" x="283" y="406" width="34" height="30"/>
+                                <rect key="frame" x="283" y="224" width="34" height="30"/>
                                 <state key="normal" title="Save">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -262,12 +268,6 @@
                                     <action selector="savePatientInfo:" destination="ogA-jA-Qlj" eventType="touchUpInside" id="syb-I4-InT"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ds3-lH-vaC">
-                                <rect key="frame" x="16" y="190" width="84" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.32156862749999998" green="0.70196078429999997" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -293,7 +293,7 @@
                             <constraint firstItem="19w-DZ-r6Z" firstAttribute="top" secondItem="WQM-TZ-kie" secondAttribute="bottom" constant="8" symbolic="YES" id="i1k-dn-Qfy"/>
                             <constraint firstItem="WQM-TZ-kie" firstAttribute="leading" secondItem="crJ-Fb-jEn" secondAttribute="trailing" constant="8" symbolic="YES" id="nY2-5B-C00"/>
                             <constraint firstItem="19w-DZ-r6Z" firstAttribute="leading" secondItem="Ds3-lH-vaC" secondAttribute="trailing" constant="8" symbolic="YES" id="tvn-SB-oAX"/>
-                            <constraint firstItem="UQL-P3-Agn" firstAttribute="top" secondItem="XlK-lF-yja" secondAttribute="bottom" constant="164" id="w5y-GD-gB0"/>
+                            <constraint firstItem="UQL-P3-Agn" firstAttribute="top" secondItem="XlK-lF-yja" secondAttribute="bottom" constant="346" id="w5y-GD-gB0"/>
                             <constraint firstItem="ucV-5t-yid" firstAttribute="leading" secondItem="n7h-1p-kAd" secondAttribute="leading" id="yEg-C6-2si"/>
                         </constraints>
                     </view>
@@ -483,7 +483,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="zwR-B6-ggC" kind="show" identifier="viewDirectCodeSearch" id="7Yn-mG-suu"/>
+                                    <segue destination="WCn-gx-NY2" kind="show" identifier="directCodeSearch" id="97e-Kb-lYN"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -548,25 +548,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LeN-dU-Joe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1732" y="586"/>
-        </scene>
-        <!--Direct Code Search View Controller-->
-        <scene sceneID="pfb-fa-mc2">
-            <objects>
-                <viewController id="zwR-B6-ggC" customClass="DirectCodeSearchViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="5TG-Pn-NgE"/>
-                        <viewControllerLayoutGuide type="bottom" id="tM9-dd-i5J"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="KTJ-3d-QnC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.32156862749999998" green="0.70196078429999997" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="BFX-fA-gup"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="C4Y-vI-9KW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1106" y="611"/>
         </scene>
         <!--Bill View Controller-->
         <scene sceneID="y4A-YN-rO1">
@@ -994,6 +975,46 @@
             </objects>
             <point key="canvasLocation" x="-1039" y="89"/>
         </scene>
+        <!--Direct Search Table View Controller-->
+        <scene sceneID="ROV-xu-N26">
+            <objects>
+                <tableViewController id="WCn-gx-NY2" customClass="DirectSearchTableViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="koi-F0-UE1">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="directSearchCell" textLabel="Jv2-Fi-5eu" detailTextLabel="rRP-ll-fWg" style="IBUITableViewCellStyleSubtitle" id="bVT-EG-360">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bVT-EG-360" id="0PL-1B-wOx">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jv2-Fi-5eu">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rRP-ll-fWg">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="WCn-gx-NY2" id="51H-BL-00L"/>
+                            <outlet property="delegate" destination="WCn-gx-NY2" id="tUI-Vj-Pn2"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AyQ-Ij-0Ys" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1074" y="586"/>
+        </scene>
         <!--Master-->
         <scene sceneID="smW-Zh-WAh">
             <objects>
@@ -1075,8 +1096,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="Oti-b8-l30"/>
         <segue reference="YwG-2Q-MzL"/>
-        <segue reference="2II-5o-t3P"/>
         <segue reference="2Ks-D5-SZF"/>
     </inferredMetricsTieBreakers>
 </document>
