@@ -23,6 +23,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var mcTextField: UITextField!
     @IBOutlet weak var pcTextField: UITextField!
     @IBOutlet weak var ICD10TextField: UITextField!
+    @IBOutlet weak var dateTextField: UITextField!
     
     var textFieldText:[String] = []                             //A list of saved items for the bill
     var icdCodes:[(icd10:String,icd9:String)] = []              //A list of saved codes for the bill
@@ -61,6 +62,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             default: ICD10TextField.text = "\(ICD10TextField.text), \(icd10)"
             }
         }
+        
+        let date = NSDate()
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .ShortStyle
+        dateTextField.text = formatter.stringFromDate(date)
     }
     
     /**
@@ -113,6 +119,68 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         mcTextField.resignFirstResponder()
         pcTextField.resignFirstResponder()
         ICD10TextField.resignFirstResponder()
+    }
+    
+    
+    @IBAction func saveBill(sender: UIButton) {
+        let error = checkInputs()//check that everything is there
+        
+        if error == "" {
+            //save the information to the correct tables
+            
+            //place of service or get ID of place of service
+            //room 
+            //Appointment
+            //patient if not there
+            //Attends
+            //referring doctor if not there
+            //referred_by
+            //perfoms
+            //has_type
+            //diagnosed_with
+            
+            //remove everything from the stack and remove back button
+            //segue to self
+        } else {
+            //popup with the error message
+        }
+        
+        
+
+    }
+    
+    func checkInputs() -> String{
+        var error = ""
+        
+        if patientTextField.text == "" {
+            error = "Patient was missing from the bill form. Please add a patient to the bill."
+        }
+        
+        if patientDOBTextField.text == "" {
+            error = "Patient date of birth was missing from the bill form. Please check the form and enter a birth date."
+        }
+        
+        if doctorTextField.text == "" {
+            error = "Doctor was missing from the bill form. Please add a doctor to the bill."
+        }
+        
+        if siteTextField.text == "" {
+            error = "Site was missing from the bill form. Please add a site to the bill"
+        }
+        
+        if roomTextField.text == "" {
+            error = "Room was missing from the bill form. Please add a room to the bill."
+        }
+        
+        if cptTextField.text == "" {
+            if mcTextField.text == "" {
+                if pcTextField.text == "" {
+                    error = "There was no visit code in the bill form. Please check the form for a cpt, mc, or pc code."
+                }
+            }
+        }
+        return error
+        
     }
     
     

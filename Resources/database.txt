@@ -11,26 +11,11 @@ CREATE TABLE Place_of_service (
 	place_description TEXT
 	);
 	
-CREATE TABLE Appointment (
-	aptID INTEGER PRIMARY KEY NOT NULL,
-	date TEXT,
-	placeID TEXT NOT NULL,
-	FOREIGN KEY (placeID) REFERENCES Place_of_service (placeID) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE Room (
+	roomID INTEGER PRIMARY KEY NOT NULL,
+	room_description TEXT
 	);
-
-CREATE TABLE Attends (
-	pID INTEGER,
-	aptID INTEGER,
-	PRIMARY KEY (pID, aptID),
-	FOREIGN KEY (pID) REFERENCES Patient(pID) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (aptID) REFERENCES Appointment(aptID) ON DELETE CASCADE ON UPDATE CASCADE
-	);
-/*
-CREATE TABLE Practice (
-	mpID INTEGER PRIMARY KEY NOT NULL,
-	name TEXT NOT NULL
-	);
-*/
+	
 CREATE TABLE Doctor (
 	dID INTEGER PRIMARY KEY NOT NULL,
 	f_name TEXT NOT NULL,
@@ -38,12 +23,17 @@ CREATE TABLE Doctor (
 	email TEXT NOT NULL
 	);
 	
-CREATE TABLE Performs (
+CREATE TABLE Appointment (
+	aptID INTEGER PRIMARY KEY NOT NULL,
+	pID INTEGER NOT NULL,
 	dID INTEGER NOT NULL,
-	aptID INTEGER NOT NULL,
-	PRIMARY KEY (dID, aptID),
+	date TEXT,
+	placeID TEXT NOT NULL,
+	roomID TEXT NOT NULL,
+	FOREIGN KEY (pID) REFERENCES Patient (pID) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (dID) REFERENCES Doctor (dID) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (aptID) REFERENCES Appointment (aptID) ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY (placeID) REFERENCES Place_of_service (placeID) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (roomID) REFERENCES Room (roomID) ON DELETE CASCADE ON UPDATE CASCADE
 	);
 	
 CREATE TABLE Referred_by (
@@ -153,8 +143,18 @@ INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (3, "12-2
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (4, "03-31-1931", "Leonard", "Nimoy", "");
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (5, "03-03-1920", "James", "Doohan", "");
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (6, "04-20-1937", "George", "Takei", "");
---INSERT INTO Practice (mpID,name) VALUES (1, "Gastroenterology Associates");
 INSERT INTO Doctor (dID, f_name, l_name, email) VALUES (1, "Rodney", "Joe","Rodneyjoe@mac.com");
+
+--Place of service*******************************************************************************************************
+INSERT INTO Place_of_service (placeID, place_description) VALUES (1, "PSPH IN PATIENT");
+INSERT INTO Place_of_service (placeID, place_description) VALUES (2, "PSPH OUT PATIENT");
+INSERT INTO Place_of_service (placeID, place_description) VALUES (3, "PSPS ER PATIENT");
+INSERT INTO Place_of_service (placeID, place_description) VALUES (4, "PSPH OBSERVATION");
+INSERT INTO Place_of_service (placeID, place_description) VALUES (5, "MGH IN PATIENT");
+INSERT INTO Place_of_service (placeID, place_description) VALUES (6, "MGH OUT PATIENT");
+INSERT INTO Place_of_service (placeID, place_description) VALUES (7, "MGH ER PATIENT");
+
+
 --Appointment Type************************************************************************************************
 
 --Consult
