@@ -135,7 +135,7 @@
         <scene sceneID="7s3-gp-jAa">
             <objects>
                 <navigationController id="PIR-cc-Ved" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Bill" id="Bbi-be-UUU"/>
+                    <tabBarItem key="tabBarItem" title="Bill" image="Bill-50" id="Bbi-be-UUU"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="JL4-Kf-PlZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -152,7 +152,7 @@
         <scene sceneID="eyV-0H-zwa">
             <objects>
                 <navigationController id="zXP-Ym-KC4" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Patients" id="iu6-nb-Dbo"/>
+                    <tabBarItem key="tabBarItem" title="Patients" image="Triangular Bandage-50" id="iu6-nb-Dbo"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="w8c-1d-V0U">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -169,7 +169,7 @@
         <scene sceneID="6xN-Re-ve1">
             <objects>
                 <navigationController id="CiN-nl-kOH" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="All Bills" id="Pcn-jE-RlS"/>
+                    <tabBarItem key="tabBarItem" title="All Bills" image="Rules-50" id="Pcn-jE-RlS"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3QQ-3V-wdg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -240,7 +240,26 @@
                             <outlet property="delegate" destination="8Nw-va-BjG" id="F4s-3u-3GE"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="esG-6P-Ebv"/>
+                    <navigationItem key="navigationItem" id="esG-6P-Ebv">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="wXa-CZ-feW">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="b79-N0-kJs">
+                                <rect key="frame" x="-23" y="-15" width="133" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Add">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="AddNewPatient:" destination="8Nw-va-BjG" eventType="touchUpInside" id="oJP-KN-IdR"/>
+                                </connections>
+                            </button>
+                            <connections>
+                                <action selector="refresh:" destination="8Nw-va-BjG" id="jaV-Fv-OZf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="ogA-jA-Qlj" kind="show" identifier="addPatient" id="AIK-6s-AFa"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8N-g8-nj3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -362,7 +381,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DA6-gE-YMC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2393" y="1313"/>
+            <point key="canvasLocation" x="-2393" y="1336"/>
         </scene>
         <!--Edit Doctor View Controller-->
         <scene sceneID="iuZ-EF-d3b">
@@ -460,7 +479,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b79-Et-wnm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1733" y="1313"/>
+            <point key="canvasLocation" x="-1732" y="1336"/>
         </scene>
         <!--Doctors Table View Controller-->
         <scene sceneID="3uI-0P-0ng">
@@ -494,7 +513,23 @@
                             <outlet property="delegate" destination="xtd-WB-IWd" id="qYJ-HO-t1g"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="23X-7z-G3m"/>
+                    <navigationItem key="navigationItem" id="23X-7z-G3m">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="HVq-kl-oCB">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="y3y-wV-sIu">
+                                <rect key="frame" x="-23" y="-15" width="133" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Add">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="addNewDoctor:" destination="xtd-WB-IWd" eventType="touchUpInside" id="GNU-gV-0sp"/>
+                                </connections>
+                            </button>
+                            <connections>
+                                <segue destination="4I0-OP-v7R" kind="show" identifier="addDoctor" id="HK3-dy-anl"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LeN-dU-Joe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -859,7 +894,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="kap-5e-bnb"/>
+                    <tabBarItem key="tabBarItem" title="Item" image="Bill-50" selectedImage="Bill-50" id="kap-5e-bnb"/>
                     <navigationItem key="navigationItem" id="Jcx-q4-ATe"/>
                     <connections>
                         <outlet property="ICD10TextField" destination="omg-B0-24R" id="Ehd-pQ-r9t"/>
@@ -1101,7 +1136,7 @@
         <scene sceneID="GfJ-u9-2pm">
             <objects>
                 <navigationController id="V8b-M7-fFP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Doctors" id="Adn-Vn-A8I"/>
+                    <tabBarItem key="tabBarItem" title="Doctors" image="Medical Doctor-50" id="Adn-Vn-A8I"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gIM-bU-qM8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1115,10 +1150,18 @@
             <point key="canvasLocation" x="-1711" y="-119"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Bill-50" width="25" height="25"/>
+        <image name="Medical Doctor-50" width="25" height="25"/>
+        <image name="Rules-50" width="25" height="25"/>
+        <image name="Triangular Bandage-50" width="25" height="25"/>
+    </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="kdx-iD-Qhd"/>
         <segue reference="2Ks-D5-SZF"/>
-        <segue reference="2II-5o-t3P"/>
-        <segue reference="XTM-Ii-pXh"/>
         <segue reference="mPz-1b-nYJ"/>
+        <segue reference="XTM-Ii-pXh"/>
+        <segue reference="HK3-dy-anl"/>
+        <segue reference="AIK-6s-AFa"/>
     </inferredMetricsTieBreakers>
 </document>

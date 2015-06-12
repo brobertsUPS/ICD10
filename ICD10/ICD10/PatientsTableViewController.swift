@@ -20,7 +20,27 @@ class PatientsTableViewController: UITableViewController {
         self.navigationItem.title = "Patients"
         let dbManager = DatabaseManager()
         database = dbManager.checkDatabaseFileAndOpen()
-        
+        patients = []
+        ids = []
+        emails = []
+        findPatients()
+        self.tableView.reloadData()
+    }
+    override func viewWillAppear(animated: Bool) {
+        patients = []
+        ids = []
+        emails = []
+        findPatients()
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func AddNewPatient(sender: UIButton){
+        self.performSegueWithIdentifier("addPatient", sender: self)
+    }
+    
+    
+    func findPatients(){
+        var allPatients:[(dob:String,name:String)] = []
         var query = "SELECT * FROM Patient"
         var statement:COpaquePointer = nil
         println("Selected")
@@ -49,6 +69,11 @@ class PatientsTableViewController: UITableViewController {
             }
         }
     }
+    
+    @IBAction func refresh(sender: UIBarButtonItem) {
+        self.tableView.reloadData()
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -70,25 +95,30 @@ class PatientsTableViewController: UITableViewController {
     }
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-   
-        let indexPath = self.tableView.indexPathForSelectedRow()
-        let (dob, fullName) = patients[indexPath!.row]
-        let pID = ids[indexPath!.row]
-        let email = emails[indexPath!.row]
-        let controller = segue.destinationViewController as! EditPatientViewController
         
-        var fullNameArr = split(fullName) {$0 == " "}
-        var firstName: String = fullNameArr[0]
-        var lastName: String =  fullNameArr[1]
-        
-        controller.firstName = firstName
-        controller.lastName = lastName
-        controller.dob = dob
-        controller.id = pID
-        controller.email = email
+        if segue.identifier == "addPatient" {
+            let controller = segue.destinationViewController as! EditPatientViewController
+            controller.newPatient = true
+        }else{
+            let indexPath = self.tableView.indexPathForSelectedRow()
+            let (dob, fullName) = patients[indexPath!.row]
+            let pID = ids[indexPath!.row]
+            let email = emails[indexPath!.row]
+            let controller = segue.destinationViewController as! EditPatientViewController
+            
+            var fullNameArr = split(fullName) {$0 == " "}
+            var firstName: String = fullNameArr[0]
+            var lastName: String =  fullNameArr[1]
+            
+            controller.firstName = firstName
+            controller.lastName = lastName
+            controller.dob = dob
+            controller.id = pID
+            controller.email = email
+        }
         
         
     }

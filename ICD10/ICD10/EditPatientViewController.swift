@@ -21,6 +21,7 @@ class EditPatientViewController: UIViewController {
     var dob:String = ""
     var email:String = ""
     var id:Int!
+    var newPatient:Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,15 +40,26 @@ class EditPatientViewController: UIViewController {
     }
     
     @IBAction func savePatientInfo(sender: UIButton) {
-        //save all info to the database
-        let query = "UPDATE Patient SET date_of_birth='\(dobField.text)', f_name='\(firstNameField.text)', l_name='\(lastNameField.text)', email='\(emailField.text)' WHERE pID='\(id)';"
         
-        var statement:COpaquePointer = nil
-        println("Selected")
-        if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
-            sqlite3_step(statement)
-            //popup saying it worked
-            println("GOOD")
+        if newPatient {
+            let query = "INSERT INTO Patient (pID,date_of_birth,f_name,l_name, email) VALUES (NULL, '\(dobField.text)', '\(firstNameField.text)', '\(lastNameField.text)', '\(emailField.text)')"
+            var statement:COpaquePointer = nil
+            if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
+                sqlite3_step(statement)
+                //popup saying it worked
+                println("Added \(firstNameField.text)")
+            }
+        }else{
+            //save all info to the database
+            let query = "UPDATE Patient SET date_of_birth='\(dobField.text)', f_name='\(firstNameField.text)', l_name='\(lastNameField.text)', email='\(emailField.text)' WHERE pID='\(id)';"
+            
+            var statement:COpaquePointer = nil
+            println("Selected")
+            if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
+                sqlite3_step(statement)
+                //popup saying it worked
+                println("GOOD")
+            }
         }
     }
     

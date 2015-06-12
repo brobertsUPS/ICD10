@@ -28,6 +28,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var textFieldText:[String] = []                             //A list of saved items for the bill
     var icdCodes:[(icd10:String,icd9:String)] = []              //A list of saved codes for the bill
     
+    /*
+    var patientID:Int?
+    var referringDoctorID:Int?
+    var placeOfServiceID:Int?
+    var roomID:Int?
+    */
+    //var ids:[Int] = []?
+    
     //****************************************** Default override methods ******************************************************************************
     
     /**
@@ -123,64 +131,48 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     
     @IBAction func saveBill(sender: UIButton) {
-        let error = checkInputs()//check that everything is there
         
+        let error = checkInputs()//check that everything is there
         if error == "" {
-            //save the information to the correct tables
             
-            //place of service or get ID of place of service
-            //room 
-            //Appointment
-            //patient if not there
-            //Attends
-            //referring doctor if not there
-            //referred_by
-            //perfoms
-            //has_type
-            //diagnosed_with
+            let placeID = getPlaceOfServiceID(siteTextField.text) //get the ids to input into the bill
+            let roomID = getRoomID(roomTextField.text)
+            let patientID = getPatientID(patientTextField.text)
+            let referringDoctorID = getDoctorID(doctorTextField.text)
+            var aptID = 0
+            //insert into appointment
+            let insertAPTQuery = "INSERT INTO Appointment (aptID, pID, dID, date, placeID, roomID) VALUES (NULL, '\(patientID)','\(referringDoctorID)', '\(dateTextField.text)', '\(placeID)', '\(roomID)');"
+            var statement:COpaquePointer = nil
+            if sqlite3_prepare_v2(database, insertAPTQuery, -1, &statement, nil) == SQLITE_OK {
+                sqlite3_step(statement)
+                aptID = Int(sqlite3_last_insert_rowid(statement))
+                println("Successful Save")
+                //popup for successful save
+            }
+            
+            //insert id of referring doctor or add it if none
+            //Insert into has_type for all types there were\
+            if cptTextField.text != "" {
+                let insertHasType = "INSERT INTO Has_type (aptID,apt_code) VALUES (\(aptID),'\(cptTextField.text)')"
+                var statement:COpaquePointer = nil
+                if sqlite3_prepare_v2(database, insertAPTQuery, -1, &statement, nil) == SQLITE_OK {
+                    sqlite3_step(statement)
+                    aptID = Int(sqlite3_last_insert_rowid(statement))
+                    println("Successful Save")
+                    //popup for successful save
+                }
+            }
+                //CPT
+                //MC
+                //PC
+            //Insert into diagnosed with for all ICD10 codes
+                //loop
             
             //remove everything from the stack and remove back button
             //segue to self
         } else {
-            //popup with the error message
+            println(error)//popup with the error message
         }
-        
-        
-
-    }
-    
-    func checkInputs() -> String{
-        var error = ""
-        
-        if patientTextField.text == "" {
-            error = "Patient was missing from the bill form. Please add a patient to the bill."
-        }
-        
-        if patientDOBTextField.text == "" {
-            error = "Patient date of birth was missing from the bill form. Please check the form and enter a birth date."
-        }
-        
-        if doctorTextField.text == "" {
-            error = "Doctor was missing from the bill form. Please add a doctor to the bill."
-        }
-        
-        if siteTextField.text == "" {
-            error = "Site was missing from the bill form. Please add a site to the bill"
-        }
-        
-        if roomTextField.text == "" {
-            error = "Room was missing from the bill form. Please add a room to the bill."
-        }
-        
-        if cptTextField.text == "" {
-            if mcTextField.text == "" {
-                if pcTextField.text == "" {
-                    error = "There was no visit code in the bill form. Please check the form for a cpt, mc, or pc code."
-                }
-            }
-        }
-        return error
-        
     }
     
     
@@ -246,7 +238,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBAction func userChangedDoctorSearch(sender:UITextField){
         let doctors = doctorSearch(doctorTextField!.text)
         if let doctorSearchViewController = searchTableViewController {
-            println("changing doctor search")
             doctorSearchViewController.doctorSearchResults = doctors
             doctorSearchViewController.tableView.reloadData()
         }
@@ -256,8 +247,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     *   Updates the table view in the popup for any visit codes that match the input
     **/
     @IBAction func userChangedVisitCodeSearch(sender:UITextField) {
+        
         var visitCodes:[(String,String)] = []
-        println("code search \(sender.tag)")
         
         switch sender.tag {
         case 5:visitCodes = codeSearch("C")
@@ -288,6 +279,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(database, patientSearch, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
+                
+                let id = sqlite3_column_int(statement, 0)
+                
                 let patientDOB = sqlite3_column_text(statement, 1)
                 let patientDOBString = String.fromCString(UnsafePointer<CChar>(patientDOB))
                 
@@ -314,23 +308,23 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         var doctors:[String] = []
         
-        let doctorSearch = "SELECT f_name, l_name FROM Doctor WHERE f_name LIKE '%\(inputDoctor)%' OR l_name LIKE '%\(inputDoctor)%';"
+        let doctorSearch = "SELECT dID, f_name, l_name FROM Doctor WHERE f_name LIKE '%\(inputDoctor)%' OR l_name LIKE '%\(inputDoctor)%';"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(database, doctorSearch, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
+                let id = sqlite3_column_int(statement, 0)
                 
-                let doctorFName = sqlite3_column_text(statement, 0)
+                let doctorFName = sqlite3_column_text(statement, 1)
                 let doctorFNameString = String.fromCString(UnsafePointer<CChar>(doctorFName))
                 
-                let doctorLName = sqlite3_column_text(statement, 1)
+                let doctorLName = sqlite3_column_text(statement, 2)
                 let doctorLNameString = String.fromCString(UnsafePointer<CChar>(doctorLName))
                 
                 let doctorFullName = doctorFNameString! + " " + doctorLNameString!
                 doctors.append(doctorFullName)
             }
         }
-        println(doctors)
         return doctors
     }
     
@@ -431,17 +425,19 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     *   Adds the patient to the database
     **/
     @IBAction func addPatient(sender: UIButton) {
-        var fullName = patientTextField.text
-        var fullNameArr = split(fullName) {$0 == " "}
-        var firstName: String = fullNameArr[0]
-        var lastName: String =  fullNameArr[1]
-        var dateOfBirth = patientDOBTextField.text
+        self.addPatientToDatabase(patientTextField.text)
+    }
+    
+    func addPatientToDatabase(inputPatient:String){
+        var (firstName, lastName) = split(inputPatient)
         
-        let query = "INSERT INTO Patient (pID,date_of_birth,f_name,l_name, email) VALUES (NULL, '\(dateOfBirth)', '\(firstName)', '\(lastName)', '')"
+        var dateOfBirth = patientDOBTextField.text
+        println(dateOfBirth)
+        let query = "INSERT INTO Patient (pID,date_of_birth,f_name,l_name, email) VALUES (NULL, '\(dateOfBirth)', '\(firstName)', '\(lastName!)', '')"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
             sqlite3_step(statement)
-            println("inserted patient \(fullName)")
+            println("Saved \(firstName) \(lastName!)")
         }
     }
     
@@ -449,16 +445,164 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     *   Adds the doctor to the database
     **/
     @IBAction func addDoctor(sender: UIButton) {
-        var fullName = doctorTextField.text
-        var fullNameArr = split(fullName) {$0 == " "}
-        var firstName: String = fullNameArr[0]
-        var lastName: String =  fullNameArr[1]
+        self.addDoctorToDatabase(doctorTextField.text)
+    }
+    
+    func addDoctorToDatabase(inputDoctor:String) {
+        var (firstName, lastName) = split(inputDoctor)
         
-        let query = "INSERT INTO Doctor (dID,f_name,l_name, email) VALUES (NULL,'\(firstName)', '\(lastName)', '')"
+        let query = "INSERT INTO Doctor (dID,f_name,l_name, email) VALUES (NULL,'\(firstName)', '\(lastName!)', '')"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
             sqlite3_step(statement)
-            println("inserted doctor \(fullName)")
+            println("Saved \(firstName) \(lastName!)")
         }
+    }
+    
+    func addPlaceOfService(placeInput:String){
+        let insertPlaceQuery = "INSERT INTO Place_of_service (placeID, place_description) VALUES (NULL, '\(placeInput)');"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(database, insertPlaceQuery, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_step(statement)
+        }
+
+    }
+    
+    func addRoom(roomInput:String) {
+        let insertPlaceQuery = "INSERT INTO Place_of_service (placeID, place_description) VALUES (NULL, '\(roomInput)');"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(database, insertPlaceQuery, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_step(statement)
+        }
+    }
+    
+    /**
+    *   Returns the id of the place of service. Adds place of service if it did not match any in the database.
+    **/
+    func getPlaceOfServiceID(placeInput:String) -> Int {
+        
+        var placeID = 0
+        let placeQuery = "SELECT placeID FROM Place_of_service WHERE place_description='\(placeInput)'"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(database, placeQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {
+                placeID = Int(sqlite3_column_int(statement, 0))
+            } else {
+                self.addPlaceOfService(placeInput)
+                placeID = Int(sqlite3_last_insert_rowid(statement))
+            }
+        }
+        return placeID
+    }
+    
+    /**
+    *   Returns the id of the room. Adds the room if it did not match any in the database.
+    **/
+    func getRoomID(roomInput:String) -> Int {
+        
+        var roomID = 0
+        let roomQuery = "SELECT roomID FROM Room WHERE room_description='\(roomInput)'"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(database, roomQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {                                  //if we found a room grab it's id
+                roomID = Int(sqlite3_column_int(statement, 0))
+            } else {
+                self.addRoom(roomInput)                                                 //input the room and then get the id
+                roomID = Int(sqlite3_last_insert_rowid(statement))
+            }
+        }
+        return roomID
+    }
+    
+    
+    /**
+    *   Returns the id of the doctor. Adds the doctor if it did not match any in the database.
+    **/
+    func getDoctorID(doctorInput:String) -> Int {
+        
+        var dID = 0
+        let (firstName, lastName) = split(doctorInput)
+        let doctorQuery = "SELECT dID FROM Doctor WHERE f_name='\(firstName)' AND l_name='\(lastName!)';"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(database, doctorQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {
+                dID = Int(sqlite3_column_int(statement, 0))
+            }  else {
+                self.addDoctorToDatabase(doctorInput)
+                dID = Int(sqlite3_last_insert_rowid(statement))
+            }
+        }
+        return dID
+    }
+    
+    /**
+    *   Returns the id of the patient. Adds the patient if it did not match any in the database.
+    **/
+    func getPatientID(patientInput:String) -> Int {
+        
+        var pID = 0
+        let (firstName, lastName) = split(patientInput)
+        let patientQuery = "SELECT pID FROM Patient WHERE f_name='\(firstName)' AND l_name='\(lastName!)'"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(database, patientQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW{
+                pID = Int(sqlite3_column_int(statement, 0))
+            } else {
+                println("Added \(patientInput)")
+                self.addPatientToDatabase(patientInput)
+                pID = Int(sqlite3_last_insert_rowid(statement))
+            }
+        }
+        return pID
+    }
+    
+    func checkInputs() -> String{
+        var error = ""
+        
+        if patientTextField.text == "" {
+            error = "Patient was missing from the bill form. Please add a patient to the bill."
+        }
+        
+        if patientDOBTextField.text == "" {
+            error = "Patient date of birth was missing from the bill form. Please check the form and enter a birth date."
+        }
+        
+        if doctorTextField.text == "" {
+            error = "Doctor was missing from the bill form. Please add a doctor to the bill."
+        }
+        
+        if siteTextField.text == "" {
+            error = "Site was missing from the bill form. Please add a site to the bill"
+        }
+        
+        if roomTextField.text == "" {
+            error = "Room was missing from the bill form. Please add a room to the bill."
+        }
+        
+        if cptTextField.text == "" {
+            if mcTextField.text == "" {
+                if pcTextField.text == "" {
+                    error = "There was no visit code in the bill form. Please check the form for a cpt, mc, or pc code."
+                }
+            }
+        }
+        return error
+    }
+    
+    /**
+    *   Splits a string with a space delimeter
+    **/
+    func split(splitString:String) -> (String, String?){
+        
+        let fullNameArr = splitString.componentsSeparatedByString(" ")
+        var firstName: String = fullNameArr[0]
+        var lastName: String =  fullNameArr[1]
+        return (firstName, lastName)
     }
 }

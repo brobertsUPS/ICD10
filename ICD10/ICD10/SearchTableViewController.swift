@@ -45,7 +45,6 @@ class SearchTableViewController: UITableViewController {
     
         if searchType == "doctor" {
             let doctorName = doctorSearchResults[indexPath.row]
-            println(doctorName)
             cell.textLabel!.text = doctorName
         } else {
             let (dob, patientName) = tupleSearchResults[indexPath.row]
@@ -62,7 +61,6 @@ class SearchTableViewController: UITableViewController {
         }else if searchType == "patient"{
             let (dob, name) = tupleSearchResults[indexPath.row]
             self.selectedTuple = (dob,name)
-            println("Set patient \(dob) and \(name)")
             NSNotificationCenter.defaultCenter().postNotificationName("loadPatient", object: name)
         }else {
             let (code_description, code) = tupleSearchResults[indexPath.row]

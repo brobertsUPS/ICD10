@@ -20,7 +20,25 @@ class DoctorsTableViewController: UITableViewController {
         self.navigationItem.title = "Doctors"
         var dbManager = DatabaseManager()
         database = dbManager.checkDatabaseFileAndOpen()
-        
+        doctors = []
+        ids = []
+        emails = []
+        findDoctors()
+        self.tableView.reloadData()
+    }
+    override func viewWillAppear(animated: Bool) {
+        doctors = []
+        ids = []
+        emails = []
+        findDoctors()
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func addNewDoctor(sender: UIButton) {
+        self.performSegueWithIdentifier("addDoctor", sender: self)
+    }
+    
+    func findDoctors() {
         var doctorSearch = "SELECT * FROM Doctor"
         var statement:COpaquePointer = nil
         
@@ -45,7 +63,6 @@ class DoctorsTableViewController: UITableViewController {
             }
             
         }
-        println(doctors)
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,25 +84,31 @@ class DoctorsTableViewController: UITableViewController {
     }
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        let indexPath = self.tableView.indexPathForSelectedRow()
-        let fullName = doctors[indexPath!.row]
-        let dID = ids[indexPath!.row]
-        let email = emails[indexPath!.row]
-        
-        var fullNameArr = split(fullName) {$0 == " "}
-        var firstName: String = fullNameArr[0]
-        var lastName: String =  fullNameArr[1]
-        
-        let controller = segue.destinationViewController as! EditDoctorViewController
-        
-        controller.firstName = firstName
-        controller.lastName = lastName
-        controller.email = email
-        controller.id = dID
+        if segue.identifier == "addDoctor"{
+            let controller = segue.destinationViewController as! EditDoctorViewController
+            controller.newDoctor = true
+        }else{
+            
+            let indexPath = self.tableView.indexPathForSelectedRow()
+            let fullName = doctors[indexPath!.row]
+            let dID = ids[indexPath!.row]
+            let email = emails[indexPath!.row]
+            
+            var fullNameArr = split(fullName) {$0 == " "}
+            var firstName: String = fullNameArr[0]
+            var lastName: String =  fullNameArr[1]
+            
+            let controller = segue.destinationViewController as! EditDoctorViewController
+            
+            controller.firstName = firstName
+            controller.lastName = lastName
+            controller.email = email
+            controller.id = dID
+        }
     }
     
     /**

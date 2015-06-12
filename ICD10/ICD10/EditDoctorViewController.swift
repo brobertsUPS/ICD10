@@ -21,6 +21,8 @@ class EditDoctorViewController: UIViewController {
     var email:String = ""
     var id:Int!
     
+    var newDoctor = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         var dbManager = DatabaseManager()
@@ -37,15 +39,25 @@ class EditDoctorViewController: UIViewController {
     }
     
     @IBAction func saveDoctorInfo(sender: UIButton) {
-        let query = "UPDATE Doctor SET email='\(emailField.text)', f_name='\(firstNameField.text)', l_name='\(lastNameField.text)' WHERE dID='\(id)';"
-        var statement:COpaquePointer = nil
-        println("Selected")
-        if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
-            sqlite3_step(statement)
-            //popup saying it worked
+        
+        if newDoctor {
+            let query = "INSERT INTO Doctor (dID,f_name,l_name, email) VALUES (NULL,'\(firstNameField.text)', '\(lastNameField.text)', '\(emailField.text)')"
+            var statement:COpaquePointer = nil
+            if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
+                sqlite3_step(statement)
+                println("Saved \(firstNameField.text)")
+            }
+        }else{
+            let query = "UPDATE Doctor SET email='\(emailField.text)', f_name='\(firstNameField.text)', l_name='\(lastNameField.text)' WHERE dID='\(id)';"
+            var statement:COpaquePointer = nil
+            println("Selected")
+            if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
+                sqlite3_step(statement)
+                //popup saying it worked
+            }
         }
     }
-
+    
     /**
     *   Registers clicking return and resigns the keyboard
     **/
