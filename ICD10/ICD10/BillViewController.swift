@@ -10,7 +10,7 @@ import UIKit
 
 class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
     
-    var database:COpaquePointer = nil                           //The database connection
+    var database:COpaquePointer!                          //The database connection
     var searchTableViewController: SearchTableViewController?   //A view controller for the popup table view
     var billViewController:BillViewController?    //A bill that is passed along to hold all of the codes for the final bill
     
@@ -140,6 +140,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             let patientID = getPatientID(patientTextField.text)
             let referringDoctorID = getDoctorID(doctorTextField.text)
             var aptID = 0
+            
             //insert into appointment
             let insertAPTQuery = "INSERT INTO Appointment (aptID, pID, dID, date, placeID, roomID) VALUES (NULL, '\(patientID)','\(referringDoctorID)', '\(dateTextField.text)', '\(placeID)', '\(roomID)');"
             var statement:COpaquePointer = nil
@@ -147,7 +148,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 sqlite3_step(statement)
                 aptID = Int(sqlite3_last_insert_rowid(statement))
                 println("Successful Save")
-                //popup for successful save
             }
             
             //insert id of referring doctor or add it if none
@@ -158,16 +158,39 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 if sqlite3_prepare_v2(database, insertAPTQuery, -1, &statement, nil) == SQLITE_OK {
                     sqlite3_step(statement)
                     aptID = Int(sqlite3_last_insert_rowid(statement))
-                    println("Successful Save")
-                    //popup for successful save
+                    println("Successful CPT Save")
                 }
             }
-                //CPT
-                //MC
-                //PC
+            
+            if mcTextField.text != "" {
+                let insertHasType = "INSERT INTO Has_type (aptID,apt_code) VALUES (\(aptID),'\(mcTextField.text)')"
+                var statement:COpaquePointer = nil
+                if sqlite3_prepare_v2(database, insertAPTQuery, -1, &statement, nil) == SQLITE_OK {
+                    sqlite3_step(statement)
+                    aptID = Int(sqlite3_last_insert_rowid(statement))
+                    println("Successful MC Save")
+                }
+            }
+            
+            if pcTextField.text != "" {
+                let insertHasType = "INSERT INTO Has_type (aptID,apt_code) VALUES (\(aptID),'\(pcTextField.text)')"
+                var statement:COpaquePointer = nil
+                if sqlite3_prepare_v2(database, insertAPTQuery, -1, &statement, nil) == SQLITE_OK {
+                    sqlite3_step(statement)
+                    aptID = Int(sqlite3_last_insert_rowid(statement))
+                    println("Successful PC Save")
+                }
+            }
+
             //Insert into diagnosed with for all ICD10 codes
                 //loop
-            
+            let diagnosedWith = "INSERT INTO Diagnosed_with (aptID, ICD10_code) VALUES (\(aptID), '\(ICD10TextField.text)')"
+            if sqlite3_prepare_v2(database, diagnosedWith, -1, &statement, nil) == SQLITE_OK {
+                sqlite3_step(statement)
+                aptID = Int(sqlite3_last_insert_rowid(statement))
+                println("Successful ICD10 Save")
+            }
+            //popup for successful bill save
             //remove everything from the stack and remove back button
             //segue to self
         } else {
@@ -196,6 +219,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         if segue.identifier == "beginICD10Search" {
             let controller = segue.destinationViewController as! MasterViewController
             controller.billViewController = self
+            sqlite3_close(database)
         }else{
             let popoverViewController = (segue.destinationViewController as! UIViewController) as! SearchTableViewController
             self.searchTableViewController = popoverViewController                          //set our view controller as the SearchPopover
@@ -216,6 +240,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             case "pcSearch":popoverViewController.tupleSearchResults = codeSearch("P")
             default:break
             }
+            
         }
     }
     
@@ -568,23 +593,18 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         if patientTextField.text == "" {
             error = "Patient was missing from the bill form. Please add a patient to the bill."
         }
-        
         if patientDOBTextField.text == "" {
             error = "Patient date of birth was missing from the bill form. Please check the form and enter a birth date."
         }
-        
         if doctorTextField.text == "" {
             error = "Doctor was missing from the bill form. Please add a doctor to the bill."
         }
-        
         if siteTextField.text == "" {
             error = "Site was missing from the bill form. Please add a site to the bill"
         }
-        
         if roomTextField.text == "" {
             error = "Room was missing from the bill form. Please add a room to the bill."
         }
-        
         if cptTextField.text == "" {
             if mcTextField.text == "" {
                 if pcTextField.text == "" {

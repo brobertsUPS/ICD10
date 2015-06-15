@@ -17,7 +17,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
 
     var detailViewController: DetailViewController? = nil                   //The detail page of the application
     var objects:[(id:Int,name:String)] = []
-    var database:COpaquePointer = nil
+    var database:COpaquePointer!
     var billViewController:BillViewController?
     
     private let favoritesCell = "Favorites"
@@ -216,6 +216,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 controller.navigationItem.leftItemsSupplementBackButton = true
                 controller.billViewController = self.billViewController
             }
+            sqlite3_close(database)
         }
     }
     

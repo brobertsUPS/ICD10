@@ -119,7 +119,7 @@ class PatientsTableViewController: UITableViewController {
             controller.id = pID
             controller.email = email
         }
-        
+        sqlite3_close(database)
         
     }
 

@@ -33,6 +33,7 @@ class DoctorsTableViewController: UITableViewController {
         findDoctors()
         self.tableView.reloadData()
     }
+
     
     @IBAction func addNewDoctor(sender: UIButton) {
         self.performSegueWithIdentifier("addDoctor", sender: self)
@@ -109,6 +110,7 @@ class DoctorsTableViewController: UITableViewController {
             controller.email = email
             controller.id = dID
         }
+        sqlite3_close(database)
     }
     
     /**

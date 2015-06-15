@@ -54,13 +54,13 @@ class DetailViewController: UIViewController {
             controller.textFieldText.append(self.billViewController!.cptTextField!.text!)
             controller.textFieldText.append(self.billViewController!.mcTextField!.text!)
             controller.textFieldText.append(self.billViewController!.pcTextField!.text!)
-            //controller.textFieldText.append(ICD10Text!)
             
             controller.icdCodes = self.billViewController!.icdCodes //carry the codes
             
             
             let tuple = (icd10: ICD10Text!,icd9: ICD9Text!)
             controller.icdCodes.append(tuple)
+            controller.database = billViewController?.database
         }
     }
 }

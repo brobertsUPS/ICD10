@@ -12,11 +12,13 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    var database:COpaquePointer!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         //Override point for customization after application launch.
-        
+        var databaseManager = DatabaseManager()
+        database = databaseManager.checkDatabaseFileAndOpen()
         return true
     }
 

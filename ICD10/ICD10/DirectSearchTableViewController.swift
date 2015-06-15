@@ -10,7 +10,7 @@ import UIKit
 
 class DirectSearchTableViewController: UITableViewController{
     
-    var database:COpaquePointer = nil
+    var database:COpaquePointer!
     var codeInfo:[(code:String, description:String)] = []
     var selectedCode:(icd10:String, description:String, icd9:String)?
     var billViewController:BillViewController?
@@ -18,7 +18,7 @@ class DirectSearchTableViewController: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         var databaseManager = DatabaseManager()
-        database = databaseManager.checkDatabaseFileAndOpen()
+       // database = databaseManager.checkDatabaseFileAndOpen()
     }
     
     // MARK: - Table view data source

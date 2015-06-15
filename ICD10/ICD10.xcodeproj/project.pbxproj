@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AD0613901B2B5DFF008026BD /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD06138F1B2B5DFA008026BD /* testDML.sqlite3 */; };
-		AD0BB18A1B26564300CAA677 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0BB1891B26564300CAA677 /* HomeViewController.swift */; };
-		AD0BB18C1B265A3000CAA677 /* ViewBillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0BB18B1B265A3000CAA677 /* ViewBillViewController.swift */; };
+		AD19EA951B2F423800A1AFF1 /* BillDatesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */; };
+		AD19EA971B2F473500A1AFF1 /* BillsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */; };
 		AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD4FAE761B18D9260010B411 /* Main.storyboard */; };
 		AD7A73D21B2782590054DD55 /* PatientsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */; };
 		AD7A73D41B2783A90054DD55 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */; };
@@ -41,8 +41,8 @@
 
 /* Begin PBXFileReference section */
 		AD06138F1B2B5DFA008026BD /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
-		AD0BB1891B26564300CAA677 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		AD0BB18B1B265A3000CAA677 /* ViewBillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBillViewController.swift; sourceTree = "<group>"; };
+		AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillDatesTableViewController.swift; sourceTree = "<group>"; };
+		AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillsTableViewController.swift; sourceTree = "<group>"; };
 		AD4FAE771B18D9260010B411 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientsTableViewController.swift; sourceTree = "<group>"; };
 		AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -109,18 +109,18 @@
 			children = (
 				AD06138F1B2B5DFA008026BD /* testDML.sqlite3 */,
 				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
-				ADAB0D381B210E71004C770C /* BillViewController.swift */,
 				AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */,
+				AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */,
+				AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */,
+				ADAB0D381B210E71004C770C /* BillViewController.swift */,
+				ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */,
+				ADE77F371B1782F900CE48F1 /* MasterViewController.swift */,
 				ADE77F391B1782F900CE48F1 /* DetailViewController.swift */,
 				AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */,
-				AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */,
 				AD93D7261B28A2F8000EAF98 /* EditDoctorViewController.swift */,
 				AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */,
-				AD0BB1891B26564300CAA677 /* HomeViewController.swift */,
 				AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */,
-				ADE77F371B1782F900CE48F1 /* MasterViewController.swift */,
-				ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */,
-				AD0BB18B1B265A3000CAA677 /* ViewBillViewController.swift */,
+				AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */,
 				ADE77F401B1782F900CE48F1 /* LaunchScreen.xib */,
 				AD4FAE761B18D9260010B411 /* Main.storyboard */,
 				ADE77F3E1B1782F900CE48F1 /* Images.xcassets */,
@@ -258,19 +258,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD93D7251B28A104000EAF98 /* EditPatientViewController.swift in Sources */,
-				AD93D7271B28A2F8000EAF98 /* EditDoctorViewController.swift in Sources */,
-				ADE77F3A1B1782F900CE48F1 /* DetailViewController.swift in Sources */,
-				AD7A73D41B2783A90054DD55 /* DatabaseManager.swift in Sources */,
-				ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */,
-				AD7A73D61B278D150054DD55 /* DoctorsTableViewController.swift in Sources */,
-				AD7A73D21B2782590054DD55 /* PatientsTableViewController.swift in Sources */,
-				AD93D7311B28F667000EAF98 /* DirectSearchTableViewController.swift in Sources */,
-				AD0BB18C1B265A3000CAA677 /* ViewBillViewController.swift in Sources */,
-				ADD4A8C41B220FC00083FAF1 /* SearchTableViewController.swift in Sources */,
-				ADE77F381B1782F900CE48F1 /* MasterViewController.swift in Sources */,
 				ADE77F361B1782F900CE48F1 /* AppDelegate.swift in Sources */,
-				AD0BB18A1B26564300CAA677 /* HomeViewController.swift in Sources */,
+				AD19EA951B2F423800A1AFF1 /* BillDatesTableViewController.swift in Sources */,
+				ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */,
+				AD7A73D41B2783A90054DD55 /* DatabaseManager.swift in Sources */,
+				ADE77F3A1B1782F900CE48F1 /* DetailViewController.swift in Sources */,
+				AD93D7311B28F667000EAF98 /* DirectSearchTableViewController.swift in Sources */,
+				AD7A73D61B278D150054DD55 /* DoctorsTableViewController.swift in Sources */,
+				AD93D7271B28A2F8000EAF98 /* EditDoctorViewController.swift in Sources */,
+				AD19EA971B2F473500A1AFF1 /* BillsTableViewController.swift in Sources */,
+				AD93D7251B28A104000EAF98 /* EditPatientViewController.swift in Sources */,
+				AD7A73D21B2782590054DD55 /* PatientsTableViewController.swift in Sources */,
+				ADE77F381B1782F900CE48F1 /* MasterViewController.swift in Sources */,
+				ADD4A8C41B220FC00083FAF1 /* SearchTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
