@@ -10,7 +10,6 @@ import UIKit
 
 class EditDoctorViewController: UIViewController {
 
-    var database:COpaquePointer = nil
     var dbManager:DatabaseManager!
     
     @IBOutlet weak var firstNameField: UITextField!
@@ -27,7 +26,6 @@ class EditDoctorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         dbManager = DatabaseManager()
-        database = dbManager.checkDatabaseFileAndOpen()
         
         firstNameField.text = firstName
         lastNameField.text = lastName

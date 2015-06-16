@@ -12,14 +12,15 @@ class DoctorsTableViewController: UITableViewController {
     
     var doctors:[String] = []
     var ids:[Int] = []
-    var database:COpaquePointer = nil
     var emails:[String] = []
+    
+    var dbManager:DatabaseManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Doctors"
-        var dbManager = DatabaseManager()
-        database = dbManager.checkDatabaseFileAndOpen()
+        dbManager = DatabaseManager()
+
         doctors = []
         ids = []
         emails = []
@@ -40,10 +41,11 @@ class DoctorsTableViewController: UITableViewController {
     }
     
     func findDoctors() {
+        dbManager.checkDatabaseFileAndOpen()
         var doctorSearch = "SELECT * FROM Doctor"
         var statement:COpaquePointer = nil
         
-        if sqlite3_prepare_v2(database, doctorSearch, -1, &statement, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(dbManager.db, doctorSearch, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
                 
                 let doctorID = Int(sqlite3_column_int(statement, 0))
@@ -64,6 +66,7 @@ class DoctorsTableViewController: UITableViewController {
             }
             
         }
+        dbManager.closeDB()
     }
 
     override func didReceiveMemoryWarning() {
@@ -110,7 +113,6 @@ class DoctorsTableViewController: UITableViewController {
             controller.email = email
             controller.id = dID
         }
-        sqlite3_close(database)
     }
     
     /**

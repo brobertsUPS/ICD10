@@ -107,8 +107,8 @@
 		ADE77F321B1782F900CE48F1 /* ICD10 */ = {
 			isa = PBXGroup;
 			children = (
-				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
 				AD0715F41B3087C50075964D /* testDML.sqlite3 */,
+				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
 				AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */,
 				AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */,
 				AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */,

@@ -10,7 +10,6 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    var database:COpaquePointer!
     var billViewController:BillViewController?     //A bill that is passed along to hold all of the codes for the final bill
     
     @IBOutlet weak var detailDescriptionLabel: UILabel! //Labels for the codes (update these when the view is loaded)
@@ -28,9 +27,6 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         self.resignFirstResponder()
         
-        var databaseManager = DatabaseManager()
-        database = databaseManager.checkDatabaseFileAndOpen()
-        
         ICD10Code.text = self.ICD10Text
         ICD9Code.text = self.ICD9Text
         conditionDescription.text = self.conditionDescriptionText
@@ -40,7 +36,6 @@ class DetailViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     /**

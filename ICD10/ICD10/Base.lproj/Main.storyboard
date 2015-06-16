@@ -108,7 +108,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-412" y="989"/>
+            <point key="canvasLocation" x="-538" y="1307"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5z2-Rx-rav">
@@ -955,7 +955,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" image="Bill-50" selectedImage="Bill-50" id="kap-5e-bnb"/>
+                    <tabBarItem key="tabBarItem" title="Item" image="Bill-50" id="kap-5e-bnb"/>
                     <navigationItem key="navigationItem" id="Jcx-q4-ATe"/>
                     <connections>
                         <outlet property="ICD10TextField" destination="omg-B0-24R" id="Ehd-pQ-r9t"/>
@@ -1110,7 +1110,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aTT-m9-8Vw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-412" y="268"/>
+            <point key="canvasLocation" x="-421" y="396"/>
         </scene>
         <!--Master-->
         <scene sceneID="smW-Zh-WAh">
@@ -1175,7 +1175,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-412" y="-494"/>
+            <point key="canvasLocation" x="-548" y="-373"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MSc-bV-FS8">
@@ -1219,10 +1219,10 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="edd-ny-Y2u"/>
-        <segue reference="Z4a-kr-10O"/>
+        <segue reference="kdx-iD-Qhd"/>
+        <segue reference="2Ks-D5-SZF"/>
         <segue reference="mPz-1b-nYJ"/>
+        <segue reference="XTM-Ii-pXh"/>
         <segue reference="jsy-lt-xeY"/>
-        <segue reference="9Ct-d4-zXE"/>
-        <segue reference="zKf-2S-qlA"/>
     </inferredMetricsTieBreakers>
 </document>

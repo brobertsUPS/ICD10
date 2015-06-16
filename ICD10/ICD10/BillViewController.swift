@@ -28,14 +28,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var textFieldText:[String] = []                             //A list of saved items for the bill
     var icdCodes:[(icd10:String,icd9:String)] = []              //A list of saved codes for the bill
     
-    /*
-    var patientID:Int?
-    var referringDoctorID:Int?
-    var placeOfServiceID:Int?
-    var roomID:Int?
-    */
-    //var ids:[Int] = []?
-    
     //****************************************** Default override methods ******************************************************************************
     
     /**
@@ -186,11 +178,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     **/
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        dbManager.checkDatabaseFileAndOpen()
         if segue.identifier == "beginICD10Search" {
             let controller = segue.destinationViewController as! MasterViewController
             controller.billViewController = self
         }else{
+            dbManager.checkDatabaseFileAndOpen()
             let popoverViewController = (segue.destinationViewController as! UIViewController) as! SearchTableViewController
             self.searchTableViewController = popoverViewController                          //set our view controller as the SearchPopover
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
@@ -210,8 +202,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             case "pcSearch":popoverViewController.tupleSearchResults = dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: "", pcTextFieldText: pcTextField.text)
             default:break
             }
+            dbManager.closeDB()
         }
-        dbManager.closeDB()
+        
     }
     
     //****************************************** Changes in text fields ******************************************************************************
@@ -331,13 +324,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     *   Adds the patient to the database
     **/
     @IBAction func addPatient(sender: UIButton) {
-        self.addPatientToDatabase(patientTextField.text)
+        self.addPatientToDatabase(patientTextField.text, email: "")
     }
     
-    func addPatientToDatabase(inputPatient:String){
+    func addPatientToDatabase(inputPatient:String, email:String){
         var dateOfBirth = patientDOBTextField.text
         dbManager.checkDatabaseFileAndOpen()
-        dbManager.addPatientToDatabase(inputPatient, dateOfBirth: dateOfBirth)
+        dbManager.addPatientToDatabase(inputPatient, dateOfBirth: dateOfBirth, email:email)
         dbManager.closeDB()
     }
     

@@ -10,15 +10,14 @@ import UIKit
 
 class DirectSearchTableViewController: UITableViewController{
     
-    var database:COpaquePointer!
+    var dbManager:DatabaseManager!
     var codeInfo:[(code:String, description:String)] = []
     var selectedCode:(icd10:String, description:String, icd9:String)?
     var billViewController:BillViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var databaseManager = DatabaseManager()
-       // database = databaseManager.checkDatabaseFileAndOpen()
+        dbManager = DatabaseManager()
     }
     
     // MARK: - Table view data source
@@ -41,11 +40,11 @@ class DirectSearchTableViewController: UITableViewController{
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         let tuple = codeInfo[indexPath.row]
         let (code,codeDescription) = tuple
-        
+        dbManager.checkDatabaseFileAndOpen()
         let query = "SELECT ICD9_code FROM ICD10_condition NATURAL JOIN Characterized_by WHERE ICD10_code='\(code)'"
         var statement:COpaquePointer = nil
         
-        if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
             sqlite3_step(statement)
             
             let icd9Code = sqlite3_column_text(statement, 0)
@@ -54,6 +53,7 @@ class DirectSearchTableViewController: UITableViewController{
             NSNotificationCenter.defaultCenter().postNotificationName("loadCode", object: code)
         }
         self.resignFirstResponder()
+        dbManager.closeDB()
     }
     
     override func didReceiveMemoryWarning() {

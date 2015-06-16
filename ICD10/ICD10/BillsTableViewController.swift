@@ -10,7 +10,7 @@ import UIKit
 
 class BillsTableViewController: UITableViewController {
     
-    var database:COpaquePointer = nil
+    var dbManager:DatabaseManager!
     var patientsInfo:[(id:Int,dob:String, name:String)] = [] //the pID maps to the date of birth and the patient name
     var IDs:[(aptID:Int, dID:Int, placeID:Int, roomID:Int)] = []
     var date:String = ""
@@ -18,8 +18,7 @@ class BillsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var databaseManager = DatabaseManager()
-        database = databaseManager.checkDatabaseFileAndOpen()
+        dbManager = DatabaseManager()
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,16 +56,15 @@ class BillsTableViewController: UITableViewController {
             
             controller.icdCodes = icd10Codes
         }
-        sqlite3_close(database)
     }
     
     func getDoctorForBill(dID:Int) -> String{
         var nameString = ""
-        
+        dbManager.checkDatabaseFileAndOpen()
         let doctorQuery = "SELECT f_name, l_name FROM Doctor WHERE dID=\(dID)"
         var statement:COpaquePointer = nil
         
-        if sqlite3_prepare_v2(database, doctorQuery, -1, &statement, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(dbManager.db, doctorQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
                 var firstName = sqlite3_column_text(statement, 0)
                 var firstNameString = String.fromCString(UnsafePointer<CChar>(firstName))
@@ -76,37 +74,42 @@ class BillsTableViewController: UITableViewController {
                 nameString = "\(firstNameString!) \(lastNameString!)"
             }
         }
+        dbManager.closeDB()
         return nameString
     }
     
     func getPlaceForBill(placeID:Int) -> String {
+        dbManager.checkDatabaseFileAndOpen()
         var place = ""
         println("placeID \(placeID)")
         let placeQuery = "SELECT place_description FROM Place_of_service WHERE placeID=\(placeID)"
         var statement:COpaquePointer = nil
         
-        if sqlite3_prepare_v2(database, placeQuery, -1, &statement, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(dbManager.db, placeQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
                 
                 var resultPlace = sqlite3_column_text(statement, 0)
                 place = String.fromCString(UnsafePointer<CChar>(resultPlace))!
             }
         }
+        dbManager.closeDB()
         return place
     }
     
     func getRoomForBill(roomID:Int) -> String {
+        dbManager.checkDatabaseFileAndOpen()
         var room = ""
         println("RoomID \(roomID)")
         let roomQuery = "SELECT room_description FROM Room WHERE roomID=\(roomID)"
         var statement:COpaquePointer = nil
         
-        if sqlite3_prepare_v2(database, roomQuery, -1, &statement, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(dbManager.db, roomQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
                 var resultRoom = sqlite3_column_text(statement, 0)
                 room = String.fromCString(UnsafePointer<CChar>(resultRoom))!
             }
         }
+        dbManager.closeDB()
         return room
     }
     
@@ -115,12 +118,12 @@ class BillsTableViewController: UITableViewController {
         var cpt = ""
         var mc = ""
         var pc = ""
-        
+        dbManager.checkDatabaseFileAndOpen()
         let cptQuery = "SELECT apt_code, type_description FROM Appointment NATURAL JOIN Has_type NATURAL JOIN Type WHERE aptID=\(aptID)"
         
         var statement:COpaquePointer = nil
         
-        if sqlite3_prepare_v2(database,cptQuery, -1, &statement, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(dbManager.db,cptQuery, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
                 var visitCode = sqlite3_column_text(statement, 0)
                 var visitCodeString = String.fromCString(UnsafePointer<CChar>(visitCode))
@@ -136,17 +139,20 @@ class BillsTableViewController: UITableViewController {
                 }
             }
         }
+        dbManager.closeDB()
         return (cpt, mc, pc)
     }
     
     func getDiagnosesCodesForBill(aptID:Int) -> [(icd10:String, icd9:String)] {
+        
+        dbManager.checkDatabaseFileAndOpen()
         
         var conditionDiagnosed:[(icd10:String, icd9:String)] = []
     
         let conditionQuery = "SELECT ICD10_code, ICD9_code FROM Diagnosed_with NATURAL JOIN Appointment Characterized_by WHERE aptID=\(aptID)"
         var statement:COpaquePointer = nil
         
-        if sqlite3_prepare_v2(database, conditionQuery, -1, &statement, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(dbManager.db, conditionQuery, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
                 var conditionICD10 = sqlite3_column_text(statement, 0)
                 var conditionString = String.fromCString(UnsafePointer<CChar>(conditionICD10))
@@ -158,6 +164,8 @@ class BillsTableViewController: UITableViewController {
                 conditionDiagnosed += [(tuple)]
             }
         }
+        dbManager.closeDB()
+        
         return conditionDiagnosed
     }
     

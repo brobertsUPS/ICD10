@@ -11,21 +11,22 @@ import UIKit
 class BillDatesTableViewController: UITableViewController {
 
     var billDates:[String] = []
-    var database:COpaquePointer = nil
+    var dbManager:DatabaseManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var databaseManager = DatabaseManager()
-        database = databaseManager.checkDatabaseFileAndOpen()
+        dbManager = DatabaseManager()
+        dbManager.checkDatabaseFileAndOpen()
         let dateQuery = "SELECT date FROM Appointment GROUP BY date"
         var statement:COpaquePointer = nil
-        if sqlite3_prepare_v2(database, dateQuery, -1, &statement, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(dbManager.db, dateQuery, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
                 var date = sqlite3_column_text(statement, 0)
                 var dateString = String.fromCString(UnsafePointer<CChar>(date))
                 billDates.append(dateString!)                                      //if we got into this step the dateString is good
             }
         }
+        dbManager.closeDB()
     }
     
     override func didReceiveMemoryWarning() {
@@ -39,6 +40,8 @@ class BillDatesTableViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "showBillsForDate" {
+            dbManager.checkDatabaseFileAndOpen()
+            
             var patientBills:[(id:Int, dob:String, name:String)] = []
             var IDs:[(aptID:Int, dID:Int, placeID:Int, roomID:Int)] = []
             
@@ -48,7 +51,7 @@ class BillDatesTableViewController: UITableViewController {
             let billsQuery = "SELECT pID,date_of_birth, f_name, l_name, aptID, dID, placeID, roomID FROM Patient NATURAL JOIN Appointment WHERE date='\(date)'"
             println("bills query ran")
             var statement:COpaquePointer = nil
-            if sqlite3_prepare_v2(database, billsQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_prepare_v2(dbManager.db, billsQuery, -1, &statement, nil) == SQLITE_OK {
                 println("bills query succeeded")
                 while sqlite3_step(statement) == SQLITE_ROW {
                     
@@ -80,7 +83,7 @@ class BillDatesTableViewController: UITableViewController {
             controller.patientsInfo = patientBills
             controller.IDs = IDs
         }
-        sqlite3_close(database)
+        dbManager.closeDB()
     }
     
     // MARK: - Table view data source

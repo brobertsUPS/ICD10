@@ -10,7 +10,8 @@ import UIKit
 
 class EditPatientViewController: UIViewController {
     
-    var database:COpaquePointer = nil
+    var dbManager:DatabaseManager!
+    
     @IBOutlet weak var firstNameField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
     @IBOutlet weak var dobField: UITextField!
@@ -25,8 +26,7 @@ class EditPatientViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        var dbManager = DatabaseManager()
-        database = dbManager.checkDatabaseFileAndOpen()
+        dbManager = DatabaseManager()
         
         firstNameField.text = firstName
         lastNameField.text = lastName
@@ -42,25 +42,23 @@ class EditPatientViewController: UIViewController {
     @IBAction func savePatientInfo(sender: UIButton) {
         
         if newPatient {
-            let query = "INSERT INTO Patient (pID,date_of_birth,f_name,l_name, email) VALUES (NULL, '\(dobField.text)', '\(firstNameField.text)', '\(lastNameField.text)', '\(emailField.text)')"
-            var statement:COpaquePointer = nil
-            if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
-                sqlite3_step(statement)
-                //popup saying it worked
-                println("Added \(firstNameField.text)")
-            }
+            var fullName = "\(firstNameField.text) \(lastNameField.text)"
+            self.addPatientToDatabase(fullName, dateOfBirth: dobField.text, email: emailField.text)
         }else{
-            //save all info to the database
-            let query = "UPDATE Patient SET date_of_birth='\(dobField.text)', f_name='\(firstNameField.text)', l_name='\(lastNameField.text)', email='\(emailField.text)' WHERE pID='\(id)';"
-            
-            var statement:COpaquePointer = nil
-            println("Selected")
-            if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
-                sqlite3_step(statement)
-                //popup saying it worked
-                println("GOOD")
-            }
+            self.updatePatient(firstNameField.text, lastName: lastNameField.text, dob: dobField.text, email: emailField.text, id: id)
         }
+    }
+    
+    func addPatientToDatabase(inputPatient:String, dateOfBirth:String, email:String){
+        dbManager.checkDatabaseFileAndOpen()
+        dbManager.addPatientToDatabase(inputPatient, dateOfBirth: dateOfBirth, email:email)
+        dbManager.closeDB()
+    }
+    
+    func updatePatient(firstName:String, lastName:String, dob:String, email:String, id:Int){
+        dbManager.checkDatabaseFileAndOpen()
+        dbManager.updatePatient(firstName, lastName: lastName, dob: dob, email: email, id: id)
+        dbManager.closeDB()
     }
     
     /**

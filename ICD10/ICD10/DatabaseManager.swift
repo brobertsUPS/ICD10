@@ -12,16 +12,18 @@ class DatabaseManager {
     
     var db:COpaquePointer!
     
+    init(){
+        
+    }
     /**
     *   Checks that the database file is on the device. If not, copies the database file to the device.
     *   Connects to the database after file is verified to be in the right spot.
     **/
-    func checkDatabaseFileAndOpen() -> COpaquePointer{
+    func checkDatabaseFileAndOpen(){
         let theFileManager = NSFileManager.defaultManager()
         let filePath = dataFilePath()
         if theFileManager.fileExistsAtPath(filePath) {
             db = openDBPath(filePath)
-            return db // And then open the DB File
         } else {
             
             let pathToBundledDB = NSBundle.mainBundle().pathForResource("testDML", ofType: "sqlite3")// Copy the file from the Bundle and write it to the Device
@@ -30,10 +32,8 @@ class DatabaseManager {
             
             if (theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice, error: nil)) {
                 db = openDBPath(pathToDevice)
-               return db//get the database open
             } else {
                 println("database failure")
-               return nil // failure
             }
         }
     }
@@ -54,18 +54,21 @@ class DatabaseManager {
         
         var db:COpaquePointer  = nil
         var result = sqlite3_open(filePath, &db)
+        println("openResult: \(result)")
         if result != SQLITE_OK {
             sqlite3_close(db)
             println("Failed To Open Database")
             return nil
         }else {
-            println("opened database")
             return db
         }
     }
     
     func closeDB() {
-        sqlite3_close(db)
+        var closeResult = sqlite3_close_v2(db)
+        print("closed result:\(closeResult)")
+        if closeResult == SQLITE_OK {
+        }
     }
     
     //Adding information to the database*************************************************************************************************************
@@ -88,18 +91,19 @@ class DatabaseManager {
         return aptID
     }
     
-    func addPatientToDatabase(inputPatient:String, dateOfBirth:String){
+    func addPatientToDatabase(inputPatient:String, dateOfBirth:String, email:String){
         
         var (firstName, lastName) = split(inputPatient)
         
         println(dateOfBirth)
-        let query = "INSERT INTO Patient (pID,date_of_birth,f_name,l_name, email) VALUES (NULL, '\(dateOfBirth)', '\(firstName)', '\(lastName!)', '')"
+        let query = "INSERT INTO Patient (pID,date_of_birth,f_name,l_name, email) VALUES (NULL, '\(dateOfBirth)', '\(firstName)', '\(lastName!)', '\(email)')"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
-            if sqlite3_step(statement) == SQLITE_DONE {
+            var sqliteResult = sqlite3_step(statement)
+            if sqliteResult == SQLITE_DONE {
                 println("Saved \(firstName) \(lastName!)")
             }else {
-                println("Add patient failed")
+                println("Add patient failed \(sqliteResult)")
             }
         }
     }
@@ -109,13 +113,13 @@ class DatabaseManager {
         
         let query = "INSERT INTO Doctor (dID,f_name,l_name, email) VALUES (NULL,'\(firstName)', '\(lastName!)', '\(email)')"
         var statement:COpaquePointer = nil
+        
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
             var sqliteResult = sqlite3_step(statement)
-            println(sqliteResult)
             if sqliteResult == SQLITE_DONE {
                 println("Saved \(firstName) \(lastName!)")
-            }else if sqliteResult == SQLITE_ERROR{
-                println("Add doctor failed for \(firstName) \(lastName!)")
+            }else {
+                println("Add doctor failed for \(firstName) \(lastName!) with error \(sqliteResult)")
             }
             
         }
@@ -176,6 +180,18 @@ class DatabaseManager {
     }
     
     //Update information in the database
+    func updatePatient(firstName:String, lastName:String, dob:String, email:String, id:Int) {
+        let query = "UPDATE Patient SET date_of_birth='\(dob)', f_name='\(firstName)', l_name='\(lastName)', email='\(email)' WHERE pID='\(id)';"
+        
+        var statement:COpaquePointer = nil
+        println("Selected")
+        if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_step(statement)
+            //popup saying it worked
+            println("GOOD")
+        }
+    }
+    
     func updateDoctor(firstName:String, lastName:String, email:String, id:Int) {
         
         let query = "UPDATE Doctor SET email='\(email)', f_name='\(firstName)', l_name='\(lastName)' WHERE dID='\(id)';"
@@ -270,7 +286,7 @@ class DatabaseManager {
                 pID = Int(sqlite3_column_int(statement, 0))
             } else {
                 println("Added \(patientInput)")
-                self.addPatientToDatabase(patientInput, dateOfBirth: dateOfBirth)
+                self.addPatientToDatabase(patientInput, dateOfBirth: dateOfBirth, email: "")
                 pID = Int(sqlite3_last_insert_rowid(statement))
             }
         }

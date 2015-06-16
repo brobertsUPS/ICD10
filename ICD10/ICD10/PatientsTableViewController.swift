@@ -13,13 +13,13 @@ class PatientsTableViewController: UITableViewController {
     var patients:[(dob:String, name:String)] = []    //the patients
     var ids:[Int] = []                              //The ids in the database (used in selection)
     var emails:[String] = []
-    var database:COpaquePointer = nil
+    var dbManager:DatabaseManager!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Patients"
-        let dbManager = DatabaseManager()
-        database = dbManager.checkDatabaseFileAndOpen()
+        dbManager = DatabaseManager()
+
         patients = []
         ids = []
         emails = []
@@ -30,8 +30,6 @@ class PatientsTableViewController: UITableViewController {
         patients = []
         ids = []
         emails = []
-        let dbManager = DatabaseManager()
-        database = dbManager.checkDatabaseFileAndOpen()
 
         findPatients()
         
@@ -44,11 +42,10 @@ class PatientsTableViewController: UITableViewController {
     
     
     func findPatients(){
-        var allPatients:[(dob:String,name:String)] = []
+        dbManager.checkDatabaseFileAndOpen()
         var query = "SELECT * FROM Patient"
         var statement:COpaquePointer = nil
-        println("Selected")
-        if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
                 
                 let patientID = Int(sqlite3_column_int(statement, 0))
@@ -72,6 +69,7 @@ class PatientsTableViewController: UITableViewController {
                 emails.append(patientEmailString!)
             }
         }
+        dbManager.closeDB()
     }
     
     @IBAction func refresh(sender: UIBarButtonItem) {
@@ -123,8 +121,5 @@ class PatientsTableViewController: UITableViewController {
             controller.id = pID
             controller.email = email
         }
-        sqlite3_close(database)
-        
     }
-
 }

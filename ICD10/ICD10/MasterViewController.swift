@@ -17,22 +17,22 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
 
     var detailViewController: DetailViewController? = nil                   //The detail page of the application
     var objects:[(id:Int,name:String)] = []
-    var database:COpaquePointer!
+    var dbManager:DatabaseManager!
     var billViewController:BillViewController?
     
     private let favoritesCell = "Favorites"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let dbManager = DatabaseManager()
-        database = dbManager.checkDatabaseFileAndOpen()
+        dbManager = DatabaseManager()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "codeSelected:",name:"loadCode", object: nil)
         
+        dbManager.checkDatabaseFileAndOpen()
         if objects.count == 0 {//get the root locations when we load up
             let query = "SELECT * FROM Condition_location cl WHERE NOT EXISTS (SELECT * FROM Sub_location sl WHERE cl.LID = sl.LID) ORDER BY location_name"
             
             var statement:COpaquePointer = nil
-            if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
                 while sqlite3_step(statement) == SQLITE_ROW {
                     
                     let locationID = Int(sqlite3_column_int(statement, 0))
@@ -42,6 +42,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 }
             }
         }
+        dbManager.closeDB()
     }
     
     override func didReceiveMemoryWarning() {
@@ -90,10 +91,12 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         
         var codeInformation:[(code:String,description:String)] = []
         
+        dbManager.checkDatabaseFileAndOpen()
+        
         let query = "SELECT ICD10_code, description_text FROM ICD10_condition WHERE description_text LIKE '%\(searchInput)%' OR ICD10_code LIKE '%\(searchInput)%';"
         var statement:COpaquePointer = nil
         
-        if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
                 let ICD10Code = sqlite3_column_text(statement, 0)
                 let ICD10CodeString = String.fromCString(UnsafePointer<CChar>(ICD10Code))
@@ -104,6 +107,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 codeInformation.append(code:ICD10CodeString!, description:codeDescriptionString!)
             }
         }
+        dbManager.closeDB()
         return codeInformation
     }
     
@@ -130,13 +134,13 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     func findSubLocations(locationID:Int) -> [(id:Int,name:String)]{
         
         var sub_locations:[(id:Int,name:String)] = []    //make new locations list for the sub_locations of the selected item
-        
+        dbManager.checkDatabaseFileAndOpen()
         //get get the sub locations and their names (does an exact match query
         //that only natural joins on one row from the sub_location table
         let query = "SELECT * FROM Condition_location NATURAL JOIN (SELECT * FROM Sub_location WHERE Parent_locationID=\(locationID)) ORDER BY location_name"
         
         var statement:COpaquePointer = nil
-        if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
             
             while sqlite3_step(statement) == SQLITE_ROW { //for every sub location
                 let locationID = Int(sqlite3_column_int(statement, 0))
@@ -145,6 +149,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 sub_locations.append(id:locationID,name:locationNameString!)
             }
         }
+        dbManager.closeDB()
         return sub_locations
     }
     
@@ -153,7 +158,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "showDirectSearchPopup" {
-            
+            println("Show direct search popup taken")
             let popoverViewController = (segue.destinationViewController as! UINavigationController).topViewController as! DirectSearchTableViewController
             self.directSearchTableViewController = popoverViewController
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
@@ -162,6 +167,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             popoverViewController.navigationItem.title = "Direct Search"
             
         } else if segue.identifier == "showDirectSearchCode"{
+            println("ShowDirectSearchCode taken")
             let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
             controller.ICD10Text = selectedCode!.icd10
             controller.conditionDescriptionText = selectedCode!.description
@@ -173,19 +179,22 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             controller.navigationItem.leftItemsSupplementBackButton = true
             controller.billViewController = self.billViewController
         } else {
-        
+            
             let indexPath = self.tableView.indexPathForSelectedRow()
             let (id, locationName) = objects[indexPath!.row]
             let newSubLocations = findSubLocations(id)
             
             if newSubLocations.count == 0 && segue.identifier == "showCodes" {
-                
+                println("ShowCodes")
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+                
+                dbManager.checkDatabaseFileAndOpen()
                 var statement:COpaquePointer = nil
+                //SELECT ICD10_code, description_text, ICD9_code FROM ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition WHERE ICD10_code=(SELECT ICD10_code FROM located_in WHERE LID =277)
+                println(id)
+                let query = "SELECT ICD10_code, description_text, ICD9_code FROM ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition WHERE ICD10_code=(SELECT ICD10_code FROM located_in WHERE LID =\(id))"
                 
-                let query = "SELECT ICD10_code, description_text, ICD9_code from (SELECT * FROM condition_location NATURAL JOIN located_in WHERE LID = \(id))  NATURAL JOIN ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition"
-                
-                if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
+                if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
                     
                     if sqlite3_step(statement) == SQLITE_ROW { // if we got the row back successfully
                         
@@ -208,15 +217,15 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 controller.navigationItem.title = "Bill"
                 controller.navigationItem.leftItemsSupplementBackButton = true
                 controller.billViewController = self.billViewController
+                dbManager.closeDB()
             } else if (segue.identifier == "showLocations" && newSubLocations.count > 0) {
-                
+                println("ShowLocations taken")
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
                 controller.objects = newSubLocations
                 controller.title = locationName
                 controller.navigationItem.leftItemsSupplementBackButton = true
                 controller.billViewController = self.billViewController
             }
-            sqlite3_close(database)
         }
     }
     
