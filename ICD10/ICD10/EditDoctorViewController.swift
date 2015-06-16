@@ -11,6 +11,7 @@ import UIKit
 class EditDoctorViewController: UIViewController {
 
     var database:COpaquePointer = nil
+    var dbManager:DatabaseManager!
     
     @IBOutlet weak var firstNameField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
@@ -25,7 +26,7 @@ class EditDoctorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var dbManager = DatabaseManager()
+        dbManager = DatabaseManager()
         database = dbManager.checkDatabaseFileAndOpen()
         
         firstNameField.text = firstName
@@ -41,21 +42,23 @@ class EditDoctorViewController: UIViewController {
     @IBAction func saveDoctorInfo(sender: UIButton) {
         
         if newDoctor {
-            let query = "INSERT INTO Doctor (dID,f_name,l_name, email) VALUES (NULL,'\(firstNameField.text)', '\(lastNameField.text)', '\(emailField.text)')"
-            var statement:COpaquePointer = nil
-            if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
-                sqlite3_step(statement)
-                println("Saved \(firstNameField.text)")
-            }
+            self.addDoctorToDatabase(firstNameField.text, lastName: lastNameField.text, email: emailField.text)
         }else{
-            let query = "UPDATE Doctor SET email='\(emailField.text)', f_name='\(firstNameField.text)', l_name='\(lastNameField.text)' WHERE dID='\(id)';"
-            var statement:COpaquePointer = nil
-            println("Selected")
-            if sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK {
-                sqlite3_step(statement)
-                //popup saying it worked
-            }
+            self.updateDoctor(firstNameField.text, lastName: lastNameField.text, email: emailField.text, id: id)
         }
+    }
+    
+    func addDoctorToDatabase(firstName:String, lastName:String, email:String) {
+        var fullName = "\(firstName) \(lastName)"
+        dbManager.checkDatabaseFileAndOpen()
+        dbManager.addDoctorToDatabase(fullName, email: email)
+        dbManager.closeDB()
+    }
+    
+    func updateDoctor(firstName:String, lastName:String, email:String, id:Int) {
+        dbManager.checkDatabaseFileAndOpen()
+        dbManager.updateDoctor(firstName, lastName: lastName, email: email, id: id)
+        dbManager.closeDB()
     }
     
     /**

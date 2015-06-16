@@ -345,12 +345,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     *   Adds the doctor to the database
     **/
     @IBAction func addDoctor(sender: UIButton) {
-        self.addDoctorToDatabase(doctorTextField.text)
+        self.addDoctorToDatabase(doctorTextField.text, email: "")
     }
     
-    func addDoctorToDatabase(inputDoctor:String) {
+    func addDoctorToDatabase(inputDoctor:String, email:String) {
         dbManager.checkDatabaseFileAndOpen()
-        dbManager.addDoctorToDatabase(inputDoctor)
+        dbManager.addDoctorToDatabase(inputDoctor, email: email)
         dbManager.closeDB()
     }
     

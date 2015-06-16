@@ -104,10 +104,10 @@ class DatabaseManager {
         }
     }
     
-    func addDoctorToDatabase(inputDoctor:String) {
+    func addDoctorToDatabase(inputDoctor:String, email:String) {
         var (firstName, lastName) = split(inputDoctor)
         
-        let query = "INSERT INTO Doctor (dID,f_name,l_name, email) VALUES (NULL,'\(firstName)', '\(lastName!)', '')"
+        let query = "INSERT INTO Doctor (dID,f_name,l_name, email) VALUES (NULL,'\(firstName)', '\(lastName!)', '\(email)')"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
             var sqliteResult = sqlite3_step(statement)
@@ -175,6 +175,22 @@ class DatabaseManager {
 
     }
     
+    //Update information in the database
+    func updateDoctor(firstName:String, lastName:String, email:String, id:Int) {
+        
+        let query = "UPDATE Doctor SET email='\(email)', f_name='\(firstName)', l_name='\(lastName)' WHERE dID='\(id)';"
+        var statement:COpaquePointer = nil
+        if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_DONE {
+                println("Doctor updated to email='\(email)', f_name='\(firstName)', l_name='\(lastName)' WHERE dID='\(id)")
+            } else {
+                println("Doctor update failed: email='\(email)', f_name='\(firstName)', l_name='\(lastName)' WHERE dID='\(id)")
+
+            }
+            //popup saying it worked
+        }
+    }
+    
     //Retrieve information from the database*************************************************************************************************************
     
     /**
@@ -232,7 +248,7 @@ class DatabaseManager {
             if sqlite3_step(statement) == SQLITE_ROW {
                 dID = Int(sqlite3_column_int(statement, 0))
             }  else {
-                self.addDoctorToDatabase(doctorInput)
+                self.addDoctorToDatabase(doctorInput, email: "")
                 dID = Int(sqlite3_last_insert_rowid(statement))
             }
         }
