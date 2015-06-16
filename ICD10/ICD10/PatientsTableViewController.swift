@@ -30,7 +30,11 @@ class PatientsTableViewController: UITableViewController {
         patients = []
         ids = []
         emails = []
+        let dbManager = DatabaseManager()
+        database = dbManager.checkDatabaseFileAndOpen()
+
         findPatients()
+        
         self.tableView.reloadData()
     }
     

@@ -10,6 +10,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    var database:COpaquePointer!
     var billViewController:BillViewController?     //A bill that is passed along to hold all of the codes for the final bill
     
     @IBOutlet weak var detailDescriptionLabel: UILabel! //Labels for the codes (update these when the view is loaded)
@@ -26,6 +27,9 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.resignFirstResponder()
+        
+        var databaseManager = DatabaseManager()
+        database = databaseManager.checkDatabaseFileAndOpen()
         
         ICD10Code.text = self.ICD10Text
         ICD9Code.text = self.ICD9Text
@@ -60,7 +64,6 @@ class DetailViewController: UIViewController {
             
             let tuple = (icd10: ICD10Text!,icd9: ICD9Text!)
             controller.icdCodes.append(tuple)
-            controller.database = billViewController?.database
         }
     }
 }

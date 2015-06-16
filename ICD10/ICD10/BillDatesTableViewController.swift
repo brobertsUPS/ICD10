@@ -15,7 +15,8 @@ class BillDatesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        var databaseManager = DatabaseManager()
+        database = databaseManager.checkDatabaseFileAndOpen()
         let dateQuery = "SELECT date FROM Appointment GROUP BY date"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(database, dateQuery, -1, &statement, nil) == SQLITE_OK {

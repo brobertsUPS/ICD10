@@ -1218,11 +1218,11 @@
         <image name="Triangular Bandage-50" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="edd-ny-Y2u"/>
         <segue reference="Z4a-kr-10O"/>
         <segue reference="mPz-1b-nYJ"/>
-        <segue reference="edd-ny-Y2u"/>
         <segue reference="jsy-lt-xeY"/>
-        <segue reference="XTM-Ii-pXh"/>
         <segue reference="9Ct-d4-zXE"/>
+        <segue reference="zKf-2S-qlA"/>
     </inferredMetricsTieBreakers>
 </document>
