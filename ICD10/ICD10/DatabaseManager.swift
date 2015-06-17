@@ -55,7 +55,6 @@ class DatabaseManager {
         
         var db:COpaquePointer  = nil
         var result = sqlite3_open(filePath, &db)
-        println("openResult: \(result)")
         if result != SQLITE_OK {
             sqlite3_close(db)
             println("Failed To Open Database")
@@ -67,8 +66,9 @@ class DatabaseManager {
     
     func closeDB() {
         var closeResult = sqlite3_close_v2(db)
-        println("closed result:\(closeResult)")
+        
         if closeResult == SQLITE_OK {
+            //success
         }
     }
     
@@ -76,14 +76,14 @@ class DatabaseManager {
     
     func addAppointmentToDatabase(patientID:Int, doctorID:Int, date:String, placeID:Int, roomID:Int) -> Int{
         
-        var aptID = 0
+        var aptID:Int = 0
         
-        let insertAPTQuery = "INSERT INTO Appointment (aptID, pID, dID, date, placeID, roomID) VALUES (NULL, '\(patientID)','\(doctorID)', '\(date)', '\(placeID)', '\(roomID)');"
+        let insertAPTQuery = "INSERT INTO Appointment (aptID, pID, dID, date, placeID, roomID) VALUES (NULL, \(patientID),\(doctorID), '\(date)', \(placeID), \(roomID));"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertAPTQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
-                aptID = Int(sqlite3_last_insert_rowid(statement))
-                println("Successful Appointment save patientID:\(patientID) doctorID:\(doctorID) date:\(date) placeID:\(placeID) roomID:\(roomID)")
+                aptID = Int(sqlite3_last_insert_rowid(db))
+                println("Successful Appointment save patientID:\(patientID) doctorID:\(doctorID) date:\(date) placeID:\(placeID) roomID:\(roomID) AptID: \(aptID)")
             }else {
                 println("Failed appointment save patientID:\(patientID) doctorID:\(doctorID) date:\(date) placeID:\(placeID) roomID:\(roomID)")
             }
@@ -145,7 +145,7 @@ class DatabaseManager {
     }
     
     func addRoom(roomInput:String) {
-        let insertPlaceQuery = "INSERT INTO Place_of_service (placeID, place_description) VALUES (NULL, '\(roomInput)');"
+        let insertPlaceQuery = "INSERT INTO Room (roomID, room_description) VALUES (NULL, '\(roomInput)');"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, insertPlaceQuery, -1, &statement, nil) == SQLITE_OK {
@@ -164,7 +164,7 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertHasType, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
-                println("Successful vist code save:\(visitCodeText)")
+                println("Successful vist code save:\(visitCodeText) aptID:\(aptID)")
             }else {
                 println("Failed visit code save:\(visitCodeText)")
             }
@@ -231,9 +231,12 @@ class DatabaseManager {
         if sqlite3_prepare_v2(db, placeQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
                 placeID = Int(sqlite3_column_int(statement, 0))
+                
+                println("Found place:\(placeID)")
             } else {
                 self.addPlaceOfService(placeInput)
-                placeID = Int(sqlite3_last_insert_rowid(statement))
+                placeID = Int(sqlite3_last_insert_rowid(db))
+                println("Added place:\(placeID)")
             }
         }
         sqlite3_finalize(statement)
@@ -252,9 +255,11 @@ class DatabaseManager {
         if sqlite3_prepare_v2(db, roomQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {                                  //if we found a room grab it's id
                 roomID = Int(sqlite3_column_int(statement, 0))
+                println("Found room:\(roomID)")
             } else {
                 self.addRoom(roomInput)                                                 //input the room and then get the id
-                roomID = Int(sqlite3_last_insert_rowid(statement))
+                roomID = Int(sqlite3_last_insert_rowid(db))
+                println("Added room\(roomID)")
             }
         }
         sqlite3_finalize(statement)
@@ -275,9 +280,11 @@ class DatabaseManager {
         if sqlite3_prepare_v2(db, doctorQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
                 dID = Int(sqlite3_column_int(statement, 0))
+                println("Found doctor:\(dID)")
             }  else {
                 self.addDoctorToDatabase(doctorInput, email: "")
-                dID = Int(sqlite3_last_insert_rowid(statement))
+                dID = Int(sqlite3_last_insert_rowid(db))
+                println("Added doctor:\(dID)")
             }
         }
         sqlite3_finalize(statement)
@@ -297,10 +304,12 @@ class DatabaseManager {
         if sqlite3_prepare_v2(db, patientQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW{
                 pID = Int(sqlite3_column_int(statement, 0))
+                println("Found patient:\(pID)")
             } else {
                 println("Added \(patientInput)")
                 self.addPatientToDatabase(patientInput, dateOfBirth: dateOfBirth, email: "")
-                pID = Int(sqlite3_last_insert_rowid(statement))
+                pID = Int(sqlite3_last_insert_rowid(db))
+                println("Added patient:\(pID)")
             }
         }
         sqlite3_finalize(statement)

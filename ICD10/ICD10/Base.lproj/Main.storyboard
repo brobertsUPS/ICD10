@@ -65,7 +65,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJw-2e-hmC">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJw-2e-hmC">
                                 <rect key="frame" x="515" y="476" width="69" height="30"/>
                                 <state key="normal" title="Use In Bill">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -75,7 +75,7 @@
                                     <segue destination="A0e-2y-MTR" kind="show" identifier="verifyBill" id="2II-5o-t3P"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9b-sm-GKw">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9b-sm-GKw">
                                 <rect key="frame" x="16" y="476" width="116" height="30"/>
                                 <state key="normal" title="Add To Favorites">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -194,7 +194,7 @@
             </objects>
             <point key="canvasLocation" x="-2303" y="-213"/>
         </scene>
-        <!--Bill Dates Table View Controller-->
+        <!--Bill Dates-->
         <scene sceneID="1WS-KJ-2ZA">
             <objects>
                 <tableViewController id="4JI-GY-QAd" customClass="BillDatesTableViewController" customModule="ICD10" sceneMemberID="viewController">
@@ -223,7 +223,7 @@
                             <outlet property="delegate" destination="4JI-GY-QAd" id="qb5-Vi-11p"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="dli-Cf-rxS"/>
+                    <navigationItem key="navigationItem" title="Bill Dates" id="NAr-sz-g4h"/>
                     <connections>
                         <segue destination="zbQ-VW-SYb" kind="show" identifier="showBillsForDate" id="dae-if-Pd7"/>
                     </connections>
@@ -295,7 +295,7 @@
             </objects>
             <point key="canvasLocation" x="-3691" y="492"/>
         </scene>
-        <!--Bills Table View Controller-->
+        <!--Patient Bills-->
         <scene sceneID="NRS-KA-478">
             <objects>
                 <tableViewController id="zbQ-VW-SYb" customClass="BillsTableViewController" customModule="ICD10" sceneMemberID="viewController">
@@ -330,6 +330,9 @@
                             <outlet property="delegate" destination="zbQ-VW-SYb" id="CzT-kJ-U6x"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Patient Bills" id="otM-y2-4bv">
+                        <barButtonItem key="rightBarButtonItem" title="Submit All Bills" id="dlv-AE-R3q"/>
+                    </navigationItem>
                     <connections>
                         <segue destination="A0e-2y-MTR" kind="show" identifier="showBill" id="Z4a-kr-10O"/>
                     </connections>
@@ -1203,7 +1206,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tTv-5Q-DsD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-412" y="-1221"/>
+            <point key="canvasLocation" x="58" y="-1265"/>
         </scene>
         <!--Doctors-->
         <scene sceneID="GfJ-u9-2pm">
@@ -1230,11 +1233,11 @@
         <image name="Triangular Bandage-50" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="9Ct-d4-zXE"/>
+        <segue reference="zKf-2S-qlA"/>
         <segue reference="edd-ny-Y2u"/>
         <segue reference="jsy-lt-xeY"/>
-        <segue reference="2Ks-D5-SZF"/>
-        <segue reference="2II-5o-t3P"/>
-        <segue reference="zKf-2S-qlA"/>
+        <segue reference="Z4a-kr-10O"/>
         <segue reference="mPz-1b-nYJ"/>
     </inferredMetricsTieBreakers>
 </document>

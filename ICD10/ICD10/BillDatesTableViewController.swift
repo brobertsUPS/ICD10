@@ -73,7 +73,7 @@ class BillDatesTableViewController: UITableViewController {
                     let roomID = Int(sqlite3_column_int(statement, 7))
                     
                     let patientFullName = patientFNameString! + " " + patientLNameString!
-                    
+                    println(" patientID:\(patientID) doctorID:\(dID) date:\(date) placeID:\(placeID) roomID:\(roomID) AptID: \(aptID)")
                     patientBills.append(id: patientID,dob: patientDOBString!, name: patientFullName)
                     IDs.append(aptID:aptID,dID:dID, placeID:placeID, roomID:roomID )
 

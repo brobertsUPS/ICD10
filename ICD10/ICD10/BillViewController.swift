@@ -28,6 +28,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var textFieldText:[String] = []                             //A list of saved items for the bill
     var icdCodes:[(icd10:String,icd9:String)] = []              //A list of saved codes for the bill
     
+    var csv:String?
+    
     //****************************************** Default override methods ******************************************************************************
     
     /**
@@ -69,7 +71,20 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         dateTextField.text = formatter.stringFromDate(date)
     }
     
-    
+    func makeCSVLine() -> String {
+        
+        let (icd10, icd9) = icdCodes[0]
+        
+        var csvLine = ""
+        csvLine = " , \(dateTextField.text), \(patientTextField.text), \(patientDOBTextField.text), \(doctorTextField.text), \(siteTextField.text), \(roomTextField.text), \(cptTextField.text), \(mcTextField.text), \(pcTextField.text), \(icd10)" //put all of the text field in (without the icd10 code)
+        
+        for var i=1; i<icdCodes.count; i++ {
+            var(ithICD10, ithICD9) = icdCodes[i]
+            csvLine += "\r\n , , , , , , , , , , \(ithICD10)" //put a new empty line for any additional icd10 codes
+        }
+        println(csvLine)
+        return csvLine
+    }
     
     /**
     *   Makes this view popup under the text fields and not in a new window
@@ -134,7 +149,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             let patientID = getPatientID(patientTextField.text, dateOfBirth: patientDOBTextField.text)
             let referringDoctorID = getDoctorID(doctorTextField.text)
             
-            var aptID = addAppointmentToDatabase(patientID, doctorID: referringDoctorID, date: dateTextField.text, placeID: placeID, roomID: roomID)
+            var aptID:Int = addAppointmentToDatabase(patientID, doctorID: referringDoctorID, date: dateTextField.text, placeID: placeID, roomID: roomID)
             
             //Insert into has_type for all types there were
             if cptTextField.text != "" {
@@ -149,8 +164,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 self.addHasType(aptID, visitCodeText: pcTextField.text)
             }
 
-            //Split ICD10 codes and loop to add all
-            self.addDiagnosedWith(aptID, ICD10Text: ICD10TextField.text)
+            //loop to add all ICD10 codes
+            for var i=0; i<icdCodes.count; i++ {
+                var (icd10, icd9) = icdCodes[i]
+                self.addDiagnosedWith(aptID, ICD10Text: icd10)
+                println("\(icdCodes[i])")
+            }
+            
+            makeCSVLine()
             
             //popup for successful bill save
             //remove everything from the stack and remove back button
@@ -406,7 +427,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     func addAppointmentToDatabase(patientID:Int, doctorID:Int, date:String, placeID:Int, roomID:Int) ->Int {
-        var aptID = 0
+        var aptID:Int = 0
         dbManager.checkDatabaseFileAndOpen()
         aptID = dbManager.addAppointmentToDatabase(patientID, doctorID: doctorID, date: date, placeID: placeID, roomID: roomID)
         dbManager.closeDB()

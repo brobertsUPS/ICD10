@@ -20,7 +20,6 @@ class DoctorsTableViewController: UITableViewController {
         super.viewDidLoad()
         self.navigationItem.title = "Doctors"
         dbManager = DatabaseManager()
-
         doctors = []
         ids = []
         emails = []

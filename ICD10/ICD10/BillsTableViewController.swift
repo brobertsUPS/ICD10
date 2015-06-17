@@ -122,7 +122,8 @@ class BillsTableViewController: UITableViewController {
         var mc = ""
         var pc = ""
         dbManager.checkDatabaseFileAndOpen()
-        let cptQuery = "SELECT apt_code, type_description FROM Appointment NATURAL JOIN Has_type NATURAL JOIN Type WHERE aptID=\(aptID)"
+        println("aptID: \(aptID)")
+        let cptQuery = "SELECT apt_code, type_description FROM Appointment NATURAL JOIN Has_type NATURAL JOIN Apt_type WHERE aptID=\(aptID)"
         
         var statement:COpaquePointer = nil
         
@@ -130,16 +131,15 @@ class BillsTableViewController: UITableViewController {
             while sqlite3_step(statement) == SQLITE_ROW {
                 var visitCode = sqlite3_column_text(statement, 0)
                 var visitCodeString = String.fromCString(UnsafePointer<CChar>(visitCode))
-                
                 var visitType = sqlite3_column_text(statement, 1)
                 var visitTypeString = String.fromCString(UnsafePointer<CChar>(visitType))
-                
-                switch visitType {
+                switch visitTypeString! {
                     case "C":cpt = visitCodeString!
                     case "M":mc = visitCodeString!
                     case "P":pc = visitCodeString!
                 default:break
                 }
+
             }
         }
         sqlite3_finalize(statement)
@@ -153,7 +153,7 @@ class BillsTableViewController: UITableViewController {
         
         var conditionDiagnosed:[(icd10:String, icd9:String)] = []
     
-        let conditionQuery = "SELECT ICD10_code, ICD9_code FROM Diagnosed_with NATURAL JOIN Appointment Characterized_by WHERE aptID=\(aptID)"
+        let conditionQuery = "SELECT ICD10_code, ICD9_code FROM Diagnosed_with NATURAL JOIN Appointment NATURAL JOIN Characterized_by WHERE aptID=\(aptID)"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(dbManager.db, conditionQuery, -1, &statement, nil) == SQLITE_OK {
