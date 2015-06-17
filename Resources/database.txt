@@ -230,7 +230,7 @@ INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("911
 
 
 -- Condition_location*********************************************************************************************
-
+INSERT INTO Condition_location ( LID, location_name ) VALUES (0, "Favorites");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (1, "Esophagus");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (2, "Gastric/Stomach");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (3, "Small Bowel");

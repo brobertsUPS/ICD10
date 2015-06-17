@@ -74,6 +74,7 @@ class BillsTableViewController: UITableViewController {
                 nameString = "\(firstNameString!) \(lastNameString!)"
             }
         }
+        sqlite3_finalize(statement)
         dbManager.closeDB()
         return nameString
     }
@@ -92,6 +93,7 @@ class BillsTableViewController: UITableViewController {
                 place = String.fromCString(UnsafePointer<CChar>(resultPlace))!
             }
         }
+        sqlite3_finalize(statement)
         dbManager.closeDB()
         return place
     }
@@ -109,6 +111,7 @@ class BillsTableViewController: UITableViewController {
                 room = String.fromCString(UnsafePointer<CChar>(resultRoom))!
             }
         }
+        sqlite3_finalize(statement)
         dbManager.closeDB()
         return room
     }
@@ -139,6 +142,7 @@ class BillsTableViewController: UITableViewController {
                 }
             }
         }
+        sqlite3_finalize(statement)
         dbManager.closeDB()
         return (cpt, mc, pc)
     }
@@ -164,6 +168,7 @@ class BillsTableViewController: UITableViewController {
                 conditionDiagnosed += [(tuple)]
             }
         }
+        sqlite3_finalize(statement)
         dbManager.closeDB()
         
         return conditionDiagnosed

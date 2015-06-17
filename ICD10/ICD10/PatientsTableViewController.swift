@@ -69,6 +69,7 @@ class PatientsTableViewController: UITableViewController {
                 emails.append(patientEmailString!)
             }
         }
+        sqlite3_finalize(statement)
         dbManager.closeDB()
     }
     

@@ -41,6 +41,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                     objects.append(id:locationID,name:locationNameString!)
                 }
             }
+            sqlite3_finalize(statement)
         }
         dbManager.closeDB()
     }
@@ -107,6 +108,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 codeInformation.append(code:ICD10CodeString!, description:codeDescriptionString!)
             }
         }
+        sqlite3_finalize(statement)
         dbManager.closeDB()
         return codeInformation
     }
@@ -149,6 +151,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 sub_locations.append(id:locationID,name:locationNameString!)
             }
         }
+        sqlite3_finalize(statement)
         dbManager.closeDB()
         return sub_locations
     }
@@ -190,7 +193,6 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 
                 dbManager.checkDatabaseFileAndOpen()
                 var statement:COpaquePointer = nil
-                //SELECT ICD10_code, description_text, ICD9_code FROM ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition WHERE ICD10_code=(SELECT ICD10_code FROM located_in WHERE LID =277)
                 println(id)
                 let query = "SELECT ICD10_code, description_text, ICD9_code FROM ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition WHERE ICD10_code=(SELECT ICD10_code FROM located_in WHERE LID =\(id))"
                 
@@ -212,9 +214,9 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                         controller.ICD9Text = icd9CodeString
                     }
                 }
+                sqlite3_finalize(statement)
                 controller.title = locationName
                 controller.titleName = locationName
-                controller.navigationItem.title = "Bill"
                 controller.navigationItem.leftItemsSupplementBackButton = true
                 controller.billViewController = self.billViewController
                 dbManager.closeDB()

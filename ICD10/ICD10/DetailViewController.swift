@@ -9,6 +9,8 @@
 import UIKit
 
 class DetailViewController: UIViewController {
+    
+    var dbManager:DatabaseManager!
 
     var billViewController:BillViewController?     //A bill that is passed along to hold all of the codes for the final bill
     
@@ -26,6 +28,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.resignFirstResponder()
+        dbManager = DatabaseManager()
         
         ICD10Code.text = self.ICD10Text
         ICD9Code.text = self.ICD9Text
@@ -61,5 +64,50 @@ class DetailViewController: UIViewController {
             controller.icdCodes.append(tuple)
         }
     }
+    
+    @IBAction func addToFavorites(sender: UIButton) {
+        dbManager.checkDatabaseFileAndOpen()
+        var lID = 0
+        
+        let newLocationQuery = "Insert INTO Condition_location (LID, location_name) VALUES (NULL, '\(conditionDescriptionText)')"
+        var statement:COpaquePointer = nil
+        if sqlite3_prepare_v2(dbManager.db, newLocationQuery, -1, &statement, nil) == SQLITE_OK {
+            var result = sqlite3_step(statement)
+            if result == SQLITE_DONE {
+                println("Successfully created location for \(ICD10Text)")
+                lID = Int(sqlite3_last_insert_rowid(statement))
+            }else {
+                println("Failed location creation for \(ICD10Text) with error \(result)")
+            }
+        }
+        sqlite3_finalize(statement)
+        
+        let subLocationQuery = "INSERT INTO Sub_location (LID, parent_locationID) VALUES (\(lID), 0)" //link it to favorites
+        var subLocationStatement:COpaquePointer = nil
+        if sqlite3_prepare_v2(dbManager.db, subLocationQuery, -1, &subLocationStatement, nil) == SQLITE_OK {
+            var result = sqlite3_step(subLocationStatement)
+            if result == SQLITE_DONE {
+                println("Successfully saved sub location for \(ICD10Text)")
+            }else {
+                println("Failed sublocation save \(ICD10Text) with error \(result)")
+            }
+        }
+        sqlite3_finalize(subLocationStatement)
+
+        let favoriteQuery = "INSERT INTO Located_in (ICD10_code, LID) VALUES ('\(ICD10Text)', \(lID))"
+        var favoriteStatement:COpaquePointer = nil
+        if sqlite3_prepare_v2(dbManager.db, favoriteQuery, -1, &favoriteStatement, nil) == SQLITE_OK {
+            var result = sqlite3_step(favoriteStatement)
+            if result == SQLITE_DONE {
+                println("Successfully saved \(ICD10Text)")
+            }else {
+                println("Failed save \(ICD10Text) with error \(result)")
+            }
+        }
+        sqlite3_finalize(favoriteStatement)
+        dbManager.closeDB()
+    }
+    
+    
 }
 

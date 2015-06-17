@@ -53,6 +53,7 @@ class DirectSearchTableViewController: UITableViewController{
             NSNotificationCenter.defaultCenter().postNotificationName("loadCode", object: code)
         }
         self.resignFirstResponder()
+        sqlite3_finalize(statement)
         dbManager.closeDB()
     }
     

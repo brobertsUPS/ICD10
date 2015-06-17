@@ -26,6 +26,7 @@ class BillDatesTableViewController: UITableViewController {
                 billDates.append(dateString!)                                      //if we got into this step the dateString is good
             }
         }
+        sqlite3_finalize(statement)
         dbManager.closeDB()
     }
     
@@ -82,7 +83,9 @@ class BillDatesTableViewController: UITableViewController {
             println(patientBills)
             controller.patientsInfo = patientBills
             controller.IDs = IDs
+            sqlite3_finalize(statement)
         }
+        
         dbManager.closeDB()
     }
     

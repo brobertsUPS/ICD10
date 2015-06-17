@@ -15,6 +15,7 @@ class DatabaseManager {
     init(){
         
     }
+    
     /**
     *   Checks that the database file is on the device. If not, copies the database file to the device.
     *   Connects to the database after file is verified to be in the right spot.
@@ -66,7 +67,7 @@ class DatabaseManager {
     
     func closeDB() {
         var closeResult = sqlite3_close_v2(db)
-        print("closed result:\(closeResult)")
+        println("closed result:\(closeResult)")
         if closeResult == SQLITE_OK {
         }
     }
@@ -88,6 +89,7 @@ class DatabaseManager {
             }
             
         }
+        sqlite3_finalize(statement)
         return aptID
     }
     
@@ -106,6 +108,7 @@ class DatabaseManager {
                 println("Add patient failed \(sqliteResult)")
             }
         }
+        sqlite3_finalize(statement)
     }
     
     func addDoctorToDatabase(inputDoctor:String, email:String) {
@@ -123,6 +126,7 @@ class DatabaseManager {
             }
             
         }
+        sqlite3_finalize(statement)
     }
     
     func addPlaceOfService(placeInput:String){
@@ -137,6 +141,7 @@ class DatabaseManager {
                 println("Failed place of service save placeInput:\(placeInput)")
             }
         }
+        sqlite3_finalize(statement)
     }
     
     func addRoom(roomInput:String) {
@@ -151,6 +156,7 @@ class DatabaseManager {
                 println("Failed room save \(roomInput)")
             }
         }
+        sqlite3_finalize(statement)
     }
     
     func addHasType(aptID:Int, visitCodeText:String) {
@@ -163,6 +169,7 @@ class DatabaseManager {
                 println("Failed visit code save:\(visitCodeText)")
             }
         }
+        sqlite3_finalize(statement)
     }
     
     func addDiagnosedWith(aptID:Int, ICD10Text:String){
@@ -176,6 +183,7 @@ class DatabaseManager {
             }
             
         }
+        sqlite3_finalize(statement)
 
     }
     
@@ -190,6 +198,7 @@ class DatabaseManager {
             //popup saying it worked
             println("GOOD")
         }
+        sqlite3_finalize(statement)
     }
     
     func updateDoctor(firstName:String, lastName:String, email:String, id:Int) {
@@ -205,6 +214,7 @@ class DatabaseManager {
             }
             //popup saying it worked
         }
+        sqlite3_finalize(statement)
     }
     
     //Retrieve information from the database*************************************************************************************************************
@@ -226,6 +236,7 @@ class DatabaseManager {
                 placeID = Int(sqlite3_last_insert_rowid(statement))
             }
         }
+        sqlite3_finalize(statement)
         return placeID
     }
     
@@ -246,6 +257,7 @@ class DatabaseManager {
                 roomID = Int(sqlite3_last_insert_rowid(statement))
             }
         }
+        sqlite3_finalize(statement)
         return roomID
     }
     
@@ -268,6 +280,7 @@ class DatabaseManager {
                 dID = Int(sqlite3_last_insert_rowid(statement))
             }
         }
+        sqlite3_finalize(statement)
         return dID
     }
     
@@ -290,6 +303,7 @@ class DatabaseManager {
                 pID = Int(sqlite3_last_insert_rowid(statement))
             }
         }
+        sqlite3_finalize(statement)
         return pID
     }
     
@@ -325,6 +339,7 @@ class DatabaseManager {
                 patients.append(tuple)
             }
         }
+        sqlite3_finalize(statement)
         return patients
     }
     
@@ -353,6 +368,7 @@ class DatabaseManager {
                 doctors.append(doctorFullName)
             }
         }
+        sqlite3_finalize(statement)
         return doctors
     }
     
@@ -388,6 +404,7 @@ class DatabaseManager {
                 visitCodes.append(tuple)
             }
         }
+        sqlite3_finalize(statement)
         return visitCodes
     }
 
