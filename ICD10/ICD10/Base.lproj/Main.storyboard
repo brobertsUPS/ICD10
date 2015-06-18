@@ -784,7 +784,13 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
+                                    <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="touchDown" id="KDn-gy-2xg"/>
+                                    <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="9tv-s6-orA"/>
                                     <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="QCR-kk-yer"/>
+                                    <action selector="userChangedSiteSearch:" destination="A0e-2y-MTR" eventType="editingChanged" id="dfV-jE-q3s"/>
+                                    <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="siteSearchPopover" popoverAnchorView="p6d-99-gAp" id="pkc-NL-pqa">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Visit Room" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xlg-bT-yQf">
@@ -792,7 +798,13 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
+                                    <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="touchDown" id="sVi-U9-XXA"/>
+                                    <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="O1f-cT-qp9"/>
                                     <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="R8T-3B-2eo"/>
+                                    <action selector="userChangedRoomSearch:" destination="A0e-2y-MTR" eventType="editingChanged" id="KCv-QZ-pg6"/>
+                                    <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="roomSearchPopover" popoverAnchorView="xlg-bT-yQf" id="t0l-p3-sB1">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="MC Search" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wah-I3-M7s">
@@ -1080,7 +1092,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="-1216" y="-737"/>
+            <point key="canvasLocation" x="-1398" y="-453"/>
         </scene>
         <!--Search Table View Controller-->
         <scene sceneID="TkV-MA-MYG">
@@ -1124,7 +1136,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kTj-uQ-Rl1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1267" y="-177"/>
+            <point key="canvasLocation" x="-1398" y="240"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zCY-hN-3Ae">
@@ -1185,7 +1197,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AyQ-Ij-0Ys" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="971" y="-494"/>
+            <point key="canvasLocation" x="301" y="-173"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qh9-8n-sN9">
@@ -1226,6 +1238,14 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KTg-VH-h7E">
+                                            <rect key="frame" x="293" y="7" width="299" height="30"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                            <state key="normal" title="Add Favorite"/>
+                                            <connections>
+                                                <action selector="addCellToFavorites:" destination="7bK-jq-Zjz" eventType="touchUpInside" id="iZd-ZL-gfw"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1313,7 +1333,7 @@
         <segue reference="gq7-oO-OV6"/>
         <segue reference="edd-ny-Y2u"/>
         <segue reference="jsy-lt-xeY"/>
-        <segue reference="mPz-1b-nYJ"/>
+        <segue reference="t0l-p3-sB1"/>
         <segue reference="zKf-2S-qlA"/>
     </inferredMetricsTieBreakers>
 </document>

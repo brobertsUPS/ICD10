@@ -40,23 +40,33 @@ class EditDoctorViewController: UIViewController {
     @IBAction func saveDoctorInfo(sender: UIButton) {
         
         if newDoctor {
-            self.addDoctorToDatabase(firstNameField.text, lastName: lastNameField.text, email: emailField.text)
+            showAlert(self.addDoctorToDatabase(firstNameField.text, lastName: lastNameField.text, email: emailField.text))
         }else{
-            self.updateDoctor(firstNameField.text, lastName: lastNameField.text, email: emailField.text, id: id)
+            showAlert(self.updateDoctor(firstNameField.text, lastName: lastNameField.text, email: emailField.text, id: id))
         }
     }
     
-    func addDoctorToDatabase(firstName:String, lastName:String, email:String) {
+    func addDoctorToDatabase(firstName:String, lastName:String, email:String) -> String {
         var fullName = "\(firstName) \(lastName)"
         dbManager.checkDatabaseFileAndOpen()
-        dbManager.addDoctorToDatabase(fullName, email: email)
+        var result = dbManager.addDoctorToDatabase(fullName, email: email)
         dbManager.closeDB()
+        return result
     }
     
-    func updateDoctor(firstName:String, lastName:String, email:String, id:Int) {
+    func updateDoctor(firstName:String, lastName:String, email:String, id:Int) -> String{
         dbManager.checkDatabaseFileAndOpen()
-        dbManager.updateDoctor(firstName, lastName: lastName, email: email, id: id)
+        var result = dbManager.updateDoctor(firstName, lastName: lastName, email: email, id: id)
         dbManager.closeDB()
+        return result
+    }
+    
+    func showAlert(msg:String) {
+        let controller2 = UIAlertController(title: msg,
+            message: "", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
+        controller2.addAction(cancelAction)
+        self.presentViewController(controller2, animated: true, completion: nil)
     }
     
     /**

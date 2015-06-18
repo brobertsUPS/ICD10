@@ -74,27 +74,28 @@ class DatabaseManager {
     
     //Adding information to the database*************************************************************************************************************
     
-    func addAppointmentToDatabase(patientID:Int, doctorID:Int, date:String, placeID:Int, roomID:Int) -> Int{
+    func addAppointmentToDatabase(patientID:Int, doctorID:Int, date:String, placeID:Int, roomID:Int) -> (Int, String){
         
         var aptID:Int = 0
-        
+        var result = ""
         let insertAPTQuery = "INSERT INTO Appointment (aptID, pID, dID, date, placeID, roomID) VALUES (NULL, \(patientID),\(doctorID), '\(date)', \(placeID), \(roomID));"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertAPTQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
                 aptID = Int(sqlite3_last_insert_rowid(db))
-                println("Successful Appointment save patientID:\(patientID) doctorID:\(doctorID) date:\(date) placeID:\(placeID) roomID:\(roomID) AptID: \(aptID)")
+                result = "Successful Appointment save patientID:\(patientID) doctorID:\(doctorID) date:\(date) placeID:\(placeID) roomID:\(roomID) AptID: \(aptID)"
             }else {
-                println("Failed appointment save patientID:\(patientID) doctorID:\(doctorID) date:\(date) placeID:\(placeID) roomID:\(roomID)")
+                result = "Failed appointment save patientID:\(patientID) doctorID:\(doctorID) date:\(date) placeID:\(placeID) roomID:\(roomID)"
             }
         }
         sqlite3_finalize(statement)
-        return aptID
+        return (aptID, result)
     }
     
-    func addPatientToDatabase(inputPatient:String, dateOfBirth:String, email:String){
+    func addPatientToDatabase(inputPatient:String, dateOfBirth:String, email:String) -> String{
         
         var (firstName, lastName) = split(inputPatient)
+        var result = ""
         
         println(dateOfBirth)
         let query = "INSERT INTO Patient (pID,date_of_birth,f_name,l_name, email) VALUES (NULL, '\(dateOfBirth)', '\(firstName)', '\(lastName!)', '\(email)')"
@@ -102,61 +103,65 @@ class DatabaseManager {
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
             var sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
+                result = "Saved \(firstName) \(lastName!)"
                 println("Saved \(firstName) \(lastName!)")
-                
             }else {
+                result = "Add patient failed \(sqliteResult)"
                 println("Add patient failed \(sqliteResult)")
             }
         }
         sqlite3_finalize(statement)
+        return result
     }
     
-    func addDoctorToDatabase(inputDoctor:String, email:String) {
+    func addDoctorToDatabase(inputDoctor:String, email:String) -> String{
         var (firstName, lastName) = split(inputDoctor)
-        
+        var result = ""
         let query = "INSERT INTO Doctor (dID,f_name,l_name, email) VALUES (NULL,'\(firstName)', '\(lastName!)', '\(email)')"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
             var sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
-                println("Saved \(firstName) \(lastName!)")
+                result = "Saved \(firstName) \(lastName!)"
             }else {
-                println("Add doctor failed for \(firstName) \(lastName!) with error \(sqliteResult)")
+                result = "Add doctor failed for \(firstName) \(lastName!) with error \(sqliteResult)"
             }
-            
         }
         sqlite3_finalize(statement)
+        return result
     }
     
-    func addPlaceOfService(placeInput:String){
+    func addPlaceOfService(placeInput:String) -> String{
         let insertPlaceQuery = "INSERT INTO Place_of_service (placeID, place_description) VALUES (NULL, '\(placeInput)');"
         var statement:COpaquePointer = nil
-        
+        var result = ""
         if sqlite3_prepare_v2(db, insertPlaceQuery, -1, &statement, nil) == SQLITE_OK {
             var sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
-                println("Saved \(placeInput)")
+                result = "Saved \(placeInput)"
             }else if sqliteResult == SQLITE_ERROR {
-                println("Failed place of service save placeInput:\(placeInput)")
+                result = "Failed place of service save placeInput:\(placeInput)"
             }
         }
         sqlite3_finalize(statement)
+        return result
     }
     
-    func addRoom(roomInput:String) {
+    func addRoom(roomInput:String) -> String{
         let insertPlaceQuery = "INSERT INTO Room (roomID, room_description) VALUES (NULL, '\(roomInput)');"
         var statement:COpaquePointer = nil
-        
+        var result = ""
         if sqlite3_prepare_v2(db, insertPlaceQuery, -1, &statement, nil) == SQLITE_OK {
             var sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
-                println("Successful room save \(roomInput)")
+                result = "Successful room save \(roomInput)"
             }else if sqliteResult == SQLITE_ERROR {
-                println("Failed room save \(roomInput)")
+                result = "Failed room save \(roomInput)"
             }
         }
         sqlite3_finalize(statement)
+        return result
     }
     
     func addHasType(aptID:Int, visitCodeText:String) {
@@ -188,33 +193,40 @@ class DatabaseManager {
     }
     
     //Update information in the database
-    func updatePatient(firstName:String, lastName:String, dob:String, email:String, id:Int) {
+    func updatePatient(firstName:String, lastName:String, dob:String, email:String, id:Int) -> String{
         let query = "UPDATE Patient SET date_of_birth='\(dob)', f_name='\(firstName)', l_name='\(lastName)', email='\(email)' WHERE pID='\(id)';"
-        
+        var result = ""
         var statement:COpaquePointer = nil
         println("Selected")
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
-            sqlite3_step(statement)
-            //popup saying it worked
-            println("GOOD")
+            if sqlite3_step(statement) == SQLITE_DONE {
+                
+                result = "Update succeeded for \(firstName) \(lastName) \(dob) \(email)"
+            }else {
+                result = "Update failed for \(firstName) \(lastName) \(dob) \(email)"
+            }
+            
         }
         sqlite3_finalize(statement)
+        return result
     }
     
-    func updateDoctor(firstName:String, lastName:String, email:String, id:Int) {
+    func updateDoctor(firstName:String, lastName:String, email:String, id:Int) -> String {
         
         let query = "UPDATE Doctor SET email='\(email)', f_name='\(firstName)', l_name='\(lastName)' WHERE dID='\(id)';"
+        var result = ""
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
-                println("Doctor updated to email='\(email)', f_name='\(firstName)', l_name='\(lastName)' WHERE dID='\(id)")
+                result = "Doctor updated to \(email) \(firstName) \(lastName)"
             } else {
-                println("Doctor update failed: email='\(email)', f_name='\(firstName)', l_name='\(lastName)' WHERE dID='\(id)")
+                result = "Doctor update failed: \(email) \(firstName) \(lastName)"
 
             }
             //popup saying it worked
         }
         sqlite3_finalize(statement)
+        return result
     }
     
     //Retrieve information from the database*************************************************************************************************************
@@ -415,6 +427,40 @@ class DatabaseManager {
         }
         sqlite3_finalize(statement)
         return visitCodes
+    }
+    
+    func siteSearch(siteInput:String) -> [String] {
+        
+        var siteResults:[String] = []
+        
+        let siteSearchQuery = "SELECT place_description FROM Place_of_service WHERE place_description LIKE '%\(siteInput)%'"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, siteSearchQuery, -1, &statement, nil) == SQLITE_OK {
+            while sqlite3_step(statement) == SQLITE_ROW {
+                
+                var description = sqlite3_column_text(statement, 0)
+                var descriptionString = String.fromCString(UnsafePointer<CChar>(description))
+                siteResults.append(descriptionString!)
+            }
+        }
+        return siteResults
+    }
+    
+    func roomSearch(roomInput:String) -> [String] {
+        var roomResults:[String] = []
+        let roomSearchQuery = "SELECT room_description FROM Room WHERE room_description LIKE '%\(roomInput)%'"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, roomSearchQuery, -1, &statement, nil) == SQLITE_OK {
+            while sqlite3_step(statement) == SQLITE_ROW {
+                
+                var description = sqlite3_column_text(statement, 0)
+                var descriptionString = String.fromCString(UnsafePointer<CChar>(description))
+                roomResults.append(descriptionString!)
+            }
+        }
+        return roomResults
     }
 
 

@@ -29,7 +29,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         
         dbManager.checkDatabaseFileAndOpen()
         if objects.count == 0 {//get the root locations when we load up
-            let query = "SELECT * FROM Condition_location cl WHERE NOT EXISTS (SELECT * FROM Sub_location sl WHERE cl.LID = sl.LID) ORDER BY location_name"
+            let query = "SELECT * FROM Condition_location cl WHERE NOT EXISTS (SELECT * FROM Sub_location sl WHERE cl.LID = sl.LID) ORDER BY LID"
             
             var statement:COpaquePointer = nil
             if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
@@ -167,6 +167,8 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         return true
     }
     
+
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "showDirectSearchPopup" {
@@ -254,10 +256,17 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return objects.count }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         let (id, location_name) = objects[indexPath.row]
         cell.textLabel!.text = location_name
+        var arr = cell.contentView.subviews
+        for var i=0; i<arr.count; i++ {
+            if arr[i].isKindOfClass(UIButton) {
+                println("found button \(id)")
+                var button:UIButton = arr[i] as! UIButton
+                button.tag = id
+            }
+        }
         return cell
     }
     
@@ -270,5 +279,26 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         }else {
             self.performSegueWithIdentifier("showLocations", sender: self)
         }
+    }
+    
+    @IBAction func addCellToFavorites(sender: UIButton) {
+        
+        dbManager.checkDatabaseFileAndOpen()
+        let addFavoriteQuery = "INSERT INTO Sub_location (LID, Parent_locationID) VALUES (\(sender.tag), 0)"
+        
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(dbManager.db, addFavoriteQuery, -1, &statement, nil) == SQLITE_OK {
+            
+            if sqlite3_step(statement) == SQLITE_DONE {
+                println("Successfully added \(sender.tag) to favorites")
+            } else {
+                println("Failed add \(sender.tag)")
+            }
+        }
+        sqlite3_finalize(statement)
+        dbManager.closeDB()
+        
+        println("Add to favorites \(sender.tag)")
     }
 }

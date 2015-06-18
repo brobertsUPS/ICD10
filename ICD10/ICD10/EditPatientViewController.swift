@@ -43,22 +43,32 @@ class EditPatientViewController: UIViewController {
         
         if newPatient {
             var fullName = "\(firstNameField.text) \(lastNameField.text)"
-            self.addPatientToDatabase(fullName, dateOfBirth: dobField.text, email: emailField.text)
+            showAlert(self.addPatientToDatabase(fullName, dateOfBirth: dobField.text, email: emailField.text))
         }else{
-            self.updatePatient(firstNameField.text, lastName: lastNameField.text, dob: dobField.text, email: emailField.text, id: id)
+            showAlert(self.updatePatient(firstNameField.text, lastName: lastNameField.text, dob: dobField.text, email: emailField.text, id: id))
         }
     }
     
-    func addPatientToDatabase(inputPatient:String, dateOfBirth:String, email:String){
+    func addPatientToDatabase(inputPatient:String, dateOfBirth:String, email:String) -> String{
         dbManager.checkDatabaseFileAndOpen()
-        dbManager.addPatientToDatabase(inputPatient, dateOfBirth: dateOfBirth, email:email)
+        var result = dbManager.addPatientToDatabase(inputPatient, dateOfBirth: dateOfBirth, email:email)
         dbManager.closeDB()
+        return result
     }
     
-    func updatePatient(firstName:String, lastName:String, dob:String, email:String, id:Int){
+    func updatePatient(firstName:String, lastName:String, dob:String, email:String, id:Int) -> String{
         dbManager.checkDatabaseFileAndOpen()
-        dbManager.updatePatient(firstName, lastName: lastName, dob: dob, email: email, id: id)
+        var result = dbManager.updatePatient(firstName, lastName: lastName, dob: dob, email: email, id: id)
         dbManager.closeDB()
+        return result
+    }
+    
+    func showAlert(msg:String) {
+        let controller2 = UIAlertController(title: msg,
+            message: "", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
+        controller2.addAction(cancelAction)
+        self.presentViewController(controller2, animated: true, completion: nil)
     }
     
     /**

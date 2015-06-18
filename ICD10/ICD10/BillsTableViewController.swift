@@ -87,6 +87,8 @@ class BillsTableViewController: UITableViewController {
             controller.textFieldText.append(pc)
             
             controller.icdCodes = icd10Codes
+            
+            controller.appointmentID = aptID
         }
     }
     

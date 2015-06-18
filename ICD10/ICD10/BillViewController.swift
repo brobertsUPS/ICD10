@@ -33,6 +33,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var textFieldText:[String] = []                             //A list of saved items for the bill
     var icdCodes:[(icd10:String,icd9:String)] = []              //A list of saved codes for the bill
     
+    var appointmentID:Int?                                              //The appointment id if this is a saved bill
+    
     
     
     //****************************************** Default override methods ******************************************************************************
@@ -50,6 +52,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePatient:",name:"loadPatient", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDoctor:",name:"loadDoctor", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCPT:",name:"loadTuple", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateSite:",name:"loadSite", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateRoom:",name:"loadRoom", object: nil)
         
         if self.textFieldText.count > 0 {
             patientTextField.text = textFieldText[0]
@@ -101,10 +105,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 default: ICD10TextField.text = "\(ICD10TextField.text), \(icd9)"
                 }
             }
-            //icd9
         }
     }
-    
     
     /**
     *   Makes this view popup under the text fields and not in a new window
@@ -129,6 +131,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         switch sender.tag {
         case 0:self.performSegueWithIdentifier("patientSearchPopover", sender: self)
         case 2:self.performSegueWithIdentifier("doctorSearchPopover", sender: self)
+        case 3:self.performSegueWithIdentifier("siteSearchPopover", sender: self)
+        case 4:self.performSegueWithIdentifier("roomSearchPopover", sender: self)
         case 5:self.performSegueWithIdentifier("cptSearch", sender: self)
         case 6:self.performSegueWithIdentifier("mcSearch", sender: self)
         case 7:self.performSegueWithIdentifier("pcSearch", sender: self)
@@ -162,37 +166,44 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBAction func saveBill(sender: UIButton) {
         
         let error = checkInputs()//check that everything is there
+        
         if error == "" {
             
-            let placeID = getPlaceOfServiceID(siteTextField.text) //get the ids to input into the bill
-            let roomID = getRoomID(roomTextField.text)
-            let patientID = getPatientID(patientTextField.text, dateOfBirth: patientDOBTextField.text)
-            let referringDoctorID = getDoctorID(doctorTextField.text)
-            
-            var aptID:Int = addAppointmentToDatabase(patientID, doctorID: referringDoctorID, date: dateTextField.text, placeID: placeID, roomID: roomID)
-            
-            //Insert into has_type for all types there were
-            if cptTextField.text != "" {
-                self.addHasType(aptID, visitCodeText: cptTextField.text)
+            if let hasAptID = appointmentID {
+                println("Saved bill")
+            }else {
+                let placeID = getPlaceOfServiceID(siteTextField.text) //get the ids to input into the bill
+                let roomID = getRoomID(roomTextField.text)
+                let patientID = getPatientID(patientTextField.text, dateOfBirth: patientDOBTextField.text)
+                let referringDoctorID = getDoctorID(doctorTextField.text)
+                
+                var (aptID, result) = addAppointmentToDatabase(patientID, doctorID: referringDoctorID, date: dateTextField.text, placeID: placeID, roomID: roomID)
+                
+                //Insert into has_type for all types there were
+                if cptTextField.text != "" {
+                    self.addHasType(aptID, visitCodeText: cptTextField.text)
+                }
+                
+                if mcTextField.text != "" {
+                    self.addHasType(aptID, visitCodeText: mcTextField.text)
+                }
+                
+                if pcTextField.text != "" {
+                    self.addHasType(aptID, visitCodeText: pcTextField.text)
+                }
+                
+                //loop to add all ICD10 codes
+                for var i=0; i<icdCodes.count; i++ {
+                    var (icd10, icd9) = icdCodes[i]
+                    self.addDiagnosedWith(aptID, ICD10Text: icd10)
+                }
+                showAlert(result)//popup for successful bill save
+                
+                //remove everything from the stack and remove back button
+                //segue to self
             }
             
-            if mcTextField.text != "" {
-               self.addHasType(aptID, visitCodeText: mcTextField.text)
-            }
             
-            if pcTextField.text != "" {
-                self.addHasType(aptID, visitCodeText: pcTextField.text)
-            }
-
-            //loop to add all ICD10 codes
-            for var i=0; i<icdCodes.count; i++ {
-                var (icd10, icd9) = icdCodes[i]
-                self.addDiagnosedWith(aptID, ICD10Text: icd10)
-            }
-            
-            //popup for successful bill save
-            //remove everything from the stack and remove back button
-            //segue to self
         } else {
             println(error)//popup with the error message
         }
@@ -233,8 +244,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 popoverViewController.tupleSearchResults = dbManager.patientSearch(patientTextField!.text)
                 popoverViewController.searchType = "patient"
             case "doctorSearchPopover":
-                popoverViewController.doctorSearchResults = dbManager.doctorSearch(doctorTextField!.text)
+                popoverViewController.singleDataSearchResults = dbManager.doctorSearch(doctorTextField!.text)
                 popoverViewController.searchType = "doctor"
+            case "siteSearchPopover":
+                popoverViewController.singleDataSearchResults = dbManager.siteSearch(siteTextField.text)
+                popoverViewController.searchType = "site"
+            case "roomSearchPopover":
+                popoverViewController.singleDataSearchResults = dbManager.roomSearch(roomTextField.text)
+                popoverViewController.searchType = "room"
             case "cptSearch":popoverViewController.tupleSearchResults = dbManager.codeSearch("C", cptTextFieldText: cptTextField.text, mcTextFieldText: "", pcTextFieldText: "")
             case "mcSearch":popoverViewController.tupleSearchResults = dbManager.codeSearch("M", cptTextFieldText: "", mcTextFieldText: mcTextField.text, pcTextFieldText: "")
             case "pcSearch":popoverViewController.tupleSearchResults = dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: "", pcTextFieldText: pcTextField.text)
@@ -258,7 +275,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             patientSearchViewController.tupleSearchResults = patients
             patientSearchViewController.tableView.reloadData()          //update the list in the popup
         }
-        
         dbManager.closeDB()
     }
     
@@ -271,7 +287,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         let doctors = dbManager.doctorSearch(doctorTextField!.text)
         
         if let doctorSearchViewController = searchTableViewController {
-            doctorSearchViewController.doctorSearchResults = doctors
+            doctorSearchViewController.singleDataSearchResults = doctors
             doctorSearchViewController.tableView.reloadData()
         }
         
@@ -299,8 +315,34 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             visitCodeViewController.tableView.reloadData()
         }
         dbManager.closeDB()
-        
     }
+    
+    @IBAction func userChangedSiteSearch(sender: UITextField) {
+        
+        dbManager.checkDatabaseFileAndOpen()
+        
+        let siteResults = dbManager.siteSearch(siteTextField.text)
+        
+        if let siteSearchViewController = searchTableViewController {
+            siteSearchViewController.singleDataSearchResults = siteResults
+            siteSearchViewController.tableView.reloadData()
+        }
+        dbManager.closeDB()
+    }
+    
+    @IBAction func userChangedRoomSearch(sender: UITextField) {
+        
+        dbManager.checkDatabaseFileAndOpen()
+        
+        let roomResults = dbManager.roomSearch(roomTextField.text)
+        
+        if let roomSearchViewController = searchTableViewController {
+            roomSearchViewController.singleDataSearchResults = roomResults
+            roomSearchViewController.tableView.reloadData()
+        }
+        dbManager.closeDB()
+    }
+    
     
     /****************************************** Update text fields ******************************************************************************
     *
@@ -356,46 +398,67 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
     }
     
+    func updateSite(notification:NSNotification) {
+        if let controller = searchTableViewController {
+            let site = controller.selectedDoctor
+            self.siteTextField.text = site
+            self.dismissViewControllerAnimated(true, completion: nil)
+            self.resignFirstResponder()
+        }
+    }
+    
+    func updateRoom(notification:NSNotification) {
+        if let controller = searchTableViewController {
+            let room = controller.selectedDoctor
+            self.roomTextField.text = room
+            self.dismissViewControllerAnimated(true, completion: nil)
+            self.resignFirstResponder()
+        }
+    }
+    
     //****************************************** Adding to Database ******************************************************************************
     
     /**
     *   Adds the patient to the database
     **/
     @IBAction func addPatient(sender: UIButton) {
-        self.addPatientToDatabase(patientTextField.text, email: "")
+        showAlert(self.addPatientToDatabase(patientTextField.text, email: ""))
     }
     
-    func addPatientToDatabase(inputPatient:String, email:String){
+    func addPatientToDatabase(inputPatient:String, email:String) -> String{
         var dateOfBirth = patientDOBTextField.text
         dbManager.checkDatabaseFileAndOpen()
-        dbManager.addPatientToDatabase(inputPatient, dateOfBirth: dateOfBirth, email:email)
-        showAlert("Added patient")
+        var result = dbManager.addPatientToDatabase(inputPatient, dateOfBirth: dateOfBirth, email:email)
         dbManager.closeDB()
+        return result
     }
     
     /**
     *   Adds the doctor to the database
     **/
     @IBAction func addDoctor(sender: UIButton) {
-        self.addDoctorToDatabase(doctorTextField.text, email: "")
+        showAlert(self.addDoctorToDatabase(doctorTextField.text, email: ""))
     }
     
-    func addDoctorToDatabase(inputDoctor:String, email:String) {
+    func addDoctorToDatabase(inputDoctor:String, email:String) -> String{
         dbManager.checkDatabaseFileAndOpen()
-        dbManager.addDoctorToDatabase(inputDoctor, email: email)
+        var result = dbManager.addDoctorToDatabase(inputDoctor, email: email)
         dbManager.closeDB()
+        return result
     }
     
-    func addPlaceOfService(placeInput:String){
+    func addPlaceOfService(placeInput:String) -> String{
         dbManager.checkDatabaseFileAndOpen()
-        dbManager.addPlaceOfService(placeInput)
+        var result = dbManager.addPlaceOfService(placeInput)
         dbManager.closeDB()
+        return result
     }
     
-    func addRoom(roomInput:String) {
+    func addRoom(roomInput:String) -> String {
         dbManager.checkDatabaseFileAndOpen()
-        dbManager.addRoom(roomInput)
+        var result = dbManager.addRoom(roomInput)
         dbManager.closeDB()
+        return result
     }
     
     /**
@@ -444,12 +507,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return pID
     }
     
-    func addAppointmentToDatabase(patientID:Int, doctorID:Int, date:String, placeID:Int, roomID:Int) ->Int {
-        var aptID:Int = 0
+    func addAppointmentToDatabase(patientID:Int, doctorID:Int, date:String, placeID:Int, roomID:Int) -> (Int, String) {
+        
         dbManager.checkDatabaseFileAndOpen()
-        aptID = dbManager.addAppointmentToDatabase(patientID, doctorID: doctorID, date: date, placeID: placeID, roomID: roomID)
+        var (aptID, result) = dbManager.addAppointmentToDatabase(patientID, doctorID: doctorID, date: date, placeID: placeID, roomID: roomID)
         dbManager.closeDB()
-        return aptID
+        return (aptID,result)
     }
     
     func addHasType(aptID:Int, visitCodeText:String) {
@@ -457,6 +520,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         dbManager.addHasType(aptID, visitCodeText: visitCodeText)
         dbManager.closeDB()
     }
+    
     func addDiagnosedWith(aptID:Int, ICD10Text:String){
         dbManager.checkDatabaseFileAndOpen()
         dbManager.addDiagnosedWith(aptID, ICD10Text: ICD10Text)
@@ -464,8 +528,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     func showAlert(msg:String) {
-        let controller2 = UIAlertController(title:"Something Was Done",
-            message: msg, preferredStyle: .Alert)
+        let controller2 = UIAlertController(title: msg,
+            message: "", preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
         controller2.addAction(cancelAction)
         self.presentViewController(controller2, animated: true, completion: nil)
