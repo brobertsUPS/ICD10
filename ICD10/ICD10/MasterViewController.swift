@@ -63,6 +63,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     *   Registers the click in the text box and calls the appropriate segue
     **/
     @IBAction func clickedInTextBox(sender: UITextField) {
+        println("Click in text box registered")
         self.performSegueWithIdentifier("showDirectSearchPopup", sender: self)
     }
 
@@ -118,13 +119,14 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     **/
     func codeSelected(notification: NSNotification) {
         if let controller = directSearchTableViewController {
-            let tuple = controller.selectedCode
-            let (icd10,description,icd9) = tuple!
-            self.searchBar.text = icd10
-            self.dismissViewControllerAnimated(true, completion: nil)
-            searchBar.resignFirstResponder()
-            selectedCode = tuple!
-            performSegueWithIdentifier("showDirectSearchCode", sender: self)
+            if let tuple = controller.selectedCode {
+                let (icd10,description,icd9) = tuple
+                self.searchBar.text = icd10
+                self.dismissViewControllerAnimated(true, completion: nil)
+                searchBar.resignFirstResponder()
+                selectedCode = tuple
+                performSegueWithIdentifier("showDirectSearchCode", sender: self)
+            }
         }
     }
 
@@ -157,6 +159,13 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     }
     
     // MARK: - Segue ***************************************************************************************************************************
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+        if identifier == "showDirectSearchPopup" { //stop the direct search popup unless explicitly called
+            return false
+        }
+        return true
+    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         

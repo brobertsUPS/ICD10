@@ -25,6 +25,38 @@ class BillsTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    @IBAction func submitAllBills(sender: UIBarButtonItem) {
+        
+        var csvLine = "Administering Doctor, Date, Patient Name, Patient Date of Birth, Referring Doctor, Place of Service, CPT, MC, PC, ICD10 \r\n"
+        for var i = 0; i<patientsInfo.count; i++ { //for every bill in the list get the information needed to submit
+            
+            var (id, dob, patientName) = patientsInfo[i]
+            var (aptID, dID, placeID, roomID) = IDs[i]
+            
+            let doctorName = getDoctorForBill(dID)//doctor
+            let place = getPlaceForBill(placeID)//place
+            let room = getRoomForBill(roomID)//room
+            let (cpt, mc, pc) = getVisitCodesForBill(aptID)//cpt, mc, pc
+            let icd10Codes:[(icd10:String,icd9:String)] = getDiagnosesCodesForBill(aptID)
+            csvLine = csvLine + "\r\n" + makeCSVLine(date, patientName: patientName, dob: dob, doctorName: doctorName, place: place, room: room, cpt: cpt, mc: mc, pc: pc, icd10Codes: icd10Codes)
+        }
+        println(csvLine)
+    }
+    
+    func makeCSVLine(date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, cpt:String, mc:String, pc:String, icd10Codes:[(icd10:String,icd9:String)]) -> String {
+        var csvLine = ""
+        var (icd10, icd9) = icd10Codes[0]
+        csvLine = " , \(date), \(patientName), \(dob), \(doctorName), \(place), \(room), \(cpt), \(mc), \(pc), \(icd10)" //put all of the text field in (without the icd10 code)
+        
+        for var i=1; i<icd10Codes.count; i++ {
+            var (ithICD10, ithICD9) = icd10Codes[i]
+            csvLine += "\r\n , , , , , , , , , , \(ithICD10)" //put a new empty line for any additional icd10 codes
+        }
+        return csvLine
+
+    }
 
    
     // MARK: - Navigation
@@ -161,11 +193,12 @@ class BillsTableViewController: UITableViewController {
                 var conditionICD10 = sqlite3_column_text(statement, 0)
                 var conditionString = String.fromCString(UnsafePointer<CChar>(conditionICD10))
                 
-                var conditionICD9 = sqlite3_column_text(statement, 0)
+                var conditionICD9 = sqlite3_column_text(statement, 1)
                 var conditionICD9String = String.fromCString(UnsafePointer<CChar>(conditionICD9))
                 
                 var tuple = (icd10:conditionString!, icd9:conditionICD9String!)
                 conditionDiagnosed += [(tuple)]
+                println("DiagnosesCodesForBill \(tuple)")
             }
         }
         sqlite3_finalize(statement)

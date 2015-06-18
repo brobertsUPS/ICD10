@@ -74,8 +74,9 @@ class DetailViewController: UIViewController {
         if sqlite3_prepare_v2(dbManager.db, newLocationQuery, -1, &statement, nil) == SQLITE_OK {
             var result = sqlite3_step(statement)
             if result == SQLITE_DONE {
-                println("Successfully created location for \(ICD10Text)")
-                lID = Int(sqlite3_last_insert_rowid(statement))
+                println("Successfully created location for \(ICD10Text) \(conditionDescriptionText)")
+                lID = Int(sqlite3_last_insert_rowid(dbManager.db))
+                println("LID \(lID)")
             }else {
                 println("Failed location creation for \(ICD10Text) with error \(result)")
             }
@@ -87,7 +88,7 @@ class DetailViewController: UIViewController {
         if sqlite3_prepare_v2(dbManager.db, subLocationQuery, -1, &subLocationStatement, nil) == SQLITE_OK {
             var result = sqlite3_step(subLocationStatement)
             if result == SQLITE_DONE {
-                println("Successfully saved sub location for \(ICD10Text)")
+                println("Successfully saved sub location for \(lID) and 0")
             }else {
                 println("Failed sublocation save \(ICD10Text) with error \(result)")
             }
@@ -99,7 +100,7 @@ class DetailViewController: UIViewController {
         if sqlite3_prepare_v2(dbManager.db, favoriteQuery, -1, &favoriteStatement, nil) == SQLITE_OK {
             var result = sqlite3_step(favoriteStatement)
             if result == SQLITE_DONE {
-                println("Successfully saved \(ICD10Text)")
+                println("Successfully saved \(ICD10Text) with lid: \(lID)")
             }else {
                 println("Failed save \(ICD10Text) with error \(result)")
             }

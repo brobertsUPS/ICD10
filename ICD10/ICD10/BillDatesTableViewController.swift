@@ -16,6 +16,21 @@ class BillDatesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         dbManager = DatabaseManager()
+        getDates()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        billDates = []
+        getDates()
+        self.tableView.reloadData()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func getDates() {
         dbManager.checkDatabaseFileAndOpen()
         let dateQuery = "SELECT date FROM Appointment GROUP BY date"
         var statement:COpaquePointer = nil
@@ -28,11 +43,7 @@ class BillDatesTableViewController: UITableViewController {
         }
         sqlite3_finalize(statement)
         dbManager.closeDB()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
     }
     
     // MARK: - Navigation
@@ -82,7 +93,9 @@ class BillDatesTableViewController: UITableViewController {
             let controller = segue.destinationViewController as! BillsTableViewController
             println(patientBills)
             controller.patientsInfo = patientBills
+            controller.date = date
             controller.IDs = IDs
+            
             sqlite3_finalize(statement)
         }
         

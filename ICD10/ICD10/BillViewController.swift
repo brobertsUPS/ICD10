@@ -14,6 +14,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var searchTableViewController: SearchTableViewController?   //A view controller for the popup table view
     var billViewController:BillViewController?    //A bill that is passed along to hold all of the codes for the final bill
     
+    @IBOutlet weak var codeVersion: UISwitch!   //Determines what version of codes to use in the bill (ICD10 default)
+    
+    @IBOutlet weak var icdType: UILabel!
+    
+    var administeringDoctor:String = ""
     @IBOutlet weak var patientTextField: UITextField!
     @IBOutlet weak var patientDOBTextField: UITextField!
     @IBOutlet weak var doctorTextField: UITextField!
@@ -28,7 +33,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var textFieldText:[String] = []                             //A list of saved items for the bill
     var icdCodes:[(icd10:String,icd9:String)] = []              //A list of saved codes for the bill
     
-    var csv:String?
+    
     
     //****************************************** Default override methods ******************************************************************************
     
@@ -71,20 +76,35 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         dateTextField.text = formatter.stringFromDate(date)
     }
     
-    func makeCSVLine() -> String {
+    @IBAction func switchCodeVersion(sender: UISwitch) {
         
-        let (icd10, icd9) = icdCodes[0]
+        println("Switch code versions")
         
-        var csvLine = ""
-        csvLine = " , \(dateTextField.text), \(patientTextField.text), \(patientDOBTextField.text), \(doctorTextField.text), \(siteTextField.text), \(roomTextField.text), \(cptTextField.text), \(mcTextField.text), \(pcTextField.text), \(icd10)" //put all of the text field in (without the icd10 code)
-        
-        for var i=1; i<icdCodes.count; i++ {
-            var(ithICD10, ithICD9) = icdCodes[i]
-            csvLine += "\r\n , , , , , , , , , , \(ithICD10)" //put a new empty line for any additional icd10 codes
+        if codeVersion.on {
+            //icd10
+            icdType.text = "ICD10"
+            ICD10TextField.text = ""
+            for var i=0; i<icdCodes.count; i++ {
+                let (icd10, icd9) = icdCodes[i]
+                switch i {
+                case 0:ICD10TextField.text = "\(icd10)"
+                default: ICD10TextField.text = "\(ICD10TextField.text), \(icd10)"
+                }
+            }
+        } else {
+            icdType.text = "ICD9"
+            ICD10TextField.text = ""
+            for var i=0; i<icdCodes.count; i++ {
+                let (icd10, icd9) = icdCodes[i]
+                switch i {
+                case 0:ICD10TextField.text = "\(icd9)"
+                default: ICD10TextField.text = "\(ICD10TextField.text), \(icd9)"
+                }
+            }
+            //icd9
         }
-        println(csvLine)
-        return csvLine
     }
+    
     
     /**
     *   Makes this view popup under the text fields and not in a new window
@@ -168,10 +188,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             for var i=0; i<icdCodes.count; i++ {
                 var (icd10, icd9) = icdCodes[i]
                 self.addDiagnosedWith(aptID, ICD10Text: icd10)
-                println("\(icdCodes[i])")
             }
-            
-            makeCSVLine()
             
             //popup for successful bill save
             //remove everything from the stack and remove back button
@@ -352,6 +369,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         var dateOfBirth = patientDOBTextField.text
         dbManager.checkDatabaseFileAndOpen()
         dbManager.addPatientToDatabase(inputPatient, dateOfBirth: dateOfBirth, email:email)
+        showAlert("Added patient")
         dbManager.closeDB()
     }
     
@@ -443,6 +461,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         dbManager.checkDatabaseFileAndOpen()
         dbManager.addDiagnosedWith(aptID, ICD10Text: ICD10Text)
         dbManager.closeDB()
+    }
+    
+    func showAlert(msg:String) {
+        let controller2 = UIAlertController(title:"Something Was Done",
+            message: msg, preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
+        controller2.addAction(cancelAction)
+        self.presentViewController(controller2, animated: true, completion: nil)
     }
     
     func checkInputs() -> String{

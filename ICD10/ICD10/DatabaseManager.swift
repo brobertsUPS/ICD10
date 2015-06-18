@@ -87,7 +87,6 @@ class DatabaseManager {
             }else {
                 println("Failed appointment save patientID:\(patientID) doctorID:\(doctorID) date:\(date) placeID:\(placeID) roomID:\(roomID)")
             }
-            
         }
         sqlite3_finalize(statement)
         return aptID
@@ -104,6 +103,7 @@ class DatabaseManager {
             var sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 println("Saved \(firstName) \(lastName!)")
+                
             }else {
                 println("Add patient failed \(sqliteResult)")
             }
