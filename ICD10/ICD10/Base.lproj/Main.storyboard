@@ -1087,6 +1087,7 @@
                         <outlet property="roomTextField" destination="xlg-bT-yQf" id="VjA-q7-s0j"/>
                         <outlet property="searchDisplayController" destination="IFO-E7-LBW" id="hYa-oS-8JA"/>
                         <outlet property="siteTextField" destination="p6d-99-gAp" id="OYu-UI-tGv"/>
+                        <segue destination="bi9-wf-IVB" kind="show" identifier="newBill" id="B79-P1-amM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q50-df-xDS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1107,7 +1108,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="-1398" y="-453"/>
+            <point key="canvasLocation" x="-1560" y="-542"/>
         </scene>
         <!--Search Table View Controller-->
         <scene sceneID="TkV-MA-MYG">
@@ -1350,5 +1351,6 @@
         <segue reference="2II-5o-t3P"/>
         <segue reference="zKf-2S-qlA"/>
         <segue reference="2Ks-D5-SZF"/>
+        <segue reference="B79-P1-amM"/>
     </inferredMetricsTieBreakers>
 </document>

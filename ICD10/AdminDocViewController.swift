@@ -17,7 +17,7 @@ class AdminDocViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationItem.hidesBackButton = true
         dbManager.checkDatabaseFileAndOpen()
         
         administeringDoctor.text = dbManager.getAdminDoc()

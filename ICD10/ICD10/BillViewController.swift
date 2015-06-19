@@ -195,15 +195,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                     var (icd10, icd9) = icdCodes[i]
                     self.addDiagnosedWith(aptID, ICD10Text: icd10)
                 }
-                showAlert(result)//popup for successful bill save
                 
-                //remove everything from the stack and remove back button
-                //segue to self
+                self.performSegueWithIdentifier("newBill", sender: self)
             }
-            
-            
         } else {
-            println(error)//popup with the error message
+            showAlert(error)//popup with the error message
         }
     }
     
@@ -228,6 +224,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         if segue.identifier == "beginICD10Search" {
             let controller = segue.destinationViewController as! MasterViewController
             controller.billViewController = self
+        }else if segue.identifier == "newBill"{
+            let controller = segue.destinationViewController as! AdminDocViewController
         }else{
             dbManager.checkDatabaseFileAndOpen()
             let popoverViewController = (segue.destinationViewController as! UIViewController) as! SearchTableViewController

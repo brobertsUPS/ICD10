@@ -97,38 +97,45 @@ class DatabaseManager {
         var (firstName, lastName) = split(inputPatient)
         var result = ""
         
-        println(dateOfBirth)
-        let query = "INSERT INTO Patient (pID,date_of_birth,f_name,l_name, email) VALUES (NULL, '\(dateOfBirth)', '\(firstName)', '\(lastName!)', '\(email)')"
-        var statement:COpaquePointer = nil
-        if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
-            if sqliteResult == SQLITE_DONE {
-                result = "Saved \(firstName) \(lastName!)"
-                println("Saved \(firstName) \(lastName!)")
-            }else {
-                result = "Add patient failed \(sqliteResult)"
-                println("Add patient failed \(sqliteResult)")
+        if lastName == "" {
+            result = "No last name input was detected. Please enter a first and last name for the patient."
+        }else{
+            let query = "INSERT INTO Patient (pID,date_of_birth,f_name,l_name, email) VALUES (NULL, '\(dateOfBirth)', '\(firstName)', '\(lastName!)', '\(email)')"
+            var statement:COpaquePointer = nil
+            if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
+                var sqliteResult = sqlite3_step(statement)
+                if sqliteResult == SQLITE_DONE {
+                    result = "Saved \(firstName) \(lastName!)"
+                    println("Saved \(firstName) \(lastName!)")
+                }else {
+                    result = "Add patient failed \(sqliteResult)"
+                    println("Add patient failed \(sqliteResult)")
+                }
             }
+            sqlite3_finalize(statement)
         }
-        sqlite3_finalize(statement)
         return result
     }
     
     func addDoctorToDatabase(inputDoctor:String, email:String, type:Int) -> String{
         var (firstName, lastName) = split(inputDoctor)
         var result = ""
-        let query = "INSERT INTO Doctor (dID,f_name,l_name, email, type) VALUES (NULL,'\(firstName)', '\(lastName!)', '\(email)', \(type))"
-        var statement:COpaquePointer = nil
-        
-        if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
-            if sqliteResult == SQLITE_DONE {
-                result = "Saved \(firstName) \(lastName!)"
-            }else {
-                result = "Add doctor failed for \(firstName) \(lastName!) with error \(sqliteResult)"
+        if lastName == "" {
+            result = "No last name input was detected. Please enter a first and last name for the doctor."
+        }else{
+            let query = "INSERT INTO Doctor (dID,f_name,l_name, email, type) VALUES (NULL,'\(firstName)', '\(lastName!)', '\(email)', \(type))"
+            var statement:COpaquePointer = nil
+            
+            if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
+                var sqliteResult = sqlite3_step(statement)
+                if sqliteResult == SQLITE_DONE {
+                    result = "Saved \(firstName) \(lastName!)"
+                }else {
+                    result = "Add doctor failed for \(firstName) \(lastName!) with error \(sqliteResult)"
+                }
             }
+            sqlite3_finalize(statement)
         }
-        sqlite3_finalize(statement)
         return result
     }
     
@@ -491,10 +498,17 @@ class DatabaseManager {
     **/
     func split(splitString:String) -> (String, String?){
         
+        
         let fullNameArr = splitString.componentsSeparatedByString(" ")
-        var firstName: String = fullNameArr[0]
-        var lastName: String =  fullNameArr[1]
-        return (firstName, lastName)
+        
+        if fullNameArr.count == 2{
+            var firstName: String = fullNameArr[0]
+            var lastName: String =  fullNameArr[1]
+            
+            return (firstName, lastName)
+        }
+        
+        return ("","")
     }
 
 
