@@ -15,7 +15,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var billViewController:BillViewController?    //A bill that is passed along to hold all of the codes for the final bill
     
     @IBOutlet weak var codeVersion: UISwitch!   //Determines what version of codes to use in the bill (ICD10 default)
-    
     @IBOutlet weak var icdType: UILabel!
     
     var administeringDoctor:String = ""
@@ -33,7 +32,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var textFieldText:[String] = []                             //A list of saved items for the bill
     var icdCodes:[(icd10:String,icd9:String)] = []              //A list of saved codes for the bill
     
-    var appointmentID:Int?                                              //The appointment id if this is a saved bill
+    var appointmentID:Int?                                       //The appointment id if this is a saved bill
     
     //****************************************** Default override methods ******************************************************************************
     
@@ -190,11 +189,15 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                     self.addHasType(aptID, visitCodeText: pcTextField.text)
                 }
                 
+                let icd10Arr = ICD10TextField.text.componentsSeparatedByString(",") //make the diagnoses run off of the text field and not the array (a user could just type in a code)
+                
                 //loop to add all ICD10 codes
-                for var i=0; i<icdCodes.count; i++ {
-                    var (icd10, icd9) = icdCodes[i]
-                    self.addDiagnosedWith(aptID, ICD10Text: icd10)
+                for var i=0; i<icd10Arr.count; i++ {
+                    let cleanString = icd10Arr[i].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                    self.addDiagnosedWith(aptID, ICD10Text: cleanString)
                 }
+                
+                println(icd10Arr)
                 
                 self.performSegueWithIdentifier("newBill", sender: self)
             }
@@ -202,7 +205,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             showAlert(error)//popup with the error message
         }
     }
-    
     
     //****************************************** Segues ******************************************************************************
     
@@ -569,4 +571,5 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         var lastName: String =  fullNameArr[1]
         return (firstName, lastName)
     }
+
 }

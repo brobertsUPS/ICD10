@@ -117,6 +117,21 @@ class DatabaseManager {
         return result
     }
     
+    func removePatientFromDatabase(id:Int) {
+        
+        let removePatientQuery = "DELETE FROM Patient WHERE pID=\(id)"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, removePatientQuery, -1, &statement, nil) == SQLITE_OK {
+            var sqliteResult = sqlite3_step(statement)
+            if sqliteResult == SQLITE_DONE {
+                println("Removed patient with id \(id)")
+            }
+        }
+        sqlite3_finalize(statement)
+        
+    }
+    
     func addDoctorToDatabase(inputDoctor:String, email:String, type:Int) -> String{
         var (firstName, lastName) = split(inputDoctor)
         var result = ""
@@ -137,6 +152,21 @@ class DatabaseManager {
             sqlite3_finalize(statement)
         }
         return result
+    }
+    
+    func removeDoctorFromDatabase(id:Int){
+        
+        let removeDocQuery = "DELETE FROM Doctor WHERE dID=\(id)"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, removeDocQuery, -1, &statement, nil) == SQLITE_OK {
+            var sqliteResult = sqlite3_step(statement)
+            if sqliteResult == SQLITE_DONE {
+                println("Removed doc with id \(id)")
+            }
+        }
+        sqlite3_finalize(statement)
+
     }
     
     func addPlaceOfService(placeInput:String) -> String{

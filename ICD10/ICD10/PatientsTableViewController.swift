@@ -97,6 +97,21 @@ class PatientsTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            let patient = patients[indexPath.row]
+            patients.removeAtIndex(indexPath.row)
+            dbManager.checkDatabaseFileAndOpen()
+            dbManager.removePatientFromDatabase(ids[indexPath.row])
+            dbManager.closeDB()
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        }
+    }
+    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation

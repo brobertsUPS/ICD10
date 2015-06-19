@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     var dbManager:DatabaseManager!
 
@@ -24,11 +24,17 @@ class DetailViewController: UIViewController {
     var conditionDescriptionText:String!
     var titleName:String!
     
+    var extensionCodes:[String] = []
+    
+    @IBOutlet weak var extensionPicker: UIPickerView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.resignFirstResponder()
         dbManager = DatabaseManager()
+        
+        extensionCodes = getExtensionCodes()
+        
         
         ICD10Code.text = self.ICD10Text
         ICD9Code.text = self.ICD9Text
@@ -39,6 +45,27 @@ class DetailViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func getExtensionCodes() -> [String]{
+        
+        var extensions:[String] = []
+        dbManager.checkDatabaseFileAndOpen()
+        
+        let extensionQuery = "SELECT Extension_code FROM Extension WHERE ICD10_code='\(ICD10Text)'"
+        var statement:COpaquePointer = nil
+        if sqlite3_prepare_v2(dbManager.db, extensionQuery, -1, &statement, nil) == SQLITE_OK {
+            while sqlite3_step(statement) == SQLITE_ROW {
+                var extensionCode = sqlite3_column_text(statement, 0)
+                var extensionCodeString = String.fromCString(UnsafePointer<CChar>(extensionCode))
+                extensions.append(extensionCodeString!)
+            }
+        }
+        
+        sqlite3_finalize(statement)
+        
+        dbManager.closeDB()
+        return extensions
     }
     
     /**
@@ -109,6 +136,14 @@ class DetailViewController: UIViewController {
         dbManager.closeDB()
     }
     
+    
+    //MARK: Picker Data source methods
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int { return 1 }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int { return extensionCodes.count }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! { return extensionCodes[row] }
     
 }
 
