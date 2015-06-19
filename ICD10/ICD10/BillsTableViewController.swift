@@ -29,6 +29,10 @@ class BillsTableViewController: UITableViewController {
     
     @IBAction func submitAllBills(sender: UIBarButtonItem) {
         
+        dbManager.checkDatabaseFileAndOpen()
+        var adminDoc = dbManager.getAdminDoc()
+        dbManager.closeDB()
+        
         var csvLine = "Administering Doctor, Date, Patient Name, Patient Date of Birth, Referring Doctor, Place of Service, CPT, MC, PC, ICD10 \r\n"
         for var i = 0; i<patientsInfo.count; i++ { //for every bill in the list get the information needed to submit
             
@@ -40,15 +44,15 @@ class BillsTableViewController: UITableViewController {
             let room = getRoomForBill(roomID)//room
             let (cpt, mc, pc) = getVisitCodesForBill(aptID)//cpt, mc, pc
             let icd10Codes:[(icd10:String,icd9:String)] = getDiagnosesCodesForBill(aptID)
-            csvLine = csvLine + "\r\n" + makeCSVLine(date, patientName: patientName, dob: dob, doctorName: doctorName, place: place, room: room, cpt: cpt, mc: mc, pc: pc, icd10Codes: icd10Codes)
+            csvLine = csvLine + "\r\n" + makeCSVLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: doctorName, place: place, room: room, cpt: cpt, mc: mc, pc: pc, icd10Codes: icd10Codes)
         }
         println(csvLine)
     }
     
-    func makeCSVLine(date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, cpt:String, mc:String, pc:String, icd10Codes:[(icd10:String,icd9:String)]) -> String {
+    func makeCSVLine(adminDoc:String, date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, cpt:String, mc:String, pc:String, icd10Codes:[(icd10:String,icd9:String)]) -> String {
         var csvLine = ""
         var (icd10, icd9) = icd10Codes[0]
-        csvLine = " , \(date), \(patientName), \(dob), \(doctorName), \(place), \(room), \(cpt), \(mc), \(pc), \(icd10)" //put all of the text field in (without the icd10 code)
+        csvLine = " \(adminDoc), \(date), \(patientName), \(dob), \(doctorName), \(place), \(room), \(cpt), \(mc), \(pc), \(icd10)" //put all of the text field in (without the icd10 code)
         
         for var i=1; i<icd10Codes.count; i++ {
             var (ithICD10, ithICD9) = icd10Codes[i]

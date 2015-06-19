@@ -15,6 +15,10 @@ class EditDoctorViewController: UIViewController {
     @IBOutlet weak var firstNameField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var docTypeLabel: UILabel!
+    
+    @IBOutlet weak var typeSwitch: UISwitch!
+    var docType:Int = 1  //default to a referring doctor
     
     var firstName:String = ""
     var lastName:String = ""
@@ -30,6 +34,13 @@ class EditDoctorViewController: UIViewController {
         firstNameField.text = firstName
         lastNameField.text = lastName
         emailField.text = email
+        if docType == 0 {
+            typeSwitch.on = true
+            docTypeLabel.text = "Admin"
+        } else {
+            typeSwitch.on = false
+            docTypeLabel.text = "Referring"
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,26 +48,37 @@ class EditDoctorViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func saveDoctorInfo(sender: UIButton) {
+    @IBAction func changeDocType(sender: UISwitch) {
         
-        if newDoctor {
-            showAlert(self.addDoctorToDatabase(firstNameField.text, lastName: lastNameField.text, email: emailField.text))
-        }else{
-            showAlert(self.updateDoctor(firstNameField.text, lastName: lastNameField.text, email: emailField.text, id: id))
+        if sender.on {
+            docTypeLabel.text = "Admin"
+            docType = 0
+        } else {
+            docTypeLabel.text = "Referring"
+            docType = 1
         }
     }
     
-    func addDoctorToDatabase(firstName:String, lastName:String, email:String) -> String {
+    @IBAction func saveDoctorInfo(sender: UIButton) {
+        
+        if newDoctor {
+            showAlert(self.addDoctorToDatabase(firstNameField.text, lastName: lastNameField.text, email: emailField.text, type: docType))
+        }else{
+            showAlert(self.updateDoctor(firstNameField.text, lastName: lastNameField.text, email: emailField.text, id: id, type: docType))
+        }
+    }
+    
+    func addDoctorToDatabase(firstName:String, lastName:String, email:String, type:Int) -> String {
         var fullName = "\(firstName) \(lastName)"
         dbManager.checkDatabaseFileAndOpen()
-        var result = dbManager.addDoctorToDatabase(fullName, email: email)
+        var result = dbManager.addDoctorToDatabase(fullName, email: email, type: type)
         dbManager.closeDB()
         return result
     }
     
-    func updateDoctor(firstName:String, lastName:String, email:String, id:Int) -> String{
+    func updateDoctor(firstName:String, lastName:String, email:String, id:Int, type: Int) -> String{
         dbManager.checkDatabaseFileAndOpen()
-        var result = dbManager.updateDoctor(firstName, lastName: lastName, email: email, id: id)
+        var result = dbManager.updateDoctor(firstName, lastName: lastName, email: email, id: id, type: type)
         dbManager.closeDB()
         return result
     }

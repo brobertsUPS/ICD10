@@ -13,6 +13,7 @@ class DoctorsTableViewController: UITableViewController {
     var doctors:[String] = []
     var ids:[Int] = []
     var emails:[String] = []
+    var types:[Int] = []
     
     var dbManager:DatabaseManager!
     
@@ -23,6 +24,7 @@ class DoctorsTableViewController: UITableViewController {
         doctors = []
         ids = []
         emails = []
+        types = []
         findDoctors()
         self.tableView.reloadData()
     }
@@ -30,6 +32,7 @@ class DoctorsTableViewController: UITableViewController {
         doctors = []
         ids = []
         emails = []
+        types = []
         findDoctors()
         self.tableView.reloadData()
     }
@@ -59,9 +62,13 @@ class DoctorsTableViewController: UITableViewController {
                 let doctorEmailString = String.fromCString(UnsafePointer<CChar>(doctorEmail))
                 
                 let doctorFullName = doctorFNameString! + " " + doctorLNameString!
+                
+                let type = Int(sqlite3_column_int(statement, 4))
+                
                 doctors.append(doctorFullName)
                 ids.append(doctorID)
                 emails.append(doctorEmailString!)
+                types.append(type)
             }
         }
         sqlite3_finalize(statement)
@@ -100,6 +107,7 @@ class DoctorsTableViewController: UITableViewController {
             let fullName = doctors[indexPath!.row]
             let dID = ids[indexPath!.row]
             let email = emails[indexPath!.row]
+            let type = types[indexPath!.row]
             
             var fullNameArr = split(fullName) {$0 == " "}
             var firstName: String = fullNameArr[0]
@@ -111,6 +119,7 @@ class DoctorsTableViewController: UITableViewController {
             controller.lastName = lastName
             controller.email = email
             controller.id = dID
+            controller.docType = type
         }
     }
     

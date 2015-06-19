@@ -38,6 +38,8 @@
 			<string>UIBarStyleDefault</string>
 			<key>Translucent</key>
 			<false/>
+			<key>TintColor</key>
+			<dict/>
 		</dict>
 	</dict>
 	<key>UISupportedInterfaceOrientations</key>

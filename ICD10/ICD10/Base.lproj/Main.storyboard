@@ -86,7 +86,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.32156862745098042" green="0.70196078431372544" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.35294117650000001" green="0.7843137255" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="yBO-T5-1Kc" firstAttribute="leading" secondItem="xAr-bD-cdy" secondAttribute="leading" id="3lr-xZ-uK1"/>
                             <constraint firstItem="W9b-sm-GKw" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leadingMargin" id="3sm-96-i3T"/>
@@ -151,6 +151,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="JL4-Kf-PlZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <connections>
                         <segue destination="bi9-wf-IVB" kind="relationship" relationship="rootViewController" id="bcv-Sc-vv0"/>
@@ -424,7 +425,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.32156862749999998" green="0.70196078429999997" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.35294117650000001" green="0.7843137255" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ezv-Ac-06B" firstAttribute="top" secondItem="q16-ik-OQ4" secondAttribute="bottom" constant="8" symbolic="YES" id="2Gd-mR-1CQ"/>
                             <constraint firstItem="19w-DZ-r6Z" firstAttribute="leading" secondItem="WQM-TZ-kie" secondAttribute="leading" id="3AV-v2-8Op"/>
@@ -509,8 +510,8 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P5O-lz-9Bc">
-                                <rect key="frame" x="283" y="186" width="34" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P5O-lz-9Bc">
+                                <rect key="frame" x="283" y="230" width="34" height="30"/>
                                 <state key="normal" title="Save">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -527,8 +528,20 @@
                                     <action selector="textFieldDoneEditing:" destination="4I0-OP-v7R" eventType="editingDidEndOnExit" id="tNj-Wm-HKL"/>
                                 </connections>
                             </textField>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nqh-Kc-ZRz">
+                                <rect key="frame" x="108" y="186" width="51" height="31"/>
+                                <connections>
+                                    <action selector="changeDocType:" destination="4I0-OP-v7R" eventType="valueChanged" id="5bS-j6-ez9"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Admin" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3mG-3A-mKr">
+                                <rect key="frame" x="16" y="191" width="84" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.32156862749999998" green="0.70196078429999997" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.35294117650000001" green="0.7843137255" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="cvw-Ur-JE6" firstAttribute="leading" secondItem="IeC-Me-O9r" secondAttribute="trailing" constant="8" symbolic="YES" id="2np-o0-PeD"/>
                             <constraint firstItem="les-xf-Vp1" firstAttribute="top" secondItem="L3F-e7-fBU" secondAttribute="bottom" constant="8" symbolic="YES" id="67f-ht-Ery"/>
@@ -552,9 +565,11 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="docTypeLabel" destination="3mG-3A-mKr" id="EMj-Fz-Y7E"/>
                         <outlet property="emailField" destination="cvw-Ur-JE6" id="mgQ-Hb-Roh"/>
                         <outlet property="firstNameField" destination="L3F-e7-fBU" id="K07-hC-TQD"/>
                         <outlet property="lastNameField" destination="les-xf-Vp1" id="L8q-c6-fAY"/>
+                        <outlet property="typeSwitch" destination="Nqh-Kc-ZRz" id="hF9-Yg-aWx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b79-Et-wnm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -655,7 +670,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.32156862749999998" green="0.70196078429999997" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.35294117647058826" green="0.78431372549019607" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ek8-HK-f4h" firstAttribute="leading" secondItem="mIq-cC-9D9" secondAttribute="leadingMargin" constant="34" id="3VE-Ru-ile"/>
                             <constraint firstItem="ek8-HK-f4h" firstAttribute="top" secondItem="2Ip-tH-ewa" secondAttribute="bottom" constant="75" id="3aR-zX-Iad"/>
@@ -945,7 +960,7 @@
                                 </connections>
                             </switch>
                         </subviews>
-                        <color key="backgroundColor" red="0.32156862745098042" green="0.70196078431372544" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.35294117647058826" green="0.78431372549019607" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Vjf-44-CSm" firstAttribute="leading" secondItem="WiF-Xc-XGO" secondAttribute="trailing" constant="8" symbolic="YES" id="03b-Sl-Q5z"/>
                             <constraint firstItem="sNf-wa-msA" firstAttribute="top" secondItem="Vjf-44-CSm" secondAttribute="top" id="1hj-rY-qTF"/>
@@ -1329,11 +1344,11 @@
         <image name="Triangular Bandage-50" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2Ks-D5-SZF"/>
-        <segue reference="gq7-oO-OV6"/>
         <segue reference="edd-ny-Y2u"/>
         <segue reference="jsy-lt-xeY"/>
         <segue reference="t0l-p3-sB1"/>
+        <segue reference="2II-5o-t3P"/>
         <segue reference="zKf-2S-qlA"/>
+        <segue reference="2Ks-D5-SZF"/>
     </inferredMetricsTieBreakers>
 </document>

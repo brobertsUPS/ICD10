@@ -35,8 +35,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     var appointmentID:Int?                                              //The appointment id if this is a saved bill
     
-    
-    
     //****************************************** Default override methods ******************************************************************************
     
     /**
@@ -442,7 +440,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     func addDoctorToDatabase(inputDoctor:String, email:String) -> String{
         dbManager.checkDatabaseFileAndOpen()
-        var result = dbManager.addDoctorToDatabase(inputDoctor, email: email)
+        var result = dbManager.addDoctorToDatabase(inputDoctor, email: email, type: 1)
         dbManager.closeDB()
         return result
     }

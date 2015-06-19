@@ -1,6 +1,7 @@
 //
 //  MasterViewController.swift
-//  A class to be the drill down navigation of the application. Also contains a direct search to add to bill.
+//  A class to be the drill down navigation of the application. 
+//  Also contains a direct search to add to bill.
 //
 //  Created by Brandon S Roberts on 5/28/15.
 //  Copyright (c) 2015 Brandon S Roberts. All rights reserved.
@@ -20,7 +21,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     var dbManager:DatabaseManager!
     var billViewController:BillViewController?
     
-    private let favoritesCell = "Favorites"
+    var favoritesCell:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +45,10 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             sqlite3_finalize(statement)
         }
         dbManager.closeDB()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -238,6 +243,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 controller.title = locationName
                 controller.navigationItem.leftItemsSupplementBackButton = true
                 controller.billViewController = self.billViewController
+                controller.favoritesCell = self.favoritesCell
             }
         }
     }
@@ -265,6 +271,9 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 println("found button \(id)")
                 var button:UIButton = arr[i] as! UIButton
                 button.tag = id
+                if favoritesCell  || button.tag == 0{
+                    button.setTitle("", forState: UIControlState.Normal)
+                }
             }
         }
         return cell
@@ -273,6 +282,12 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         let (id, locationName) = objects[indexPath.row]
         let newSubLocations = findSubLocations(id)
+        if id == 0{
+            println("Favorites Cell!")
+            favoritesCell = true
+        } else {
+            favoritesCell = false
+        }
         
         if newSubLocations.count == 0 {
             self.performSegueWithIdentifier("showCodes", sender: self)

@@ -20,7 +20,8 @@ CREATE TABLE Doctor (
 	dID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	f_name TEXT NOT NULL,
 	l_name TEXT NOT NULL,
-	email TEXT NOT NULL
+	email TEXT,
+	type INTEGER NOT NULL
 	);
 	
 CREATE TABLE Appointment (
@@ -143,7 +144,7 @@ INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (3, "12-2
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (4, "03-31-1931", "Leonard", "Nimoy", "");
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (5, "03-03-1920", "James", "Doohan", "");
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (6, "04-20-1937", "George", "Takei", "");
-INSERT INTO Doctor (dID, f_name, l_name, email) VALUES (1, "Rodney", "Joe","Rodneyjoe@mac.com");
+INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (1, "Rodney", "Joe","Rodneyjoe@mac.com", 0);
 
 --Place of service*******************************************************************************************************
 INSERT INTO Place_of_service (placeID, place_description) VALUES (1, "PSPH IN PATIENT");

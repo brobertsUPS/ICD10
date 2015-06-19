@@ -114,10 +114,10 @@ class DatabaseManager {
         return result
     }
     
-    func addDoctorToDatabase(inputDoctor:String, email:String) -> String{
+    func addDoctorToDatabase(inputDoctor:String, email:String, type:Int) -> String{
         var (firstName, lastName) = split(inputDoctor)
         var result = ""
-        let query = "INSERT INTO Doctor (dID,f_name,l_name, email) VALUES (NULL,'\(firstName)', '\(lastName!)', '\(email)')"
+        let query = "INSERT INTO Doctor (dID,f_name,l_name, email, type) VALUES (NULL,'\(firstName)', '\(lastName!)', '\(email)', \(type))"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
@@ -211,14 +211,14 @@ class DatabaseManager {
         return result
     }
     
-    func updateDoctor(firstName:String, lastName:String, email:String, id:Int) -> String {
+    func updateDoctor(firstName:String, lastName:String, email:String, id:Int, type:Int) -> String {
         
-        let query = "UPDATE Doctor SET email='\(email)', f_name='\(firstName)', l_name='\(lastName)' WHERE dID='\(id)';"
+        let query = "UPDATE Doctor SET email='\(email)', f_name='\(firstName)', l_name='\(lastName)', type=\(type) WHERE dID='\(id)';"
         var result = ""
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
-                result = "Doctor updated to \(email) \(firstName) \(lastName)"
+                result = "Doctor updated to \(email) \(firstName) \(lastName) \(type)"
             } else {
                 result = "Doctor update failed: \(email) \(firstName) \(lastName)"
 
@@ -294,13 +294,35 @@ class DatabaseManager {
                 dID = Int(sqlite3_column_int(statement, 0))
                 println("Found doctor:\(dID)")
             }  else {
-                self.addDoctorToDatabase(doctorInput, email: "")
+                self.addDoctorToDatabase(doctorInput, email: "", type: 1)
                 dID = Int(sqlite3_last_insert_rowid(db))
                 println("Added doctor:\(dID)")
             }
         }
         sqlite3_finalize(statement)
         return dID
+    }
+    
+    func getAdminDoc() -> String{
+        var adminDoc = ""
+        
+        let adminQuery = "SELECT f_name, l_name FROM Doctor WHERE type=0"
+        var statement:COpaquePointer = nil
+        println("Ran adminQuery")
+        if sqlite3_prepare_v2(db, adminQuery, -1, &statement, nil) == SQLITE_OK {
+            
+            if sqlite3_step(statement) == SQLITE_ROW {
+                let doctorFName = sqlite3_column_text(statement, 0)
+                let doctorFNameString = String.fromCString(UnsafePointer<CChar>(doctorFName))
+                
+                let doctorLName = sqlite3_column_text(statement, 1)
+                let doctorLNameString = String.fromCString(UnsafePointer<CChar>(doctorLName))
+                println("\(doctorFNameString!)")
+                adminDoc = "\(doctorFNameString!) \(doctorLNameString!)"
+            }
+        }
+        sqlite3_finalize(statement)
+        return adminDoc
     }
     
     /**
