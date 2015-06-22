@@ -12,12 +12,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     var dbManager:DatabaseManager!
     var searchTableViewController: SearchTableViewController?   //A view controller for the popup table view
-    var billViewController:BillViewController?    //A bill that is passed along to hold all of the codes for the final bill
+    var billViewController:BillViewController?                  //A bill that is passed along to hold all of the codes for the final bill
     
-    @IBOutlet weak var codeVersion: UISwitch!   //Determines what version of codes to use in the bill (ICD10 default)
+    @IBOutlet weak var codeVersion: UISwitch!                   //Determines what version of codes to use in the bill (ICD10 default)
     @IBOutlet weak var icdType: UILabel!
-    
-    var administeringDoctor:String = ""
     @IBOutlet weak var patientTextField: UITextField!
     @IBOutlet weak var patientDOBTextField: UITextField!
     @IBOutlet weak var doctorTextField: UITextField!
@@ -32,25 +30,48 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var textFieldText:[String] = []                             //A list of saved items for the bill
     var icdCodes:[(icd10:String,icd9:String)] = []              //A list of saved codes for the bill
     
-    var appointmentID:Int?                                       //The appointment id if this is a saved bill
+    var appointmentID:Int?                                      //The appointment id if this is a saved bill
+    var administeringDoctor:String!
+    var icd10On:Bool!
     
     //****************************************** Default override methods ******************************************************************************
     
-    /**
-    *   Open the database and adds a notification ovserver to this view controller.
-    *   Observer listens for a click on the patient popup
-    **/
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-        dbManager = DatabaseManager() //make our database manager
+        dbManager = DatabaseManager()                           //make our database manager
         
         self.navigationItem.title = "Bill"
         
+        self.addNotifications()
+        
+        self.fillFormTextFields()
+        
+        if let icd10CodesChosen = icd10On {                     //if icd10 is set make sure to display it correctly
+            if icd10CodesChosen {
+                codeVersion.on = true
+            } else {
+                codeVersion.on = false
+            }
+        }
+        self.fillCodeTextField()
+        
+    }
+    
+    func addNotifications() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePatient:",name:"loadPatient", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDoctor:",name:"loadDoctor", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCPT:",name:"loadTuple", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateSite:",name:"loadSite", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateRoom:",name:"loadRoom", object: nil)
+    }
+    
+    func fillFormTextFields(){
+        
+        let date = NSDate()
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .ShortStyle
+        dateTextField.text = formatter.stringFromDate(date)
         
         if self.textFieldText.count > 0 {
             patientTextField.text = textFieldText[0]
@@ -62,25 +83,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             mcTextField.text = textFieldText[6]
             pcTextField.text = textFieldText[7]
         }
-        
-        for var i=0; i<icdCodes.count; i++ {
-            let (icd10, icd9) = icdCodes[i]
-            switch i {
-            case 0:ICD10TextField.text = "\(icd10)"
-            default: ICD10TextField.text = "\(ICD10TextField.text), \(icd10)"
-            }
-        }
-        
-        let date = NSDate()
-        let formatter = NSDateFormatter()
-        formatter.dateStyle = .ShortStyle
-        dateTextField.text = formatter.stringFromDate(date)
     }
     
-    @IBAction func switchCodeVersion(sender: UISwitch) {
-        
-        println("Switch code versions")
-        
+    func fillCodeTextField() {
         if codeVersion.on {
             //icd10
             icdType.text = "ICD10"
@@ -103,26 +108,18 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 }
             }
         }
+
     }
     
-    /**
-    *   Makes this view popup under the text fields and not in a new window
-    **/
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.None
-    }
+    @IBAction func switchCodeVersion(sender: UISwitch) { self.fillCodeTextField() }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle { return UIModalPresentationStyle.None }
+    
+    override func didReceiveMemoryWarning() { super.didReceiveMemoryWarning() }
 
     
     //****************************************** Clicks and Actions ******************************************************************************
     
-    /**
-    *   Registers the click in the text box and calls the appropriate segue
-    **/
     @IBAction func clickedInTextBox(sender: UITextField) {
         
         switch sender.tag {
@@ -143,10 +140,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBAction func textFieldDoneEditing(sender:UITextField){
         sender.resignFirstResponder()
     }
-    
-    /**
-    *   Registers clicking the background and resigns any responder that could possibly be up
-    **/
+
     @IBAction func backgroundTap(sender: UIControl){
         patientTextField.resignFirstResponder()
         patientDOBTextField.resignFirstResponder()
@@ -167,14 +161,20 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         if error == "" {
             
             if let hasAptID = appointmentID {
-                println("Saved bill")
+                
+                //update icd9 or icd10
             }else {
                 let placeID = getPlaceOfServiceID(siteTextField.text) //get the ids to input into the bill
                 let roomID = getRoomID(roomTextField.text)
                 let patientID = getPatientID(patientTextField.text, dateOfBirth: patientDOBTextField.text)
                 let referringDoctorID = getDoctorID(doctorTextField.text)
+                let adminDoctorID = getDoctorID(administeringDoctor)
                 
-                var (aptID, result) = addAppointmentToDatabase(patientID, doctorID: referringDoctorID, date: dateTextField.text, placeID: placeID, roomID: roomID)
+                var codeType = Int(codeVersion.on)
+                var (aptID, result) = addAppointmentToDatabase(patientID, date: dateTextField.text, placeID: placeID, roomID: roomID, codeType: codeType)
+                
+                self.addHasDoc(aptID, dID: referringDoctorID)//insert hasdoc for referring
+                self.addHasDoc(aptID, dID: adminDoctorID)//insert hasdoc for admin
                 
                 //Insert into has_type for all types there were
                 if cptTextField.text != "" {
@@ -196,8 +196,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                     let cleanString = icd10Arr[i].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                     self.addDiagnosedWith(aptID, ICD10Text: cleanString)
                 }
-                
-                println(icd10Arr)
                 
                 self.performSegueWithIdentifier("newBill", sender: self)
             }
@@ -262,28 +260,21 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     //****************************************** Changes in text fields ******************************************************************************
     
-    /**
-    ** Updates the table view in the popup for any patients that match the patient input
-    **/
     @IBAction func userChangedPatientSearch(sender: UITextField) {
         dbManager.checkDatabaseFileAndOpen()
         
-        let patients = dbManager.patientSearch(patientTextField!.text)                                  //retrieve any patients that match the input
-        if let patientSearchViewController = searchTableViewController {//only update the view if we have selected it
+        let patients = dbManager.patientSearch(patientTextField!.text)                          //retrieve any patients that match the input
+        if let patientSearchViewController = searchTableViewController {                        //only update the view if we have selected it
             patientSearchViewController.tupleSearchResults = patients
-            patientSearchViewController.tableView.reloadData()          //update the list in the popup
+            patientSearchViewController.tableView.reloadData()                                  //update the list in the popup
         }
         dbManager.closeDB()
     }
     
-    /**
-    *   Updates the table view in the popup for any doctors that match the input
-    **/
     @IBAction func userChangedDoctorSearch(sender:UITextField){
         dbManager.checkDatabaseFileAndOpen()
         
         let doctors = dbManager.doctorSearch(doctorTextField!.text)
-        
         if let doctorSearchViewController = searchTableViewController {
             doctorSearchViewController.singleDataSearchResults = doctors
             doctorSearchViewController.tableView.reloadData()
@@ -291,10 +282,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         dbManager.closeDB()
     }
-    
-    /**
-    *   Updates the table view in the popup for any visit codes that match the input
-    **/
+
     @IBAction func userChangedVisitCodeSearch(sender:UITextField) {
         
         dbManager.checkDatabaseFileAndOpen()
@@ -320,7 +308,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         dbManager.checkDatabaseFileAndOpen()
         
         let siteResults = dbManager.siteSearch(siteTextField.text)
-        
         if let siteSearchViewController = searchTableViewController {
             siteSearchViewController.singleDataSearchResults = siteResults
             siteSearchViewController.tableView.reloadData()
@@ -333,7 +320,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         dbManager.checkDatabaseFileAndOpen()
         
         let roomResults = dbManager.roomSearch(roomTextField.text)
-        
         if let roomSearchViewController = searchTableViewController {
             roomSearchViewController.singleDataSearchResults = roomResults
             roomSearchViewController.tableView.reloadData()
@@ -342,16 +328,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     
-    /****************************************** Update text fields ******************************************************************************
-    *
-    *   NOTE: The notification that calls this function is sent to all bill view controllers on the stack. 
-    *   This function updates all of them if the user clicked in the corresponding text box
-    **/
+    /****************************************** Update text fields ******************************************************************************/
     
-    /**
-    *   Updates the patient text field with selected data when the user selects a row in the patient popup window
-    *   Closes the popup after updating the patientTextField
-    **/
     func updatePatient(notification: NSNotification){
         if let controller = searchTableViewController { //only update if the searchTableViewController is there
             let tuple = controller.selectedTuple
@@ -363,9 +341,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
     }
 
-    /**
-    *   Updates the doctor text field witht the selected doctor
-    **/
     func updateDoctor(notification: NSNotification) {
         let doctorName = searchTableViewController?.selectedDoctor
         self.doctorTextField.text = doctorName
@@ -373,9 +348,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         doctorTextField.resignFirstResponder()
     }
     
-    /**
-    *   Updates the cpt code text field witht the selected code
-    **/
     func updateCPT(notification:NSNotification){
         if let controller = searchTableViewController {
             let tuple = controller.selectedTuple
@@ -391,7 +363,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 self.pcTextField.text = code_description
                 pcTextField.resignFirstResponder()
             }
-            
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
@@ -416,9 +387,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     //****************************************** Adding to Database ******************************************************************************
     
-    /**
-    *   Adds the patient to the database
-    **/
     @IBAction func addPatient(sender: UIButton) {
         showAlert(self.addPatientToDatabase(patientTextField.text, email: ""))
     }
@@ -431,9 +399,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return result
     }
     
-    /**
-    *   Adds the doctor to the database
-    **/
     @IBAction func addDoctor(sender: UIButton) {
         showAlert(self.addDoctorToDatabase(doctorTextField.text, email: ""))
     }
@@ -459,9 +424,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return result
     }
     
-    /**
-    *   Returns the id of the place of service. Adds place of service if it did not match any in the database.
-    **/
     func getPlaceOfServiceID(placeInput:String) -> Int {
         var placeID = 0
         dbManager.checkDatabaseFileAndOpen()
@@ -470,9 +432,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return placeID
     }
     
-    /**
-    *   Returns the id of the room. Adds the room if it did not match any in the database.
-    **/
     func getRoomID(roomInput:String) -> Int {
         
         var roomID = 0
@@ -482,9 +441,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return roomID
     }
     
-    /**
-    *   Returns the id of the doctor. Adds the doctor if it did not match any in the database.
-    **/
     func getDoctorID(doctorInput:String) -> Int {
         var dID = 0
         dbManager.checkDatabaseFileAndOpen()
@@ -493,9 +449,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return dID
     }
     
-    /**
-    *   Returns the id of the patient. Adds the patient if it did not match any in the database.
-    **/
     func getPatientID(patientInput:String, dateOfBirth:String) -> Int {
         
         var pID = 0
@@ -505,10 +458,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return pID
     }
     
-    func addAppointmentToDatabase(patientID:Int, doctorID:Int, date:String, placeID:Int, roomID:Int) -> (Int, String) {
+    func addAppointmentToDatabase(patientID:Int, date:String, placeID:Int, roomID:Int, codeType:Int) -> (Int, String) {
         
         dbManager.checkDatabaseFileAndOpen()
-        var (aptID, result) = dbManager.addAppointmentToDatabase(patientID, doctorID: doctorID, date: date, placeID: placeID, roomID: roomID)
+        var (aptID, result) = dbManager.addAppointmentToDatabase(patientID, date: date, placeID: placeID, roomID: roomID, codeType:codeType)
         dbManager.closeDB()
         return (aptID,result)
     }
@@ -519,18 +472,16 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         dbManager.closeDB()
     }
     
+    func addHasDoc(aptID:Int, dID:Int){
+        dbManager.checkDatabaseFileAndOpen()
+        dbManager.addHasDoc(aptID, dID: dID)
+        dbManager.closeDB()
+    }
+    
     func addDiagnosedWith(aptID:Int, ICD10Text:String){
         dbManager.checkDatabaseFileAndOpen()
         dbManager.addDiagnosedWith(aptID, ICD10Text: ICD10Text)
         dbManager.closeDB()
-    }
-    
-    func showAlert(msg:String) {
-        let controller2 = UIAlertController(title: msg,
-            message: "", preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
-        controller2.addAction(cancelAction)
-        self.presentViewController(controller2, animated: true, completion: nil)
     }
     
     func checkInputs() -> String{
@@ -571,5 +522,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         var lastName: String =  fullNameArr[1]
         return (firstName, lastName)
     }
-
+    
+    func showAlert(msg:String) {
+        let controller2 = UIAlertController(title: msg,
+            message: "", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
+        controller2.addAction(cancelAction)
+        self.presentViewController(controller2, animated: true, completion: nil)
+    }
 }

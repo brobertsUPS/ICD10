@@ -27,15 +27,23 @@ CREATE TABLE Doctor (
 CREATE TABLE Appointment (
 	aptID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	pID INTEGER NOT NULL,
-	dID INTEGER NOT NULL,
 	date TEXT,
 	placeID TEXT NOT NULL,
 	roomID TEXT NOT NULL,
+	code_type INTEGER NOT NULL,
 	FOREIGN KEY (pID) REFERENCES Patient (pID) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (dID) REFERENCES Doctor (dID) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (placeID) REFERENCES Place_of_service (placeID) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (roomID) REFERENCES Room (roomID) ON DELETE CASCADE ON UPDATE CASCADE
 	);
+	
+CREATE TABLE Has_doc (
+	aptID INTEGER NOT NULL,
+	dID INTEGER NOT NULL, 
+	PRIMARY KEY (aptID,dID),
+	FOREIGN KEY (aptID) REFERENCES Appointment (aptID) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (dID) REFERENCES Doctor (dID) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+
 	
 CREATE TABLE Referred_by (
 	pID INTEGER NOT NULL,
@@ -149,7 +157,7 @@ INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (1, "Rodney", "Joe"
 --Place of service*******************************************************************************************************
 INSERT INTO Place_of_service (placeID, place_description) VALUES (1, "PSPH IN PATIENT");
 INSERT INTO Place_of_service (placeID, place_description) VALUES (2, "PSPH OUT PATIENT");
-INSERT INTO Place_of_service (placeID, place_description) VALUES (3, "PSPS ER PATIENT");
+INSERT INTO Place_of_service (placeID, place_description) VALUES (3, "PSPH ER PATIENT");
 INSERT INTO Place_of_service (placeID, place_description) VALUES (4, "PSPH OBSERVATION");
 INSERT INTO Place_of_service (placeID, place_description) VALUES (5, "MGH IN PATIENT");
 INSERT INTO Place_of_service (placeID, place_description) VALUES (6, "MGH OUT PATIENT");

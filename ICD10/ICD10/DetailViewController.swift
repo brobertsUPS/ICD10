@@ -89,6 +89,8 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             
             let tuple = (icd10: ICD10Text!,icd9: ICD9Text!)
             controller.icdCodes.append(tuple)
+            controller.administeringDoctor = self.billViewController?.administeringDoctor
+            controller.icd10On = self.billViewController?.icd10On
         }
     }
     
