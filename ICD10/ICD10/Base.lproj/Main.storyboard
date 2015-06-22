@@ -665,6 +665,15 @@
                                 <rect key="frame" x="50" y="226" width="500" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="clickedInTextBox:" destination="bi9-wf-IVB" eventType="touchDown" id="BSj-P0-0rN"/>
+                                    <action selector="textFieldDoneEditing:" destination="bi9-wf-IVB" eventType="touchDownRepeat" id="2uM-yT-lC1"/>
+                                    <action selector="textFieldDoneEditing:" destination="bi9-wf-IVB" eventType="editingDidEndOnExit" id="t5X-Sj-ado"/>
+                                    <action selector="userChangedDocSearch:" destination="bi9-wf-IVB" eventType="editingChanged" id="4sV-6i-3Vh"/>
+                                    <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="doctorSearchPopover" popoverAnchorView="ek8-HK-f4h" id="gnc-ff-Qqx">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please add yourself as the administering doctor" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ip-tH-ewa">
                                 <rect key="frame" x="118" y="130" width="365" height="21"/>
@@ -967,17 +976,17 @@
                                     <action selector="saveBill:" destination="A0e-2y-MTR" eventType="touchUpInside" id="K45-nY-Qa3"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Visit Date" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0eR-FX-YAW">
-                                <rect key="frame" x="90" y="72" width="416" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QYl-TS-nGn">
                                 <rect key="frame" x="536" y="413" width="50" height="31"/>
                                 <connections>
                                     <action selector="switchCodeVersion:" destination="A0e-2y-MTR" eventType="valueChanged" id="A9m-UD-CAM"/>
                                 </connections>
                             </switch>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Visit Date" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0eR-FX-YAW">
+                                <rect key="frame" x="90" y="72" width="416" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.35294117647058826" green="0.78431372549019607" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -1126,7 +1135,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="-1560" y="-542"/>
+            <point key="canvasLocation" x="-1592" y="-507"/>
         </scene>
         <!--Search Table View Controller-->
         <scene sceneID="TkV-MA-MYG">
@@ -1170,7 +1179,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kTj-uQ-Rl1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1398" y="240"/>
+            <point key="canvasLocation" x="-866" y="-956"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zCY-hN-3Ae">
@@ -1370,10 +1379,10 @@
     <inferredMetricsTieBreakers>
         <segue reference="edd-ny-Y2u"/>
         <segue reference="jsy-lt-xeY"/>
-        <segue reference="t0l-p3-sB1"/>
-        <segue reference="2II-5o-t3P"/>
-        <segue reference="zKf-2S-qlA"/>
         <segue reference="2Ks-D5-SZF"/>
+        <segue reference="gq7-oO-OV6"/>
         <segue reference="B79-P1-amM"/>
+        <segue reference="t0l-p3-sB1"/>
+        <segue reference="zKf-2S-qlA"/>
     </inferredMetricsTieBreakers>
 </document>
