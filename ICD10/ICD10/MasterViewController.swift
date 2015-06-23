@@ -172,13 +172,11 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         return true
     }
     
-
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "showDirectSearchPopup" {
             println("Show direct search popup taken")
-            let popoverViewController = (segue.destinationViewController as! UINavigationController).topViewController as! DirectSearchTableViewController
+            let popoverViewController = segue.destinationViewController as! DirectSearchTableViewController
             self.directSearchTableViewController = popoverViewController
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
@@ -271,7 +269,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 println("found button \(id)")
                 var button:UIButton = arr[i] as! UIButton
                 button.tag = id
-                if favoritesCell  || button.tag == 0{
+                if favoritesCell  || button.tag == 220 || button.tag < 10{
                     button.setTitle("", forState: UIControlState.Normal)
                 }
             }

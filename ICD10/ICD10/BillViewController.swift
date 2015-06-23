@@ -26,6 +26,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var pcTextField: UITextField!
     @IBOutlet weak var ICD10TextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
+    @IBOutlet weak var saveBillButton: UIButton!
+    @IBOutlet weak var beginICD10SearchButton: UIButton!
+
     
     var textFieldText:[String] = []                             //A list of saved items for the bill
     var icdCodes:[(icd10:String,icd9:String)] = []              //A list of saved codes for the bill
@@ -55,7 +58,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             }
         }
         self.fillCodeTextField()
+        println("Admin for this bill: \(administeringDoctor)")
         
+        if let aptIDExists = appointmentID {
+            saveBillButton.setTitle("", forState: UIControlState.Normal)
+            beginICD10SearchButton.setTitle("", forState: UIControlState.Normal)
+        }
     }
     
     func addNotifications() {
@@ -240,7 +248,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 popoverViewController.tupleSearchResults = dbManager.patientSearch(patientTextField!.text)
                 popoverViewController.searchType = "patient"
             case "doctorSearchPopover":
-                popoverViewController.singleDataSearchResults = dbManager.doctorSearch(doctorTextField!.text)
+                popoverViewController.singleDataSearchResults = dbManager.doctorSearch(doctorTextField!.text, type: 1)
                 popoverViewController.searchType = "doctor"
             case "siteSearchPopover":
                 popoverViewController.singleDataSearchResults = dbManager.siteSearch(siteTextField.text)
@@ -274,7 +282,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBAction func userChangedDoctorSearch(sender:UITextField){
         dbManager.checkDatabaseFileAndOpen()
         
-        let doctors = dbManager.doctorSearch(doctorTextField!.text)
+        let doctors = dbManager.doctorSearch(doctorTextField!.text, type: 1)
         if let doctorSearchViewController = searchTableViewController {
             doctorSearchViewController.singleDataSearchResults = doctors
             doctorSearchViewController.tableView.reloadData()

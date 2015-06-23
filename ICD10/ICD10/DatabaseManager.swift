@@ -93,6 +93,9 @@ class DatabaseManager {
         var (firstName, lastName) = split(inputPatient)
         var result = ""
         
+        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        
         if lastName == "" {
             result = "No last name input was detected. Please enter a first and last name for the patient."
         }else{
@@ -130,15 +133,17 @@ class DatabaseManager {
     
     func addDoctorToDatabase(inputDoctor:String, email:String, type:Int) -> String{
         
-        
         var (firstName, lastName) = split(inputDoctor)
         println("\(firstName) \(lastName)")
         var result = ""
-
+        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        
         if lastName == "" {
             result = "No last name input was detected. Please enter a first and last name for the doctor."
         }else{
-            let query = "INSERT INTO Doctor (dID,f_name,l_name, email, type) VALUES (NULL,'\(firstName)', '\(lastName)', '\(email)', \(type))"
+            var firstPart = "INSERT INTO Doctor (dID,f_name,l_name, email, type) VALUES (NULL,'" +  firstName + "', '"
+            let query =  firstPart + lastName! + "', '" + email + "', \(type))"
             println(query)
             var statement:COpaquePointer = nil
             
@@ -147,7 +152,30 @@ class DatabaseManager {
                 if sqliteResult == SQLITE_DONE {
                     result = "Saved \(firstName) \(lastName!)"
                 }else {
-                    result = "Add doctor failed for \(firstName) \(lastName!) with error \(sqliteResult)"
+                    result = "Add doctor failed for \(firstName) \(lastName!)"
+                }
+            }
+           
+            sqlite3_finalize(statement)
+        }
+        println(result)
+        return result
+    }
+    
+    func checkForDoctorAndAdd(doctorInput:String) -> String {
+        
+        var result = ""
+        let (firstName, lastName) = split(doctorInput)
+        if lastName == "" {
+            result = "No last name was detected. Please input a first and last name separated by a space."
+        } else {
+            let doctorQuery = "SELECT * FROM Doctor WHERE f_name='" + firstName + "' AND l_name='" + lastName! + "'"
+            var statement:COpaquePointer = nil
+            
+            if sqlite3_prepare_v2(db, doctorQuery, -1, &statement, nil) == SQLITE_OK {
+                if sqlite3_step(statement) != SQLITE_ROW {
+                    println("adding \(doctorInput)")
+                    self.addDoctorToDatabase(doctorInput, email: "", type: 0)
                 }
             }
             sqlite3_finalize(statement)
@@ -246,6 +274,10 @@ class DatabaseManager {
     
     //Update information in the database
     func updatePatient(firstName:String, lastName:String, dob:String, email:String, id:Int) -> String{
+        
+        var firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        var lastName = lastName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+
         let query = "UPDATE Patient SET date_of_birth='\(dob)', f_name='\(firstName)', l_name='\(lastName)', email='\(email)' WHERE pID='\(id)';"
         var result = ""
         var statement:COpaquePointer = nil
@@ -265,12 +297,15 @@ class DatabaseManager {
     
     func updateDoctor(firstName:String, lastName:String, email:String, id:Int, type:Int) -> String {
         
+        var firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        var lastName = lastName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        
         let query = "UPDATE Doctor SET email='\(email)', f_name='\(firstName)', l_name='\(lastName)', type=\(type) WHERE dID='\(id)';"
         var result = ""
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
-                result = "Doctor updated to \(email) \(firstName) \(lastName) \(type)"
+                result = "Doctor updated to \(email) \(firstName) \(lastName)"
             } else {
                 result = "Doctor update failed: \(email) \(firstName) \(lastName)"
 
@@ -354,6 +389,8 @@ class DatabaseManager {
         return dID
     }
     
+  
+    
     /**
     *   Returns the id of the patient. Adds the patient if it did not match any in the database.
     **/
@@ -419,11 +456,11 @@ class DatabaseManager {
     *   Searches for any doctors matching the text that was input into the doctor textfield.
     *   @return doctors, a list of doctors matching the user input
     **/
-    func doctorSearch(inputDoctor:String) -> [String] {
+    func doctorSearch(inputDoctor:String, type:Int) -> [String] {
         
         var doctors:[String] = []
-        
-        let doctorSearch = "SELECT dID, f_name, l_name FROM Doctor WHERE f_name LIKE '%\(inputDoctor)%' OR l_name LIKE '%\(inputDoctor)%';"
+        println(type)
+        let doctorSearch = "SELECT dID, f_name, l_name FROM Doctor WHERE type=\(type) AND (f_name LIKE '%\(inputDoctor)%' OR l_name LIKE '%\(inputDoctor)%');"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, doctorSearch, -1, &statement, nil) == SQLITE_OK {
@@ -521,7 +558,7 @@ class DatabaseManager {
     func split(splitString:String) -> (String, String?){
         
         let fullNameArr = splitString.componentsSeparatedByString(" ")
-        
+        println(fullNameArr)
         if fullNameArr.count == 2{
             var firstName: String = fullNameArr[0]
             var lastName: String =  fullNameArr[1]

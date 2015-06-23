@@ -60,11 +60,13 @@ class EditDoctorViewController: UIViewController {
     }
     
     @IBAction func saveDoctorInfo(sender: UIButton) {
+        firstName = firstNameField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        lastName = lastNameField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         if newDoctor {
-            showAlert(self.addDoctorToDatabase(firstNameField.text, lastName: lastNameField.text, email: emailField.text, type: docType))
+            showAlert(self.addDoctorToDatabase(firstName, lastName: lastName, email: emailField.text, type: docType))
         }else{
-            showAlert(self.updateDoctor(firstNameField.text, lastName: lastNameField.text, email: emailField.text, id: id, type: docType))
+            showAlert(self.updateDoctor(firstName, lastName: lastName, email: emailField.text, id: id, type: docType))
         }
     }
     

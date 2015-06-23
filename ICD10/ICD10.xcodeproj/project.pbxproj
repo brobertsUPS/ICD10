@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD08F41D1B39C9000019676E /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD08F41C1B39C8F80019676E /* testDML.sqlite3 */; };
 		AD1025251B333C8900308E36 /* AdminDocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1025241B333C8900308E36 /* AdminDocViewController.swift */; };
-		AD1058B21B3898E3001028C5 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD1058B11B3898DB001028C5 /* testDML.sqlite3 */; };
 		AD19EA951B2F423800A1AFF1 /* BillDatesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */; };
 		AD19EA971B2F473500A1AFF1 /* BillsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */; };
 		AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD4FAE761B18D9260010B411 /* Main.storyboard */; };
@@ -41,8 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AD08F41C1B39C8F80019676E /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		AD1025241B333C8900308E36 /* AdminDocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdminDocViewController.swift; path = ../AdminDocViewController.swift; sourceTree = "<group>"; };
-		AD1058B11B3898DB001028C5 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillDatesTableViewController.swift; sourceTree = "<group>"; };
 		AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillsTableViewController.swift; sourceTree = "<group>"; };
 		AD4FAE771B18D9260010B411 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -109,7 +109,7 @@
 		ADE77F321B1782F900CE48F1 /* ICD10 */ = {
 			isa = PBXGroup;
 			children = (
-				AD1058B11B3898DB001028C5 /* testDML.sqlite3 */,
+				AD08F41C1B39C8F80019676E /* testDML.sqlite3 */,
 				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
 				AD1025241B333C8900308E36 /* AdminDocViewController.swift */,
 				AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */,
@@ -239,7 +239,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD1058B21B3898E3001028C5 /* testDML.sqlite3 in Resources */,
+				AD08F41D1B39C9000019676E /* testDML.sqlite3 in Resources */,
 				ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */,
 				ADE77F3F1B1782F900CE48F1 /* Images.xcassets in Resources */,
 				AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */,

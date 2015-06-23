@@ -66,7 +66,9 @@ class PatientsTableViewController: UITableViewController {
                 
                 patients.append(dob:patientDOBString!,name:patientFullName)
                 ids.append(patientID)
-                emails.append(patientEmailString!)
+                if let patientEmail = patientEmailString {
+                    emails.append(patientEmail)
+                }
             }
         }
         sqlite3_finalize(statement)

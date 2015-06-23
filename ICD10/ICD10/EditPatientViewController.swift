@@ -40,12 +40,14 @@ class EditPatientViewController: UIViewController {
     }
     
     @IBAction func savePatientInfo(sender: UIButton) {
-        
+        firstName = firstNameField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        lastName = lastNameField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+
         if newPatient {
-            var fullName = "\(firstNameField.text) \(lastNameField.text)"
+            var fullName = firstName + " " + lastName
             showAlert(self.addPatientToDatabase(fullName, dateOfBirth: dobField.text, email: emailField.text))
         }else{
-            showAlert(self.updatePatient(firstNameField.text, lastName: lastNameField.text, dob: dobField.text, email: emailField.text, id: id))
+            showAlert(self.updatePatient(firstName, lastName: lastName, dob: dobField.text, email: emailField.text, id: id))
         }
     }
     
@@ -57,6 +59,7 @@ class EditPatientViewController: UIViewController {
     }
     
     func updatePatient(firstName:String, lastName:String, dob:String, email:String, id:Int) -> String{
+        
         dbManager.checkDatabaseFileAndOpen()
         var result = dbManager.updatePatient(firstName, lastName: lastName, dob: dob, email: email, id: id)
         dbManager.closeDB()

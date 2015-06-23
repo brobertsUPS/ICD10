@@ -30,7 +30,7 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
     @IBAction func userChangedDocSearch(sender: UITextField) {
         dbManager.checkDatabaseFileAndOpen()
         
-        let doctors = dbManager.doctorSearch(administeringDoctor.text)
+        let doctors = dbManager.doctorSearch(administeringDoctor.text, type: 0)
         if let doctorSearchViewController = searchTableViewController {
             doctorSearchViewController.singleDataSearchResults = doctors
             doctorSearchViewController.tableView.reloadData()
@@ -70,10 +70,17 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
         return UIModalPresentationStyle.None
     }
     
-    func checkForDoctorAndAdd(inputDoctor:String){
-        dbManager.checkDatabaseFileAndOpen()
+    @IBAction func checkForDoctorAndAdd(sender: UIButton) {
         
+        dbManager.checkDatabaseFileAndOpen()
+        var result = dbManager.checkForDoctorAndAdd(administeringDoctor.text)
         dbManager.closeDB()
+        
+        if result == "" {
+            self.performSegueWithIdentifier("beginBill", sender: self)
+        }else {
+            showAlert(result)
+        }
     }
     
     // MARK: - Navigation
@@ -83,9 +90,6 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
         if segue.identifier == "beginBill" {
             let controller = segue.destinationViewController as! BillViewController
             controller.administeringDoctor = self.administeringDoctor.text
-            
-            
-            
         }
         
         if segue.identifier == "doctorSearchPopover" {
@@ -95,8 +99,16 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
             popoverViewController.searchType = "doctor"
-            popoverViewController.singleDataSearchResults = dbManager.doctorSearch(administeringDoctor!.text)
+            popoverViewController.singleDataSearchResults = dbManager.doctorSearch(administeringDoctor!.text, type: 0)
         }
+    }
+    
+    func showAlert(msg:String) {
+        let controller2 = UIAlertController(title: msg,
+            message: "", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
+        controller2.addAction(cancelAction)
+        self.presentViewController(controller2, animated: true, completion: nil)
     }
     
 

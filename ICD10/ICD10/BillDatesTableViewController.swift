@@ -90,6 +90,8 @@ class BillDatesTableViewController: UITableViewController {
             }
             let controller = segue.destinationViewController as! BillsTableViewController
             println(patientBills)
+            println(IDs)
+            println(codeType)
             controller.patientsInfo = patientBills
             controller.date = date
             controller.IDs = IDs

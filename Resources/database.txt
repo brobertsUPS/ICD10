@@ -115,15 +115,6 @@ CREATE TABLE Sub_location (
 	FOREIGN KEY (LID) REFERENCES Condition_location (LID) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (parent_locationID) REFERENCES Condition_location(LID) ON DELETE CASCADE ON UPDATE CASCADE
 	);
-	/*
-CREATE TABLE Affects (
-	ICD9_code TEXT NOT NULL,
-	LID INTEGER NOT NULL,
-	PRIMARY KEY (ICD9_code, LID),
-	FOREIGN KEY (ICD9_code) REFERENCES Condition (ICD9_code) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (LID) REFERENCES Condition_location (LID) ON DELETE CASCADE ON UPDATE CASCADE
-	);	
-*/	
 CREATE TABLE Located_in (
 	ICD10_code TEXT NOT NULL,
 	LID INTEGER NOT NULL,
@@ -131,21 +122,9 @@ CREATE TABLE Located_in (
 	FOREIGN KEY (ICD10_code) REFERENCES ICD10_condition (ICD10_code) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (LID) REFERENCES Condition_location (LID) ON DELETE CASCADE ON UPDATE CASCADE
 	);
-	/*
-CREATE TABLE Symptom (
-	sID INTEGER PRIMARY KEY NOT NULL,
-	symptom_text TEXT
-	);
-	
-CREATE TABLE Describes (
-	ICD10_code TEXT NOT NULL,
-	sID INTEGER NOT NULL,
-	PRIMARY KEY (ICD10_code, sID),
-	FOREIGN KEY (ICD10_code) REFERENCES ICD10_condition (ICD10_code) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (sID) REFERENCES Symptom (sID) ON DELETE CASCADE ON UPDATE CASCADE
-	);
-	*/
+
 --Patients and doctors********************************************************************************************************
+/*
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (1, "12-04-1993", "Brandon", "Roberts", "");
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (2, "03-22-1931", "William", "Shatner", "");
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (3, "12-28-1932", "Nichelle", "Nichols", "");
@@ -153,6 +132,7 @@ INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (4, "03-3
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (5, "03-03-1920", "James", "Doohan", "");
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (6, "04-20-1937", "George", "Takei", "");
 INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (1, "Rodney", "Joe","Rodneyjoe@mac.com", 0);
+*/
 
 --Place of service*******************************************************************************************************
 INSERT INTO Place_of_service (placeID, place_description) VALUES (1, "PSPH IN PATIENT");

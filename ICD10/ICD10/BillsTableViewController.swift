@@ -55,6 +55,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             var codeType = codeTypes[i]
             
             let (adminDoc, referDoc) = getDoctorForBill(aptID)//doctor
+            println("admin: \(adminDoc) refer: \(referDoc)")
             let place = getPlaceForBill(placeID)//place
             let room = getRoomForBill(roomID)//room
             let (cpt, mc, pc) = getVisitCodesForBill(aptID)//cpt, mc, pc
@@ -67,8 +68,8 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         csvLine.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding, error: nil)
         
         if MFMailComposeViewController.canSendMail() {
-            var emailTitle = "Test"
-            var messageBody = "Email"
+            var emailTitle = "Bill"
+            var messageBody = "The .csv file is attached."
             var mc:MFMailComposeViewController = MFMailComposeViewController()
             
             mc.mailComposeDelegate = self
@@ -153,7 +154,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         
         dbManager.checkDatabaseFileAndOpen()
         
-        let doctorQuery = "SELECT f_name, l_name, type FROM Doctor NATURAL JOIN Appointment WHERE aptID=\(aptID)"
+        let doctorQuery = "SELECT f_name, l_name, type FROM Appointment NATURAL JOIN Has_doc NATURAL JOIN Doctor WHERE aptID=\(aptID)"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(dbManager.db, doctorQuery, -1, &statement, nil) == SQLITE_OK {
@@ -175,6 +176,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         }
         sqlite3_finalize(statement)
         dbManager.closeDB()
+        println("Doctors for aptID: \(aptID), admin: \(adminString) refer: \(referringString)")
         return (adminString, referringString)
     }
     
