@@ -432,12 +432,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         sqlite3_finalize(statement)
         
         //referring
-        let docQuery = "SELECT dID FROM Has_doc WHERE aptID=\(aptID)"
+        let docQuery = "SELECT dID FROM Has_doc NATURAL JOIN Doctor WHERE aptID=\(aptID) AND Type=1"
         var docstatement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(dbManager.db, aptQuery, -1, &docstatement, nil) == SQLITE_OK {
             if sqlite3_step(docstatement) == SQLITE_ROW {
                 let dID = Int(sqlite3_column_int(docstatement, 0))
+                println("dID \(dID)")
                  doctorTextField.text = dbManager.getDoctorWithID(dID)
             }
         }
@@ -452,7 +453,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         pcCodes = pc
         self.fillVisitCodeFields()
         
-        //ICD10/ICD9 list
+        icdCodes = dbManager.getDiagnosesCodesForBill(aptID)
+        self.fillCodeTextField()
+        
         dbManager.closeDB()
     }
 

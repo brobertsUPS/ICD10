@@ -505,6 +505,31 @@ class DatabaseManager {
         return (cpt, mc, pc)
     }
     
+    func getDiagnosesCodesForBill(aptID:Int) -> [(icd10:String, icd9:String)] {
+        
+        var conditionDiagnosed:[(icd10:String, icd9:String)] = []
+        
+        let conditionQuery = "SELECT ICD10_code, ICD9_code FROM Diagnosed_with NATURAL JOIN Appointment NATURAL JOIN Characterized_by WHERE aptID=\(aptID)"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, conditionQuery, -1, &statement, nil) == SQLITE_OK {
+            while sqlite3_step(statement) == SQLITE_ROW {
+                var conditionICD10 = sqlite3_column_text(statement, 0)
+                var conditionString = String.fromCString(UnsafePointer<CChar>(conditionICD10))
+                
+                var conditionICD9 = sqlite3_column_text(statement, 1)
+                var conditionICD9String = String.fromCString(UnsafePointer<CChar>(conditionICD9))
+                
+                var tuple = (icd10:conditionString!, icd9:conditionICD9String!)
+                conditionDiagnosed += [(tuple)]
+                println("DiagnosesCodesForBill \(tuple)")
+            }
+        }
+        sqlite3_finalize(statement)
+        
+        return conditionDiagnosed
+    }
+    
     //****************************************** Searches ******************************************************************************
     
     /**

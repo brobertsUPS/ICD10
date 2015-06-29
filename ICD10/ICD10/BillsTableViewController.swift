@@ -65,11 +65,11 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             
             dbManager.checkDatabaseFileAndOpen()
             let (cpt, mc, pc) = dbManager.getVisitCodesForBill(aptID)//cpt, mc, pc
+            
+            
+            let icd10Codes:[(icd10:String,icd9:String)] = dbManager.getDiagnosesCodesForBill(aptID)
             dbManager.closeDB()
-            
-            let icd10Codes:[(icd10:String,icd9:String)] = getDiagnosesCodesForBill(aptID)
-            
-           // csvLine = csvLine + "\r\n" + makeCSVLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, cpt: cpt, mc: mc, pc: pc, icd10Codes: icd10Codes, codeType: codeType)
+            csvLine = csvLine + "\r\n" + makeCSVLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, cpt: cpt, mc: mc, pc: pc, icd10Codes: icd10Codes, codeType: codeType)
         }
         
         csvLine.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding, error: nil)
@@ -91,7 +91,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         }
     }
     
-    func makeCSVLine(adminDoc:String, date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, cpt:String, mc:String, pc:String, icd10Codes:[(icd10:String,icd9:String)], codeType:Int) -> String {
+    func makeCSVLine(adminDoc:String, date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, cpt:[String], mc:[String], pc:[String], icd10Codes:[(icd10:String,icd9:String)], codeType:Int) -> String {
         
         var csvLine = ""
         
@@ -132,9 +132,8 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             
             dbManager.checkDatabaseFileAndOpen()
             let (cpt, mc, pc) = dbManager.getVisitCodesForBill(aptID)//cpt, mc, pc
+            let icd10Codes:[(icd10:String,icd9:String)] = dbManager.getDiagnosesCodesForBill(aptID)//ICD10
             dbManager.closeDB()
-            
-            let icd10Codes:[(icd10:String,icd9:String)] = getDiagnosesCodesForBill(aptID)//ICD10
             
             controller.textFieldText.append(name)
             controller.textFieldText.append(dob)
@@ -229,33 +228,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     }
     
     
-    func getDiagnosesCodesForBill(aptID:Int) -> [(icd10:String, icd9:String)] {
-        
-        dbManager.checkDatabaseFileAndOpen()
-        
-        var conditionDiagnosed:[(icd10:String, icd9:String)] = []
-    
-        let conditionQuery = "SELECT ICD10_code, ICD9_code FROM Diagnosed_with NATURAL JOIN Appointment NATURAL JOIN Characterized_by WHERE aptID=\(aptID)"
-        var statement:COpaquePointer = nil
-        
-        if sqlite3_prepare_v2(dbManager.db, conditionQuery, -1, &statement, nil) == SQLITE_OK {
-            while sqlite3_step(statement) == SQLITE_ROW {
-                var conditionICD10 = sqlite3_column_text(statement, 0)
-                var conditionString = String.fromCString(UnsafePointer<CChar>(conditionICD10))
-                
-                var conditionICD9 = sqlite3_column_text(statement, 1)
-                var conditionICD9String = String.fromCString(UnsafePointer<CChar>(conditionICD9))
-                
-                var tuple = (icd10:conditionString!, icd9:conditionICD9String!)
-                conditionDiagnosed += [(tuple)]
-                println("DiagnosesCodesForBill \(tuple)")
-            }
-        }
-        sqlite3_finalize(statement)
-        dbManager.closeDB()
-        
-        return conditionDiagnosed
-    }
+
     
     func showAlert(msg:String) {
         let controller2 = UIAlertController(title: msg,
