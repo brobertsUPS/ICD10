@@ -340,6 +340,64 @@ class DatabaseManager {
         sqlite3_finalize(statement)
         return placeID
     }
+
+    func getPlaceWithID(placeID:Int) -> String{
+        
+        var place = ""
+        
+        let placeQuery = "SELECT place_description FROM Place_of_service WHERE placeID=\(placeID)"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, placeQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {
+                var retrievedPlace = sqlite3_column_text(statement, 0)
+                println(retrievedPlace)
+                println("place \(retrievedPlace)")
+                place = String.fromCString(UnsafePointer<CChar>(retrievedPlace))!
+            }
+        }
+        
+        sqlite3_finalize(statement)
+        return place
+    }
+    
+    func getRoomWithID(roomID:Int) ->String{
+        
+        var room = ""
+        let roomQuery = "SELECT room_description FROM Room WHERE roomID=\(roomID)"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, roomQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {
+                var retrievedRoom = sqlite3_column_text(statement, 0)
+                room = String.fromCString(UnsafePointer<CChar>(retrievedRoom))!
+            }
+        }
+        sqlite3_finalize(statement)
+        return room
+    }
+    
+    func getDoctorWithID(doctorID:Int) -> String{
+        
+        var fullName = ""
+        let doctorQuery = "SELECT f_name, l_name FROM Doctor WHERE dID=\(doctorID)"
+        
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, doctorQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {
+                let docFName = sqlite3_column_text(statement, 0)
+                let docFNameString = String.fromCString(UnsafePointer<CChar>(docFName))
+                
+                let docLName = sqlite3_column_text(statement, 1)
+                let docLNameString = String.fromCString(UnsafePointer<CChar>(docLName))
+                
+                fullName = docFNameString! + " " + docLNameString!
+            }
+        }
+        sqlite3_finalize(statement)
+        return fullName
+    }
     
     /**
     *   Returns the id of the room. Adds the room if it did not match any in the database.
@@ -414,6 +472,37 @@ class DatabaseManager {
         }
         sqlite3_finalize(statement)
         return pID
+    }
+    
+    func getVisitCodesForBill(aptID:Int) -> ([String], [String], [String]) {
+        
+        var cpt:[String] = []
+        var mc:[String] = []
+        var pc:[String] = []
+        
+        println("aptID: \(aptID)")
+        let cptQuery = "SELECT apt_code, type_description FROM Appointment NATURAL JOIN Has_type NATURAL JOIN Apt_type WHERE aptID=\(aptID)"
+        
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db,cptQuery, -1, &statement, nil) == SQLITE_OK {
+            while sqlite3_step(statement) == SQLITE_ROW {
+                var visitCode = sqlite3_column_text(statement, 0)
+                var visitCodeString = String.fromCString(UnsafePointer<CChar>(visitCode))
+                var visitType = sqlite3_column_text(statement, 1)
+                var visitTypeString = String.fromCString(UnsafePointer<CChar>(visitType))
+                println("visitTypeString \(visitTypeString) visitCodeString \(visitCodeString)")
+                switch visitTypeString! {
+                case "C":cpt.append(visitCodeString!)
+                case "M":mc.append(visitCodeString!)
+                case "P":pc.append(visitCodeString!)
+                default:break
+                }
+                
+            }
+        }
+        sqlite3_finalize(statement)
+        return (cpt, mc, pc)
     }
     
     //****************************************** Searches ******************************************************************************

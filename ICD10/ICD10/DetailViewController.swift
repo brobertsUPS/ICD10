@@ -80,9 +80,10 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             controller.textFieldText.append(self.billViewController!.doctorTextField!.text!)
             controller.textFieldText.append(self.billViewController!.siteTextField!.text!)
             controller.textFieldText.append(self.billViewController!.roomTextField!.text!)
-            controller.textFieldText.append(self.billViewController!.cptTextField!.text!)
-            controller.textFieldText.append(self.billViewController!.mcTextField!.text!)
-            controller.textFieldText.append(self.billViewController!.pcTextField!.text!)
+            
+            controller.cptCodes = self.billViewController!.cptCodes
+            controller.mcCodes = self.billViewController!.mcCodes
+            controller.pcCodes = self.billViewController!.pcCodes
             
             controller.icdCodes = self.billViewController!.icdCodes //carry the codes
             

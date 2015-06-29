@@ -16,6 +16,10 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     var IDs:[(aptID:Int, placeID:Int, roomID:Int)] = []
     var date:String = ""
     
+    var selectedCPT:[String] = []
+    var selectedMC:[String] = []
+    var selectedPC:[String] = []
+    
     var codeTypes:[Int] = []
 
     override func viewDidLoad() {
@@ -58,11 +62,14 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             println("admin: \(adminDoc) refer: \(referDoc)")
             let place = getPlaceForBill(placeID)//place
             let room = getRoomForBill(roomID)//room
-            let (cpt, mc, pc) = getVisitCodesForBill(aptID)//cpt, mc, pc
+            
+            dbManager.checkDatabaseFileAndOpen()
+            let (cpt, mc, pc) = dbManager.getVisitCodesForBill(aptID)//cpt, mc, pc
+            dbManager.closeDB()
             
             let icd10Codes:[(icd10:String,icd9:String)] = getDiagnosesCodesForBill(aptID)
             
-            csvLine = csvLine + "\r\n" + makeCSVLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, cpt: cpt, mc: mc, pc: pc, icd10Codes: icd10Codes, codeType: codeType)
+           // csvLine = csvLine + "\r\n" + makeCSVLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, cpt: cpt, mc: mc, pc: pc, icd10Codes: icd10Codes, codeType: codeType)
         }
         
         csvLine.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding, error: nil)
@@ -122,7 +129,11 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             let (adminDoc, referDoc) = getDoctorForBill(aptID)//doctor
             let place = getPlaceForBill(placeID)//place
             let room = getRoomForBill(roomID)//room
-            let (cpt, mc, pc) = getVisitCodesForBill(aptID)//cpt, mc, pc
+            
+            dbManager.checkDatabaseFileAndOpen()
+            let (cpt, mc, pc) = dbManager.getVisitCodesForBill(aptID)//cpt, mc, pc
+            dbManager.closeDB()
+            
             let icd10Codes:[(icd10:String,icd9:String)] = getDiagnosesCodesForBill(aptID)//ICD10
             
             controller.textFieldText.append(name)
@@ -130,10 +141,10 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             controller.textFieldText.append(referDoc)
             controller.textFieldText.append(place)
             controller.textFieldText.append(room)
-            controller.textFieldText.append(cpt)
-            controller.textFieldText.append(mc)
-            controller.textFieldText.append(pc)
             
+            controller.cptCodes = cpt
+            controller.mcCodes = mc
+            controller.pcCodes = pc
             controller.icdCodes = icd10Codes
             
             controller.appointmentID = aptID
@@ -217,36 +228,6 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         return room
     }
     
-    func getVisitCodesForBill(aptID:Int) -> (String, String, String) {
-        
-        var cpt = ""
-        var mc = ""
-        var pc = ""
-        dbManager.checkDatabaseFileAndOpen()
-        println("aptID: \(aptID)")
-        let cptQuery = "SELECT apt_code, type_description FROM Appointment NATURAL JOIN Has_type NATURAL JOIN Apt_type WHERE aptID=\(aptID)"
-        
-        var statement:COpaquePointer = nil
-        
-        if sqlite3_prepare_v2(dbManager.db,cptQuery, -1, &statement, nil) == SQLITE_OK {
-            while sqlite3_step(statement) == SQLITE_ROW {
-                var visitCode = sqlite3_column_text(statement, 0)
-                var visitCodeString = String.fromCString(UnsafePointer<CChar>(visitCode))
-                var visitType = sqlite3_column_text(statement, 1)
-                var visitTypeString = String.fromCString(UnsafePointer<CChar>(visitType))
-                switch visitTypeString! {
-                    case "C":cpt = visitCodeString!
-                    case "M":mc = visitCodeString!
-                    case "P":pc = visitCodeString!
-                default:break
-                }
-
-            }
-        }
-        sqlite3_finalize(statement)
-        dbManager.closeDB()
-        return (cpt, mc, pc)
-    }
     
     func getDiagnosesCodesForBill(aptID:Int) -> [(icd10:String, icd9:String)] {
         
@@ -303,8 +284,4 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.performSegueWithIdentifier("showBill", sender: self)
     }
-
-
-    
-
 }

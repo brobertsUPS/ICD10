@@ -28,10 +28,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var saveBillButton: UIButton!
     @IBOutlet weak var beginICD10SearchButton: UIButton!
-
     
     var textFieldText:[String] = []                             //A list of saved items for the bill
     var icdCodes:[(icd10:String,icd9:String)] = []              //A list of saved codes for the bill
+    var cptCodes:[String] = []
+    var mcCodes:[String] = []
+    var pcCodes:[String] = []
     
     var appointmentID:Int?                                      //The appointment id if this is a saved bill
     var administeringDoctor:String!
@@ -43,11 +45,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         super.viewDidLoad()
         dbManager = DatabaseManager()                           //make our database manager
-        
         self.navigationItem.title = "Bill"
-        
         self.addNotifications()
-        
         self.fillFormTextFields()
         
         if let icd10CodesChosen = icd10On {                     //if icd10 is set make sure to display it correctly
@@ -64,6 +63,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             saveBillButton.setTitle("", forState: UIControlState.Normal)
             beginICD10SearchButton.setTitle("", forState: UIControlState.Normal)
         }
+        
+        fillVisitCodeFields()
     }
     
     func addNotifications() {
@@ -87,9 +88,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             doctorTextField.text = textFieldText[2]
             siteTextField.text = textFieldText[3]
             roomTextField.text = textFieldText[4]
-            cptTextField.text = textFieldText[5]
-            mcTextField.text = textFieldText[6]
-            pcTextField.text = textFieldText[7]
         }
     }
     
@@ -114,6 +112,30 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 case 0:ICD10TextField.text = "\(icd9)"
                 default: ICD10TextField.text = "\(ICD10TextField.text), \(icd9)"
                 }
+            }
+        }
+    }
+    
+    func fillVisitCodeFields(){
+        
+        for var i=0; i<cptCodes.count; i++ {
+            switch i {
+            case 0:cptTextField.text = "\(cptCodes[i]),"
+            default: cptTextField.text = "\(cptTextField.text) \(cptCodes[i]),"
+            }
+        }
+        
+        for var i=0; i<mcCodes.count; i++ {
+            switch i {
+            case 0:mcTextField.text = "\(mcCodes[i]),"
+            default: mcTextField.text = "\(mcTextField.text) \(mcCodes[i]),"
+            }
+        }
+        
+        for var i=0; i<pcCodes.count; i++ {
+            switch i {
+            case 0:pcTextField.text = "\(pcCodes[i]),"
+            default: pcTextField.text = "\(pcTextField.text) \(pcCodes[i]),"
             }
         }
 
@@ -167,9 +189,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         let error = checkInputs()//check that everything is there
         
         if error == "" {
-            
             if let hasAptID = appointmentID {
-                
                 //update icd9 or icd10
             }else {
                 let placeID = getPlaceOfServiceID(siteTextField.text) //get the ids to input into the bill
@@ -186,20 +206,33 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 
                 //Insert into has_type for all types there were
                 if cptTextField.text != "" {
-                    self.addHasType(aptID, visitCodeText: cptTextField.text)
+                    let cptArr = cptTextField.text.componentsSeparatedByString(",")
+                    println("cptArr \(cptArr)")
+                    for var i=0; i<cptArr.count; i++ {
+                        let cleanCPT = cptArr[i].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                        self.addHasType(aptID, visitCodeText: cleanCPT)
+                    }
                 }
                 
                 if mcTextField.text != "" {
-                    self.addHasType(aptID, visitCodeText: mcTextField.text)
+                    let mcArr = mcTextField.text.componentsSeparatedByString(",")
+                    println("mcArr \(mcArr)")
+                    for var i=0; i<mcArr.count;i++ {
+                        let cleanMC = mcArr[i].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                        self.addHasType(aptID, visitCodeText: cleanMC)
+                    }
                 }
                 
                 if pcTextField.text != "" {
-                    self.addHasType(aptID, visitCodeText: pcTextField.text)
+                    let pcArr = pcTextField.text.componentsSeparatedByString(",")
+                    println("pcArr \(pcArr)")
+                    for var i = 0; i<pcArr.count; i++ {
+                        let cleanPC = pcArr[i].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                        self.addHasType(aptID, visitCodeText: cleanPC)
+                    }
                 }
                 
-                let icd10Arr = ICD10TextField.text.componentsSeparatedByString(",") //make the diagnoses run off of the text field and not the array (a user could just type in a code)
-                
-                //loop to add all ICD10 codes
+                let icd10Arr = ICD10TextField.text.componentsSeparatedByString(",")
                 for var i=0; i<icd10Arr.count; i++ {
                     let cleanString = icd10Arr[i].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                     self.addDiagnosedWith(aptID, ICD10Text: cleanString)
@@ -256,9 +289,21 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             case "roomSearchPopover":
                 popoverViewController.singleDataSearchResults = dbManager.roomSearch(roomTextField.text)
                 popoverViewController.searchType = "room"
-            case "cptSearch":popoverViewController.tupleSearchResults = dbManager.codeSearch("C", cptTextFieldText: cptTextField.text, mcTextFieldText: "", pcTextFieldText: "")
-            case "mcSearch":popoverViewController.tupleSearchResults = dbManager.codeSearch("M", cptTextFieldText: "", mcTextFieldText: mcTextField.text, pcTextFieldText: "")
-            case "pcSearch":popoverViewController.tupleSearchResults = dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: "", pcTextFieldText: pcTextField.text)
+            case "cptSearch":
+                var fullCPTArr = cptTextField.text.componentsSeparatedByString(",")
+                if fullCPTArr.isEmpty { fullCPTArr.append("") }
+                //get the last piece in the cpt array and search on that
+                popoverViewController.tupleSearchResults = dbManager.codeSearch("C", cptTextFieldText: fullCPTArr[(fullCPTArr.count-1)], mcTextFieldText: "", pcTextFieldText: "")
+                
+                
+            case "mcSearch":
+                var fullMCArr = mcTextField.text.componentsSeparatedByString(",")
+                if fullMCArr.isEmpty { fullMCArr.append("") }
+                popoverViewController.tupleSearchResults = dbManager.codeSearch("M", cptTextFieldText: "", mcTextFieldText: fullMCArr[(fullMCArr.count-1)], pcTextFieldText: "")
+            case "pcSearch":
+                var fullPCArr = pcTextField.text.componentsSeparatedByString(",")
+                if fullPCArr.isEmpty { fullPCArr.append("") }
+                popoverViewController.tupleSearchResults = dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: fullPCArr[(fullPCArr.count-1)], pcTextFieldText: "")
             default:break
             }
             dbManager.closeDB()
@@ -298,9 +343,19 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         var visitCodes:[(String,String)] = []
         
         switch sender.tag {
-        case 5:visitCodes = dbManager.codeSearch("C", cptTextFieldText: cptTextField.text, mcTextFieldText: "",pcTextFieldText: "")
-        case 6:visitCodes = dbManager.codeSearch("M", cptTextFieldText: "", mcTextFieldText: mcTextField.text,pcTextFieldText: "")
-        case 7:visitCodes = dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: "", pcTextFieldText: pcTextField.text)
+        case 5:
+            var fullCPTArr = cptTextField.text.componentsSeparatedByString(",")
+            if fullCPTArr.isEmpty { fullCPTArr.append("") }
+            println("Searching \(fullCPTArr[(fullCPTArr.count-1)])")
+            visitCodes = dbManager.codeSearch("C", cptTextFieldText: fullCPTArr[(fullCPTArr.count-1)], mcTextFieldText: "", pcTextFieldText: "")
+        case 6:
+            var fullMCArr = mcTextField.text.componentsSeparatedByString(",")
+            if fullMCArr.isEmpty { fullMCArr.append("") }
+            visitCodes =  dbManager.codeSearch("M", cptTextFieldText: "", mcTextFieldText: fullMCArr[(fullMCArr.count-1)], pcTextFieldText: "")
+        case 7:
+            var fullPCArr = pcTextField.text.componentsSeparatedByString(",")
+            if fullPCArr.isEmpty { fullPCArr.append("") }
+            visitCodes = dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: "", pcTextFieldText: fullPCArr[(fullPCArr.count-1)])
         default:break
         }
         
@@ -343,10 +398,62 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             let tuple = controller.selectedTuple
             let (dob,name) = tuple
             self.patientTextField.text = name
+            
             self.patientDOBTextField.text = dob
+            var pID = getPatientID(name, dateOfBirth: dob)
+            println("pID \(pID)")
+            updateFromPreviousBill(pID)
             self.dismissViewControllerAnimated(true, completion: nil)
             patientTextField.resignFirstResponder()
         }
+    }
+    
+    func updateFromPreviousBill(patientID:Int) {
+        dbManager.checkDatabaseFileAndOpen()
+        
+        var aptID:Int!
+        var placeID:Int!
+        var roomID:Int!
+        
+        let aptQuery = "SELECT aptID, placeID, roomID FROM Appointment WHERE pID=\(patientID) ORDER BY DATE"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(dbManager.db, aptQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {
+                aptID = Int(sqlite3_column_int(statement, 0))
+                placeID = Int(sqlite3_column_int(statement, 1))
+                roomID = Int(sqlite3_column_int(statement, 2))
+            } else {
+                aptID = -1
+                placeID = -1
+                roomID = -1
+            }
+        }
+        sqlite3_finalize(statement)
+        
+        //referring
+        let docQuery = "SELECT dID FROM Has_doc WHERE aptID=\(aptID)"
+        var docstatement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(dbManager.db, aptQuery, -1, &docstatement, nil) == SQLITE_OK {
+            if sqlite3_step(docstatement) == SQLITE_ROW {
+                let dID = Int(sqlite3_column_int(docstatement, 0))
+                 doctorTextField.text = dbManager.getDoctorWithID(dID)
+            }
+        }
+        sqlite3_finalize(docstatement)
+        
+        siteTextField.text = dbManager.getPlaceWithID(placeID)        //Site
+        roomTextField.text = dbManager.getRoomWithID(roomID)          //Room
+        
+        var (consult, mc, pc) = dbManager.getVisitCodesForBill(aptID)
+        cptCodes = consult
+        mcCodes = mc
+        pcCodes = pc
+        self.fillVisitCodeFields()
+        
+        //ICD10/ICD9 list
+        dbManager.closeDB()
     }
 
     func updateDoctor(notification: NSNotification) {
@@ -362,15 +469,19 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             var (code_description,updatedCPTCode) = tuple
             
             if cptTextField.isFirstResponder() {
-                self.cptTextField.text = code_description
+                cptCodes.append(code_description)
+                //self.cptTextField.text = code_description
                 cptTextField.resignFirstResponder()
             } else if mcTextField.isFirstResponder(){
-                self.mcTextField.text = code_description
+                mcCodes.append(code_description)
+                //self.mcTextField.text = code_description
                 mcTextField.resignFirstResponder()
             } else if pcTextField.isFirstResponder() {
-                self.pcTextField.text = code_description
+                pcCodes.append(code_description)
+                //self.pcTextField.text = code_description
                 pcTextField.resignFirstResponder()
             }
+            self.fillVisitCodeFields()
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
