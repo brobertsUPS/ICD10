@@ -28,6 +28,11 @@ class DoctorsTableViewController: UITableViewController {
         findDoctors()
         self.tableView.reloadData()
     }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     override func viewWillAppear(animated: Bool) {
         doctors = []
         ids = []
@@ -35,11 +40,6 @@ class DoctorsTableViewController: UITableViewController {
         types = []
         findDoctors()
         self.tableView.reloadData()
-    }
-
-    
-    @IBAction func addNewDoctor(sender: UIButton) {
-        self.performSegueWithIdentifier("addDoctor", sender: self)
     }
     
     func findDoctors() {
@@ -75,10 +75,7 @@ class DoctorsTableViewController: UITableViewController {
         dbManager.closeDB()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
 
     // MARK: - Table view data source
 
@@ -111,7 +108,10 @@ class DoctorsTableViewController: UITableViewController {
     
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    @IBAction func addNewDoctor(sender: UIButton) {
+        self.performSegueWithIdentifier("addDoctor", sender: self)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "addDoctor"{
@@ -139,16 +139,12 @@ class DoctorsTableViewController: UITableViewController {
         }
     }
     
-    /**
-    *   Registers clicking return and resigns the keyboard
-    **/
+    //MARK: - TextBox Changes
+
     @IBAction func textFieldDoneEditing(sender:UITextField){
         sender.resignFirstResponder()
     }
     
-    /**
-    *   Registers clicking the background and resigns any responder that could possibly be up
-    **/
     @IBAction func backgroundTap(sender: UIControl){
         
         self.dismissViewControllerAnimated(true, completion: nil)

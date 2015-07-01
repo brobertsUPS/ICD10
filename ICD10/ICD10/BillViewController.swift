@@ -39,14 +39,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var administeringDoctor:String!
     var icd10On:Bool!
     
-    //****************************************** Default override methods ******************************************************************************
+    // MARK: - Default override methods 
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         dbManager = DatabaseManager()                           //make our database manager
         self.navigationItem.title = "Bill"
-        self.addNotifications()
         self.fillFormTextFields()
         
         if let icd10CodesChosen = icd10On {                     //if icd10 is set make sure to display it correctly
@@ -57,14 +56,20 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             }
         }
         self.fillCodeTextField()
-        println("Admin for this bill: \(administeringDoctor)")
         
         if let aptIDExists = appointmentID {
             saveBillButton.setTitle("", forState: UIControlState.Normal)
             beginICD10SearchButton.setTitle("", forState: UIControlState.Normal)
         }
-        
         fillVisitCodeFields()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.addNotifications()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     func addNotifications() {
@@ -148,7 +153,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     override func didReceiveMemoryWarning() { super.didReceiveMemoryWarning() }
 
     
-    //****************************************** Clicks and Actions ******************************************************************************
+    // MARK: -  Clicks and Actions
     
     @IBAction func clickedInTextBox(sender: UITextField) {
         
@@ -207,7 +212,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 //Insert into has_type for all types there were
                 if cptTextField.text != "" {
                     let cptArr = cptTextField.text.componentsSeparatedByString(",")
-                    println("cptArr \(cptArr)")
                     for var i=0; i<cptArr.count; i++ {
                         let cleanCPT = cptArr[i].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                         self.addHasType(aptID, visitCodeText: cleanCPT)
@@ -216,7 +220,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 
                 if mcTextField.text != "" {
                     let mcArr = mcTextField.text.componentsSeparatedByString(",")
-                    println("mcArr \(mcArr)")
                     for var i=0; i<mcArr.count;i++ {
                         let cleanMC = mcArr[i].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                         self.addHasType(aptID, visitCodeText: cleanMC)
@@ -225,7 +228,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 
                 if pcTextField.text != "" {
                     let pcArr = pcTextField.text.componentsSeparatedByString(",")
-                    println("pcArr \(pcArr)")
                     for var i = 0; i<pcArr.count; i++ {
                         let cleanPC = pcArr[i].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                         self.addHasType(aptID, visitCodeText: cleanPC)
@@ -245,11 +247,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
     }
     
-    //****************************************** Segues ******************************************************************************
+    // MARK: - Navigation
     
-    /**
-    *   Stops any segue that is not directly called by a user action
-    */
     override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
         if identifier == "beginICD10Search" {
             return true
@@ -257,9 +256,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return false
     }
     
-    /**
-    *   Navigates to the correct popup the user clicked into
-    **/
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "beginICD10Search" {
@@ -311,7 +307,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
     }
     
-    //****************************************** Changes in text fields ******************************************************************************
+    // MARK: -  Changes in text fields 
     
     @IBAction func userChangedPatientSearch(sender: UITextField) {
         dbManager.checkDatabaseFileAndOpen()
@@ -346,7 +342,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         case 5:
             var fullCPTArr = cptTextField.text.componentsSeparatedByString(",")
             if fullCPTArr.isEmpty { fullCPTArr.append("") }
-            println("Searching \(fullCPTArr[(fullCPTArr.count-1)])")
             visitCodes = dbManager.codeSearch("C", cptTextFieldText: fullCPTArr[(fullCPTArr.count-1)], mcTextFieldText: "", pcTextFieldText: "")
         case 6:
             var fullMCArr = mcTextField.text.componentsSeparatedByString(",")
@@ -391,7 +386,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     
-    /****************************************** Update text fields ******************************************************************************/
+    // MARK: -  Update text fields
     
     func updatePatient(notification: NSNotification){
         if let controller = searchTableViewController { //only update if the searchTableViewController is there
@@ -401,7 +396,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             
             self.patientDOBTextField.text = dob
             var pID = getPatientID(name, dateOfBirth: dob)
-            println("pID \(pID)")
+
             updateFromPreviousBill(pID)
             self.dismissViewControllerAnimated(true, completion: nil)
             patientTextField.resignFirstResponder()
@@ -431,18 +426,18 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
         sqlite3_finalize(statement)
         
-        //referring
         let docQuery = "SELECT dID FROM Has_doc NATURAL JOIN Doctor WHERE aptID=\(aptID) AND Type=1"
         var docstatement:COpaquePointer = nil
-        
-        if sqlite3_prepare_v2(dbManager.db, aptQuery, -1, &docstatement, nil) == SQLITE_OK {
-            if sqlite3_step(docstatement) == SQLITE_ROW {
-                let dID = Int(sqlite3_column_int(docstatement, 0))
-                println("dID \(dID)")
-                 doctorTextField.text = dbManager.getDoctorWithID(dID)
+        var dID:Int?
+        if sqlite3_prepare_v2(dbManager.db, docQuery, -1, &docstatement, nil) == SQLITE_OK {
+            var result = sqlite3_step(docstatement)
+            if result == SQLITE_ROW {
+                dID = Int(sqlite3_column_int(docstatement, 0))
             }
         }
         sqlite3_finalize(docstatement)
+        
+        doctorTextField.text = dbManager.getDoctorWithID(dID!)
         
         siteTextField.text = dbManager.getPlaceWithID(placeID)        //Site
         roomTextField.text = dbManager.getRoomWithID(roomID)          //Room
@@ -507,7 +502,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
     }
     
-    //****************************************** Adding to Database ******************************************************************************
+    // MARK: - Adding to Database
     
     @IBAction func addPatient(sender: UIButton) {
         showAlert(self.addPatientToDatabase(patientTextField.text, email: ""))

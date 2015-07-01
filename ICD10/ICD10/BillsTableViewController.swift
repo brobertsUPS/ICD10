@@ -29,6 +29,16 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
 
     override func didReceiveMemoryWarning() { super.didReceiveMemoryWarning() }
     
+    func showAlert(msg:String) {
+        let controller2 = UIAlertController(title: msg,
+            message: "", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
+        controller2.addAction(cancelAction)
+        self.presentViewController(controller2, animated: true, completion: nil)
+    }
+    
+    // MARK: - Mail Functions
+    
     @IBAction func sendMail(sender: AnyObject) {
         var picker = MFMailComposeViewController()
         picker.mailComposeDelegate = self
@@ -47,6 +57,8 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    // MARK: - CSV Formatting Functions
+    
     @IBAction func submitAllBills(sender: UIBarButtonItem) {
         
         let path = csvFilePath()
@@ -59,7 +71,6 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             var codeType = codeTypes[i]
             
             let (adminDoc, referDoc) = getDoctorForBill(aptID)//doctor
-            println("admin: \(adminDoc) refer: \(referDoc)")
             let place = getPlaceForBill(placeID)//place
             let room = getRoomForBill(roomID)//room
             
@@ -97,14 +108,18 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         
         var (icd10, icd9) = icd10Codes[0]
         
-        csvLine = " \(adminDoc), \(date), \(patientName), \(dob), \(doctorName), \(place), \(room), \(cpt), \(mc), \(pc), \(icd10), \(icd9)" //put all of the text field in (without the icd10 code)
+        
+        let cptRepresentation = "-".join(cpt)
+        let mcRep = "-".join(mc)
+        let pcRep = "-".join(pc)
+        
+        csvLine = " \(adminDoc), \(date), \(patientName), \(dob), \(doctorName), \(place), \(room), \(cptRepresentation), \(mcRep), \(pcRep), \(icd10), \(icd9)" //put all of the text field in (without the icd10 code)
         
         for var i=1; i<icd10Codes.count; i++ {
             var (ithICD10, ithICD9) = icd10Codes[i]
             csvLine += "\r\n , , , , , , , , , , \(ithICD10), \(ithICD9)" //put a new empty line for any additional icd10 codes
         }
         return csvLine
-
     }
     
     func csvFilePath() -> String {
@@ -115,7 +130,6 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
 
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         var indexPath = self.tableView.indexPathForSelectedRow()
@@ -152,10 +166,10 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             } else {
                 controller.icd10On = true
             }
-            
-            println("Code type\(codeType)")
         }
     }
+    
+    // MARK: - Retrieve Bill Information
     
     func getDoctorForBill(aptID:Int) -> (String, String){
         var nameString = ""
@@ -186,14 +200,12 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         }
         sqlite3_finalize(statement)
         dbManager.closeDB()
-        println("Doctors for aptID: \(aptID), admin: \(adminString) refer: \(referringString)")
         return (adminString, referringString)
     }
     
     func getPlaceForBill(placeID:Int) -> String {
         dbManager.checkDatabaseFileAndOpen()
         var place = ""
-        println("placeID \(placeID)")
         let placeQuery = "SELECT place_description FROM Place_of_service WHERE placeID=\(placeID)"
         var statement:COpaquePointer = nil
         
@@ -212,7 +224,6 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     func getRoomForBill(roomID:Int) -> String {
         dbManager.checkDatabaseFileAndOpen()
         var room = ""
-        println("RoomID \(roomID)")
         let roomQuery = "SELECT room_description FROM Room WHERE roomID=\(roomID)"
         var statement:COpaquePointer = nil
         
@@ -225,17 +236,6 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         sqlite3_finalize(statement)
         dbManager.closeDB()
         return room
-    }
-    
-    
-
-    
-    func showAlert(msg:String) {
-        let controller2 = UIAlertController(title: msg,
-            message: "", preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
-        controller2.addAction(cancelAction)
-        self.presentViewController(controller2, animated: true, completion: nil)
     }
     
     // MARK: - Table view data source

@@ -953,20 +953,6 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="CPT Search" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FVe-PN-0Qy">
-                                <rect key="frame" x="105" y="300" width="422" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="touchDown" id="v78-xH-qhQ"/>
-                                    <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="fEz-Wb-6jb"/>
-                                    <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="un8-Cq-Cl8"/>
-                                    <action selector="userChangedVisitCodeSearch:" destination="A0e-2y-MTR" eventType="editingChanged" id="vCG-bL-kRN"/>
-                                    <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="cptSearch" popoverAnchorView="FVe-PN-0Qy" id="733-tF-isA">
-                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                    </segue>
-                                </connections>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wkg-4V-7jj">
                                 <rect key="frame" x="17" y="498" width="92" height="30"/>
                                 <state key="normal" title="Complete Bill">
@@ -988,6 +974,20 @@
                                     <action selector="switchCodeVersion:" destination="A0e-2y-MTR" eventType="valueChanged" id="A9m-UD-CAM"/>
                                 </connections>
                             </switch>
+                            <textField opaque="NO" clipsSubviews="YES" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="CPT Search" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FVe-PN-0Qy">
+                                <rect key="frame" x="105" y="300" width="422" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="touchDown" id="v78-xH-qhQ"/>
+                                    <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="fEz-Wb-6jb"/>
+                                    <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="un8-Cq-Cl8"/>
+                                    <action selector="userChangedVisitCodeSearch:" destination="A0e-2y-MTR" eventType="editingChanged" id="vCG-bL-kRN"/>
+                                    <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="cptSearch" popoverAnchorView="FVe-PN-0Qy" id="733-tF-isA">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.35294117647058826" green="0.78431372549019607" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -1138,7 +1138,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="-1662" y="-534"/>
+            <point key="canvasLocation" x="-1594" y="-524"/>
         </scene>
         <!--Search Table View Controller-->
         <scene sceneID="TkV-MA-MYG">

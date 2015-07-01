@@ -57,10 +57,10 @@ class BillDatesTableViewController: UITableViewController {
             let date = billDates[indexPath!.row]
             
             let billsQuery = "SELECT pID,date_of_birth, f_name, l_name, aptID, placeID, roomID, code_type FROM Patient NATURAL JOIN Appointment WHERE date='\(date)'"
-            println("bills query ran")
+            
             var statement:COpaquePointer = nil
             if sqlite3_prepare_v2(dbManager.db, billsQuery, -1, &statement, nil) == SQLITE_OK {
-                println("bills query succeeded")
+                
                 while sqlite3_step(statement) == SQLITE_ROW {
                     
                     let patientID = Int(sqlite3_column_int(statement, 0))
@@ -89,9 +89,6 @@ class BillDatesTableViewController: UITableViewController {
                 }
             }
             let controller = segue.destinationViewController as! BillsTableViewController
-            println(patientBills)
-            println(IDs)
-            println(codeType)
             controller.patientsInfo = patientBills
             controller.date = date
             controller.IDs = IDs

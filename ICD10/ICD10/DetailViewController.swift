@@ -39,6 +39,8 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         ICD10Code.text = self.ICD10Text
         ICD9Code.text = self.ICD9Text
         conditionDescription.text = self.conditionDescriptionText
+        
+        println("ICD10Text \(ICD10Text)")
         self.navigationItem.title = titleName
         self.navigationItem.leftItemsSupplementBackButton = true
     }
@@ -63,16 +65,15 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         }
         
         sqlite3_finalize(statement)
-        
         dbManager.closeDB()
         return extensions
     }
     
-    /**
-    *   Fill the text fields with the current information we have and pass them along
-    **/
+    //MARK: - Navigation
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "verifyBill" {
+            
             var controller = segue.destinationViewController as! BillViewController
             
             controller.textFieldText.append(self.billViewController!.patientTextField!.text!)
@@ -94,51 +95,6 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             controller.icd10On = self.billViewController?.icd10On
         }
     }
-    
-    @IBAction func addToFavorites(sender: UIButton) {
-        dbManager.checkDatabaseFileAndOpen()
-        var lID = 0
-        
-        let newLocationQuery = "Insert INTO Condition_location (LID, location_name) VALUES (NULL, '\(conditionDescriptionText)')"
-        var statement:COpaquePointer = nil
-        if sqlite3_prepare_v2(dbManager.db, newLocationQuery, -1, &statement, nil) == SQLITE_OK {
-            var result = sqlite3_step(statement)
-            if result == SQLITE_DONE {
-                println("Successfully created location for \(ICD10Text) \(conditionDescriptionText)")
-                lID = Int(sqlite3_last_insert_rowid(dbManager.db))
-                println("LID \(lID)")
-            }else {
-                println("Failed location creation for \(ICD10Text) with error \(result)")
-            }
-        }
-        sqlite3_finalize(statement)
-        
-        let subLocationQuery = "INSERT INTO Sub_location (LID, parent_locationID) VALUES (\(lID), 0)" //link it to favorites
-        var subLocationStatement:COpaquePointer = nil
-        if sqlite3_prepare_v2(dbManager.db, subLocationQuery, -1, &subLocationStatement, nil) == SQLITE_OK {
-            var result = sqlite3_step(subLocationStatement)
-            if result == SQLITE_DONE {
-                println("Successfully saved sub location for \(lID) and 0")
-            }else {
-                println("Failed sublocation save \(ICD10Text) with error \(result)")
-            }
-        }
-        sqlite3_finalize(subLocationStatement)
-
-        let favoriteQuery = "INSERT INTO Located_in (ICD10_code, LID) VALUES ('\(ICD10Text)', \(lID))"
-        var favoriteStatement:COpaquePointer = nil
-        if sqlite3_prepare_v2(dbManager.db, favoriteQuery, -1, &favoriteStatement, nil) == SQLITE_OK {
-            var result = sqlite3_step(favoriteStatement)
-            if result == SQLITE_DONE {
-                println("Successfully saved \(ICD10Text) with lid: \(lID)")
-            }else {
-                println("Failed save \(ICD10Text) with error \(result)")
-            }
-        }
-        sqlite3_finalize(favoriteStatement)
-        dbManager.closeDB()
-    }
-    
     
     //MARK: Picker Data source methods
     

@@ -26,7 +26,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     override func viewDidLoad() {
         super.viewDidLoad()
         dbManager = DatabaseManager()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "codeSelected:",name:"loadCode", object: nil)
+        
         
         dbManager.checkDatabaseFileAndOpen()
         if objects.count == 0 {//get the root locations when we load up
@@ -48,12 +48,16 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     }
     
     override func viewWillAppear(animated: Bool) {
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "codeSelected:",name:"loadCode", object: nil)
+        self.tableView.reloadData()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func awakeFromNib() {
@@ -64,11 +68,12 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         }
     }
     
+    //MARK: - TextBox Changes
+    
     /**
     *   Registers the click in the text box and calls the appropriate segue
     **/
     @IBAction func clickedInTextBox(sender: UITextField) {
-        println("Click in text box registered")
         self.performSegueWithIdentifier("showDirectSearchPopup", sender: self)
     }
 
@@ -91,9 +96,6 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         }
     }
     
-    /**
-    *   Searches for code or descriptions that match the input
-    **/
     func searchCodes(searchInput:String) -> [(code:String,description:String)]{
         
         var codeInformation:[(code:String,description:String)] = []
@@ -119,9 +121,6 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         return codeInformation
     }
     
-    /**
-    *   Notifies this class of the selection made in the directSearchTableViewController
-    **/
     func codeSelected(notification: NSNotification) {
         if let controller = directSearchTableViewController {
             if let tuple = controller.selectedCode {
@@ -130,22 +129,17 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 self.dismissViewControllerAnimated(true, completion: nil)
                 searchBar.resignFirstResponder()
                 selectedCode = tuple
+                
                 performSegueWithIdentifier("showDirectSearchCode", sender: self)
             }
         }
     }
-
-    // MARK: - Segues
     
-    /**
-    *   Fills an array with the sublocations of the selected item
-    **/
     func findSubLocations(locationID:Int) -> [(id:Int,name:String)]{
         
         var sub_locations:[(id:Int,name:String)] = []    //make new locations list for the sub_locations of the selected item
         dbManager.checkDatabaseFileAndOpen()
-        //get get the sub locations and their names (does an exact match query
-        //that only natural joins on one row from the sub_location table
+
         let query = "SELECT * FROM Condition_location NATURAL JOIN (SELECT * FROM Sub_location WHERE Parent_locationID=\(locationID)) ORDER BY location_name"
         
         var statement:COpaquePointer = nil
@@ -163,7 +157,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         return sub_locations
     }
     
-    // MARK: - Segue ***************************************************************************************************************************
+    // MARK: - Navigation
     
     override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
         if identifier == "showDirectSearchPopup" { //stop the direct search popup unless explicitly called
@@ -175,8 +169,9 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "showDirectSearchPopup" {
-            println("Show direct search popup taken")
+            
             let popoverViewController = segue.destinationViewController as! DirectSearchTableViewController
+            
             self.directSearchTableViewController = popoverViewController
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
@@ -184,8 +179,9 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             popoverViewController.navigationItem.title = "Direct Search"
             
         } else if segue.identifier == "showDirectSearchCode"{
-            println("ShowDirectSearchCode taken")
+            
             let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+            
             controller.ICD10Text = selectedCode!.icd10
             controller.conditionDescriptionText = selectedCode!.description
             controller.ICD9Text = selectedCode!.icd9
@@ -202,12 +198,10 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             let newSubLocations = findSubLocations(id)
             
             if newSubLocations.count == 0 && segue.identifier == "showCodes" {
-                println("ShowCodes")
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
                 
                 dbManager.checkDatabaseFileAndOpen()
                 var statement:COpaquePointer = nil
-                println(id)
                 let query = "SELECT ICD10_code, description_text, ICD9_code FROM ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition WHERE ICD10_code=(SELECT ICD10_code FROM located_in WHERE LID =\(id))"
                 
                 if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
@@ -235,8 +229,9 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 controller.billViewController = self.billViewController
                 dbManager.closeDB()
             } else if (segue.identifier == "showLocations" && newSubLocations.count > 0) {
-                println("ShowLocations taken")
+                
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
+                
                 controller.objects = newSubLocations
                 controller.title = locationName
                 controller.navigationItem.leftItemsSupplementBackButton = true
@@ -253,20 +248,20 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         return UIModalPresentationStyle.None
     }
     
-    // MARK: - Table View ***************************************************************************************************************************
+    // MARK: - Table View
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int { return 1 }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return objects.count }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         let (id, location_name) = objects[indexPath.row]
         cell.textLabel!.text = location_name
         var arr = cell.contentView.subviews
         for var i=0; i<arr.count; i++ {
             if arr[i].isKindOfClass(UIButton) {
-                println("found button \(id)")
                 var button:UIButton = arr[i] as! UIButton
                 button.tag = id
                 if favoritesCell  || button.tag == 220 || button.tag < 10{
@@ -278,10 +273,10 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+        
         let (id, locationName) = objects[indexPath.row]
         let newSubLocations = findSubLocations(id)
         if id == 0{
-            println("Favorites Cell!")
             favoritesCell = true
         } else {
             favoritesCell = false
@@ -311,7 +306,5 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         }
         sqlite3_finalize(statement)
         dbManager.closeDB()
-        
-        println("Add to favorites \(sender.tag)")
     }
 }

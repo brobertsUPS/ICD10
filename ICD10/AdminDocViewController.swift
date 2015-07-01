@@ -13,19 +13,26 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
     @IBOutlet weak var administeringDoctor: UITextField!
     var dbManager = DatabaseManager()
     var searchTableViewController:SearchTableViewController?
-    
     var adminDoc = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.hidesBackButton = true
-        
+            }
+    
+    override func viewWillAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDoctor:",name:"loadDoctor", object: nil)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    // MARK: - Doctor Text Box Changes
     
     @IBAction func userChangedDocSearch(sender: UITextField) {
         dbManager.checkDatabaseFileAndOpen()
@@ -45,31 +52,6 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
         administeringDoctor.resignFirstResponder()
     }
     
-    /**
-    *   Stops any segue that is not directly called by a user action
-    */
-    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
-        if identifier == "beginBill" {
-            return true
-        }
-        return false
-    }
-    
-    @IBAction func clickedInTextBox(sender: UITextField) {
-        self.performSegueWithIdentifier("doctorSearchPopover", sender: self)
-    }
-    
-    /**
-    *   Registers clicking return and resigns the keyboard
-    **/
-    @IBAction func textFieldDoneEditing(sender:UITextField){
-        sender.resignFirstResponder()
-    }
-    
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.None
-    }
-    
     @IBAction func checkForDoctorAndAdd(sender: UIButton) {
         
         dbManager.checkDatabaseFileAndOpen()
@@ -83,7 +65,37 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
         }
     }
     
+    // MARK: - TextBox and Presentation
+    
+    @IBAction func clickedInTextBox(sender: UITextField) {
+        self.performSegueWithIdentifier("doctorSearchPopover", sender: self)
+    }
+    
+    @IBAction func textFieldDoneEditing(sender:UITextField){
+        sender.resignFirstResponder()
+    }
+    
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.None
+    }
+    
+    func showAlert(msg:String) {
+        let controller2 = UIAlertController(title: msg,
+            message: "", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
+        controller2.addAction(cancelAction)
+        self.presentViewController(controller2, animated: true, completion: nil)
+    }
+
+    
     // MARK: - Navigation
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+        if identifier == "beginBill" {
+            return true
+        }
+        return false
+    }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
@@ -102,14 +114,4 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
             popoverViewController.singleDataSearchResults = dbManager.doctorSearch(administeringDoctor!.text, type: 0)
         }
     }
-    
-    func showAlert(msg:String) {
-        let controller2 = UIAlertController(title: msg,
-            message: "", preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
-        controller2.addAction(cancelAction)
-        self.presentViewController(controller2, animated: true, completion: nil)
-    }
-    
-
 }

@@ -20,6 +20,10 @@ class DirectSearchTableViewController: UITableViewController{
         dbManager = DatabaseManager()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int { return 1 }
@@ -41,7 +45,6 @@ class DirectSearchTableViewController: UITableViewController{
         let tuple = codeInfo[indexPath.row]
         let (code,codeDescription) = tuple
         
-        println(code)
         dbManager.checkDatabaseFileAndOpen()
         let query = "SELECT ICD9_code FROM ICD10_condition NATURAL JOIN Characterized_by WHERE ICD10_code='\(code)'"
         var statement:COpaquePointer = nil
@@ -52,18 +55,11 @@ class DirectSearchTableViewController: UITableViewController{
             let icd9Code = sqlite3_column_text(statement, 0)
             let icd9CodeString = String.fromCString(UnsafePointer<CChar>(icd9Code))!
             selectedCode = (code, codeDescription, icd9CodeString)
-            println("Selected codes \(selectedCode)")
+            
             NSNotificationCenter.defaultCenter().postNotificationName("loadCode", object: code)
         }
         self.resignFirstResponder()
         sqlite3_finalize(statement)
         dbManager.closeDB()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
+    }  
 }

@@ -36,9 +36,6 @@ class SearchTableViewController: UITableViewController {
         }
     }
 
-    /**
-    *   Displays the cell's title and detail
-    **/
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("searchResultCell", forIndexPath: indexPath) as! UITableViewCell
     

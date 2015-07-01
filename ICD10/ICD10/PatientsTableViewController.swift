@@ -36,11 +36,6 @@ class PatientsTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    @IBAction func AddNewPatient(sender: UIButton){
-        self.performSegueWithIdentifier("addPatient", sender: self)
-    }
-    
-    
     func findPatients(){
         dbManager.checkDatabaseFileAndOpen()
         var query = "SELECT * FROM Patient"
@@ -79,10 +74,8 @@ class PatientsTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
@@ -116,7 +109,10 @@ class PatientsTableViewController: UITableViewController {
     
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    @IBAction func AddNewPatient(sender: UIButton){
+        self.performSegueWithIdentifier("addPatient", sender: self)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "addPatient" {

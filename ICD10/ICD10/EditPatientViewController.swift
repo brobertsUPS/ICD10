@@ -36,8 +36,17 @@ class EditPatientViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
+    
+    func showAlert(msg:String) {
+        let controller2 = UIAlertController(title: msg,
+            message: "", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
+        controller2.addAction(cancelAction)
+        self.presentViewController(controller2, animated: true, completion: nil)
+    }
+    
+    //MARK: - Patient Database Interaction
     
     @IBAction func savePatientInfo(sender: UIButton) {
         firstName = firstNameField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
@@ -66,24 +75,12 @@ class EditPatientViewController: UIViewController {
         return result
     }
     
-    func showAlert(msg:String) {
-        let controller2 = UIAlertController(title: msg,
-            message: "", preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
-        controller2.addAction(cancelAction)
-        self.presentViewController(controller2, animated: true, completion: nil)
-    }
+    // MARK: - TextBox Interaction
     
-    /**
-    *   Registers clicking return and resigns the keyboard
-    **/
     @IBAction func textFieldDoneEditing(sender:UITextField){
         sender.resignFirstResponder()
     }
     
-    /**
-    *   Registers clicking the background and resigns any responder that could possibly be up
-    **/
     @IBAction func backgroundTap(sender: UIControl){
         
         self.dismissViewControllerAnimated(true, completion: nil)

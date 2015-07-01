@@ -45,7 +45,14 @@ class EditDoctorViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+    
+    func showAlert(msg:String) {
+        let controller2 = UIAlertController(title: msg,
+            message: "", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
+        controller2.addAction(cancelAction)
+        self.presentViewController(controller2, animated: true, completion: nil)
     }
     
     @IBAction func changeDocType(sender: UISwitch) {
@@ -58,6 +65,8 @@ class EditDoctorViewController: UIViewController {
             docType = 1
         }
     }
+    
+    //MARK: - Doctor Database Interaction
     
     @IBAction func saveDoctorInfo(sender: UIButton) {
         firstName = firstNameField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
@@ -85,27 +94,14 @@ class EditDoctorViewController: UIViewController {
         return result
     }
     
-    func showAlert(msg:String) {
-        let controller2 = UIAlertController(title: msg,
-            message: "", preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
-        controller2.addAction(cancelAction)
-        self.presentViewController(controller2, animated: true, completion: nil)
-    }
+    // MARK: - TextBox Interaction
     
-    /**
-    *   Registers clicking return and resigns the keyboard
-    **/
     @IBAction func textFieldDoneEditing(sender:UITextField){
         sender.resignFirstResponder()
     }
-    
-    /**
-    *   Registers clicking the background and resigns any responder that could possibly be up
-    **/
+
     @IBAction func backgroundTap(sender: UIControl){
         
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-
 }
