@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol DidBeginBillWithPatientInformationDelegate {
+    func userEnteredPatientInformationForBill(fName:String, lName:String, dateOfBirth:String)
+}
+
 class EditPatientViewController: UIViewController {
     
     var dbManager:DatabaseManager!
@@ -23,6 +27,8 @@ class EditPatientViewController: UIViewController {
     var email:String = ""
     var id:Int!
     var newPatient:Bool = false
+    
+    var beginBillWithPatientInformationDelegate:DidBeginBillWithPatientInformationDelegate? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +38,16 @@ class EditPatientViewController: UIViewController {
         lastNameField.text = lastName
         dobField.text = dob
         emailField.text = email
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if (self.tabBarController!.viewControllers!.first! as! UINavigationController).topViewController is AdminDocViewController{
+            beginBillWithPatientInformationDelegate = (self.tabBarController!.viewControllers!.first! as! UINavigationController).topViewController as! AdminDocViewController
+        }
+        
+        if (self.tabBarController!.viewControllers!.first! as! UINavigationController).topViewController is BillViewController{
+            beginBillWithPatientInformationDelegate = (self.tabBarController!.viewControllers!.first! as! UINavigationController).topViewController as! BillViewController
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,6 +89,15 @@ class EditPatientViewController: UIViewController {
         var result = dbManager.updatePatient(firstName, lastName: lastName, dob: dob, email: email, id: id)
         dbManager.closeDB()
         return result
+    }
+    
+    //MARK: - Delegate Tab Change
+    
+    @IBAction func beginBill(sender: UIButton) {
+        self.tabBarController!.selectedIndex = 0;
+        if let beginBillDelegate = beginBillWithPatientInformationDelegate {
+            beginBillDelegate.userEnteredPatientInformationForBill(firstNameField.text, lName: lastNameField.text, dateOfBirth: dobField.text)
+        }
     }
     
     // MARK: - TextBox Interaction

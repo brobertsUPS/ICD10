@@ -8,12 +8,16 @@
 
 import UIKit
 
-class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
+class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, DidBeginBillWithPatientInformationDelegate  {
 
     @IBOutlet weak var administeringDoctor: UITextField!
     var dbManager = DatabaseManager()
     var searchTableViewController:SearchTableViewController?
     var adminDoc = ""
+    
+    var patientFName = ""
+    var patientLName = ""
+    var patientDOB = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +34,12 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func userEnteredPatientInformationForBill(fName: String, lName: String, dateOfBirth: String) {
+        patientFName = fName
+        patientLName = lName
+        patientDOB = dateOfBirth
     }
     
     // MARK: - Doctor Text Box Changes
@@ -102,6 +112,10 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
         if segue.identifier == "beginBill" {
             let controller = segue.destinationViewController as! BillViewController
             controller.administeringDoctor = self.administeringDoctor.text
+            if patientFName != "" {
+                controller.newPatient = patientFName + " " + patientLName
+                controller.newPatientDOB = patientDOB
+            }
         }
         
         if segue.identifier == "doctorSearchPopover" {

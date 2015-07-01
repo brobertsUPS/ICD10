@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
+class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, DidBeginBillWithPatientInformationDelegate {
     
     var dbManager:DatabaseManager!
     var searchTableViewController: SearchTableViewController?   //A view controller for the popup table view
@@ -38,6 +38,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var appointmentID:Int?                                      //The appointment id if this is a saved bill
     var administeringDoctor:String!
     var icd10On:Bool!
+    var newPatient:String?
+    var newPatientDOB:String?
     
     // MARK: - Default override methods 
     
@@ -62,6 +64,15 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             beginICD10SearchButton.setTitle("", forState: UIControlState.Normal)
         }
         fillVisitCodeFields()
+        
+        if let billPatient = newPatient {
+            patientTextField.text = billPatient
+            
+            if let patientDOB = newPatientDOB {
+                patientDOBTextField.text = patientDOB
+                
+            }
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -151,6 +162,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle { return UIModalPresentationStyle.None }
     
     override func didReceiveMemoryWarning() { super.didReceiveMemoryWarning() }
+    
+    func userEnteredPatientInformationForBill(fName:String, lName:String, dateOfBirth:String){
+        patientTextField.text = fName + " " + lName
+        patientDOBTextField.text = dateOfBirth
+    }
 
     
     // MARK: -  Clicks and Actions
