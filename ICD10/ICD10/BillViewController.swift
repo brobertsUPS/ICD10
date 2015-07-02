@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, DidBeginBillWithPatientInformationDelegate {
+class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, DidBeginBillWithPatientInformationDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var dbManager:DatabaseManager!
     var searchTableViewController: SearchTableViewController?   //A view controller for the popup table view
@@ -16,6 +16,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     @IBOutlet weak var codeVersion: UISwitch!                   //Determines what version of codes to use in the bill (ICD10 default)
     @IBOutlet weak var icdType: UILabel!
+    
     @IBOutlet weak var patientTextField: UITextField!
     @IBOutlet weak var patientDOBTextField: UITextField!
     @IBOutlet weak var doctorTextField: UITextField!
@@ -26,14 +27,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var pcTextField: UITextField!
     @IBOutlet weak var ICD10TextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
+    
     @IBOutlet weak var saveBillButton: UIButton!
-    @IBOutlet weak var beginICD10SearchButton: UIButton!
+    
+    @IBOutlet weak var codeCollectionView: UICollectionView!
     
     var textFieldText:[String] = []                             //A list of saved items for the bill
     var icdCodes:[(icd10:String,icd9:String)] = []              //A list of saved codes for the bill
-    var cptCodes:[String] = []
-    var mcCodes:[String] = []
-    var pcCodes:[String] = []
+    var visitCodes:[String] = []
     
     var appointmentID:Int?                                      //The appointment id if this is a saved bill
     var administeringDoctor:String!
@@ -41,7 +42,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var newPatient:String?
     var newPatientDOB:String?
     
-    // MARK: - Default override methods 
+    // MARK: - Default override methods
     
     override func viewDidLoad() {
         
@@ -61,9 +62,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         if let aptIDExists = appointmentID {
             saveBillButton.setTitle("", forState: UIControlState.Normal)
-            beginICD10SearchButton.setTitle("", forState: UIControlState.Normal)
         }
-        fillVisitCodeFields()
         
         if let billPatient = newPatient {
             patientTextField.text = billPatient
@@ -73,10 +72,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 
             }
         }
+        codeCollectionView.delegate = self
+        codeCollectionView.dataSource = self
     }
     
     override func viewWillAppear(animated: Bool) {
         self.addNotifications()
+        self.codeCollectionView.reloadData()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -132,31 +134,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
     }
     
-    func fillVisitCodeFields(){
-        
-        for var i=0; i<cptCodes.count; i++ {
-            switch i {
-            case 0:cptTextField.text = "\(cptCodes[i]),"
-            default: cptTextField.text = "\(cptTextField.text) \(cptCodes[i]),"
-            }
-        }
-        
-        for var i=0; i<mcCodes.count; i++ {
-            switch i {
-            case 0:mcTextField.text = "\(mcCodes[i]),"
-            default: mcTextField.text = "\(mcTextField.text) \(mcCodes[i]),"
-            }
-        }
-        
-        for var i=0; i<pcCodes.count; i++ {
-            switch i {
-            case 0:pcTextField.text = "\(pcCodes[i]),"
-            default: pcTextField.text = "\(pcTextField.text) \(pcCodes[i]),"
-            }
-        }
-
-    }
-    
     @IBAction func switchCodeVersion(sender: UISwitch) { self.fillCodeTextField() }
     
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle { return UIModalPresentationStyle.None }
@@ -167,7 +144,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         patientTextField.text = fName + " " + lName
         patientDOBTextField.text = dateOfBirth
     }
-
+    
     
     // MARK: -  Clicks and Actions
     
@@ -191,7 +168,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBAction func textFieldDoneEditing(sender:UITextField){
         sender.resignFirstResponder()
     }
-
+    
     @IBAction func backgroundTap(sender: UIControl){
         patientTextField.resignFirstResponder()
         patientDOBTextField.resignFirstResponder()
@@ -265,18 +242,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     // MARK: - Navigation
     
-    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
-        if identifier == "beginICD10Search" {
-            return true
-        }
-        return false
-    }
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "beginICD10Search" {
             let controller = segue.destinationViewController as! MasterViewController
             controller.billViewController = self
+            //controller.visitCodeToAddICDTo = visitCodes[sender!.tag]
+            
+            println(controller.visitCodeToAddICDTo)
         }else if segue.identifier == "newBill"{
             let controller = segue.destinationViewController as! AdminDocViewController
         }else{
@@ -323,7 +296,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
     }
     
-    // MARK: -  Changes in text fields 
+    // MARK: -  Changes in text fields
     
     @IBAction func userChangedPatientSearch(sender: UITextField) {
         dbManager.checkDatabaseFileAndOpen()
@@ -347,7 +320,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         dbManager.closeDB()
     }
-
+    
     @IBAction func userChangedVisitCodeSearch(sender:UITextField) {
         
         dbManager.checkDatabaseFileAndOpen()
@@ -412,7 +385,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             
             self.patientDOBTextField.text = dob
             var pID = getPatientID(name, dateOfBirth: dob)
-
+            
             updateFromPreviousBill(pID)
             self.dismissViewControllerAnimated(true, completion: nil)
             patientTextField.resignFirstResponder()
@@ -459,17 +432,15 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         roomTextField.text = dbManager.getRoomWithID(roomID)          //Room
         
         var (consult, mc, pc) = dbManager.getVisitCodesForBill(aptID)
-        cptCodes = consult
-        mcCodes = mc
-        pcCodes = pc
-        self.fillVisitCodeFields()
+        
+        visitCodes = consult + mc + pc
         
         icdCodes = dbManager.getDiagnosesCodesForBill(aptID)
         self.fillCodeTextField()
         
         dbManager.closeDB()
     }
-
+    
     func updateDoctor(notification: NSNotification) {
         let doctorName = searchTableViewController?.selectedDoctor
         self.doctorTextField.text = doctorName
@@ -479,24 +450,18 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     func updateCPT(notification:NSNotification){
         if let controller = searchTableViewController {
+            
             let tuple = controller.selectedTuple
             var (code_description,updatedCPTCode) = tuple
             
-            if cptTextField.isFirstResponder() {
-                cptCodes.append(code_description)
-                //self.cptTextField.text = code_description
-                cptTextField.resignFirstResponder()
-            } else if mcTextField.isFirstResponder(){
-                mcCodes.append(code_description)
-                //self.mcTextField.text = code_description
-                mcTextField.resignFirstResponder()
-            } else if pcTextField.isFirstResponder() {
-                pcCodes.append(code_description)
-                //self.pcTextField.text = code_description
-                pcTextField.resignFirstResponder()
-            }
-            self.fillVisitCodeFields()
+            
+            cptTextField.resignFirstResponder()
+            mcTextField.resignFirstResponder()
+            pcTextField.resignFirstResponder()
+            
+            visitCodes.append(code_description)
             self.dismissViewControllerAnimated(true, completion: nil)
+            self.codeCollectionView.reloadData()
         }
     }
     
@@ -663,4 +628,39 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         controller2.addAction(cancelAction)
         self.presentViewController(controller2, animated: true, completion: nil)
     }
+    
+    //MARK: - Collection View
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return visitCodes.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+       
+        
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("visitCodeCell", forIndexPath: indexPath) as! CodeTokenCollectionViewCell
+        
+        cell.visitCodeLabel.text = visitCodes[indexPath.row]
+        
+        cell.deleteCodeButton.tag = indexPath.row
+        return cell
+    }
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        
+        return icdCodes.count + 1
+    }
+    
+    @IBAction func userClickedDeleteVisitCode(sender: UIButton) {
+        
+        println("Deleted button \(sender.tag)")
+        visitCodes.removeAtIndex(sender.tag)
+        self.codeCollectionView.reloadData()
+    }
+    
+    @IBAction func userClickedICD10Add(sender: UIButton) {
+        self.performSegueWithIdentifier("beginICD10Search", sender: sender)
+    }
+    
+
 }

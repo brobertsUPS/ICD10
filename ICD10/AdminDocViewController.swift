@@ -96,7 +96,6 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
         controller2.addAction(cancelAction)
         self.presentViewController(controller2, animated: true, completion: nil)
     }
-
     
     // MARK: - Navigation
     

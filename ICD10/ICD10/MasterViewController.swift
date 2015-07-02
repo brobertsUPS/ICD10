@@ -22,6 +22,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     var billViewController:BillViewController?
     
     var favoritesCell:Bool = false
+    var visitCodeToAddICDTo:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
