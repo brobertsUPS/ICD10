@@ -156,7 +156,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             controller.textFieldText.append(room)
             
             controller.visitCodes = cpt + mc + pc
-            controller.icdCodes = icd10Codes
+            controller.icdCodes = [icd10Codes]
             
             controller.appointmentID = aptID
             

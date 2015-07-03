@@ -197,9 +197,9 @@ class DatabaseManager {
         return result
     }
     
-    func addHasType(aptID:Int, visitCodeText:String) -> String{
+    func addHasType(aptID:Int, visitCodeText:String, icd10Code:String) -> String{
         var result = ""
-        let insertHasType = "INSERT INTO Has_type (aptID,apt_code) VALUES (\(aptID),'\(visitCodeText)')"
+        let insertHasType = "INSERT INTO Has_type (aptID,apt_code, ICD10_code) VALUES (\(aptID),'\(visitCodeText)', '\(icd10Code)')"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertHasType, -1, &statement, nil) == SQLITE_OK {
             var sqliteResult = sqlite3_step(statement)
@@ -490,7 +490,7 @@ class DatabaseManager {
         
         var conditionDiagnosed:[(icd10:String, icd9:String)] = []
         
-        let conditionQuery = "SELECT ICD10_code, ICD9_code FROM Diagnosed_with NATURAL JOIN Appointment NATURAL JOIN Characterized_by WHERE aptID=\(aptID)"
+        let conditionQuery = "SELECT ICD10_code, ICD9_code FROM Has_type NATURAL JOIN Appointment NATURAL JOIN Characterized_by WHERE aptID=\(aptID)"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, conditionQuery, -1, &statement, nil) == SQLITE_OK {

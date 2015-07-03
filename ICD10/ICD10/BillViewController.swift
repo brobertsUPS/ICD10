@@ -33,7 +33,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var codeCollectionView: UICollectionView!
     
     var textFieldText:[String] = []                             //A list of saved items for the bill
-    var icdCodes:[(icd10:String,icd9:String)] = []              //A list of saved codes for the bill
+    var icdCodes:[[(icd10:String,icd9:String)]] = [[]]          //A list of saved codes for the bill
     var visitCodes:[String] = []
     
     var appointmentID:Int?                                      //The appointment id if this is a saved bill
@@ -58,7 +58,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 codeVersion.on = false
             }
         }
-        self.fillCodeTextField()
         
         if let aptIDExists = appointmentID {
             saveBillButton.setTitle("", forState: UIControlState.Normal)
@@ -69,7 +68,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             
             if let patientDOB = newPatientDOB {
                 patientDOBTextField.text = patientDOB
-                
             }
         }
         codeCollectionView.delegate = self
@@ -109,32 +107,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
     }
     
-    func fillCodeTextField() {
-        if codeVersion.on {
-            //icd10
-            icdType.text = "ICD10"
-            ICD10TextField.text = ""
-            for var i=0; i<icdCodes.count; i++ {
-                let (icd10, icd9) = icdCodes[i]
-                switch i {
-                case 0:ICD10TextField.text = "\(icd10)"
-                default: ICD10TextField.text = "\(ICD10TextField.text), \(icd10)"
-                }
-            }
-        } else {
-            icdType.text = "ICD9"
-            ICD10TextField.text = ""
-            for var i=0; i<icdCodes.count; i++ {
-                let (icd10, icd9) = icdCodes[i]
-                switch i {
-                case 0:ICD10TextField.text = "\(icd9)"
-                default: ICD10TextField.text = "\(ICD10TextField.text), \(icd9)"
-                }
-            }
-        }
-    }
-    
-    @IBAction func switchCodeVersion(sender: UISwitch) { self.fillCodeTextField() }
+    @IBAction func switchCodeVersion(sender: UISwitch) {  }
     
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle { return UIModalPresentationStyle.None }
     
@@ -203,36 +176,15 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 self.addHasDoc(aptID, dID: adminDoctorID)//insert hasdoc for admin
                 
                 //Insert into has_type for all types there were
-                if cptTextField.text != "" {
-                    let cptArr = cptTextField.text.componentsSeparatedByString(",")
-                    for var i=0; i<cptArr.count; i++ {
-                        let cleanCPT = cptArr[i].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                        self.addHasType(aptID, visitCodeText: cleanCPT)
+                if !visitCodes.isEmpty {
+                    for var i=0; i<visitCodes.count; i++ {
+                        var diagnosesForVisitCode = icdCodes[i]
+                        for var j=0; j<diagnosesForVisitCode.count; j++ {
+                            var (icd10, icd9) = diagnosesForVisitCode[j]
+                            self.addHasType(aptID, visitCodeText: visitCodes[i], icd10Code: icd10)
+                        }
                     }
                 }
-                
-                if mcTextField.text != "" {
-                    let mcArr = mcTextField.text.componentsSeparatedByString(",")
-                    for var i=0; i<mcArr.count;i++ {
-                        let cleanMC = mcArr[i].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                        self.addHasType(aptID, visitCodeText: cleanMC)
-                    }
-                }
-                
-                if pcTextField.text != "" {
-                    let pcArr = pcTextField.text.componentsSeparatedByString(",")
-                    for var i = 0; i<pcArr.count; i++ {
-                        let cleanPC = pcArr[i].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                        self.addHasType(aptID, visitCodeText: cleanPC)
-                    }
-                }
-                
-                let icd10Arr = ICD10TextField.text.componentsSeparatedByString(",")
-                for var i=0; i<icd10Arr.count; i++ {
-                    let cleanString = icd10Arr[i].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                    self.addDiagnosedWith(aptID, ICD10Text: cleanString)
-                }
-                
                 self.performSegueWithIdentifier("newBill", sender: self)
             }
         } else {
@@ -247,8 +199,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         if segue.identifier == "beginICD10Search" {
             let controller = segue.destinationViewController as! MasterViewController
             controller.billViewController = self
-            //controller.visitCodeToAddICDTo = visitCodes[sender!.tag]
-            
             println(controller.visitCodeToAddICDTo)
         }else if segue.identifier == "newBill"{
             let controller = segue.destinationViewController as! AdminDocViewController
@@ -279,8 +229,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 if fullCPTArr.isEmpty { fullCPTArr.append("") }
                 //get the last piece in the cpt array and search on that
                 popoverViewController.tupleSearchResults = dbManager.codeSearch("C", cptTextFieldText: fullCPTArr[(fullCPTArr.count-1)], mcTextFieldText: "", pcTextFieldText: "")
-                
-                
             case "mcSearch":
                 var fullMCArr = mcTextField.text.componentsSeparatedByString(",")
                 if fullMCArr.isEmpty { fullMCArr.append("") }
@@ -435,8 +383,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         visitCodes = consult + mc + pc
         
-        icdCodes = dbManager.getDiagnosesCodesForBill(aptID)
-        self.fillCodeTextField()
+        //icdCodes = dbManager.getDiagnosesCodesForBill(aptID)
         
         dbManager.closeDB()
     }
@@ -460,6 +407,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             pcTextField.resignFirstResponder()
             
             visitCodes.append(code_description)
+            
+            
             self.dismissViewControllerAnimated(true, completion: nil)
             self.codeCollectionView.reloadData()
         }
@@ -564,9 +513,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return (aptID,result)
     }
     
-    func addHasType(aptID:Int, visitCodeText:String) {
+    func addHasType(aptID:Int, visitCodeText:String, icd10Code:String) {
         dbManager.checkDatabaseFileAndOpen()
-        dbManager.addHasType(aptID, visitCodeText: visitCodeText)
+        dbManager.addHasType(aptID, visitCodeText: visitCodeText, icd10Code: icd10Code)
         dbManager.closeDB()
     }
     
@@ -636,20 +585,15 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-       
-        
+      
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("visitCodeCell", forIndexPath: indexPath) as! CodeTokenCollectionViewCell
         
         cell.visitCodeLabel.text = visitCodes[indexPath.row]
         
         cell.deleteCodeButton.tag = indexPath.row
-        return cell
+            return cell
     }
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        
-        return icdCodes.count + 1
-    }
     
     @IBAction func userClickedDeleteVisitCode(sender: UIButton) {
         
