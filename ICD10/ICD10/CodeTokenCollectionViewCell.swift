@@ -8,9 +8,20 @@
 
 import UIKit
 
-class CodeTokenCollectionViewCell: UICollectionViewCell {
+class CodeTokenCollectionViewCell: UICollectionReusableView {
     
     @IBOutlet weak var visitCodeLabel: UILabel!
     @IBOutlet weak var deleteCodeButton: UIButton!
+    @IBOutlet weak var visitCodeDescriptionLabel: UILabel!
+    @IBOutlet weak var addICDCodeButton: UIButton!
+    
+    var visitCodeText:String!
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
 
 }

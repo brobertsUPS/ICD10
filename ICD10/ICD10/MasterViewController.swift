@@ -22,7 +22,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     var billViewController:BillViewController?
     
     var favoritesCell:Bool = false
-    var visitCodeToAddICDTo:String = ""
+    var visitCodeToAddICDTo:Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -179,7 +179,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             popoverViewController.billViewController = billViewController
             popoverViewController.navigationItem.title = "Direct Search"
             
-        } else if segue.identifier == "showDirectSearchCode"{
+        } else if segue.identifier == "showDirectSearchCode"{  //The user searched for the direct code
             
             let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
             
@@ -192,6 +192,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             
             controller.navigationItem.leftItemsSupplementBackButton = true
             controller.billViewController = self.billViewController
+            controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
         } else {
             
             let indexPath = self.tableView.indexPathForSelectedRow()
@@ -228,6 +229,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 controller.titleName = locationName
                 controller.navigationItem.leftItemsSupplementBackButton = true
                 controller.billViewController = self.billViewController
+                controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
                 dbManager.closeDB()
             } else if (segue.identifier == "showLocations" && newSubLocations.count > 0) {
                 
@@ -238,6 +240,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 controller.navigationItem.leftItemsSupplementBackButton = true
                 controller.billViewController = self.billViewController
                 controller.favoritesCell = self.favoritesCell
+                controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
             }
         }
     }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, DidBeginBillWithPatientInformationDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, DidBeginBillWithPatientInformationDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     var dbManager:DatabaseManager!
     var searchTableViewController: SearchTableViewController?   //A view controller for the popup table view
@@ -41,6 +41,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var icd10On:Bool!
     var newPatient:String?
     var newPatientDOB:String?
+    var selectedVisitCodeToAddTo:Int?
     
     // MARK: - Default override methods
     
@@ -72,6 +73,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
         codeCollectionView.delegate = self
         codeCollectionView.dataSource = self
+        
+
+        
+        let layout = codeCollectionView.collectionViewLayout
+        let flow = layout as! UICollectionViewFlowLayout
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -178,13 +184,26 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 //Insert into has_type for all types there were
                 if !visitCodes.isEmpty {
                     for var i=0; i<visitCodes.count; i++ {
-                        var diagnosesForVisitCode = icdCodes[i]
-                        for var j=0; j<diagnosesForVisitCode.count; j++ {
-                            var (icd10, icd9) = diagnosesForVisitCode[j]
-                            self.addHasType(aptID, visitCodeText: visitCodes[i], icd10Code: icd10)
+                        
+                        var icdCodesLength = icdCodes.count
+                        if icdCodesLength > i {
+                            
+                            var diagnosesForVisitCode = icdCodes[i]
+                            
+                           
+                            for var j=0; j<diagnosesForVisitCode.count; j++ {
+                                
+                                var (icd10, icd9) = diagnosesForVisitCode[j]
+                                self.addHasType(aptID, visitCodeText: visitCodes[i], icd10Code: icd10)
+                            }
+
                         }
                     }
                 }
+                //pop everything off of the stack
+                self.navigationController!.viewControllers.first
+                var viewControllers = self.navigationController!.viewControllers
+                println("Number of view Controllers \(viewControllers.count)")
                 self.performSegueWithIdentifier("newBill", sender: self)
             }
         } else {
@@ -199,6 +218,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         if segue.identifier == "beginICD10Search" {
             let controller = segue.destinationViewController as! MasterViewController
             controller.billViewController = self
+            controller.visitCodeToAddICDTo = selectedVisitCodeToAddTo!
             println(controller.visitCodeToAddICDTo)
         }else if segue.identifier == "newBill"{
             let controller = segue.destinationViewController as! AdminDocViewController
@@ -242,6 +262,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             dbManager.closeDB()
         }
         
+    }
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+        return false
     }
     
     // MARK: -  Changes in text fields
@@ -405,10 +429,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             cptTextField.resignFirstResponder()
             mcTextField.resignFirstResponder()
             pcTextField.resignFirstResponder()
-            
+
             visitCodes.append(code_description)
+            icdCodes.append([])
             
-            
+            println(visitCodes)
             self.dismissViewControllerAnimated(true, completion: nil)
             self.codeCollectionView.reloadData()
         }
@@ -580,20 +605,40 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     //MARK: - Collection View
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return visitCodes.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-      
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("visitCodeCell", forIndexPath: indexPath) as! CodeTokenCollectionViewCell
-        
-        cell.visitCodeLabel.text = visitCodes[indexPath.row]
-        
-        cell.deleteCodeButton.tag = indexPath.row
-            return cell
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return icdCodes[section].count
     }
     
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CONTENT", forIndexPath: indexPath) as! ICD10Cell
+        let sectionCodes:[(icd10:String, icd9:String)]  = icdCodes[indexPath.section]
+        println("ICDCodes \(sectionCodes) for section \(indexPath.section)")
+        let (icd10String, icd9String) = sectionCodes[indexPath.row]
+        cell.ICDLabel.text = icd10String
+        return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        
+        if kind == UICollectionElementKindSectionHeader {
+            
+            let cell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "HEADER", forIndexPath: indexPath) as! CodeTokenCollectionViewCell
+            
+            cell.visitCodeLabel.text = visitCodes[indexPath.section]
+            cell.deleteCodeButton.tag = indexPath.section
+            cell.addICDCodeButton.tag = indexPath.section
+            println("ADDED button with tag \(indexPath.section)")
+            
+            
+            return cell
+        }
+        abort()
+    }
     
     @IBAction func userClickedDeleteVisitCode(sender: UIButton) {
         
@@ -603,8 +648,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     @IBAction func userClickedICD10Add(sender: UIButton) {
+        selectedVisitCodeToAddTo = sender.tag
         self.performSegueWithIdentifier("beginICD10Search", sender: sender)
     }
-    
-
 }

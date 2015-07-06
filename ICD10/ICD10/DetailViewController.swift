@@ -26,6 +26,8 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     var extensionCodes:[String] = []
     
+    var visitCodeToAddICDTo:Int!
+    
     @IBOutlet weak var extensionPicker: UIPickerView!
 
     override func viewDidLoad() {
@@ -88,7 +90,8 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             
             
             let tuple = [(icd10: ICD10Text!,icd9: ICD9Text!)]
-            controller.icdCodes.append(tuple)
+            println("VisitCodeToAddTo \(visitCodeToAddICDTo)")
+            controller.icdCodes.insert(tuple, atIndex: visitCodeToAddICDTo)
             controller.administeringDoctor = self.billViewController?.administeringDoctor
             controller.icd10On = self.billViewController?.icd10On
         }
