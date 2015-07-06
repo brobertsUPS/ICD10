@@ -10,6 +10,7 @@
 		AD0798901B45BD1C0066A47B /* ICD10Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD07988F1B45BD1C0066A47B /* ICD10Cell.swift */; };
 		AD0798921B45D2D10066A47B /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD0798911B45D2C10066A47B /* testDML.sqlite3 */; };
 		AD0926AA1B4AF88C00C6E3DD /* CollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0926A91B4AF88C00C6E3DD /* CollectionReusableView.swift */; };
+		AD0926AC1B4B3AB000C6E3DD /* ICDDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0926AB1B4B3AB000C6E3DD /* ICDDeleteButton.swift */; };
 		AD1025251B333C8900308E36 /* AdminDocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1025241B333C8900308E36 /* AdminDocViewController.swift */; };
 		AD19EA951B2F423800A1AFF1 /* BillDatesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */; };
 		AD19EA971B2F473500A1AFF1 /* BillsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */; };
@@ -47,6 +48,7 @@
 		AD07988F1B45BD1C0066A47B /* ICD10Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICD10Cell.swift; sourceTree = "<group>"; };
 		AD0798911B45D2C10066A47B /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		AD0926A91B4AF88C00C6E3DD /* CollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionReusableView.swift; sourceTree = "<group>"; };
+		AD0926AB1B4B3AB000C6E3DD /* ICDDeleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICDDeleteButton.swift; sourceTree = "<group>"; };
 		AD1025241B333C8900308E36 /* AdminDocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdminDocViewController.swift; path = ../AdminDocViewController.swift; sourceTree = "<group>"; };
 		AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillDatesTableViewController.swift; sourceTree = "<group>"; };
 		AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillsTableViewController.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */,
 				AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */,
 				ADAB0D381B210E71004C770C /* BillViewController.swift */,
+				AD0926AB1B4B3AB000C6E3DD /* ICDDeleteButton.swift */,
 				ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */,
 				ADE77F371B1782F900CE48F1 /* MasterViewController.swift */,
 				ADE77F391B1782F900CE48F1 /* DetailViewController.swift */,
@@ -275,6 +278,7 @@
 				ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */,
 				AD7A73D41B2783A90054DD55 /* DatabaseManager.swift in Sources */,
 				ADE77F3A1B1782F900CE48F1 /* DetailViewController.swift in Sources */,
+				AD0926AC1B4B3AB000C6E3DD /* ICDDeleteButton.swift in Sources */,
 				AD93D7311B28F667000EAF98 /* DirectSearchTableViewController.swift in Sources */,
 				AD7A73D61B278D150054DD55 /* DoctorsTableViewController.swift in Sources */,
 				AD93D7271B28A2F8000EAF98 /* EditDoctorViewController.swift in Sources */,

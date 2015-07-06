@@ -89,9 +89,11 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             controller.icdCodes = self.billViewController!.icdCodes //carry the codes
             
             
-            let tuple = [(icd10: ICD10Text!,icd9: ICD9Text!)]
+            let tuple = (icd10: ICD10Text!,icd9: ICD9Text!)
             println("VisitCodeToAddTo \(visitCodeToAddICDTo)")
-            controller.icdCodes.insert(tuple, atIndex: visitCodeToAddICDTo)
+            controller.icdCodes[visitCodeToAddICDTo].append(tuple) //put the new icdCodes on at the right position
+            
+            
             controller.administeringDoctor = self.billViewController?.administeringDoctor
             controller.icd10On = self.billViewController?.icd10On
         }

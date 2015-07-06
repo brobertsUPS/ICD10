@@ -358,7 +358,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             self.patientDOBTextField.text = dob
             var pID = getPatientID(name, dateOfBirth: dob)
             
-            updateFromPreviousBill(pID)
+            //updateFromPreviousBill(pID)
             self.dismissViewControllerAnimated(true, completion: nil)
             patientTextField.resignFirstResponder()
         }
@@ -617,9 +617,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CONTENT", forIndexPath: indexPath) as! ICD10Cell
         let sectionCodes:[(icd10:String, icd9:String)]  = icdCodes[indexPath.section]
-        println("ICDCodes \(sectionCodes) for section \(indexPath.section)")
+        println("ICDCodes \(sectionCodes) for section \(indexPath.section) and indexPath.row \(indexPath.row)")
         let (icd10String, icd9String) = sectionCodes[indexPath.row]
         cell.ICDLabel.text = icd10String
+        
+        cell.deleteICDButton.tag = indexPath.row
+        cell.deleteICDButton.section = indexPath.section
+        
         return cell
     }
     
@@ -642,8 +646,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     @IBAction func userClickedDeleteVisitCode(sender: UIButton) {
         
-        println("Deleted button \(sender.tag)")
+        println("Deleted visitCode button \(sender.tag)")
         visitCodes.removeAtIndex(sender.tag)
+        
+        icdCodes[sender.tag] = []
+        
         self.codeCollectionView.reloadData()
     }
     
@@ -651,4 +658,33 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         selectedVisitCodeToAddTo = sender.tag
         self.performSegueWithIdentifier("beginICD10Search", sender: sender)
     }
+    
+    
+    @IBAction func userClickedDeleteICDCode(sender: ICDDeleteButton) {
+        var section = sender.section
+        var itemInSection = sender.tag
+        println("section \(section)")
+        println("ItemInSection \(itemInSection)")
+        
+        
+        icdCodes[section].removeAtIndex(itemInSection)
+        self.codeCollectionView.reloadData()
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
