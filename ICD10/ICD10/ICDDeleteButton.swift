@@ -11,6 +11,8 @@ import UIKit
 class ICDDeleteButton: UIButton {
     
     var section:Int!
+    
+    var codeToAddTo:String?
 
     /*
     // Only override drawRect: if you perform custom drawing.

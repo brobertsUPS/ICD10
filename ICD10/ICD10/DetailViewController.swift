@@ -26,7 +26,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     var extensionCodes:[String] = []
     
-    var visitCodeToAddICDTo:Int!
+    var visitCodeToAddICDTo:String!
     
     @IBOutlet weak var extensionPicker: UIPickerView!
 
@@ -84,14 +84,17 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             controller.textFieldText.append(self.billViewController!.siteTextField!.text!)
             controller.textFieldText.append(self.billViewController!.roomTextField!.text!)
             
-            controller.visitCodes = self.billViewController!.visitCodes
+            controller.codesForBill = self.billViewController!.codesForBill                     //update the codes with what we had before
+            var codesForBill = self.billViewController!.codesForBill                            //get the codes so we can update them
             
-            controller.icdCodes = self.billViewController!.icdCodes //carry the codes
+            var icdCodes:[(icd10:String, icd9:String)] = codesForBill[visitCodeToAddICDTo]!
             
             
             let tuple = (icd10: ICD10Text!,icd9: ICD9Text!)
             println("VisitCodeToAddTo \(visitCodeToAddICDTo)")
-            controller.icdCodes[visitCodeToAddICDTo].append(tuple) //put the new icdCodes on at the right position
+            icdCodes.append(tuple)                                                              //tack on the new icd codes
+            
+            controller.codesForBill[visitCodeToAddICDTo] = icdCodes                             //put the new icdCodes on at the right position
             
             
             controller.administeringDoctor = self.billViewController?.administeringDoctor

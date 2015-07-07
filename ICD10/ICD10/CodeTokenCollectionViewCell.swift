@@ -13,7 +13,7 @@ class CodeTokenCollectionViewCell: UICollectionReusableView {
     @IBOutlet weak var visitCodeLabel: UILabel!
     @IBOutlet weak var deleteCodeButton: UIButton!
     @IBOutlet weak var visitCodeDescriptionLabel: UILabel!
-    @IBOutlet weak var addICDCodeButton: UIButton!
+    @IBOutlet weak var addICDCodeButton: ICDDeleteButton!
     
     var visitCodeText:String!
     

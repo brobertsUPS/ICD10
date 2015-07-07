@@ -33,15 +33,17 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var codeCollectionView: UICollectionView!
     
     var textFieldText:[String] = []                             //A list of saved items for the bill
-    var icdCodes:[[(icd10:String,icd9:String)]] = [[]]          //A list of saved codes for the bill
-    var visitCodes:[String] = []
+    //var icdCodes:[[(icd10:String,icd9:String)]] = [[]]          //A list of saved codes for the bill
+    //var visitCodes:[String] = []
+    
+    var codesForBill:[String:[(icd10:String, icd9:String)]] = [:]
     
     var appointmentID:Int?                                      //The appointment id if this is a saved bill
     var administeringDoctor:String!
     var icd10On:Bool!
     var newPatient:String?
     var newPatientDOB:String?
-    var selectedVisitCodeToAddTo:Int?
+    var selectedVisitCodeToAddTo:String?
     
     // MARK: - Default override methods
     
@@ -181,12 +183,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 self.addHasDoc(aptID, dID: adminDoctorID)//insert hasdoc for admin
                 
                 //Insert into has_type for all types there were
+                
+                var visitCodes = codesForBill.keys.array
                 for var i=0; i<visitCodes.count; i++ {
                     
                     println("VisitCode \(visitCodes[i])")
                     
-                    var diagnosesForVisitCode = icdCodes[i]
-                    println("diagnosesForVisitCode \(icdCodes[i])")
+                    var diagnosesForVisitCode = codesForBill.values.array[i]
+                    println("diagnosesForVisitCode \(diagnosesForVisitCode)")
                     for var j=0; j<diagnosesForVisitCode.count; j++ {
                         
                         var (icd10, icd9) = diagnosesForVisitCode[j]
@@ -207,9 +211,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     func checkInputs() -> String{
         var error = ""
         
-        if visitCodes.isEmpty {
+        if codesForBill.keys.array.isEmpty {
             error = "There were no visit codes for the bill. Please add a visitCode and an ICD code to the bill."
-            if icdCodes.isEmpty {
+            if codesForBill.values.array.isEmpty {
                 error = "There were no ICD codes for the bill. Please add an ICD code to the bill"
             }
         }
@@ -378,7 +382,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             self.patientDOBTextField.text = dob
             var pID = getPatientID(name, dateOfBirth: dob)
             
-            //updateFromPreviousBill(pID)
+            updateFromPreviousBill(pID)
             self.dismissViewControllerAnimated(true, completion: nil)
             patientTextField.resignFirstResponder()
         }
@@ -423,13 +427,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         siteTextField.text = dbManager.getPlaceWithID(placeID)        //Site
         roomTextField.text = dbManager.getRoomWithID(roomID)          //Room
         
-        //var (consult, mc, pc) = dbManager.getVisitCodesForBill(aptID)
-        
-        //visitCodes = consult + mc + pc
-        
-        //icdCodes = dbManager.getDiagnosesCodesForBill(aptID)
+        codesForBill = dbManager.getVisitCodesForBill(aptID)
         
         dbManager.closeDB()
+        
+        self.codeCollectionView.reloadData()
     }
     
     func updateDoctor(notification: NSNotification) {
@@ -450,10 +452,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             mcTextField.resignFirstResponder()
             pcTextField.resignFirstResponder()
 
-            visitCodes.append(code_description)
-            icdCodes.append([])
+            codesForBill[code_description] = []
             
-            println(visitCodes)
             self.dismissViewControllerAnimated(true, completion: nil)
             self.codeCollectionView.reloadData()
         }
@@ -592,23 +592,24 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     //MARK: - Collection View
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return visitCodes.count
+        return codesForBill.keys.array.count
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return icdCodes[section].count
+        return codesForBill.values.array[section].count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CONTENT", forIndexPath: indexPath) as! ICD10Cell
-        let sectionCodes:[(icd10:String, icd9:String)]  = icdCodes[indexPath.section]
+        let sectionCodes:[(icd10:String, icd9:String)]  = codesForBill.values.array[indexPath.section]
         println("ICDCodes \(sectionCodes) for section \(indexPath.section) and indexPath.row \(indexPath.row)")
         let (icd10String, icd9String) = sectionCodes[indexPath.row]
         cell.ICDLabel.text = icd10String
         
         cell.deleteICDButton.tag = indexPath.row
         cell.deleteICDButton.section = indexPath.section
+        cell.deleteICDButton.codeToAddTo = codesForBill.keys.array[indexPath.section]
         
         return cell
     }
@@ -619,9 +620,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             
             let cell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "HEADER", forIndexPath: indexPath) as! CodeTokenCollectionViewCell
             
-            cell.visitCodeLabel.text = visitCodes[indexPath.section]
+            cell.visitCodeLabel.text = codesForBill.keys.array[indexPath.section]
             cell.deleteCodeButton.tag = indexPath.section
             cell.addICDCodeButton.tag = indexPath.section
+            cell.addICDCodeButton.codeToAddTo = cell.visitCodeLabel.text
             println("ADDED button with tag \(indexPath.section)")
             
             
@@ -633,44 +635,31 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBAction func userClickedDeleteVisitCode(sender: UIButton) {
         
         println("Deleted visitCode button \(sender.tag)")
-        visitCodes.removeAtIndex(sender.tag)
-        
-        icdCodes[sender.tag] = []
+        var visitCode = codesForBill.keys.array[sender.tag]
+        codesForBill.removeValueForKey(visitCode)
         
         self.codeCollectionView.reloadData()
     }
     
-    @IBAction func userClickedICD10Add(sender: UIButton) {
-        selectedVisitCodeToAddTo = sender.tag
+    @IBAction func userClickedICD10Add(sender: ICDDeleteButton) {
+        selectedVisitCodeToAddTo = sender.codeToAddTo!
         self.performSegueWithIdentifier("beginICD10Search", sender: sender)
     }
     
     
     @IBAction func userClickedDeleteICDCode(sender: ICDDeleteButton) {
+        
         var section = sender.section
         var itemInSection = sender.tag
         println("section \(section)")
         println("ItemInSection \(itemInSection)")
         
         
-        icdCodes[section].removeAtIndex(itemInSection)
+        var icdCodes = codesForBill.values.array[section]
+        icdCodes.removeAtIndex(itemInSection)
+        
+        codesForBill[sender.codeToAddTo!] = icdCodes
+        
         self.codeCollectionView.reloadData()
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

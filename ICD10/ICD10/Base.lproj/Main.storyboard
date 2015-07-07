@@ -1005,7 +1005,7 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HEADER" id="KjM-t3-e6i" customClass="CodeTokenCollectionViewCell" customModule="ICD10" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="568" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="25"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rpp-4f-eCf">
@@ -1030,7 +1030,7 @@
                                                 <action selector="userClickedDeleteVisitCode:" destination="A0e-2y-MTR" eventType="touchUpInside" id="DTT-q2-Zou"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0Q-3r-G4H">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0Q-3r-G4H" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
                                             <rect key="frame" x="512" y="1" width="22" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="22" id="PgX-CP-GPZ"/>
@@ -1039,7 +1039,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="userClickedICD10Add:" destination="A0e-2y-MTR" eventType="touchUpInside" id="962-7s-Ch3"/>
+                                                <action selector="userClickedICD10Add:" destination="A0e-2y-MTR" eventType="touchUpInside" id="o3e-Y5-Nb3"/>
                                             </connections>
                                         </button>
                                     </subviews>
