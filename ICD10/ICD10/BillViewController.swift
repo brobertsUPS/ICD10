@@ -71,11 +71,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 patientDOBTextField.text = patientDOB
             }
         }
+        
+        
         codeCollectionView.delegate = self
         codeCollectionView.dataSource = self
-        
-
-        
         let layout = codeCollectionView.collectionViewLayout
         let flow = layout as! UICollectionViewFlowLayout
     }
@@ -182,22 +181,16 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 self.addHasDoc(aptID, dID: adminDoctorID)//insert hasdoc for admin
                 
                 //Insert into has_type for all types there were
-                if !visitCodes.isEmpty {
-                    for var i=0; i<visitCodes.count; i++ {
+                for var i=0; i<visitCodes.count; i++ {
+                    
+                    println("VisitCode \(visitCodes[i])")
+                    
+                    var diagnosesForVisitCode = icdCodes[i]
+                    println("diagnosesForVisitCode \(icdCodes[i])")
+                    for var j=0; j<diagnosesForVisitCode.count; j++ {
                         
-                        var icdCodesLength = icdCodes.count
-                        if icdCodesLength > i {
-                            
-                            var diagnosesForVisitCode = icdCodes[i]
-                            
-                           
-                            for var j=0; j<diagnosesForVisitCode.count; j++ {
-                                
-                                var (icd10, icd9) = diagnosesForVisitCode[j]
-                                self.addHasType(aptID, visitCodeText: visitCodes[i], icd10Code: icd10)
-                            }
-
-                        }
+                        var (icd10, icd9) = diagnosesForVisitCode[j]
+                        self.addHasType(aptID, visitCodeText: visitCodes[i], icd10Code: icd10)
                     }
                 }
                 //pop everything off of the stack
@@ -209,6 +202,34 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         } else {
             showAlert(error)//popup with the error message
         }
+    }
+    
+    func checkInputs() -> String{
+        var error = ""
+        
+        if visitCodes.isEmpty {
+            error = "There were no visit codes for the bill. Please add a visitCode and an ICD code to the bill."
+            if icdCodes.isEmpty {
+                error = "There were no ICD codes for the bill. Please add an ICD code to the bill"
+            }
+        }
+        
+        if patientTextField.text == "" {
+            error = "Patient was missing from the bill form. Please add a patient to the bill."
+        }
+        if patientDOBTextField.text == "" {
+            error = "Patient date of birth was missing from the bill form. Please check the form and enter a birth date."
+        }
+        if doctorTextField.text == "" {
+            error = "Doctor was missing from the bill form. Please add a doctor to the bill."
+        }
+        if siteTextField.text == "" {
+            error = "Site was missing from the bill form. Please add a site to the bill"
+        }
+        if roomTextField.text == "" {
+            error = "Room was missing from the bill form. Please add a room to the bill."
+        }
+        return error
     }
     
     // MARK: - Navigation
@@ -346,7 +367,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         dbManager.closeDB()
     }
     
-    
     // MARK: -  Update text fields
     
     func updatePatient(notification: NSNotification){
@@ -403,9 +423,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         siteTextField.text = dbManager.getPlaceWithID(placeID)        //Site
         roomTextField.text = dbManager.getRoomWithID(roomID)          //Room
         
-        var (consult, mc, pc) = dbManager.getVisitCodesForBill(aptID)
+        //var (consult, mc, pc) = dbManager.getVisitCodesForBill(aptID)
         
-        visitCodes = consult + mc + pc
+        //visitCodes = consult + mc + pc
         
         //icdCodes = dbManager.getDiagnosesCodesForBill(aptID)
         
@@ -548,40 +568,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         dbManager.checkDatabaseFileAndOpen()
         dbManager.addHasDoc(aptID, dID: dID)
         dbManager.closeDB()
-    }
-    
-    func addDiagnosedWith(aptID:Int, ICD10Text:String){
-        dbManager.checkDatabaseFileAndOpen()
-        dbManager.addDiagnosedWith(aptID, ICD10Text: ICD10Text)
-        dbManager.closeDB()
-    }
-    
-    func checkInputs() -> String{
-        var error = ""
-        
-        if patientTextField.text == "" {
-            error = "Patient was missing from the bill form. Please add a patient to the bill."
-        }
-        if patientDOBTextField.text == "" {
-            error = "Patient date of birth was missing from the bill form. Please check the form and enter a birth date."
-        }
-        if doctorTextField.text == "" {
-            error = "Doctor was missing from the bill form. Please add a doctor to the bill."
-        }
-        if siteTextField.text == "" {
-            error = "Site was missing from the bill form. Please add a site to the bill"
-        }
-        if roomTextField.text == "" {
-            error = "Room was missing from the bill form. Please add a room to the bill."
-        }
-        if cptTextField.text == "" {
-            if mcTextField.text == "" {
-                if pcTextField.text == "" {
-                    error = "There was no visit code in the bill form. Please check the form for a cpt, mc, or pc code."
-                }
-            }
-        }
-        return error
     }
     
     /**

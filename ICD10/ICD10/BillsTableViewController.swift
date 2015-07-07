@@ -26,6 +26,10 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         super.viewDidLoad()
         dbManager = DatabaseManager()
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.tableView.reloadData()
+    }
 
     override func didReceiveMemoryWarning() { super.didReceiveMemoryWarning() }
     
@@ -75,12 +79,10 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             let room = getRoomForBill(roomID)//room
             
             dbManager.checkDatabaseFileAndOpen()
-            let (cpt, mc, pc) = dbManager.getVisitCodesForBill(aptID)//cpt, mc, pc
-            
-            
-            let icd10Codes:[(icd10:String,icd9:String)] = dbManager.getDiagnosesCodesForBill(aptID)
+            let codesForBill:[String:[(icd10:String, icd9:String)]] = dbManager.getVisitCodesForBill(aptID)
             dbManager.closeDB()
-            csvLine = csvLine + "\r\n" + makeCSVLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, cpt: cpt, mc: mc, pc: pc, icd10Codes: icd10Codes, codeType: codeType)
+            
+           // csvLine = csvLine + "\r\n" + makeCSVLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, cpt: cpt, mc: mc, pc: pc, icd10Codes: icd10Codes, codeType: codeType)
         }
         
         csvLine.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding, error: nil)
@@ -145,8 +147,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             let room = getRoomForBill(roomID)//room
             
             dbManager.checkDatabaseFileAndOpen()
-            let (cpt, mc, pc) = dbManager.getVisitCodesForBill(aptID)//cpt, mc, pc
-            let icd10Codes:[(icd10:String,icd9:String)] = dbManager.getDiagnosesCodesForBill(aptID)//ICD10
+            let codesForBill:[String:[(icd10:String, icd9:String)]] = dbManager.getVisitCodesForBill(aptID)
             dbManager.closeDB()
             
             controller.textFieldText.append(name)
@@ -155,8 +156,8 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             controller.textFieldText.append(place)
             controller.textFieldText.append(room)
             
-            controller.visitCodes = cpt + mc + pc
-            controller.icdCodes = [icd10Codes]
+            controller.visitCodes = codesForBill.keys.array
+            controller.icdCodes = codesForBill.values.array
             
             controller.appointmentID = aptID
             

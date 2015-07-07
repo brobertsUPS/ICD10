@@ -201,14 +201,16 @@ class DatabaseManager {
         var result = ""
         let insertHasType = "INSERT INTO Has_type (aptID,apt_code, ICD10_code) VALUES (\(aptID),'\(visitCodeText)', '\(icd10Code)')"
         var statement:COpaquePointer = nil
+        println(insertHasType)
         if sqlite3_prepare_v2(db, insertHasType, -1, &statement, nil) == SQLITE_OK {
             var sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
-                result = "Successful visit code save:\(visitCodeText)"
+                result = "Successful visit code save:\(visitCodeText) icdCode: \(icd10Code)"
             }else {
-               result = "Failed visit code save:\(visitCodeText)"
+               result = "Failed visit code save:\(visitCodeText) icdCode: \(icd10Code)"
             }
         }
+        println(result)
         sqlite3_finalize(statement)
         return result
     }
@@ -224,21 +226,6 @@ class DatabaseManager {
                 result = "Successful doc save aptID:\(aptID) dID:\(dID)"
             }else {
                 result = "Failed apt doc save:\(aptID) doc: \(dID)"
-            }
-        }
-        sqlite3_finalize(statement)
-        return result
-    }
-    
-    func addDiagnosedWith(aptID:Int, ICD10Text:String) -> String{
-        var result = ""
-        let diagnosedWith = "INSERT INTO Diagnosed_with (aptID, ICD10_code) VALUES (\(aptID), '\(ICD10Text)')"
-        var statement:COpaquePointer = nil
-        if sqlite3_prepare_v2(db, diagnosedWith, -1, &statement, nil) == SQLITE_OK {
-            if sqlite3_step(statement) == SQLITE_DONE {
-                result = "Successful ICD10 Save aptID:\(aptID) ICD10:\(ICD10Text)"
-            } else {
-                result = "Failed ICD10 save aptID:\(aptID) ICD10:\(ICD10Text)"
             }
         }
         sqlite3_finalize(statement)
@@ -456,41 +443,39 @@ class DatabaseManager {
         return roomID
     }
     
-    func getVisitCodesForBill(aptID:Int) -> ([String], [String], [String]) {
+    func getVisitCodesForBill(aptID:Int) -> ([String:[(icd10:String, icd9:String)]]) {
         
-        var cpt:[String] = []
-        var mc:[String] = []
-        var pc:[String] = []
+        var codesForBill:[String:[(icd10:String, icd9:String)]] = [:]
         
         
-        let cptQuery = "SELECT apt_code, type_description FROM Appointment NATURAL JOIN Has_type NATURAL JOIN Apt_type WHERE aptID=\(aptID)"
+        let cptQuery = "SELECT apt_code FROM Appointment NATURAL JOIN Has_type NATURAL JOIN Apt_type WHERE aptID=\(aptID)"
         
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db,cptQuery, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
+                
+                var icdCodesForVisitCode:[(icd10:String, icd9:String)] = []
+                
                 var visitCode = sqlite3_column_text(statement, 0)
                 var visitCodeString = String.fromCString(UnsafePointer<CChar>(visitCode))
-                var visitType = sqlite3_column_text(statement, 1)
-                var visitTypeString = String.fromCString(UnsafePointer<CChar>(visitType))
-                switch visitTypeString! {
-                case "C":cpt.append(visitCodeString!)
-                case "M":mc.append(visitCodeString!)
-                case "P":pc.append(visitCodeString!)
-                default:break
-                }
+                println("visitCode \(visitCodeString)")
                 
+                icdCodesForVisitCode = getDiagnosesCodesForVisitCode(aptID, visitCode: visitCodeString!)
+                
+                codesForBill[visitCodeString!] = icdCodesForVisitCode
             }
         }
         sqlite3_finalize(statement)
-        return (cpt, mc, pc)
+        println("CodesForBill \(codesForBill)")
+        return codesForBill
     }
     
-    func getDiagnosesCodesForBill(aptID:Int) -> [(icd10:String, icd9:String)] {
+    func getDiagnosesCodesForVisitCode(aptID:Int, visitCode:String) -> [(icd10:String, icd9:String)] {
         
         var conditionDiagnosed:[(icd10:String, icd9:String)] = []
         
-        let conditionQuery = "SELECT ICD10_code, ICD9_code FROM Has_type NATURAL JOIN Appointment NATURAL JOIN Characterized_by WHERE aptID=\(aptID)"
+        let conditionQuery = "SELECT ICD10_code, ICD9_code FROM Has_type NATURAL JOIN Appointment NATURAL JOIN Characterized_by WHERE aptID=\(aptID) AND apt_code='\(visitCode)'"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, conditionQuery, -1, &statement, nil) == SQLITE_OK {
@@ -506,6 +491,7 @@ class DatabaseManager {
             }
         }
         sqlite3_finalize(statement)
+        println("visitCode \(visitCode) with icdCodes \(conditionDiagnosed) ")
         return conditionDiagnosed
     }
     
