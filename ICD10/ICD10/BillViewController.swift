@@ -114,7 +114,15 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
     }
     
-    @IBAction func switchCodeVersion(sender: UISwitch) {  }
+    @IBAction func switchCodeVersion(sender: UISwitch) {
+        
+        if codeVersion.on {
+            icdType.text = "ICD10"
+        }else {
+            icdType.text = "ICD9"
+        }
+        codeCollectionView.reloadData()
+    }
     
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle { return UIModalPresentationStyle.None }
     
@@ -605,7 +613,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         let sectionCodes:[(icd10:String, icd9:String)]  = codesForBill.values.array[indexPath.section]
         println("ICDCodes \(sectionCodes) for section \(indexPath.section) and indexPath.row \(indexPath.row)")
         let (icd10String, icd9String) = sectionCodes[indexPath.row]
-        cell.ICDLabel.text = icd10String
+        if codeVersion.on {
+            cell.ICDLabel.text = icd10String
+        }else {
+            cell.ICDLabel.text = icd9String
+        }
+        
         
         cell.deleteICDButton.tag = indexPath.row
         cell.deleteICDButton.section = indexPath.section
@@ -621,9 +634,16 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             let cell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "HEADER", forIndexPath: indexPath) as! CodeTokenCollectionViewCell
             
             cell.visitCodeLabel.text = codesForBill.keys.array[indexPath.section]
+            
+            dbManager.checkDatabaseFileAndOpen()
+            cell.visitCodeDescriptionLabel.text = dbManager.getVisitCodeDescription(cell.visitCodeLabel.text!)
+            dbManager.closeDB()
+            
+            
             cell.deleteCodeButton.tag = indexPath.section
             cell.addICDCodeButton.tag = indexPath.section
             cell.addICDCodeButton.codeToAddTo = cell.visitCodeLabel.text
+            
             println("ADDED button with tag \(indexPath.section)")
             
             

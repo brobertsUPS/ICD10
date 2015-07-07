@@ -1008,20 +1008,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="25"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rpp-4f-eCf">
-                                            <rect key="frame" x="26" y="3" width="478" height="18"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="478" id="d00-Y3-OSK"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSC-BO-UC4">
-                                            <rect key="frame" x="542" y="-4" width="50" height="30"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="50" id="maL-8u-mFa"/>
-                                            </constraints>
+                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSC-BO-UC4">
+                                            <rect key="frame" x="542" y="-5" width="50" height="30"/>
                                             <state key="normal" title="X">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1030,11 +1018,8 @@
                                                 <action selector="userClickedDeleteVisitCode:" destination="A0e-2y-MTR" eventType="touchUpInside" id="DTT-q2-Zou"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0Q-3r-G4H" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
-                                            <rect key="frame" x="512" y="1" width="22" height="22"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="22" id="PgX-CP-GPZ"/>
-                                            </constraints>
+                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0Q-3r-G4H" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
+                                            <rect key="frame" x="512" y="3" width="22" height="22"/>
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -1042,22 +1027,38 @@
                                                 <action selector="userClickedICD10Add:" destination="A0e-2y-MTR" eventType="touchUpInside" id="o3e-Y5-Nb3"/>
                                             </connections>
                                         </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="VisitCode" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rpp-4f-eCf">
+                                            <rect key="frame" x="284" y="4" width="220" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Description" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5fw-A1-yg4">
+                                            <rect key="frame" x="8" y="1" width="251" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="top" secondItem="KjM-t3-e6i" secondAttribute="topMargin" constant="-5" id="00h-kn-l8z"/>
-                                        <constraint firstItem="PSC-BO-UC4" firstAttribute="leading" secondItem="J0Q-3r-G4H" secondAttribute="trailing" constant="8" id="Tyo-hk-4fu"/>
-                                        <constraint firstItem="J0Q-3r-G4H" firstAttribute="bottom" secondItem="Rpp-4f-eCf" secondAttribute="bottom" constant="2" id="Y0s-xu-RBW"/>
-                                        <constraint firstAttribute="bottom" secondItem="PSC-BO-UC4" secondAttribute="bottom" constant="-1" id="Yza-k6-kTW"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="Rpp-4f-eCf" secondAttribute="trailing" constant="88" id="aPE-I8-ZSK"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="baseline" secondItem="PSC-BO-UC4" secondAttribute="baseline" id="eqr-wK-UXT"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="leading" secondItem="KjM-t3-e6i" secondAttribute="leadingMargin" constant="18" id="kn7-XK-COT"/>
-                                        <constraint firstItem="PSC-BO-UC4" firstAttribute="trailing" secondItem="KjM-t3-e6i" secondAttribute="trailingMargin" id="yCX-Sz-LOC"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="bottom" secondItem="KjM-t3-e6i" secondAttribute="bottomMargin" constant="4" id="zDY-Em-7Cq"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="trailing" secondItem="J0Q-3r-G4H" secondAttribute="trailing" id="6NF-3i-ffq"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="leading" secondItem="5fw-A1-yg4" secondAttribute="leading" id="Ab9-fY-TVU"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="top" secondItem="PSC-BO-UC4" secondAttribute="top" id="VPC-4F-7LN"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="trailing" secondItem="5fw-A1-yg4" secondAttribute="trailing" id="VVY-WF-TaH"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="leading" secondItem="PSC-BO-UC4" secondAttribute="leading" id="Zwr-FL-xyN"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="bottom" secondItem="5fw-A1-yg4" secondAttribute="bottom" id="eM3-zG-6s4"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="leading" secondItem="J0Q-3r-G4H" secondAttribute="leading" id="hzR-U2-zLn"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="top" secondItem="J0Q-3r-G4H" secondAttribute="top" id="nAQ-qI-izR"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="bottom" secondItem="J0Q-3r-G4H" secondAttribute="bottom" id="pg3-TJ-gdy"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="trailing" secondItem="PSC-BO-UC4" secondAttribute="trailing" id="q5f-b3-Eb6"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="top" secondItem="5fw-A1-yg4" secondAttribute="top" id="v0o-l4-AYp"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="bottom" secondItem="PSC-BO-UC4" secondAttribute="bottom" id="vFK-qG-1PT"/>
                                     </constraints>
                                     <connections>
                                         <outlet property="addICDCodeButton" destination="J0Q-3r-G4H" id="uf8-8J-VsI"/>
                                         <outlet property="deleteCodeButton" destination="PSC-BO-UC4" id="f2C-rg-Gaa"/>
+                                        <outlet property="visitCodeDescriptionLabel" destination="5fw-A1-yg4" id="G5h-Ft-hwC"/>
                                         <outlet property="visitCodeLabel" destination="Rpp-4f-eCf" id="hQa-QI-QTm"/>
                                     </connections>
                                 </collectionReusableView>

@@ -61,12 +61,15 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    // MARK: - CSV Formatting Functions
+    // MARK: - Formatting Functions
     
     @IBAction func submitAllBills(sender: UIBarButtonItem) {
         
-        let path = csvFilePath()
-        var csvLine = "Administering Doctor, Date, Patient Name, Patient Date of Birth, Referring Doctor, Place of Service, Room, CPT, MC, PC, ICD10, ICD9 \r\n"
+        let path = filePathForSelectedExport("html")
+        //var csvLine = "Administering Doctor, Date, Patient Name, Patient Date of Birth, Referring Doctor, Place of Service, Room, CPT, MC, PC, ICD10, ICD9 \r\n"
+        var htmlLine = "<!DOCTYPE html> <html> <head> <meta charset='UTF-8'> <title>Title of the document</title> </head> <body> <table border='1' style='width:100%'> <tr><td> Admin Doc </td><td> Date </td><td> Patient Name </td><td> Patient Date of Birth </td><td> Referring Doctor </td><td> Place of Service </td><td> Room </td><td> Visit Code </td><td> ICD10 </td><td> ICD9 </td> </tr>"
+        
+        var previousAdminDoc = ""
         
         for var i = 0; i<patientsInfo.count; i++ { //for every bill in the list get the information needed to submit
             
@@ -74,22 +77,34 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             var (aptID, placeID, roomID) = IDs[i]
             var codeType = codeTypes[i]
             
-            let (adminDoc, referDoc) = getDoctorForBill(aptID)//doctor
+            var (adminDoc, referDoc) = getDoctorForBill(aptID)//doctor
             let place = getPlaceForBill(placeID)//place
             let room = getRoomForBill(roomID)//room
+            
+            println("previous \(previousAdminDoc) and adminDocCurrent \(adminDoc)")
+            if previousAdminDoc == adminDoc {
+                
+                adminDoc = ""
+            } else {
+                previousAdminDoc = adminDoc
+            }
             
             dbManager.checkDatabaseFileAndOpen()
             let codesForBill:[String:[(icd10:String, icd9:String)]] = dbManager.getVisitCodesForBill(aptID)
             dbManager.closeDB()
             
            // csvLine = csvLine + "\r\n" + makeCSVLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, cpt: cpt, mc: mc, pc: pc, icd10Codes: icd10Codes, codeType: codeType)
+            
+            htmlLine = htmlLine + makeHTMLLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, codesForBill: codesForBill, codeType: codeType)
         }
         
-        csvLine.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding, error: nil)
+        htmlLine = htmlLine + "</table></body> </html>"
+        
+        htmlLine.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding, error: nil)
         
         if MFMailComposeViewController.canSendMail() {
             var emailTitle = "Bill"
-            var messageBody = "The .csv file is attached."
+            var messageBody = "The html file is attached."
             var mc:MFMailComposeViewController = MFMailComposeViewController()
             
             mc.mailComposeDelegate = self
@@ -97,11 +112,52 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             mc.setMessageBody(messageBody, isHTML: false)
             
             var fileData:NSData = NSData(contentsOfFile: path)!
-            mc.addAttachmentData(fileData, mimeType: "text/csv", fileName: "Bills")
+            mc.addAttachmentData(fileData, mimeType: "text/html", fileName: "Bills")
             self.presentViewController(mc, animated: true, completion: nil)
         } else {
             self.showAlert("No email account found on your device. Please add an email account in the mail application.")
         }
+    }
+    
+    func makeHTMLLine(adminDoc:String, date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, codesForBill:[String:[(icd10:String, icd9:String)]], codeType:Int) -> String {
+        
+        var htmlLine = ""
+        
+        var keys = codesForBill.keys.array
+        var values:[[(icd10:String, icd9:String)]] = codesForBill.values.array
+        
+        var icdCodesForFirstVisitCode = values[0]
+        
+        var (firstICD10, firstICD9) = icdCodesForFirstVisitCode[0]
+        
+        htmlLine = htmlLine + "<tr><td> \(adminDoc) </td><td> \(date) </td><td> \(patientName) </td><td> \(dob) </td><td> \(doctorName) </td><td> \(place) </td><td> \(room) </td><td> \(keys[0]) </td><td> \(firstICD10) </td><td> \(firstICD9) </td> </tr>"
+        
+        
+        for var k=1; k<values[0].count; k++ {
+            
+            var icdCodes = values[0]
+            var (icd10, icd9) = icdCodes[k]
+            
+            htmlLine = htmlLine + "<tr> <td>  </td><td>  </td><td>  </td><td> </td><td> </td><td> </td><td> </td><td>  </td><td> \(icd10) </td><td> \(icd9) </td> </tr>"
+        }
+        
+        for var i=1; i<keys.count; i++ {
+            
+            var visitCode = keys[i]
+            
+            var icdCodes = values[i]
+            println("key \(keys[i]) for icdCodes \(icdCodes)")
+            
+            for var j=0; j<icdCodes.count; j++ { //icdCodes
+                println("index \(j)")
+                
+                var (icd10, icd9) = icdCodes[j]
+                
+                htmlLine = htmlLine + "<tr> <td>  </td><td>  </td><td>  </td><td> </td><td> </td><td> </td><td> </td><td> \(visitCode) </td><td> \(icd10) </td><td> \(icd9) </td> </tr>"
+                visitCode = ""
+            }
+        }
+        return htmlLine
     }
     
     func makeCSVLine(adminDoc:String, date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, cpt:[String], mc:[String], pc:[String], icd10Codes:[(icd10:String,icd9:String)], codeType:Int) -> String {
@@ -124,10 +180,10 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         return csvLine
     }
     
-    func csvFilePath() -> String {
+    func filePathForSelectedExport(fileExtension:String) -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
         let documentsDirectory = paths[0] as! NSString
-        return documentsDirectory.stringByAppendingPathComponent("Bills.csv") as String
+        return documentsDirectory.stringByAppendingPathComponent("Bills.\(fileExtension)") as String
     }
 
     // MARK: - Navigation

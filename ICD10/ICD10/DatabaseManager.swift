@@ -491,8 +491,25 @@ class DatabaseManager {
             }
         }
         sqlite3_finalize(statement)
-        println("visitCode \(visitCode) with icdCodes \(conditionDiagnosed) ")
+        println("visitCode \(visitCode) with icdCodes \(conditionDiagnosed)")
         return conditionDiagnosed
+    }
+    
+    func getVisitCodeDescription(visitCode:String) -> String {
+        var codeDescriptionString = ""
+        println("visitcode \(visitCode)")
+        let cptQuery = "SELECT code_description FROM Apt_type WHERE apt_code='\(visitCode)'"
+        
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db,cptQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {
+                var codeDescription = sqlite3_column_text(statement, 0)
+                codeDescriptionString = String.fromCString(UnsafePointer<CChar>(codeDescription))!
+            }
+        }
+        sqlite3_finalize(statement)
+        return codeDescriptionString
     }
     
     // MARK: - Searches
