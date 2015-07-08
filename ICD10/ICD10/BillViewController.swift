@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, DidBeginBillWithPatientInformationDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, DidBeginBillWithPatientInformationDelegate, LXReorderableCollectionViewDataSource, LXReorderableCollectionViewDelegateFlowLayout{
     
     var dbManager:DatabaseManager!
     var searchTableViewController: SearchTableViewController?   //A view controller for the popup table view
@@ -33,8 +33,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var codeCollectionView: UICollectionView!
     
     var textFieldText:[String] = []                             //A list of saved items for the bill
-    //var icdCodes:[[(icd10:String,icd9:String)]] = [[]]          //A list of saved codes for the bill
-    //var visitCodes:[String] = []
     
     var codesForBill:[String:[(icd10:String, icd9:String)]] = [:]
     
@@ -77,8 +75,16 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         codeCollectionView.delegate = self
         codeCollectionView.dataSource = self
+        
+        //let flow = (layout as! UICollectionViewFlowLayout) as! LXReorderableCollectionViewFlowLayout
+        
+        codeCollectionView.collectionViewLayout = LXReorderableCollectionViewFlowLayout()
         let layout = codeCollectionView.collectionViewLayout
-        let flow = layout as! UICollectionViewFlowLayout
+        let flow  = layout as! LXReorderableCollectionViewFlowLayout
+        flow.headerReferenceSize = CGSizeMake(100, 100)
+        
+        println("collection view layout \(layout)")
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -650,6 +656,73 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             return cell
         }
         abort()
+    }
+    
+    // MARK: - LXReorderableCollectionViewDataSource
+    
+    func collectionView(collectionView: UICollectionView!, itemAtIndexPath fromIndexPath: NSIndexPath!, willMoveToIndexPath toIndexPath: NSIndexPath!) {
+        println("WillMoveTo \(toIndexPath) from \(fromIndexPath)")
+        
+    }
+    
+    func collectionView(collectionView: UICollectionView!, itemAtIndexPath fromIndexPath: NSIndexPath!, didMoveToIndexPath toIndexPath: NSIndexPath!) {
+        println("didMoveToIndexPath section: \(toIndexPath.section) row: \(toIndexPath.row) from section: \(fromIndexPath.section) row: \(fromIndexPath.row)")
+        
+        var keys = codesForBill.keys.array
+        var visitCode = keys[toIndexPath.section]
+        
+        var allICDCodes = codesForBill.values.array
+        var icdCodesForKey = allICDCodes[toIndexPath.section]
+        
+        var fromICDCode = icdCodesForKey[fromIndexPath.row]
+        
+        println("ICDCodesForKey \(icdCodesForKey)")
+        
+        if fromIndexPath.row < toIndexPath.row {                            //moving a cell to the right
+            
+            for var i=fromIndexPath.row; i<toIndexPath.row; i++ {           //shift all cells up to the new index, to the left
+                icdCodesForKey[i] = icdCodesForKey[i+1]
+            }
+        }
+        
+        if fromIndexPath.row > toIndexPath.row {                            //moving a cell to the left
+            
+            for var i=fromIndexPath.row; i>toIndexPath.row; i = i-1{        //shift all cells down to the new index, to the right
+                icdCodesForKey[i] = icdCodesForKey[i-1]
+            }
+        }
+        
+        println("ICDCodesForKey \(icdCodesForKey)")
+        icdCodesForKey[toIndexPath.row] = fromICDCode
+        codesForBill[visitCode] = icdCodesForKey
+        self.codeCollectionView.reloadData()
+        
+    }
+    
+    func collectionView(collectionView: UICollectionView!, canMoveItemAtIndexPath indexPath: NSIndexPath!) -> Bool {
+        return true
+    }
+    
+    func collectionView(collectionView: UICollectionView!, itemAtIndexPath fromIndexPath: NSIndexPath!, canMoveToIndexPath toIndexPath: NSIndexPath!) -> Bool {
+        return true
+    }
+    
+    // MARK: - LXReorderableCollectionViewDelegateFlowLayout
+    
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, willBeginDraggingItemAtIndexPath indexPath: NSIndexPath!) {
+        println("willBeginDragging")
+    }
+    
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, didBeginDraggingItemAtIndexPath indexPath: NSIndexPath!) {
+        println("didBeginDragging")
+    }
+    
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, willEndDraggingItemAtIndexPath indexPath: NSIndexPath!) {
+        println("willEndDragging")
+    }
+    
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, didEndDraggingItemAtIndexPath indexPath: NSIndexPath!) {
+        println("didEndDragging")
     }
     
     @IBAction func userClickedDeleteVisitCode(sender: UIButton) {

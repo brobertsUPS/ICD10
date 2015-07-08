@@ -950,7 +950,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ex7-7I-bzD">
                                     <size key="itemSize" width="149" height="24"/>
-                                    <size key="headerReferenceSize" width="50" height="25"/>
+                                    <size key="headerReferenceSize" width="50" height="28"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
@@ -959,7 +959,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="149" height="24"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="24"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ICD" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRy-d2-Q8y">
@@ -996,7 +996,7 @@
                                             <constraint firstItem="SRy-d2-Q8y" firstAttribute="leading" secondItem="nOO-dR-Sey" secondAttribute="leadingMargin" id="e5A-k9-la9"/>
                                             <constraint firstItem="l5x-dY-a4F" firstAttribute="leading" secondItem="SRy-d2-Q8y" secondAttribute="trailing" constant="41" id="yA3-ZQ-PkX"/>
                                         </constraints>
-                                        <size key="customSize" width="149" height="24"/>
+                                        <size key="customSize" width="150" height="24"/>
                                         <connections>
                                             <outlet property="ICDLabel" destination="SRy-d2-Q8y" id="A1Y-i5-E1W"/>
                                             <outlet property="deleteICDButton" destination="l5x-dY-a4F" id="x9i-Ue-kFI"/>
@@ -1005,11 +1005,21 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HEADER" id="KjM-t3-e6i" customClass="CodeTokenCollectionViewCell" customModule="ICD10" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="25"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="28"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSC-BO-UC4">
-                                            <rect key="frame" x="542" y="-5" width="50" height="30"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="VisitCode" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rpp-4f-eCf">
+                                            <rect key="frame" x="383" y="3" width="104" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSC-BO-UC4">
+                                            <rect key="frame" x="542" y="-2" width="50" height="30"/>
+                                            <color key="backgroundColor" red="0.35294117650000001" green="0.7843137255" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="50" id="xLn-Uo-Zf7"/>
+                                            </constraints>
                                             <state key="normal" title="X">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1018,8 +1028,14 @@
                                                 <action selector="userClickedDeleteVisitCode:" destination="A0e-2y-MTR" eventType="touchUpInside" id="DTT-q2-Zou"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0Q-3r-G4H" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
-                                            <rect key="frame" x="512" y="3" width="22" height="22"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5fw-A1-yg4">
+                                            <rect key="frame" x="8" y="4" width="367" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0Q-3r-G4H" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
+                                            <rect key="frame" x="503" y="4" width="22" height="22"/>
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -1027,34 +1043,37 @@
                                                 <action selector="userClickedICD10Add:" destination="A0e-2y-MTR" eventType="touchUpInside" id="o3e-Y5-Nb3"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="VisitCode" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rpp-4f-eCf">
-                                            <rect key="frame" x="284" y="4" width="220" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Description" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5fw-A1-yg4">
-                                            <rect key="frame" x="8" y="1" width="251" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="trailing" secondItem="J0Q-3r-G4H" secondAttribute="trailing" id="6NF-3i-ffq"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="leading" secondItem="5fw-A1-yg4" secondAttribute="leading" id="Ab9-fY-TVU"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="top" secondItem="PSC-BO-UC4" secondAttribute="top" id="VPC-4F-7LN"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="trailing" secondItem="5fw-A1-yg4" secondAttribute="trailing" id="VVY-WF-TaH"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="leading" secondItem="PSC-BO-UC4" secondAttribute="leading" id="Zwr-FL-xyN"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="bottom" secondItem="5fw-A1-yg4" secondAttribute="bottom" id="eM3-zG-6s4"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="leading" secondItem="J0Q-3r-G4H" secondAttribute="leading" id="hzR-U2-zLn"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="top" secondItem="J0Q-3r-G4H" secondAttribute="top" id="nAQ-qI-izR"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="bottom" secondItem="J0Q-3r-G4H" secondAttribute="bottom" id="pg3-TJ-gdy"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="trailing" secondItem="PSC-BO-UC4" secondAttribute="trailing" id="q5f-b3-Eb6"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="top" secondItem="5fw-A1-yg4" secondAttribute="top" id="v0o-l4-AYp"/>
-                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="bottom" secondItem="PSC-BO-UC4" secondAttribute="bottom" id="vFK-qG-1PT"/>
+                                        <constraint firstItem="PSC-BO-UC4" firstAttribute="leading" secondItem="J0Q-3r-G4H" secondAttribute="trailing" constant="17" id="2MW-1s-hx8"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="J0Q-3r-G4H" secondAttribute="bottom" constant="-6" id="65K-5S-sol"/>
+                                        <constraint firstItem="J0Q-3r-G4H" firstAttribute="leading" secondItem="Rpp-4f-eCf" secondAttribute="trailing" constant="16" id="6y0-LR-Zzv"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="PSC-BO-UC4" secondAttribute="bottom" constant="-8" id="Bq7-0r-uxV"/>
+                                        <constraint firstItem="5fw-A1-yg4" firstAttribute="top" secondItem="KjM-t3-e6i" secondAttribute="topMargin" constant="-4" id="M7H-RH-Gpc"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="5fw-A1-yg4" secondAttribute="bottom" constant="-5" id="RT1-4g-4J7"/>
+                                        <constraint firstAttribute="centerX" secondItem="Rpp-4f-eCf" secondAttribute="centerX" constant="-94" id="VDP-cy-Ba4"/>
+                                        <constraint firstItem="PSC-BO-UC4" firstAttribute="leading" secondItem="J0Q-3r-G4H" secondAttribute="trailing" constant="17" id="ePc-O6-ed2"/>
+                                        <constraint firstItem="5fw-A1-yg4" firstAttribute="leading" secondItem="KjM-t3-e6i" secondAttribute="leadingMargin" id="f3X-d1-dqU"/>
+                                        <constraint firstItem="PSC-BO-UC4" firstAttribute="trailing" secondItem="KjM-t3-e6i" secondAttribute="trailingMargin" id="fgz-nm-960"/>
+                                        <constraint firstItem="J0Q-3r-G4H" firstAttribute="leading" secondItem="Rpp-4f-eCf" secondAttribute="trailing" constant="8" id="gUZ-er-jgV"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Rpp-4f-eCf" secondAttribute="bottom" constant="-4" id="h1H-jo-6GR"/>
+                                        <constraint firstItem="J0Q-3r-G4H" firstAttribute="leading" secondItem="Rpp-4f-eCf" secondAttribute="trailing" constant="16" id="h3x-3B-aRL"/>
+                                        <constraint firstItem="PSC-BO-UC4" firstAttribute="top" secondItem="KjM-t3-e6i" secondAttribute="topMargin" constant="-10" id="hcl-U0-i8v"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="top" secondItem="KjM-t3-e6i" secondAttribute="topMargin" constant="-5" id="jym-Zv-DjI"/>
+                                        <constraint firstItem="J0Q-3r-G4H" firstAttribute="leading" secondItem="Rpp-4f-eCf" secondAttribute="trailing" constant="16" id="k5e-sG-pBY"/>
+                                        <constraint firstItem="J0Q-3r-G4H" firstAttribute="top" secondItem="KjM-t3-e6i" secondAttribute="topMargin" constant="-4" id="ojm-9q-vMH"/>
+                                        <constraint firstItem="Rpp-4f-eCf" firstAttribute="leading" secondItem="5fw-A1-yg4" secondAttribute="trailing" constant="8" id="vdZ-qn-8jS"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="VDP-cy-Ba4"/>
+                                            <exclude reference="6y0-LR-Zzv"/>
+                                            <exclude reference="gUZ-er-jgV"/>
+                                            <exclude reference="h3x-3B-aRL"/>
+                                            <exclude reference="ePc-O6-ed2"/>
+                                        </mask>
+                                    </variation>
                                     <connections>
                                         <outlet property="addICDCodeButton" destination="J0Q-3r-G4H" id="uf8-8J-VsI"/>
                                         <outlet property="deleteCodeButton" destination="PSC-BO-UC4" id="f2C-rg-Gaa"/>
@@ -1062,6 +1081,10 @@
                                         <outlet property="visitCodeLabel" destination="Rpp-4f-eCf" id="hQa-QI-QTm"/>
                                     </connections>
                                 </collectionReusableView>
+                                <connections>
+                                    <outlet property="dataSource" destination="A0e-2y-MTR" id="Xft-Ka-DAk"/>
+                                    <outlet property="delegate" destination="A0e-2y-MTR" id="1MT-nw-4hJ"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="0.35294117647058826" green="0.78431372549019607" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
