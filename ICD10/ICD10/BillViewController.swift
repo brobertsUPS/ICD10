@@ -698,17 +698,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     func collectionView(collectionView: UICollectionView!, itemAtIndexPath fromIndexPath: NSIndexPath!, willMoveToIndexPath toIndexPath: NSIndexPath!) {
         println("WillMoveTo \(toIndexPath) from \(fromIndexPath)")
-        
     }
     
     func collectionView(collectionView: UICollectionView!, itemAtIndexPath fromIndexPath: NSIndexPath!, didMoveToIndexPath toIndexPath: NSIndexPath!) {
         println("didMoveToIndexPath section: \(toIndexPath.section) row: \(toIndexPath.row) from section: \(fromIndexPath.section) row: \(fromIndexPath.row)")
         
-        var keys = codesForBill.keys.array
-        var visitCode = keys[toIndexPath.section]
+        var visitCode = visitCodePriority[toIndexPath.section]
         
-        var allICDCodes = codesForBill.values.array
-        var icdCodesForKey = allICDCodes[toIndexPath.section]
+        var icdCodesForKey:[(icd10:String, icd9:String)] = codesForBill[visitCode]!
         
         var fromICDCode = icdCodesForKey[fromIndexPath.row]
         
@@ -728,6 +725,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         icdCodesForKey[toIndexPath.row] = fromICDCode
         codesForBill[visitCode] = icdCodesForKey
+        
         self.codeCollectionView.reloadData()
         
     }
