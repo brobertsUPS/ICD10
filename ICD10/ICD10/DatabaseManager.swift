@@ -443,12 +443,12 @@ class DatabaseManager {
         return roomID
     }
     
-    func getVisitCodesForBill(aptID:Int) -> ([String:[(icd10:String, icd9:String)]]) {
+    func getVisitCodesForBill(aptID:Int) -> ([String:[(icd10:String, icd9:String)]], [String]) {
         
         var codesForBill:[String:[(icd10:String, icd9:String)]] = [:]
+        var visitCodePriority:[String] = []
         
-        
-        let cptQuery = "SELECT apt_code FROM Appointment NATURAL JOIN Has_type NATURAL JOIN Apt_type WHERE aptID=\(aptID) GROUP BY apt_code ORDER BY visit_priority"
+        let cptQuery = "SELECT apt_code, visit_priority FROM Appointment NATURAL JOIN Has_type NATURAL JOIN Apt_type WHERE aptID=\(aptID) GROUP BY apt_code ORDER BY visit_priority"
         
         var statement:COpaquePointer = nil
         
@@ -459,7 +459,15 @@ class DatabaseManager {
                 
                 var visitCode = sqlite3_column_text(statement, 0)
                 var visitCodeString = String.fromCString(UnsafePointer<CChar>(visitCode))
-                println("visitCode \(visitCodeString) ")
+                
+                
+                var visitPriority = Int(sqlite3_column_int(statement, 1))
+                println("visitCode \(visitCodeString) priority \(visitPriority) size \(visitCodePriority.count)")
+                if visitPriority >= visitCodePriority.count {
+                    visitCodePriority.append(visitCodeString!)
+                }else {
+                    visitCodePriority[visitPriority] = visitCodeString!
+                }
                 
                 icdCodesForVisitCode = getDiagnosesCodesForVisitCode(aptID, visitCode: visitCodeString!)
                 
@@ -468,7 +476,7 @@ class DatabaseManager {
         }
         sqlite3_finalize(statement)
         println("CodesForBill \(codesForBill)")
-        return codesForBill
+        return (codesForBill, visitCodePriority)
     }
     
     func getDiagnosesCodesForVisitCode(aptID:Int, visitCode:String) -> [(icd10:String, icd9:String)] {

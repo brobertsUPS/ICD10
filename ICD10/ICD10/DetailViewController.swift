@@ -89,7 +89,6 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             
             var icdCodes:[(icd10:String, icd9:String)] = codesForBill[visitCodeToAddICDTo]!
             
-            
             let tuple = (icd10: ICD10Text!,icd9: ICD9Text!)
             println("VisitCodeToAddTo \(visitCodeToAddICDTo)")
             icdCodes.append(tuple)                                                              //tack on the new icd codes
@@ -99,6 +98,9 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             
             controller.administeringDoctor = self.billViewController?.administeringDoctor
             controller.icd10On = self.billViewController?.icd10On
+            
+            controller.visitCodePriority = self.billViewController!.visitCodePriority
+            println("Detail visitCodePriority \(controller.visitCodePriority)")
         }
     }
     

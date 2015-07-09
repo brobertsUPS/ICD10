@@ -90,12 +90,12 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             }
             
             dbManager.checkDatabaseFileAndOpen()
-            let codesForBill:[String:[(icd10:String, icd9:String)]] = dbManager.getVisitCodesForBill(aptID)
+            let (codesForBill, visitCodePriorityFromDatbase) = dbManager.getVisitCodesForBill(aptID)
             dbManager.closeDB()
             
            // csvLine = csvLine + "\r\n" + makeCSVLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, cpt: cpt, mc: mc, pc: pc, icd10Codes: icd10Codes, codeType: codeType)
             
-            htmlLine = htmlLine + makeHTMLLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, codesForBill: codesForBill, codeType: codeType)
+            htmlLine = htmlLine + makeHTMLLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, codesForBill: codesForBill, codeType: codeType, visitCodePriorityFromDatbase: visitCodePriorityFromDatbase)
         }
         
         htmlLine = htmlLine + "</table></body> </html>"
@@ -119,34 +119,31 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         }
     }
     
-    func makeHTMLLine(adminDoc:String, date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, codesForBill:[String:[(icd10:String, icd9:String)]], codeType:Int) -> String {
+    func makeHTMLLine(adminDoc:String, date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, codesForBill:[String:[(icd10:String, icd9:String)]], codeType:Int, visitCodePriorityFromDatbase: [String]) -> String {
         
         var htmlLine = ""
         
-        var keys = codesForBill.keys.array
-        var values:[[(icd10:String, icd9:String)]] = codesForBill.values.array
+        var firstVisitCode = visitCodePriorityFromDatbase[0]
         
-        var icdCodesForFirstVisitCode = values[0]
+        var icdCodesForFirstVisitCode:[(icd10:String, icd9:String)] = codesForBill[firstVisitCode]!
         
         var (firstICD10, firstICD9) = icdCodesForFirstVisitCode[0]
         
-        htmlLine = htmlLine + "<tr><td> \(adminDoc) </td><td> \(date) </td><td> \(patientName) </td><td> \(dob) </td><td> \(doctorName) </td><td> \(place) </td><td> \(room) </td><td> \(keys[0]) </td><td> \(firstICD10) </td><td> \(firstICD9) </td> </tr>"
+        htmlLine = htmlLine + "<tr><td> \(adminDoc) </td><td> \(date) </td><td> \(patientName) </td><td> \(dob) </td><td> \(doctorName) </td><td> \(place) </td><td> \(room) </td><td> \(firstVisitCode) </td><td> \(firstICD10) </td><td> \(firstICD9) </td> </tr>"
         
         
-        for var k=1; k<values[0].count; k++ {
+        for var k=1; k<icdCodesForFirstVisitCode.count; k++ { //get the rest of the codes from the first visit code
             
-            var icdCodes = values[0]
-            var (icd10, icd9) = icdCodes[k]
+            var (icd10, icd9) = icdCodesForFirstVisitCode[k]
             
             htmlLine = htmlLine + "<tr> <td>  </td><td>  </td><td>  </td><td> </td><td> </td><td> </td><td> </td><td>  </td><td> \(icd10) </td><td> \(icd9) </td> </tr>"
         }
         
-        for var i=1; i<keys.count; i++ {
+        for var i=1; i<visitCodePriorityFromDatbase.count; i++ {                    //go through the rest of the visit codes
             
-            var visitCode = keys[i]
+            var visitCode = visitCodePriorityFromDatbase[i]
             
-            var icdCodes = values[i]
-            println("key \(keys[i]) for icdCodes \(icdCodes)")
+            var icdCodes:[(icd10:String, icd9:String)] = codesForBill[visitCode]!
             
             for var j=0; j<icdCodes.count; j++ { //icdCodes
                 println("index \(j)")
@@ -203,7 +200,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             let room = getRoomForBill(roomID)//room
             
             dbManager.checkDatabaseFileAndOpen()
-            let codesForBill:[String:[(icd10:String, icd9:String)]] = dbManager.getVisitCodesForBill(aptID)
+            let (codesFromDatabase, visitCodePriorityFromDatabase) = dbManager.getVisitCodesForBill(aptID)
             dbManager.closeDB()
             
             controller.textFieldText.append(name)
@@ -212,7 +209,8 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             controller.textFieldText.append(place)
             controller.textFieldText.append(room)
             
-            controller.codesForBill = codesForBill
+            controller.codesForBill = codesFromDatabase
+            controller.visitCodePriority = visitCodePriorityFromDatabase
             
             controller.appointmentID = aptID
             
