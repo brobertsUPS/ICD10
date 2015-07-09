@@ -13,4 +13,5 @@ class ICD10Cell: UICollectionViewCell {
     @IBOutlet weak var ICDLabel: UILabel!
     @IBOutlet weak var extensionLabel: UILabel!
     @IBOutlet weak var deleteICDButton: ICDDeleteButton!
+    @IBOutlet weak var importanceLabel: UILabel!
 }

@@ -81,7 +81,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         codeCollectionView.collectionViewLayout = LXReorderableCollectionViewFlowLayout()
         let layout = codeCollectionView.collectionViewLayout
         let flow  = layout as! LXReorderableCollectionViewFlowLayout
-        flow.headerReferenceSize = CGSizeMake(100, 100)
+        flow.headerReferenceSize = CGSizeMake(100, 35)
         
         println("collection view layout \(layout)")
 
@@ -208,7 +208,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                     for var j=0; j<diagnosesForVisitCode.count; j++ {
                         
                         var (icd10, icd9) = diagnosesForVisitCode[j]
-                        self.addHasType(aptID, visitCodeText: visitCodes[i], icd10Code: icd10)
+                        self.addHasType(aptID, visitCodeText: visitCodes[i], icd10Code: icd10, visitPriority: i, icdPriority: j, extensionCode: "")
                     }
                 }
                 //pop everything off of the stack
@@ -572,9 +572,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return (aptID,result)
     }
     
-    func addHasType(aptID:Int, visitCodeText:String, icd10Code:String) {
+    func addHasType(aptID:Int, visitCodeText:String, icd10Code:String, visitPriority:Int, icdPriority:Int, extensionCode:String) {
         dbManager.checkDatabaseFileAndOpen()
-        dbManager.addHasType(aptID, visitCodeText: visitCodeText, icd10Code: icd10Code)
+        dbManager.addHasType(aptID, visitCodeText: visitCodeText, icd10Code: icd10Code, visitPriority: visitPriority, icdPriority: icdPriority, extensionCode: extensionCode)
         dbManager.closeDB()
     }
     
@@ -613,6 +613,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return codesForBill.values.array[section].count
     }
     
+    func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            
+            return CGSize(width: 160  , height: 35)
+            
+    }
+    
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CONTENT", forIndexPath: indexPath) as! ICD10Cell
@@ -625,11 +631,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             cell.ICDLabel.text = icd9String
         }
         
+        cell.importanceLabel.text = String(indexPath.row + 1)
         
         cell.deleteICDButton.tag = indexPath.row
         cell.deleteICDButton.section = indexPath.section
         cell.deleteICDButton.codeToAddTo = codesForBill.keys.array[indexPath.section]
-        
+
         return cell
     }
     
