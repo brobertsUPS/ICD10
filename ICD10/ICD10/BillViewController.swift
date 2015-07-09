@@ -73,19 +73,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             }
         }
         
-        
         codeCollectionView.delegate = self
         codeCollectionView.dataSource = self
-        
-        //let flow = (layout as! UICollectionViewFlowLayout) as! LXReorderableCollectionViewFlowLayout
         
         codeCollectionView.collectionViewLayout = LXReorderableCollectionViewFlowLayout()
         let layout = codeCollectionView.collectionViewLayout
         let flow  = layout as! LXReorderableCollectionViewFlowLayout
         flow.headerReferenceSize = CGSizeMake(100, 35)
-        
-        println("collection view layout \(layout)")
-
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -449,13 +443,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         codesForBill = codesFromDatabase
         visitCodePriority = visitCodePriorityFromDatabase
         dbManager.closeDB()
-        
-        var visitCodes = codesForBill.keys.array
-        
-        for var i=0; i<visitCodes.count; i++ {
-            visitCodePriority.append(visitCodes[i])
-        }
-        
+    
         self.codeCollectionView.reloadData()
     }
     
@@ -477,12 +465,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             mcTextField.resignFirstResponder()
             pcTextField.resignFirstResponder()
             
-            var countBeforeUpdate = codesForBill.count
+            let inBillAlready = codesForBill[code_description] != nil
+            println("in bill already? \(inBillAlready)")
             
-            codesForBill[code_description] = []
-            var countAfterUpdate = codesForBill.count
+            if !inBillAlready {
+                codesForBill[code_description] = []
+                visitCodePriority.append(code_description)
+            }
             
-            visitCodePriority.append(code_description)
             
             
             println("VisitCode priority \(visitCodePriority)")
@@ -762,11 +752,18 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBAction func userClickedDeleteVisitCode(sender: ICDDeleteButton) {
         
         println("Deleted visitCode button \(sender.tag)")
-        var visitCode = codesForBill.keys.array[sender.tag]
+        
+        
+        var visitCode = visitCodePriority[sender.tag]
         codesForBill.removeValueForKey(visitCode)
         
         println("Deleting visit code \(visitCodePriority[sender.tag])")
-        visitCodePriority.removeAtIndex(sender.tag)
+        var deleteResult = visitCodePriority.removeAtIndex(sender.tag)
+        println("delete result \(deleteResult)")
+        println("visitCodePriority in delete visitCode \(visitCodePriority)")
+        for var i=sender.tag; i<visitCodePriority.count-1; i++ {
+            visitCodePriority[i] = visitCodePriority[i+1]
+        }
         
         self.codeCollectionView.reloadData()
     }
@@ -810,7 +807,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBAction func shiftVisitCodeDown(sender: ICDDeleteButton) {
         println("Shift down at index \(sender.tag)")
         
-        if sender.tag < codesForBill.count{         //don't shift down if already at the bottom
+        if sender.tag < (codesForBill.count - 1) {         //don't shift down if already at the bottom
             var codeToMoveDown = visitCodePriority[sender.tag]
             visitCodePriority[sender.tag] = visitCodePriority[sender.tag + 1]
             visitCodePriority[sender.tag + 1] = codeToMoveDown
