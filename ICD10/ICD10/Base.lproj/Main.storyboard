@@ -989,8 +989,8 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ext" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ub-GW-jQg">
-                                                    <rect key="frame" x="87" y="1" width="25" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ub-GW-jQg">
+                                                    <rect key="frame" x="112" y="22" width="0.0" height="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -1023,7 +1023,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VisitCode" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="104" translatesAutoresizingMaskIntoConstraints="NO" id="Rpp-4f-eCf">
-                                            <rect key="frame" x="405" y="4" width="60" height="21"/>
+                                            <rect key="frame" x="392" y="4" width="60" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="60" id="XQz-iU-gkh"/>
                                             </constraints>
@@ -1058,9 +1058,9 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puT-iQ-Be4" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
-                                            <rect key="frame" x="502" y="4" width="27" height="22"/>
+                                            <rect key="frame" x="492" y="4" width="30" height="22"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="27" id="PFS-SM-jm6"/>
+                                                <constraint firstAttribute="width" constant="30" id="PFS-SM-jm6"/>
                                             </constraints>
                                             <state key="normal" backgroundImage="Down 4-50">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1071,9 +1071,9 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d3r-Rm-csc" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
-                                            <rect key="frame" x="470" y="4" width="27" height="22"/>
+                                            <rect key="frame" x="457" y="4" width="30" height="22"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="27" id="LpV-Uh-HYX"/>
+                                                <constraint firstAttribute="width" constant="30" id="LpV-Uh-HYX"/>
                                             </constraints>
                                             <state key="normal" backgroundImage="Up">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1083,7 +1083,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="5fw-A1-yg4">
-                                            <rect key="frame" x="13" y="3" width="387" height="21"/>
+                                            <rect key="frame" x="13" y="3" width="374" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -1104,7 +1104,7 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="puT-iQ-Be4" secondAttribute="trailing" constant="275" id="TPE-Vt-7nV"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="d3r-Rm-csc" secondAttribute="bottom" constant="-6" id="Uvc-cV-nhU"/>
                                         <constraint firstAttribute="centerX" secondItem="Rpp-4f-eCf" secondAttribute="centerX" constant="-94" id="VDP-cy-Ba4"/>
-                                        <constraint firstItem="J0Q-3r-G4H" firstAttribute="leading" secondItem="puT-iQ-Be4" secondAttribute="trailing" constant="5" id="VyM-r8-BMe"/>
+                                        <constraint firstItem="J0Q-3r-G4H" firstAttribute="leading" secondItem="puT-iQ-Be4" secondAttribute="trailing" constant="12" id="VyM-r8-BMe"/>
                                         <constraint firstItem="5fw-A1-yg4" firstAttribute="leading" secondItem="KjM-t3-e6i" secondAttribute="leadingMargin" constant="265" id="YC0-t9-fAj"/>
                                         <constraint firstItem="puT-iQ-Be4" firstAttribute="baseline" secondItem="d3r-Rm-csc" secondAttribute="baseline" id="YD6-Bk-5WM"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="PSC-BO-UC4" secondAttribute="trailing" constant="-1" id="ZMx-Vb-lrY"/>
@@ -1403,12 +1403,12 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KTg-VH-h7E">
-                                            <rect key="frame" x="493" y="8" width="99" height="27"/>
+                                            <rect key="frame" x="550" y="0.0" width="35" height="35"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="99" id="zy7-lK-Xhb"/>
+                                                <constraint firstAttribute="width" constant="35" id="zy7-lK-Xhb"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <state key="normal" title="Add Favorite">
+                                            <state key="normal" backgroundImage="Add To Favorites-50">
                                                 <color key="titleShadowColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                             </state>
                                             <connections>
@@ -1417,9 +1417,9 @@
                                         </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailingMargin" secondItem="KTg-VH-h7E" secondAttribute="trailing" id="8aI-aC-KOF"/>
-                                        <constraint firstItem="KTg-VH-h7E" firstAttribute="centerY" secondItem="Arm-wq-HPj" secondAttribute="centerY" id="d1A-H9-t4A"/>
-                                        <constraint firstItem="KTg-VH-h7E" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="topMargin" id="hGU-ia-IYW"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="KTg-VH-h7E" secondAttribute="trailing" constant="7" id="8aI-aC-KOF"/>
+                                        <constraint firstItem="KTg-VH-h7E" firstAttribute="centerY" secondItem="Arm-wq-HPj" secondAttribute="centerY" constant="-4" id="d1A-H9-t4A"/>
+                                        <constraint firstItem="KTg-VH-h7E" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="topMargin" constant="-8" id="hGU-ia-IYW"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1497,6 +1497,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Add To Favorites-50" width="50" height="50"/>
         <image name="Bill-50" width="25" height="25"/>
         <image name="Down 4-50" width="50" height="50"/>
         <image name="Medical Doctor-50" width="25" height="25"/>

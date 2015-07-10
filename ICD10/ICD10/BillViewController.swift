@@ -11,10 +11,10 @@ import UIKit
 class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, DidBeginBillWithPatientInformationDelegate, LXReorderableCollectionViewDataSource, LXReorderableCollectionViewDelegateFlowLayout{
     
     var dbManager:DatabaseManager!
-    var searchTableViewController: SearchTableViewController?   //A view controller for the popup table view
-    var billViewController:BillViewController?                  //A bill that is passed along to hold all of the codes for the final bill
+    var searchTableViewController: SearchTableViewController?               //A view controller for the popup table view
+    var billViewController:BillViewController?                              //A bill that is passed along to hold all of the codes for the final bill
     
-    @IBOutlet weak var codeVersion: UISwitch!                   //Determines what version of codes to use in the bill (ICD10 default)
+    @IBOutlet weak var codeVersion: UISwitch!                               //Determines what version of codes to use in the bill (ICD10 default)
     @IBOutlet weak var icdType: UILabel!
     
     @IBOutlet weak var patientTextField: UITextField!
@@ -32,12 +32,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     @IBOutlet weak var codeCollectionView: UICollectionView!
     
-    var textFieldText:[String] = []                             //A list of saved items for the bill
+    var textFieldText:[String] = []                                         //A list of saved items for the bill
     
     var codesForBill:[String:[(icd10:String, icd9:String)]] = [:]
     var visitCodePriority:[String] = []
     
-    var appointmentID:Int?                                      //The appointment id if this is a saved bill
+    var appointmentID:Int?                                                  //The appointment id if this is a saved bill
     var administeringDoctor:String!
     var icd10On:Bool!
     var newPatient:String?
@@ -49,11 +49,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        dbManager = DatabaseManager()                           //make our database manager
+        dbManager = DatabaseManager()                                       //make our database manager
         self.navigationItem.title = "Bill"
         self.fillFormTextFields()
         
-        if let icd10CodesChosen = icd10On {                     //if icd10 is set make sure to display it correctly
+        if let icd10CodesChosen = icd10On {                                 //if icd10 is set make sure to display it correctly
             if icd10CodesChosen {
                 codeVersion.on = true
             } else {
@@ -75,14 +75,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         codeCollectionView.delegate = self
         codeCollectionView.dataSource = self
-        
         codeCollectionView.collectionViewLayout = LXReorderableCollectionViewFlowLayout()
+        
         let layout = codeCollectionView.collectionViewLayout
         let flow  = layout as! LXReorderableCollectionViewFlowLayout
         flow.headerReferenceSize = CGSizeMake(100, 35)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {                      //Fill the collectionView with any new data
         self.addNotifications()
         self.codeCollectionView.reloadData()
     }
@@ -91,7 +91,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    func addNotifications() {
+    func addNotifications() {                                          //listen for when a user selects an item from a popup
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePatient:",name:"loadPatient", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDoctor:",name:"loadDoctor", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCPT:",name:"loadTuple", object: nil)
@@ -99,7 +99,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateRoom:",name:"loadRoom", object: nil)
     }
     
-    func fillFormTextFields(){
+    func fillFormTextFields(){                                          //Load data into the text fields
         
         let date = NSDate()
         let formatter = NSDateFormatter()
@@ -115,7 +115,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
     }
     
-    @IBAction func switchCodeVersion(sender: UISwitch) {
+    @IBAction func switchCodeVersion(sender: UISwitch) {                //Switch the display of the icd10/icd9 code
         
         if codeVersion.on {
             icdType.text = "ICD10"
@@ -128,6 +128,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle { return UIModalPresentationStyle.None }
     
     override func didReceiveMemoryWarning() { super.didReceiveMemoryWarning() }
+    
+    // MARK: - DidBeginBillWithPatientInformationDelegate
     
     func userEnteredPatientInformationForBill(fName:String, lName:String, dateOfBirth:String){
         patientTextField.text = fName + " " + lName
@@ -170,50 +172,40 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         ICD10TextField.resignFirstResponder()
     }
     
+    // MARK: - Save Bill
     
     @IBAction func saveBill(sender: UIButton) {
         
         let error = checkInputs()//check that everything is there
         
         if error == "" {
-            if let hasAptID = appointmentID {
-                //update icd9 or icd10
-            }else {
-                let placeID = getPlaceOfServiceID(siteTextField.text) //get the ids to input into the bill
-                let roomID = getRoomID(roomTextField.text)
-                let patientID = getPatientID(patientTextField.text, dateOfBirth: patientDOBTextField.text)
-                let referringDoctorID = getDoctorID(doctorTextField.text)
-                let adminDoctorID = getDoctorID(administeringDoctor)
+            
+            let placeID = getPlaceOfServiceID(siteTextField.text)       //get the ids to input into the bill
+            let roomID = getRoomID(roomTextField.text)
+            let patientID = getPatientID(patientTextField.text, dateOfBirth: patientDOBTextField.text)
+            let referringDoctorID = getDoctorID(doctorTextField.text)
+            let adminDoctorID = getDoctorID(administeringDoctor)
+            
+            var codeType = Int(codeVersion.on)
+            var (aptID, result) = addAppointmentToDatabase(patientID, date: dateTextField.text, placeID: placeID, roomID: roomID, codeType: codeType)
+            
+            self.addHasDoc(aptID, dID: referringDoctorID)               //insert hasdoc for referring
+            self.addHasDoc(aptID, dID: adminDoctorID)                   //insert hasdoc for admin
+            
+            for var i=0; i<visitCodePriority.count; i++ {
                 
-                var codeType = Int(codeVersion.on)
-                var (aptID, result) = addAppointmentToDatabase(patientID, date: dateTextField.text, placeID: placeID, roomID: roomID, codeType: codeType)
-                
-                self.addHasDoc(aptID, dID: referringDoctorID)//insert hasdoc for referring
-                self.addHasDoc(aptID, dID: adminDoctorID)//insert hasdoc for admin
-                
-                //Insert into has_type for all types there were
-                
-                
-                for var i=0; i<visitCodePriority.count; i++ {
-                    
-                    println("VisitCode \(visitCodePriority[i])")
-                    
-                    var visitCode = visitCodePriority[i]
-                    
-                    var diagnosesForVisitCode:[(icd10:String, icd9:String)] = codesForBill[visitCode]!
-                    println("diagnosesForVisitCode \(diagnosesForVisitCode)")
-                    for var j=0; j<diagnosesForVisitCode.count; j++ {
-                        
-                        var (icd10, icd9) = diagnosesForVisitCode[j]
-                        self.addHasType(aptID, visitCodeText: visitCode, icd10Code: icd10, visitPriority: i, icdPriority: j, extensionCode: "")
-                    }
+                var visitCode = visitCodePriority[i]                    //retrieve visitCodes in the correct order
+                var diagnosesForVisitCode:[(icd10:String, icd9:String)] = codesForBill[visitCode]!
+
+                for var j=0; j<diagnosesForVisitCode.count; j++ {
+                    var (icd10, icd9) = diagnosesForVisitCode[j]
+                    self.addHasType(aptID, visitCodeText: visitCode, icd10Code: icd10, visitPriority: i, icdPriority: j, extensionCode: "")
                 }
-                //pop everything off of the stack
-                self.navigationController!.viewControllers.first
-                var viewControllers = self.navigationController!.viewControllers
-                println("Number of view Controllers \(viewControllers.count)")
-                self.performSegueWithIdentifier("newBill", sender: self)
             }
+            //pop everything off of the stack
+            self.navigationController!.viewControllers.first
+            var viewControllers = self.navigationController!.viewControllers
+            self.performSegueWithIdentifier("newBill", sender: self)
         } else {
             showAlert(error)//popup with the error message
         }
@@ -255,20 +247,18 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             let controller = segue.destinationViewController as! MasterViewController
             controller.billViewController = self
             controller.visitCodeToAddICDTo = selectedVisitCodeToAddTo!
-            println("controller.visitCodeToAddICDTo \(selectedVisitCodeToAddTo)")
             controller.billViewController?.visitCodePriority = self.visitCodePriority
         }else if segue.identifier == "newBill"{
             let controller = segue.destinationViewController as! AdminDocViewController
         }else{
+            
             dbManager.checkDatabaseFileAndOpen()
             let popoverViewController = (segue.destinationViewController as! UIViewController) as! SearchTableViewController
-            self.searchTableViewController = popoverViewController                          //set our view controller as the SearchPopover
+            self.searchTableViewController = popoverViewController
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
             
-            //do the initial empty searches
-            
-            switch segue.identifier! {
+            switch segue.identifier! {                                       //Do the initial empty searches
             case "patientSearchPopover":
                 popoverViewController.tupleSearchResults = dbManager.patientSearch(patientTextField!.text)
                 popoverViewController.searchType = "patient"
@@ -282,18 +272,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 popoverViewController.singleDataSearchResults = dbManager.roomSearch(roomTextField.text)
                 popoverViewController.searchType = "room"
             case "cptSearch":
-                var fullCPTArr = cptTextField.text.componentsSeparatedByString(",")
-                if fullCPTArr.isEmpty { fullCPTArr.append("") }
-                //get the last piece in the cpt array and search on that
-                popoverViewController.tupleSearchResults = dbManager.codeSearch("C", cptTextFieldText: fullCPTArr[(fullCPTArr.count-1)], mcTextFieldText: "", pcTextFieldText: "")
+                popoverViewController.tupleSearchResults = dbManager.codeSearch("C", cptTextFieldText: cptTextField.text, mcTextFieldText: "", pcTextFieldText: "")
             case "mcSearch":
-                var fullMCArr = mcTextField.text.componentsSeparatedByString(",")
-                if fullMCArr.isEmpty { fullMCArr.append("") }
-                popoverViewController.tupleSearchResults = dbManager.codeSearch("M", cptTextFieldText: "", mcTextFieldText: fullMCArr[(fullMCArr.count-1)], pcTextFieldText: "")
+                popoverViewController.tupleSearchResults = dbManager.codeSearch("M", cptTextFieldText: "", mcTextFieldText: mcTextField.text, pcTextFieldText: "")
             case "pcSearch":
-                var fullPCArr = pcTextField.text.componentsSeparatedByString(",")
-                if fullPCArr.isEmpty { fullPCArr.append("") }
-                popoverViewController.tupleSearchResults = dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: fullPCArr[(fullPCArr.count-1)], pcTextFieldText: "")
+                popoverViewController.tupleSearchResults = dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: "", pcTextFieldText: pcTextField.text)
             default:break
             }
             dbManager.closeDB()
@@ -305,7 +288,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return false
     }
     
-    // MARK: -  Changes in text fields
+    // MARK: -  Changes in search fields
     
     @IBAction func userChangedPatientSearch(sender: UITextField) {
         dbManager.checkDatabaseFileAndOpen()
@@ -338,17 +321,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         switch sender.tag {
         case 5:
-            var fullCPTArr = cptTextField.text.componentsSeparatedByString(",")
-            if fullCPTArr.isEmpty { fullCPTArr.append("") }
-            visitCodes = dbManager.codeSearch("C", cptTextFieldText: fullCPTArr[(fullCPTArr.count-1)], mcTextFieldText: "", pcTextFieldText: "")
+            visitCodes = dbManager.codeSearch("C", cptTextFieldText: cptTextField.text, mcTextFieldText: "", pcTextFieldText: "")
         case 6:
-            var fullMCArr = mcTextField.text.componentsSeparatedByString(",")
-            if fullMCArr.isEmpty { fullMCArr.append("") }
-            visitCodes =  dbManager.codeSearch("M", cptTextFieldText: "", mcTextFieldText: fullMCArr[(fullMCArr.count-1)], pcTextFieldText: "")
+            visitCodes =  dbManager.codeSearch("M", cptTextFieldText: "", mcTextFieldText: mcTextField.text, pcTextFieldText: "")
         case 7:
-            var fullPCArr = pcTextField.text.componentsSeparatedByString(",")
-            if fullPCArr.isEmpty { fullPCArr.append("") }
-            visitCodes = dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: "", pcTextFieldText: fullPCArr[(fullPCArr.count-1)])
+            visitCodes = dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: "", pcTextFieldText: pcTextField.text)
         default:break
         }
         
@@ -383,10 +360,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         dbManager.closeDB()
     }
     
-    // MARK: -  Update text fields
+    // MARK: -  Update search fields
     
     func updatePatient(notification: NSNotification){
         if let controller = searchTableViewController { //only update if the searchTableViewController is there
+            
             let tuple = controller.selectedTuple
             let (dob,name) = tuple
             self.patientTextField.text = name
@@ -394,7 +372,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             self.patientDOBTextField.text = dob
             var pID = getPatientID(name, dateOfBirth: dob)
             
-            updateFromPreviousBill(pID)
+            updateFromPreviousBill(pID)                 //grab the patients previous information
             self.dismissViewControllerAnimated(true, completion: nil)
             patientTextField.resignFirstResponder()
         }
@@ -410,7 +388,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         let aptQuery = "SELECT aptID, placeID, roomID FROM Appointment WHERE pID=\(patientID) ORDER BY DATE"
         var statement:COpaquePointer = nil
         
-        if sqlite3_prepare_v2(dbManager.db, aptQuery, -1, &statement, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(dbManager.db, aptQuery, -1, &statement, nil) == SQLITE_OK { //retrieve the most recent ids for the patient
             if sqlite3_step(statement) == SQLITE_ROW {
                 aptID = Int(sqlite3_column_int(statement, 0))
                 placeID = Int(sqlite3_column_int(statement, 1))
@@ -423,7 +401,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
         sqlite3_finalize(statement)
         
-        let docQuery = "SELECT dID FROM Has_doc NATURAL JOIN Doctor WHERE aptID=\(aptID) AND Type=1"
+        let docQuery = "SELECT dID FROM Has_doc NATURAL JOIN Doctor WHERE aptID=\(aptID) AND Type=1" //retrieve the referring doctor
         var docstatement:COpaquePointer = nil
         var dID:Int?
         if sqlite3_prepare_v2(dbManager.db, docQuery, -1, &docstatement, nil) == SQLITE_OK {
@@ -435,13 +413,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         sqlite3_finalize(docstatement)
         
         doctorTextField.text = dbManager.getDoctorWithID(dID!)
-        
-        siteTextField.text = dbManager.getPlaceWithID(placeID)        //Site
-        roomTextField.text = dbManager.getRoomWithID(roomID)          //Room
+        siteTextField.text = dbManager.getPlaceWithID(placeID)                  //Site
+        roomTextField.text = dbManager.getRoomWithID(roomID)                    //Room
         
         var (codesFromDatabase, visitCodePriorityFromDatabase) = dbManager.getVisitCodesForBill(aptID)
         codesForBill = codesFromDatabase
-        visitCodePriority = visitCodePriorityFromDatabase
+        visitCodePriority = visitCodePriorityFromDatabase                       //Find the correct order from the database
         dbManager.closeDB()
     
         self.codeCollectionView.reloadData()
@@ -468,14 +445,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             let inBillAlready = codesForBill[code_description] != nil
             println("in bill already? \(inBillAlready)")
             
-            if !inBillAlready {
+            if !inBillAlready {                                             //only add a new code if it isn't already in the bill
                 codesForBill[code_description] = []
                 visitCodePriority.append(code_description)
             }
-            
-            
-            
-            println("VisitCode priority \(visitCodePriority)")
             
             self.dismissViewControllerAnimated(true, completion: nil)
             self.codeCollectionView.reloadData()
@@ -502,20 +475,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     // MARK: - Adding to Database
     
-    @IBAction func addPatient(sender: UIButton) {
-        showAlert(self.addPatientToDatabase(patientTextField.text, email: ""))
-    }
-    
     func addPatientToDatabase(inputPatient:String, email:String) -> String{
         var dateOfBirth = patientDOBTextField.text
         dbManager.checkDatabaseFileAndOpen()
         var result = dbManager.addPatientToDatabase(inputPatient, dateOfBirth: dateOfBirth, email:email)
         dbManager.closeDB()
         return result
-    }
-    
-    @IBAction func addDoctor(sender: UIButton) {
-        showAlert(self.addDoctorToDatabase(doctorTextField.text, email: ""))
     }
     
     func addDoctorToDatabase(inputDoctor:String, email:String) -> String{
@@ -592,11 +557,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         dbManager.addHasDoc(aptID, dID: dID)
         dbManager.closeDB()
     }
-    
-    /**
-    *   Splits a string with a space delimeter
-    **/
-    func split(splitString:String) -> (String, String?){
+
+    func split(splitString:String) -> (String, String?){            //Splits a string with a space delimeter
         
         let fullNameArr = splitString.componentsSeparatedByString(" ")
         var firstName: String = fullNameArr[0]
@@ -613,43 +575,42 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     //MARK: - Collection View
+    //NOTE: Collection view runs off of a visitCode priority list for ordering and a dictionary lookup for icd codes. 
+    //To display, visit code cells are retrieved from the priority list and icd cells are retrieved with the visitcode (using the dictionary lookup)
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return codesForBill.keys.array.count
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        println("Items in section \(section): \(codesForBill.values.array[section].count)")
-        
         var visitCodeForSection = visitCodePriority[section]
-        
         return codesForBill[visitCodeForSection]!.count
     }
     
     func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            return CGSize(width: 160  , height: 35)
+            return CGSize(width: 160  , height: 35)                 //A header size needs to be specified for the special layout
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CONTENT", forIndexPath: indexPath) as! ICD10Cell
-        
         var visitCodeForPriority = visitCodePriority[indexPath.section] //get the item we should display based on priority
+        
+        let sectionCodes:[(icd10:String, icd9:String)]  = codesForBill[visitCodeForPriority]! //lookup the icd codes in the dictionary
+        
         println("ICDCELL: visit code for priority \(visitCodeForPriority) section \(indexPath.section)")
-        let sectionCodes:[(icd10:String, icd9:String)]  = codesForBill[visitCodeForPriority]!
-        
-        
         println("ICDCELL: ICDCodes \(sectionCodes) for section \(indexPath.section) and indexPath.row \(indexPath.row)")
         println("codesForBill \(codesForBill)")
+        
         let (icd10String, icd9String) = sectionCodes[indexPath.row]
-        if codeVersion.on {
+        
+        if codeVersion.on {                                         //determine what codes to display
             cell.ICDLabel.text = icd10String
         }else {
             cell.ICDLabel.text = icd9String
         }
         
-        cell.importanceLabel.text = String(indexPath.row + 1)
-        
+        cell.importanceLabel.text = String(indexPath.row + 1)       //show the priority for the icd codes
         cell.deleteICDButton.tag = indexPath.row
         cell.deleteICDButton.section = indexPath.section
         cell.deleteICDButton.codeToAddTo = visitCodeForPriority
@@ -749,6 +710,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         println("didEndDragging")
     }
     
+    
+    // MARK: - Cell actions
     @IBAction func userClickedDeleteVisitCode(sender: ICDDeleteButton) {
         
         println("Deleted visitCode button \(sender.tag)")
@@ -761,9 +724,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         var deleteResult = visitCodePriority.removeAtIndex(sender.tag)
         println("delete result \(deleteResult)")
         println("visitCodePriority in delete visitCode \(visitCodePriority)")
-        for var i=sender.tag; i<visitCodePriority.count-1; i++ {
-            visitCodePriority[i] = visitCodePriority[i+1]
-        }
+
         
         self.codeCollectionView.reloadData()
     }
@@ -780,9 +741,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         var itemInSection = sender.tag
         println("section \(section)")
         println("ItemInSection \(itemInSection)")
+        var visitCode = visitCodePriority[section]
         
-        
-        var icdCodes = codesForBill.values.array[section]
+        var icdCodes:[(icd10:String, icd9:String)] = codesForBill[visitCode]!
+        println("icdCodes \(icdCodes)")
         icdCodes.removeAtIndex(itemInSection)
         
         codesForBill[sender.codeToAddTo!] = icdCodes

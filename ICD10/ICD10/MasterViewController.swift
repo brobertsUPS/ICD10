@@ -23,6 +23,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     
     var favoritesCell:Bool = false
     var visitCodeToAddICDTo:String!
+    var rootMasterViewController:Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -241,6 +242,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 controller.billViewController = self.billViewController
                 controller.favoritesCell = self.favoritesCell
                 controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
+                controller.rootMasterViewController = self.rootMasterViewController
             }
         }
     }
@@ -267,9 +269,11 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         for var i=0; i<arr.count; i++ {
             if arr[i].isKindOfClass(UIButton) {
                 var button:UIButton = arr[i] as! UIButton
-                button.tag = id
-                if favoritesCell  || button.tag == 220 || button.tag < 10{
-                    button.setTitle("", forState: UIControlState.Normal)
+                button.tag = id + 1
+                
+                if favoritesCell  || button.tag == 221 || button.tag < 10 {
+                    println("tag \(id) \(location_name)")
+                    self.view.viewWithTag(button.tag)!.removeFromSuperview()
                 }
             }
         }
