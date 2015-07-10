@@ -132,6 +132,7 @@
                         <outlet property="ICD9Code" destination="6eC-Jm-2xc" id="Ufm-9v-1Ft"/>
                         <outlet property="conditionDescription" destination="cVj-EY-w3i" id="mA7-Vi-jaM"/>
                         <outlet property="extensionPicker" destination="dk5-vm-HF2" id="Od6-x8-cZG"/>
+                        <outlet property="useInBillButton" destination="HJw-2e-hmC" id="DM7-sO-pYH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
@@ -153,11 +154,12 @@
                         <segue destination="CiN-nl-kOH" kind="relationship" relationship="viewControllers" id="nLQ-vc-BOw"/>
                         <segue destination="zXP-Ym-KC4" kind="relationship" relationship="viewControllers" id="qaI-br-Adq"/>
                         <segue destination="V8b-M7-fFP" kind="relationship" relationship="viewControllers" id="QY2-K7-jao"/>
+                        <segue destination="O4K-Ig-l3r" kind="relationship" relationship="viewControllers" id="ivE-wa-30t"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sbz-9P-hcH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3015" y="-1073"/>
+            <point key="canvasLocation" x="-3095" y="-1083"/>
         </scene>
         <!--Bill-->
         <scene sceneID="7s3-gp-jAa">
@@ -1462,10 +1464,11 @@
             </objects>
             <point key="canvasLocation" x="-747" y="-359"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Search-->
         <scene sceneID="MSc-bV-FS8">
             <objects>
                 <navigationController id="O4K-Ig-l3r" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Search" image="Search Filled-50" id="7UU-sh-zwu"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="41z-Gk-dpj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1476,7 +1479,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tTv-5Q-DsD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="58" y="-1265"/>
+            <point key="canvasLocation" x="-210" y="-1421"/>
         </scene>
         <!--Doctors-->
         <scene sceneID="GfJ-u9-2pm">
@@ -1502,16 +1505,18 @@
         <image name="Down 4-50" width="50" height="50"/>
         <image name="Medical Doctor-50" width="25" height="25"/>
         <image name="Rules-50" width="25" height="25"/>
+        <image name="Search Filled-50" width="25" height="25"/>
         <image name="Triangular Bandage-50" width="25" height="25"/>
         <image name="Up" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="ivE-wa-30t"/>
         <segue reference="edd-ny-Y2u"/>
         <segue reference="jsy-lt-xeY"/>
-        <segue reference="OCB-Va-VDC"/>
-        <segue reference="j9k-IG-ode"/>
+        <segue reference="9Ct-d4-zXE"/>
+        <segue reference="zKf-2S-qlA"/>
+        <segue reference="2II-5o-t3P"/>
         <segue reference="B79-P1-amM"/>
         <segue reference="0NA-IR-rIR"/>
-        <segue reference="zKf-2S-qlA"/>
     </inferredMetricsTieBreakers>
 </document>

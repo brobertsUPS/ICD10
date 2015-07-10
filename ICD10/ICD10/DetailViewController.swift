@@ -18,6 +18,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var ICD10Code: UILabel! 
     @IBOutlet weak var ICD9Code: UILabel!
     @IBOutlet weak var conditionDescription: UILabel!
+    @IBOutlet weak var useInBillButton: UIButton!
     
     var ICD10Text:String!                               //Variables to update the labels with (set these before the view is loaded)
     var ICD9Text:String!
@@ -25,18 +26,29 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     var titleName:String!
     
     var extensionCodes:[String] = []
-    
     var visitCodeToAddICDTo:String!
     
     @IBOutlet weak var extensionPicker: UIPickerView!
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         self.resignFirstResponder()
         dbManager = DatabaseManager()
-        
         extensionCodes = getExtensionCodes()
         
+        println("Is bill view controller nil \(billViewController == nil)")
+        
+        if billViewController == nil {
+            
+            var arr = self.view.subviews
+            for var i=0; i<arr.count; i++ {
+                if arr[i].isKindOfClass(UIButton) {
+                    var button:UIButton = arr[i] as! UIButton
+                    button.removeFromSuperview()
+                }
+            }
+        }
         
         ICD10Code.text = self.ICD10Text
         ICD9Code.text = self.ICD9Text
