@@ -119,22 +119,22 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         }
     }
     
-    func makeHTMLLine(adminDoc:String, date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, codesForBill:[String:[(icd10:String, icd9:String)]], codeType:Int, visitCodePriorityFromDatbase: [String]) -> String {
+    func makeHTMLLine(adminDoc:String, date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, codesForBill:[String:[(icd10:String, icd9:String, icd10id:Int)]], codeType:Int, visitCodePriorityFromDatbase: [String]) -> String {
         
         var htmlLine = ""
         
         var firstVisitCode = visitCodePriorityFromDatbase[0]
         
-        var icdCodesForFirstVisitCode:[(icd10:String, icd9:String)] = codesForBill[firstVisitCode]!
+        var icdCodesForFirstVisitCode:[(icd10:String, icd9:String, icd10id:Int)] = codesForBill[firstVisitCode]!
         
-        var (firstICD10, firstICD9) = icdCodesForFirstVisitCode[0]
+        var (firstICD10, firstICD9, icd10ID) = icdCodesForFirstVisitCode[0]
         
         htmlLine = htmlLine + "<tr><td> \(adminDoc) </td><td> \(date) </td><td> \(patientName) </td><td> \(dob) </td><td> \(doctorName) </td><td> \(place) </td><td> \(room) </td><td> \(firstVisitCode) </td><td> \(firstICD10) </td><td> \(firstICD9) </td> </tr>"
         
         
         for var k=1; k<icdCodesForFirstVisitCode.count; k++ { //get the rest of the codes from the first visit code
             
-            var (icd10, icd9) = icdCodesForFirstVisitCode[k]
+            var (icd10, icd9, icd10ID) = icdCodesForFirstVisitCode[k]
             
             htmlLine = htmlLine + "<tr> <td>  </td><td>  </td><td>  </td><td> </td><td> </td><td> </td><td> </td><td>  </td><td> \(icd10) </td><td> \(icd9) </td> </tr>"
         }
@@ -143,12 +143,12 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             
             var visitCode = visitCodePriorityFromDatbase[i]
             
-            var icdCodes:[(icd10:String, icd9:String)] = codesForBill[visitCode]!
+            var icdCodes:[(icd10:String, icd9:String, icd10id:Int)] = codesForBill[visitCode]!
             
             for var j=0; j<icdCodes.count; j++ { //icdCodes
                 println("index \(j)")
                 
-                var (icd10, icd9) = icdCodes[j]
+                var (icd10, icd9, icd10ID) = icdCodes[j]
                 
                 htmlLine = htmlLine + "<tr> <td>  </td><td>  </td><td>  </td><td> </td><td> </td><td> </td><td> </td><td> \(visitCode) </td><td> \(icd10) </td><td> \(icd9) </td> </tr>"
                 visitCode = ""
