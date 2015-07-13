@@ -11,8 +11,8 @@ import UIKit
 class DirectSearchTableViewController: UITableViewController{
     
     var dbManager:DatabaseManager!
-    var codeInfo:[(code:String, description:String)] = []
-    var selectedCode:(icd10:String, description:String, icd9:String)?
+    var codeInfo:[(code:String, description:String, icd10id:Int)] = []
+    var selectedCode:(icd10:String, description:String, icd9:String, icd10id:Int)?
     var billViewController:BillViewController?
     
     override func viewDidLoad() {
@@ -34,7 +34,7 @@ class DirectSearchTableViewController: UITableViewController{
         
         let cell = tableView.dequeueReusableCellWithIdentifier("directSearchCell", forIndexPath: indexPath) as! UITableViewCell
         let tuple = codeInfo[indexPath.row]
-        let (code, codeDescription) = tuple
+        let (code, codeDescription, icd10id) = tuple
         cell.textLabel!.text = codeDescription
         cell.detailTextLabel!.text = code
         
@@ -43,10 +43,10 @@ class DirectSearchTableViewController: UITableViewController{
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         let tuple = codeInfo[indexPath.row]
-        let (code,codeDescription) = tuple
+        let (code,codeDescription,icd10id) = tuple
         
         dbManager.checkDatabaseFileAndOpen()
-        let query = "SELECT ICD9_code FROM ICD10_condition NATURAL JOIN Characterized_by WHERE ICD10_code='\(code)'"
+        let query = "SELECT ICD9_code FROM ICD10_condition NATURAL JOIN Characterized_by WHERE ICD10_ID=\(icd10id)"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
@@ -54,7 +54,7 @@ class DirectSearchTableViewController: UITableViewController{
             
             let icd9Code = sqlite3_column_text(statement, 0)
             let icd9CodeString = String.fromCString(UnsafePointer<CChar>(icd9Code))!
-            selectedCode = (code, codeDescription, icd9CodeString)
+            selectedCode = (code, codeDescription, icd9CodeString, icd10id)
             
             NSNotificationCenter.defaultCenter().postNotificationName("loadCode", object: code)
         }

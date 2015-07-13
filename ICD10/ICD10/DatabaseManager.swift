@@ -505,6 +505,23 @@ class DatabaseManager {
         return conditionDiagnosed
     }
     
+    func getICD10WithID(ICD10ID:Int) ->String {
+        var icd10CodeString = ""
+        
+        let icdQuery = "SELECT ICD10_code FROM ICD10_condition WHERE ICD10_ID=\(ICD10ID)"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, icdQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {
+                var icd10Code = sqlite3_column_text(statement, 0)
+                icd10CodeString = String.fromCString(UnsafePointer<CChar>(icd10Code))!
+            }
+        }
+        
+        sqlite3_finalize(statement)
+        return icd10CodeString
+    }
+    
     func getVisitCodeDescription(visitCode:String) -> String {
         var codeDescriptionString = ""
         println("visitcode \(visitCode)")

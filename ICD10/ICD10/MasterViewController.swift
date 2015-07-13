@@ -14,7 +14,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
   
     @IBOutlet weak var searchBar: UITextField!                              //The text field to search for direct codes
     var directSearchTableViewController:DirectSearchTableViewController?
-    var selectedCode:(icd10:String, description:String, icd9:String)?
+    var selectedCode:(icd10:String, description:String, icd9:String, icd10id:Int)?
 
     var detailViewController: DetailViewController? = nil                   //The detail page of the application
     var objects:[(id:Int,name:String)] = []
@@ -98,13 +98,13 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         }
     }
     
-    func searchCodes(searchInput:String) -> [(code:String,description:String)]{
+    func searchCodes(searchInput:String) -> [(code:String,description:String, icd10id:Int)]{
         
-        var codeInformation:[(code:String,description:String)] = []
+        var codeInformation:[(code:String,description:String, icd10id:Int)] = []
         
         dbManager.checkDatabaseFileAndOpen()
         
-        let query = "SELECT ICD10_code, description_text FROM ICD10_condition WHERE description_text LIKE '%\(searchInput)%' OR ICD10_code LIKE '%\(searchInput)%';"
+        let query = "SELECT ICD10_code, description_text, ICD10_ID FROM ICD10_condition WHERE description_text LIKE '%\(searchInput)%' OR ICD10_code LIKE '%\(searchInput)%';"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
@@ -114,8 +114,10 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 
                 let codeDescription = sqlite3_column_text(statement, 1)
                 let codeDescriptionString = String.fromCString(UnsafePointer<CChar>(codeDescription))
+                
+                let icd10ID = Int(sqlite3_column_int(statement, 2))
             
-                codeInformation.append(code:ICD10CodeString!, description:codeDescriptionString!)
+                codeInformation.append(code:ICD10CodeString!, description:codeDescriptionString!, icd10id: icd10ID)
             }
         }
         sqlite3_finalize(statement)
@@ -126,7 +128,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     func codeSelected(notification: NSNotification) {
         if let controller = directSearchTableViewController {
             if let tuple = controller.selectedCode {
-                let (icd10,description,icd9) = tuple
+                let (icd10,description,icd9, icd10ID) = tuple
                 self.searchBar.text = icd10
                 self.dismissViewControllerAnimated(true, completion: nil)
                 searchBar.resignFirstResponder()
@@ -187,6 +189,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             controller.ICD10Text = selectedCode!.icd10
             controller.conditionDescriptionText = selectedCode!.description
             controller.ICD9Text = selectedCode!.icd9
+            controller.ICD10ID = selectedCode!.icd10id
             
             controller.title = selectedCode!.description
             controller.titleName = selectedCode!.description
@@ -205,7 +208,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 
                 dbManager.checkDatabaseFileAndOpen()
                 var statement:COpaquePointer = nil
-                let query = "SELECT ICD10_code, description_text, ICD9_code, ICD10_ID FROM ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition WHERE ICD10_code= (SELECT ICD10_code FROM ICD10_condition WHERE ICD10_ID= (SELECT ICD10_ID FROM Located_in WHERE LID=\(id)))"
+                let query = "SELECT ICD10_code, description_text, ICD9_code, ICD10_ID FROM ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition WHERE ICD10_ID=(SELECT ICD10_ID FROM Located_in WHERE LID=\(id))"
                 
                 if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
                     
@@ -226,6 +229,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                         controller.conditionDescriptionText = descriptionString
                         controller.ICD9Text = icd9CodeString
                         controller.ICD10ID = icd10ID
+                        println(query)
                     }
                 }
                 sqlite3_finalize(statement)

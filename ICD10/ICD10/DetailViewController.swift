@@ -101,9 +101,10 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             var codesForBill = self.billViewController!.codesForBill                            //get the codes so we can update them
             
             if let icdCodes  = codesForBill[visitCodeToAddICDTo] {
+                println("VisitCodeToAddTo \(visitCodeToAddICDTo)")
                 var theICDCodes:[(icd10:String, icd9:String, icd10id:Int)] = icdCodes
                 let tuple = (icd10: ICD10Text!, icd9: ICD9Text!, icd10id: ICD10ID!)
-                println("VisitCodeToAddTo \(visitCodeToAddICDTo)")
+                
                 theICDCodes.append(tuple)                                                        //tack on the new icd codes
                 
                 controller.codesForBill[visitCodeToAddICDTo] = theICDCodes                             //put the new icdCodes on at the right position

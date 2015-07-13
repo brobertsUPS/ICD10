@@ -402,27 +402,31 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
         sqlite3_finalize(statement)
         
-        let docQuery = "SELECT dID FROM Has_doc NATURAL JOIN Doctor WHERE aptID=\(aptID) AND Type=1" //retrieve the referring doctor
-        var docstatement:COpaquePointer = nil
-        var dID:Int?
-        if sqlite3_prepare_v2(dbManager.db, docQuery, -1, &docstatement, nil) == SQLITE_OK {
-            var result = sqlite3_step(docstatement)
-            if result == SQLITE_ROW {
-                dID = Int(sqlite3_column_int(docstatement, 0))
+        if aptID != -1 && placeID != -1 && roomID != -1 {
+            let docQuery = "SELECT dID FROM Has_doc NATURAL JOIN Doctor WHERE aptID=\(aptID) AND Type=1" //retrieve the referring doctor
+            var docstatement:COpaquePointer = nil
+            var dID:Int?
+            if sqlite3_prepare_v2(dbManager.db, docQuery, -1, &docstatement, nil) == SQLITE_OK {
+                var result = sqlite3_step(docstatement)
+                if result == SQLITE_ROW {
+                    dID = Int(sqlite3_column_int(docstatement, 0))
+                }
             }
+            sqlite3_finalize(docstatement)
+            
+            doctorTextField.text = dbManager.getDoctorWithID(dID!)
+            siteTextField.text = dbManager.getPlaceWithID(placeID)                  //Site
+            roomTextField.text = dbManager.getRoomWithID(roomID)                    //Room
+            
+            var (codesFromDatabase, visitCodePriorityFromDatabase) = dbManager.getVisitCodesForBill(aptID)
+            codesForBill = codesFromDatabase
+            visitCodePriority = visitCodePriorityFromDatabase                       //Find the correct order from the database
+            dbManager.closeDB()
+            
+            self.codeCollectionView.reloadData()
+
         }
-        sqlite3_finalize(docstatement)
         
-        doctorTextField.text = dbManager.getDoctorWithID(dID!)
-        siteTextField.text = dbManager.getPlaceWithID(placeID)                  //Site
-        roomTextField.text = dbManager.getRoomWithID(roomID)                    //Room
-        
-        var (codesFromDatabase, visitCodePriorityFromDatabase) = dbManager.getVisitCodesForBill(aptID)
-        codesForBill = codesFromDatabase
-        visitCodePriority = visitCodePriorityFromDatabase                       //Find the correct order from the database
-        dbManager.closeDB()
-    
-        self.codeCollectionView.reloadData()
     }
     
     func updateDoctor(notification: NSNotification) {
