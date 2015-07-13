@@ -34,7 +34,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     var textFieldText:[String] = []                                         //A list of saved items for the bill
     
-    var codesForBill:[String:[(icd10:String, icd9:String)]] = [:]
+    var codesForBill:[String:[(icd10:String, icd9:String, icd10id:Int)]] = [:]
     var visitCodePriority:[String] = []
     
     var appointmentID:Int?                                                  //The appointment id if this is a saved bill
@@ -195,11 +195,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             for var i=0; i<visitCodePriority.count; i++ {
                 
                 var visitCode = visitCodePriority[i]                    //retrieve visitCodes in the correct order
-                var diagnosesForVisitCode:[(icd10:String, icd9:String)] = codesForBill[visitCode]!
+                var diagnosesForVisitCode:[(icd10:String, icd9:String, icd10id:Int)] = codesForBill[visitCode]!
 
                 for var j=0; j<diagnosesForVisitCode.count; j++ {
-                    var (icd10, icd9) = diagnosesForVisitCode[j]
-                    self.addHasType(aptID, visitCodeText: visitCode, icd10Code: icd10, visitPriority: i, icdPriority: j, extensionCode: "")
+                    var (icd10, icd9, icd10id) = diagnosesForVisitCode[j]
+                    
+                    self.addHasType(aptID, visitCodeText: visitCode, icd10CodeID: icd10id, visitPriority: i, icdPriority: j, extensionCode: "")
                 }
             }
             //pop everything off of the stack
@@ -546,9 +547,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return (aptID,result)
     }
     
-    func addHasType(aptID:Int, visitCodeText:String, icd10Code:String, visitPriority:Int, icdPriority:Int, extensionCode:String) {
+    func addHasType(aptID:Int, visitCodeText:String, icd10CodeID:Int, visitPriority:Int, icdPriority:Int, extensionCode:String) {
         dbManager.checkDatabaseFileAndOpen()
-        dbManager.addHasType(aptID, visitCodeText: visitCodeText, icd10Code: icd10Code, visitPriority: visitPriority, icdPriority: icdPriority, extensionCode: extensionCode)
+        dbManager.addHasType(aptID, visitCodeText: visitCodeText, icd10CodeID: icd10CodeID, visitPriority: visitPriority, icdPriority: icdPriority, extensionCode: extensionCode)
         dbManager.closeDB()
     }
     
@@ -596,13 +597,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CONTENT", forIndexPath: indexPath) as! ICD10Cell
         var visitCodeForPriority = visitCodePriority[indexPath.section] //get the item we should display based on priority
         
-        let sectionCodes:[(icd10:String, icd9:String)]  = codesForBill[visitCodeForPriority]! //lookup the icd codes in the dictionary
+        let sectionCodes:[(icd10:String, icd9:String, icd10id:Int)]  = codesForBill[visitCodeForPriority]! //lookup the icd codes in the dictionary
         
         println("ICDCELL: visit code for priority \(visitCodeForPriority) section \(indexPath.section)")
         println("ICDCELL: ICDCodes \(sectionCodes) for section \(indexPath.section) and indexPath.row \(indexPath.row)")
         println("codesForBill \(codesForBill)")
         
-        let (icd10String, icd9String) = sectionCodes[indexPath.row]
+        let (icd10String, icd9String, icd10id) = sectionCodes[indexPath.row]
         
         if codeVersion.on {                                         //determine what codes to display
             cell.ICDLabel.text = icd10String
@@ -656,7 +657,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         var visitCode = visitCodePriority[toIndexPath.section]
         
-        var icdCodesForKey:[(icd10:String, icd9:String)] = codesForBill[visitCode]!
+        var icdCodesForKey:[(icd10:String, icd9:String, icd10id:Int)] = codesForBill[visitCode]!
         
         var fromICDCode = icdCodesForKey[fromIndexPath.row]
         
@@ -743,7 +744,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         println("ItemInSection \(itemInSection)")
         var visitCode = visitCodePriority[section]
         
-        var icdCodes:[(icd10:String, icd9:String)] = codesForBill[visitCode]!
+        var icdCodes:[(icd10:String, icd9:String, icd10id:Int)] = codesForBill[visitCode]!
         println("icdCodes \(icdCodes)")
         icdCodes.removeAtIndex(itemInSection)
         

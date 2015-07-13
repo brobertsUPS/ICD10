@@ -24,6 +24,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     var ICD9Text:String!
     var conditionDescriptionText:String!
     var titleName:String!
+    var ICD10ID:Int!
     
     var extensionCodes:[String] = []
     var visitCodeToAddICDTo:String!
@@ -99,7 +100,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             controller.codesForBill = self.billViewController!.codesForBill                     //update the codes with what we had before
             var codesForBill = self.billViewController!.codesForBill                            //get the codes so we can update them
             
-            var icdCodes:[(icd10:String, icd9:String)] = codesForBill[visitCodeToAddICDTo]!
+            var icdCodes:[(icd10:String, icd9:String, icd10ID:Int)] = codesForBill[visitCodeToAddICDTo]
             
             let tuple = (icd10: ICD10Text!,icd9: ICD9Text!)
             println("VisitCodeToAddTo \(visitCodeToAddICDTo)")

@@ -205,7 +205,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 
                 dbManager.checkDatabaseFileAndOpen()
                 var statement:COpaquePointer = nil
-                let query = "SELECT ICD10_code, description_text, ICD9_code FROM ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition WHERE ICD10_code=(SELECT ICD10_code FROM located_in WHERE LID =\(id))"
+                let query = "SELECT ICD10_code, description_text, ICD9_code, ICD10_ID FROM ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition WHERE ICD10_code= (SELECT ICD10_code FROM ICD10_condition WHERE ICD10_ID= (SELECT ICD10_ID FROM Located_in WHERE LID=\(id)))"
                 
                 if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
                     
@@ -220,9 +220,12 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                         let icd9Code = sqlite3_column_text(statement, 2)
                         let icd9CodeString = String.fromCString(UnsafePointer<CChar>(icd9Code))!
                         
+                        let icd10ID = Int(sqlite3_column_int(statement, 3))
+                        
                         controller.ICD10Text = icd10CodeString
                         controller.conditionDescriptionText = descriptionString
                         controller.ICD9Text = icd9CodeString
+                        controller.ICD10ID = icd10ID
                     }
                 }
                 sqlite3_finalize(statement)
