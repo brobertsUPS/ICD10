@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD05ED321B5065C000E25FC9 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD05ED311B5065BC00E25FC9 /* testDML.sqlite3 */; };
 		AD0798901B45BD1C0066A47B /* ICD10Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD07988F1B45BD1C0066A47B /* ICD10Cell.swift */; };
 		AD0926AC1B4B3AB000C6E3DD /* ICDDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0926AB1B4B3AB000C6E3DD /* ICDDeleteButton.swift */; };
 		AD1025251B333C8900308E36 /* AdminDocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1025241B333C8900308E36 /* AdminDocViewController.swift */; };
@@ -22,7 +23,6 @@
 		ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAB0D381B210E71004C770C /* BillViewController.swift */; };
 		ADABFEBB1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */; };
 		ADB59A151B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */; };
-		ADB59A191B4DE3BA00A0BE66 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = ADB59A181B4DE3B100A0BE66 /* testDML.sqlite3 */; };
 		ADD4A8C41B220FC00083FAF1 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */; };
 		ADE77F361B1782F900CE48F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F351B1782F900CE48F1 /* AppDelegate.swift */; };
 		ADE77F381B1782F900CE48F1 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F371B1782F900CE48F1 /* MasterViewController.swift */; };
@@ -45,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AD05ED311B5065BC00E25FC9 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		AD07988F1B45BD1C0066A47B /* ICD10Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICD10Cell.swift; sourceTree = "<group>"; };
 		AD0926AB1B4B3AB000C6E3DD /* ICDDeleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICDDeleteButton.swift; sourceTree = "<group>"; };
 		AD1025241B333C8900308E36 /* AdminDocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdminDocViewController.swift; path = ../AdminDocViewController.swift; sourceTree = "<group>"; };
@@ -61,7 +62,6 @@
 		ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeTokenCollectionViewCell.swift; sourceTree = "<group>"; };
 		ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LXReorderableCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXReorderableCollectionViewFlowLayout.m; sourceTree = "<group>"; };
-		ADB59A181B4DE3B100A0BE66 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		ADE77F301B1782F900CE48F1 /* ICD10.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICD10.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE77F341B1782F900CE48F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -120,7 +120,7 @@
 			children = (
 				ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */,
 				ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */,
-				ADB59A181B4DE3B100A0BE66 /* testDML.sqlite3 */,
+				AD05ED311B5065BC00E25FC9 /* testDML.sqlite3 */,
 				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
 				AD1025241B333C8900308E36 /* AdminDocViewController.swift */,
 				ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */,
@@ -253,7 +253,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADB59A191B4DE3BA00A0BE66 /* testDML.sqlite3 in Resources */,
+				AD05ED321B5065C000E25FC9 /* testDML.sqlite3 in Resources */,
 				ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */,
 				ADE77F3F1B1782F900CE48F1 /* Images.xcassets in Resources */,
 				AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */,

@@ -300,7 +300,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     @IBAction func addCellToFavorites(sender: UIButton) {
         
         dbManager.checkDatabaseFileAndOpen()
-        let addFavoriteQuery = "INSERT INTO Sub_location (LID, Parent_locationID) VALUES (\(sender.tag), 0)"
+        let addFavoriteQuery = "INSERT INTO Sub_location (LID, Parent_locationID) VALUES (\(sender.tag - 1), 0)"
         
         var statement:COpaquePointer = nil
         
