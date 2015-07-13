@@ -80,6 +80,7 @@ CREATE TABLE Characterized_by (
 CREATE TABLE Extension (
 	Extension_code TEXT NOT NULL,
 	ICD10_ID INTEGER NOT NULL,
+	Extension_description TEXT NOT NULL,
 	PRIMARY KEY (Extension_code, ICD10_ID),
 	FOREIGN KEY (ICD10_ID) REFERENCES ICD10_condition (ICD10_ID) ON DELETE CASCADE ON UPDATE CASCADE
 	);
@@ -139,7 +140,6 @@ INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (4, "03-3
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (5, "03-03-1920", "James", "Doohan", "");
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (6, "04-20-1937", "George", "Takei", "");
 INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (1, "Rodney", "Joe","Rodneyjoe@mac.com", 0);
-
 
 --Place of service*******************************************************************************************************
 INSERT INTO Place_of_service (placeID, place_description) VALUES (1, "PSPH IN PATIENT");
@@ -439,21 +439,21 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (135,135);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (315, "Oral phase");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (315,11);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (315, "R13.11", "Dysphagia - Oral phase",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (315, "R13.11", "Dysphagia - Oral phase"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("787.21", "Dysphagia - Oral phase");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (315, "787.21");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (315,315);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (316, "Oro-pharyngeal");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (316,11);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (316, "R13.12", "Dysphagia - Oro-pharyngeal",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (316, "R13.12", "Dysphagia - Oro-pharyngeal"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("787.22", "Dysphagia - Oro-pharyngeal");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (316, "787.22");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (316,316);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (317, "Pharyngeal");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (317,11);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (317, "R13.13", "Dysphagia - Pharyngeal",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (317, "R13.13", "Dysphagia - Pharyngeal"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("787.23", "Dysphagia - Pharyngeal");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (317, "787.23");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (317,317);
@@ -467,23 +467,32 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (318,318);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (319, "Esophageal");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (319,11);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (319, "R13.19", "Dysphagia - Esophageal",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (319, "R13.19", "Dysphagia - Esophageal"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("787.29", "Dysphagia - Esophageal");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (319, "787.29");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (319,319);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (320, "Other");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (320,11); 
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (320, "R13.19", "Dysphagia - other",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (320, "R13.19", "Dysphagia - other"); 
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (320, "787.29");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (320,320);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (321, "Due to CVA");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (321,11);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (321, "I69.91", "Dysphagia - Due to CVA",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (321, "I69.91", "Dysphagia - Due to CVA"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("438.82", "Dysphagia - Due to CVA");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (321, "438.82");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (321,321);
+
+
+--Extensions for DUE TO CVA
+
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("I69.391", 321, "If post CVA");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("I69.891", 321, "If post non-CVA");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("I69.291", 321, "If non-trum ICH");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("I69.091", 321, "If non-traum SAH");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("I69.191", 321, "If nontraum ICH");
 
 --Eosinophillic esophagitis
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (190,1);
@@ -513,11 +522,22 @@ INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("935.1", "Foreign
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (322, "935.1");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (322,322);
 
+--Extensions for T18.108 
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("T18.108A", 322, "Initial");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("T18.108D", 322, "Subsequent");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("T18.108S", 322, "Sequelae");
+
+
 INSERT INTO Condition_location ( LID, location_name ) VALUES (323, "Food in esophagus");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (323,13);
 INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (323, "T18.128", "Food in esophagus",0); 
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (323, "935.1");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (323,323);
+
+--Extensions for T18.108 
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("T18.128A", 323, "Initial");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("T18.128D", 323, "Subsequent");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("T18.128S", 323, "Sequelae");
 
 --GERD
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (14,1);
@@ -676,10 +696,15 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (21,21);
 --Foreign body
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (22,2);
 
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("T18.2", "Foreign body in stomach",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (22, "T18.2", "Foreign body in stomach",0); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("935.1", "Foreign body in stomach");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("T18.2","935.1");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("T18.2",22);
+INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (22,"935.1");
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (22,22);
+
+--Extensions for Foreign Body in Stomach
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("T18.2xxA", 22, "Initial");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("T18.2xxD", 22, "Subsequent");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("T18.2xxS", 22, "Sequelae");
 
 --Gastroenteritis
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (23,2);
@@ -903,39 +928,6 @@ INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("532.50", "DU, ch
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (348,"532.50");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (348,348);
 
---Peptic Ulcer, with heme
-/*INSERT INTO Sub_location (LID, parent_locationID) VALUES (29,2);
-
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K27.4", "Peptic ulcer with hemorrhage"); 
-INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("533.40", "Peptic ulcer with heme");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K27.4","533.40");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K27.4",29);
-
---peptic ulcer without heme
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (30,2);
-
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K27.7", "Peptic ulcer without hemorrhage"); 
-INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("533.70", "Peptic ulcer without heme");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K27.7","533.70");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K27.7",30);
-
-
---Duodenal ulcer with ob
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (31,2);
-
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K26.4", "Duodenal ulcer with obstruction"); 
-INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("532.41", "Duodenal ulcer with obstruction");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K26.4","532.41");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K26.4",31);
-
---Duodenal ulcer without ob
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (32,2);
-
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K27.7", "Duodenal ulcer without obstruction"); 
-INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("532.40", "Duodenal ulcer without obstruction");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K27.7","532.40");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K27.7",32);
-*/
 --Vomiting, persistent
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (33,2);
 
@@ -945,6 +937,14 @@ INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (349
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("536.2", "Persistent vomiting");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (349,"536.2");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (349,349);
+
+--Extensions for persistent vomiting
+--Extensions for T18.108 
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("R11.11", 349, "Without naseau");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("R11.12", 349, "Projectile");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("R11.13", 349, "Feculant");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("R11.14", 349, "Bilious");
+
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (350, "W/o naseau alone");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (350,33);
@@ -2412,6 +2412,13 @@ INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("281.0", "Anemia,
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (409,"281.0");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (409,409);
 
+--Extension codes for pernicious
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("D51.1", 409, "Due to B12 w/proteinuria");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("D51.3", 409, "Other dietary");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("D51.8", 409, "Other");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("D51.0", 409, "IF def");
+
+
 --Anemia - Unspecified
 INSERT INTO Condition_location ( LID, location_name ) VALUES (307, "Anemia Unspecified");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (307,8);
@@ -2569,6 +2576,12 @@ INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (414
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("536.2", "Vomiting persistent");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (414,"536.2");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (414,414);
+
+--Extension for persistent vomiting
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("R11.11", 414, "Without naseau");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("R11.12", 414, "Projectile");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("R11.13", 414, "Feculant");
+INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("R11.14", 414, "Bilious");
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (415, "Vomiting alone");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (415,106);
