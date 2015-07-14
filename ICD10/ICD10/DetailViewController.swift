@@ -28,7 +28,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     var titleName:String!
     var ICD10ID:Int?
     
-    var extensionCodes:[String] = []
+    var extensionCodes:[(ExtensionCode:String, ExtensionDescription:String)] = []
     var visitCodeToAddICDTo:String!
     
     @IBOutlet weak var extensionPicker: UIPickerView?
@@ -75,12 +75,12 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         super.didReceiveMemoryWarning()
     }
     
-    func getExtensionCodes() -> [String]{
+    func getExtensionCodes() -> [(ExtensionCode:String,ExtensionDescription:String)]{
         
-        var extensions:[String] = []
+        var extensions:[(ExtensionCode:String,ExtensionDescription:String)] = []
         dbManager.checkDatabaseFileAndOpen()
         println("ICD10ID \(ICD10ID)")
-        let extensionQuery = "SELECT Extension_code FROM Extension WHERE ICD10_ID=\(ICD10ID!)"
+        let extensionQuery = "SELECT Extension_code, Extension_description FROM Extension WHERE ICD10_ID=\(ICD10ID!)"
         
         var statement:COpaquePointer = nil
         var prepareResult = sqlite3_prepare_v2(dbManager.db, extensionQuery, -1, &statement, nil)
@@ -91,7 +91,14 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             while sqlite3_step(statement) == SQLITE_ROW {
                 var extensionCode = sqlite3_column_text(statement, 0)
                 var extensionCodeString = String.fromCString(UnsafePointer<CChar>(extensionCode))
-                extensions.append(extensionCodeString!)
+                
+                var extensionDescription = sqlite3_column_text(statement, 1)
+                var extensionDescriptionString = String.fromCString(UnsafePointer<CChar>(extensionDescription))
+                
+                let tuple = (ExtensionCode:extensionCodeString!, ExtensionDescription:extensionDescriptionString!)
+                
+                extensions.append(tuple)
+                
                 println("Extensions.append \(extensionCodeString!)")
             }
         }
@@ -118,28 +125,37 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             controller.codesForBill = self.billViewController!.codesForBill                     //update the codes with what we had before
             var codesForBill = self.billViewController!.codesForBill                            //get the codes so we can update them
             
+           
+            
             if let icdCodes  = codesForBill[visitCodeToAddICDTo] {
-                println("VisitCodeToAddTo \(visitCodeToAddICDTo)")
-                var theICDCodes:[(icd10:String, icd9:String, icd10id:Int)] = icdCodes
-                let tuple = (icd10: ICD10Text!, icd9: ICD9Text!, icd10id: ICD10ID!)
                 
-                theICDCodes.append(tuple)                                                        //tack on the new icd codes
+                var theICDCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = icdCodes
+                
+                
+                if let extensionCodePicker = extensionPicker {
+                    
+                    var extensionRow = extensionCodePicker.selectedRowInComponent(0)
+                    var (extensionCode, extensionDescription) = extensionCodes[extensionRow]
+                    let tuple = (icd10: ICD10Text!, icd9: ICD9Text!, icd10id: ICD10ID!, extensionCode:extensionCode)
+                    theICDCodes.append(tuple)
+                    
+                } else {
+                    let tuple = (icd10: ICD10Text!, icd9: ICD9Text!, icd10id: ICD10ID!, extensionCode:"")
+                    theICDCodes.append(tuple)
+                }
+                
+                
+                
+                
+                
                 
                 controller.codesForBill[visitCodeToAddICDTo] = theICDCodes                             //put the new icdCodes on at the right position
             }
-            if let extensionCodePicker = extensionPicker {
-                var extensionRow = extensionCodePicker.selectedRowInComponent(0)
-                println("extensionRow \(extensionRow)")
-                
-                
-            }
-            
+
             
             controller.administeringDoctor = self.billViewController?.administeringDoctor
             controller.icd10On = self.billViewController?.icd10On
-            
             controller.visitCodePriority = self.billViewController!.visitCodePriority
-            println("Detail visitCodePriority \(controller.visitCodePriority)")
         }
     }
     
@@ -151,7 +167,9 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         return extensionCodes.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! { return extensionCodes[row]   }
-    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        var (extensionCode, extensionDescription) = extensionCodes[row]
+        return extensionCode + " " + extensionDescription
+    }
 }
 

@@ -25,7 +25,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var cptTextField: UITextField!
     @IBOutlet weak var mcTextField: UITextField!
     @IBOutlet weak var pcTextField: UITextField!
-    @IBOutlet weak var ICD10TextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
     
     @IBOutlet weak var saveBillButton: UIButton!
@@ -34,7 +33,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     var textFieldText:[String] = []                                         //A list of saved items for the bill
     
-    var codesForBill:[String:[(icd10:String, icd9:String, icd10id:Int)]] = [:]
+    var codesForBill:[String:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)]] = [:]
     var visitCodePriority:[String] = []
     
     var appointmentID:Int?                                                  //The appointment id if this is a saved bill
@@ -169,7 +168,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         cptTextField.resignFirstResponder()
         mcTextField.resignFirstResponder()
         pcTextField.resignFirstResponder()
-        ICD10TextField.resignFirstResponder()
     }
     
     // MARK: - Save Bill
@@ -195,12 +193,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             for var i=0; i<visitCodePriority.count; i++ {
                 
                 var visitCode = visitCodePriority[i]                    //retrieve visitCodes in the correct order
-                var diagnosesForVisitCode:[(icd10:String, icd9:String, icd10id:Int)] = codesForBill[visitCode]!
+                var diagnosesForVisitCode:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = codesForBill[visitCode]!
 
                 for var j=0; j<diagnosesForVisitCode.count; j++ {
-                    var (icd10, icd9, icd10id) = diagnosesForVisitCode[j]
-                    
-                    self.addHasType(aptID, visitCodeText: visitCode, icd10CodeID: icd10id, visitPriority: i, icdPriority: j, extensionCode: "")
+                    var (icd10, icd9, icd10id, extensionCode) = diagnosesForVisitCode[j]
+                    println("added \(diagnosesForVisitCode[j])")
+                    self.addHasType(aptID, visitCodeText: visitCode, icd10CodeID: icd10id, visitPriority: i, icdPriority: j, extensionCode: extensionCode)
                 }
             }
             //pop everything off of the stack
@@ -426,7 +424,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             self.codeCollectionView.reloadData()
 
         }
-        
     }
     
     func updateDoctor(notification: NSNotification) {
@@ -601,16 +598,18 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CONTENT", forIndexPath: indexPath) as! ICD10Cell
         var visitCodeForPriority = visitCodePriority[indexPath.section] //get the item we should display based on priority
         
-        let sectionCodes:[(icd10:String, icd9:String, icd10id:Int)]  = codesForBill[visitCodeForPriority]! //lookup the icd codes in the dictionary
+        let sectionCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)]  = codesForBill[visitCodeForPriority]! //lookup the icd codes in the dictionary
         
-        println("ICDCELL: visit code for priority \(visitCodeForPriority) section \(indexPath.section)")
-        println("ICDCELL: ICDCodes \(sectionCodes) for section \(indexPath.section) and indexPath.row \(indexPath.row)")
-        println("codesForBill \(codesForBill)")
-        
-        let (icd10String, icd9String, icd10id) = sectionCodes[indexPath.row]
+        let (icd10String, icd9String, icd10id, extensionCode) = sectionCodes[indexPath.row]
+        println("extension \(extensionCode)")
         
         if codeVersion.on {                                         //determine what codes to display
-            cell.ICDLabel.text = icd10String
+            if extensionCode != "" {
+                cell.ICDLabel.text = extensionCode
+            }else {
+                cell.ICDLabel.text = icd10String
+            }
+
         }else {
             cell.ICDLabel.text = icd9String
         }
@@ -661,7 +660,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         var visitCode = visitCodePriority[toIndexPath.section]
         
-        var icdCodesForKey:[(icd10:String, icd9:String, icd10id:Int)] = codesForBill[visitCode]!
+        var icdCodesForKey:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = codesForBill[visitCode]!
         
         var fromICDCode = icdCodesForKey[fromIndexPath.row]
         
@@ -719,18 +718,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     // MARK: - Cell actions
     @IBAction func userClickedDeleteVisitCode(sender: ICDDeleteButton) {
         
-        println("Deleted visitCode button \(sender.tag)")
-        
-        
         var visitCode = visitCodePriority[sender.tag]
         codesForBill.removeValueForKey(visitCode)
         
-        println("Deleting visit code \(visitCodePriority[sender.tag])")
         var deleteResult = visitCodePriority.removeAtIndex(sender.tag)
-        println("delete result \(deleteResult)")
-        println("visitCodePriority in delete visitCode \(visitCodePriority)")
-
-        
         self.codeCollectionView.reloadData()
     }
     
@@ -748,7 +739,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         println("ItemInSection \(itemInSection)")
         var visitCode = visitCodePriority[section]
         
-        var icdCodes:[(icd10:String, icd9:String, icd10id:Int)] = codesForBill[visitCode]!
+        var icdCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = codesForBill[visitCode]!
         println("icdCodes \(icdCodes)")
         icdCodes.removeAtIndex(itemInSection)
         

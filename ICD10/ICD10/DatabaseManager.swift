@@ -443,9 +443,9 @@ class DatabaseManager {
         return roomID
     }
     
-    func getVisitCodesForBill(aptID:Int) -> ([String:[(icd10:String, icd9:String, icd10id:Int)]], [String]) {
+    func getVisitCodesForBill(aptID:Int) -> ([String:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)]], [String]) {
         
-        var codesForBill:[String:[(icd10:String, icd9:String, icd10id:Int)]] = [:]
+        var codesForBill:[String:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)]] = [:]
         var visitCodePriority:[String] = []
         
         let cptQuery = "SELECT apt_code, visit_priority FROM Appointment NATURAL JOIN Has_type NATURAL JOIN Apt_type WHERE aptID=\(aptID) GROUP BY apt_code ORDER BY visit_priority"
@@ -455,7 +455,7 @@ class DatabaseManager {
         if sqlite3_prepare_v2(db,cptQuery, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
                 
-                var icdCodesForVisitCode:[(icd10:String, icd9:String, icd10id:Int)] = []
+                var icdCodesForVisitCode:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = []
                 
                 var visitCode = sqlite3_column_text(statement, 0)
                 var visitCodeString = String.fromCString(UnsafePointer<CChar>(visitCode))
@@ -479,11 +479,11 @@ class DatabaseManager {
         return (codesForBill, visitCodePriority)
     }
     
-    func getDiagnosesCodesForVisitCode(aptID:Int, visitCode:String) -> [(icd10:String, icd9:String, icd10id:Int)] {
+    func getDiagnosesCodesForVisitCode(aptID:Int, visitCode:String) -> [(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] {
         
-        var conditionDiagnosed:[(icd10:String, icd9:String, icd10id:Int)] = []
+        var conditionDiagnosed:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = []
         
-        let conditionQuery = "SELECT ICD10_code, ICD9_code, ICD10_ID FROM Has_type NATURAL JOIN Appointment NATURAL JOIN ICD10_Condition NATURAL JOIN Characterized_by WHERE aptID=\(aptID) AND apt_code='\(visitCode)' ORDER BY icd_priority"
+        let conditionQuery = "SELECT ICD10_code, ICD9_code, ICD10_ID, extension FROM Has_type NATURAL JOIN Appointment NATURAL JOIN ICD10_Condition NATURAL JOIN Characterized_by WHERE aptID=\(aptID) AND apt_code='\(visitCode)' ORDER BY icd_priority"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, conditionQuery, -1, &statement, nil) == SQLITE_OK {
@@ -496,7 +496,10 @@ class DatabaseManager {
                 
                 var icd10ID = Int(sqlite3_column_int(statement, 2))
                 
-                var tuple = (icd10:conditionString!, icd9:conditionICD9String!, icd10ID:icd10ID)
+                var extensionCode = sqlite3_column_text(statement, 3)
+                var extensionString = String.fromCString(UnsafePointer<CChar>(extensionCode))
+                
+                var tuple = (icd10:conditionString!, icd9:conditionICD9String!, icd10ID:icd10ID, extensionCode:extensionString!)
                 conditionDiagnosed += [(tuple)]
             }
         }
