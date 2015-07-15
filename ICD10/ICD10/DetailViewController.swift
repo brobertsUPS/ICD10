@@ -32,6 +32,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     var visitCodeToAddICDTo:String!
     
     @IBOutlet weak var extensionPicker: UIPickerView?
+    @IBOutlet weak var scrollView: UIScrollView!
 
     override func viewDidLoad() {
         
@@ -69,7 +70,16 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         self.navigationItem.title = titleName
         self.navigationItem.leftItemsSupplementBackButton = true
         
-
+        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        var screenWidth = screenSize.width
+        var screenHeight = screenSize.height
+        
+        println("ScreenWidth \(screenWidth) ScreenHeight \(screenHeight)")
+        
+        screenHeight = screenHeight * 2
+        println("ScreenWidth \(screenWidth) ScreenHeight \(screenHeight)")
+        
+        self.scrollView.contentSize = CGSizeMake(screenWidth, screenHeight)
     }
 
     override func didReceiveMemoryWarning() {
