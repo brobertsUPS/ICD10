@@ -30,6 +30,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var saveBillButton: UIButton!
     
     @IBOutlet weak var codeCollectionView: UICollectionView!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     var textFieldText:[String] = []                                         //A list of saved items for the bill
     
@@ -71,7 +72,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 patientDOBTextField.text = patientDOB
             }
         }
-        
+
         codeCollectionView.delegate = self
         codeCollectionView.dataSource = self
         codeCollectionView.collectionViewLayout = LXReorderableCollectionViewFlowLayout()
@@ -79,6 +80,17 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         let layout = codeCollectionView.collectionViewLayout
         let flow  = layout as! LXReorderableCollectionViewFlowLayout
         flow.headerReferenceSize = CGSizeMake(100, 35)
+        
+        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        var screenWidth = screenSize.width
+        var screenHeight = screenSize.height
+        
+        println("ScreenWidth \(screenWidth) ScreenHeight \(screenHeight)")
+        
+        screenHeight = screenHeight * 2
+        println("ScreenWidth \(screenWidth) ScreenHeight \(screenHeight)")
+        
+        self.scrollView.contentSize = CGSizeMake(screenWidth, screenHeight)
     }
     
     override func viewWillAppear(animated: Bool) {                      //Fill the collectionView with any new data
@@ -139,9 +151,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     // MARK: -  Clicks and Actions
     
     @IBAction func clickedInTextBox(sender: UITextField) {
+        println("Clicked in textBox")
         
         switch sender.tag {
         case 0:self.performSegueWithIdentifier("patientSearchPopover", sender: self)
+        
         case 2:self.performSegueWithIdentifier("doctorSearchPopover", sender: self)
         case 3:self.performSegueWithIdentifier("siteSearchPopover", sender: self)
         case 4:self.performSegueWithIdentifier("roomSearchPopover", sender: self)
