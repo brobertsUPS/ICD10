@@ -82,7 +82,6 @@ class BillDatesTableViewController: UITableViewController {
                     
                     
                     let patientFullName = patientFNameString! + " " + patientLNameString!
-                    println("patientID:\(patientID) date:\(date) placeID:\(placeID) roomID:\(roomID) AptID: \(aptID) codeType: \(billCodeType)")
                     patientBills.append(id: patientID,dob: patientDOBString!, name: patientFullName)
                     IDs.append(aptID:aptID, placeID:placeID, roomID:roomID )
                     codeType.append(billCodeType)

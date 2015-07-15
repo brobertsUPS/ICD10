@@ -81,7 +81,6 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             let place = getPlaceForBill(placeID)//place
             let room = getRoomForBill(roomID)//room
             
-            println("previous \(previousAdminDoc) and adminDocCurrent \(adminDoc)")
             if previousAdminDoc == adminDoc {
                 
                 adminDoc = ""
@@ -154,8 +153,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             var icdCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = codesForBill[visitCode]!
             
             for var j=0; j<icdCodes.count; j++ { //icdCodes
-                println("index \(j)")
-                
+
                 var (icd10, icd9, icd10ID, extensionCode) = icdCodes[j]
                 
                 if extensionCode != "" {

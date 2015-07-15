@@ -38,7 +38,10 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         super.viewDidLoad()
         self.resignFirstResponder()
         dbManager = DatabaseManager()
-        extensionCodes = getExtensionCodes()
+        println(ICD10Text)
+        if ICD10Text != "" && ICD10Text != nil{
+            extensionCodes = getExtensionCodes()
+        }
         
         self.extensionPicker!.delegate = self
         self.extensionPicker!.dataSource = self
@@ -47,8 +50,6 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             self.extensionPicker!.removeFromSuperview()
             self.extensionLabel.removeFromSuperview()
         }
-        
-        println("Is bill view controller nil \(billViewController == nil)")
         
         if billViewController == nil {
             
@@ -79,13 +80,11 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         
         var extensions:[(ExtensionCode:String,ExtensionDescription:String)] = []
         dbManager.checkDatabaseFileAndOpen()
-        println("ICD10ID \(ICD10ID)")
         let extensionQuery = "SELECT Extension_code, Extension_description FROM Extension WHERE ICD10_ID=\(ICD10ID!)"
         
         var statement:COpaquePointer = nil
         var prepareResult = sqlite3_prepare_v2(dbManager.db, extensionQuery, -1, &statement, nil)
         
-        println("Prepare result \(prepareResult)")
         if sqlite3_prepare_v2(dbManager.db, extensionQuery, -1, &statement, nil) == SQLITE_OK {
 
             while sqlite3_step(statement) == SQLITE_ROW {
@@ -98,14 +97,11 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                 let tuple = (ExtensionCode:extensionCodeString!, ExtensionDescription:extensionDescriptionString!)
                 
                 extensions.append(tuple)
-                
-                println("Extensions.append \(extensionCodeString!)")
             }
         }
         
         sqlite3_finalize(statement)
         dbManager.closeDB()
-        println("Extensions \(extensions)")
         return extensions
     }
     
@@ -144,15 +140,9 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                     theICDCodes.append(tuple)
                 }
                 
-                
-                
-                
-                
-                
                 controller.codesForBill[visitCodeToAddICDTo] = theICDCodes                             //put the new icdCodes on at the right position
             }
 
-            
             controller.administeringDoctor = self.billViewController?.administeringDoctor
             controller.icd10On = self.billViewController?.icd10On
             controller.visitCodePriority = self.billViewController!.visitCodePriority
@@ -172,4 +162,3 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         return extensionCode + " " + extensionDescription
     }
 }
-

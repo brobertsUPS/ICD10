@@ -152,6 +152,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
     }
     
+    @IBAction func clickedVisitCodeDescriptionButton(sender: UIButton) {
+        self.performSegueWithIdentifier("visitCodeDescriptionPopover", sender: sender)
+    }
+    
+    
     /**
     *   Registers clicking return and resigns the keyboard
     **/
@@ -197,7 +202,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
 
                 for var j=0; j<diagnosesForVisitCode.count; j++ {
                     var (icd10, icd9, icd10id, extensionCode) = diagnosesForVisitCode[j]
-                    println("added \(diagnosesForVisitCode[j])")
                     self.addHasType(aptID, visitCodeText: visitCode, icd10CodeID: icd10id, visitPriority: i, icdPriority: j, extensionCode: extensionCode)
                 }
             }
@@ -242,6 +246,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
+        if segue.identifier == "visitCodeDescriptionPopover" {
+            let popoverViewController = segue.destinationViewController as! UIViewController
+            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+            popoverViewController.popoverPresentationController!.delegate = self
+        }
+        
         if segue.identifier == "beginICD10Search" {
             let controller = segue.destinationViewController as! MasterViewController
             controller.billViewController = self
@@ -249,7 +259,16 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             controller.billViewController?.visitCodePriority = self.visitCodePriority
         }else if segue.identifier == "newBill"{
             let controller = segue.destinationViewController as! AdminDocViewController
-        }else{
+        }else if segue.identifier == "visitCodeDescriptionPopover" {
+            let popoverViewController = segue.destinationViewController as! visitCodeDetailController
+            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+            popoverViewController.popoverPresentationController!.delegate = self
+            
+            dbManager.checkDatabaseFileAndOpen()
+            popoverViewController.visitCodeDetail = dbManager.getVisitCodeDescription(visitCodePriority[sender!.tag])
+            dbManager.closeDB()
+            
+        }else {
             
             dbManager.checkDatabaseFileAndOpen()
             let popoverViewController = (segue.destinationViewController as! UIViewController) as! SearchTableViewController
@@ -445,7 +464,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             pcTextField.resignFirstResponder()
             
             let inBillAlready = codesForBill[code_description] != nil
-            println("in bill already? \(inBillAlready)")
             
             if !inBillAlready {                                             //only add a new code if it isn't already in the bill
                 codesForBill[code_description] = []
@@ -601,7 +619,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         let sectionCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)]  = codesForBill[visitCodeForPriority]! //lookup the icd codes in the dictionary
         
         let (icd10String, icd9String, icd10id, extensionCode) = sectionCodes[indexPath.row]
-        println("extension \(extensionCode)")
         
         if codeVersion.on {                                         //determine what codes to display
             if extensionCode != "" {
@@ -629,12 +646,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             let cell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "HEADER", forIndexPath: indexPath) as! CodeTokenCollectionViewCell
             
             var visitCodeForPriority = visitCodePriority[indexPath.section] //get the item we should display based on priority
-            println("VISITCELL: visit code for priority \(visitCodeForPriority) section \(indexPath.section)")
             
             cell.visitCodeLabel.text = visitCodeForPriority
             
             dbManager.checkDatabaseFileAndOpen()
-            cell.visitCodeDescriptionLabel.text = dbManager.getVisitCodeDescription(cell.visitCodeLabel.text!)
+            //cell.visitCodeDescriptionLabel.text = dbManager.getVisitCodeDescription(cell.visitCodeLabel.text!)
             dbManager.closeDB()
             
             
@@ -643,6 +659,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             cell.addICDCodeButton.codeToAddTo = visitCodeForPriority
             cell.shiftDownButton.tag = indexPath.section
             cell.shiftUpButton.tag = indexPath.section
+            cell.visitCodeDetailButton.tag = indexPath.section
             
             return cell
         }
@@ -651,17 +668,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     // MARK: - LXReorderableCollectionViewDataSource
     
-    func collectionView(collectionView: UICollectionView!, itemAtIndexPath fromIndexPath: NSIndexPath!, willMoveToIndexPath toIndexPath: NSIndexPath!) {
-        println("WillMoveTo \(toIndexPath) from \(fromIndexPath)")
-    }
-    
     func collectionView(collectionView: UICollectionView!, itemAtIndexPath fromIndexPath: NSIndexPath!, didMoveToIndexPath toIndexPath: NSIndexPath!) {
-        println("didMoveToIndexPath section: \(toIndexPath.section) row: \(toIndexPath.row) from section: \(fromIndexPath.section) row: \(fromIndexPath.row)")
         
         var visitCode = visitCodePriority[toIndexPath.section]
-        
         var icdCodesForKey:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = codesForBill[visitCode]!
-        
         var fromICDCode = icdCodesForKey[fromIndexPath.row]
         
         if fromIndexPath.row < toIndexPath.row {                            //moving a cell to the right
@@ -696,25 +706,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         return true
     }
     
-    // MARK: - LXReorderableCollectionViewDelegateFlowLayout
-    
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, willBeginDraggingItemAtIndexPath indexPath: NSIndexPath!) {
-        println("willBeginDragging")
-    }
-    
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, didBeginDraggingItemAtIndexPath indexPath: NSIndexPath!) {
-        println("didBeginDragging")
-    }
-    
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, willEndDraggingItemAtIndexPath indexPath: NSIndexPath!) {
-        println("willEndDragging")
-    }
-    
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, didEndDraggingItemAtIndexPath indexPath: NSIndexPath!) {
-        println("didEndDragging")
-    }
-    
-    
     // MARK: - Cell actions
     @IBAction func userClickedDeleteVisitCode(sender: ICDDeleteButton) {
         
@@ -735,12 +726,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         var section = sender.section
         var itemInSection = sender.tag
-        println("section \(section)")
-        println("ItemInSection \(itemInSection)")
         var visitCode = visitCodePriority[section]
         
         var icdCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = codesForBill[visitCode]!
-        println("icdCodes \(icdCodes)")
         icdCodes.removeAtIndex(itemInSection)
         
         codesForBill[sender.codeToAddTo!] = icdCodes
@@ -749,11 +737,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     @IBAction func shiftVisitCodeUp(sender: ICDDeleteButton) {
-        println("shift up at index \(sender.tag)")
         
         if sender.tag > 0 {                         //don't shift up if already at the top
             
-            println("codesForBill \(codesForBill)")
             var oldCodeForPriority = visitCodePriority[sender.tag]
             visitCodePriority[sender.tag] = visitCodePriority[sender.tag-1]
             visitCodePriority[sender.tag-1] = oldCodeForPriority
@@ -763,7 +749,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     @IBAction func shiftVisitCodeDown(sender: ICDDeleteButton) {
-        println("Shift down at index \(sender.tag)")
         
         if sender.tag < (codesForBill.count - 1) {         //don't shift down if already at the bottom
             var codeToMoveDown = visitCodePriority[sender.tag]

@@ -229,7 +229,6 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                         controller.conditionDescriptionText = descriptionString
                         controller.ICD9Text = icd9CodeString
                         controller.ICD10ID = icd10ID
-                        println(query)
                     }
                 }
                 sqlite3_finalize(statement)
@@ -273,13 +272,13 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         let (id, location_name) = objects[indexPath.row]
         cell.textLabel!.text = location_name
         var arr = cell.contentView.subviews
+        println("ids in tableView \(id)")
         for var i=0; i<arr.count; i++ {
             if arr[i].isKindOfClass(UIButton) {
                 var button:UIButton = arr[i] as! UIButton
                 button.tag = id + 1
                 
                 if favoritesCell  || button.tag == 221 || button.tag < 10 {
-                    println("tag \(id) \(location_name)")
                     self.view.viewWithTag(button.tag)!.removeFromSuperview()
                 }
             }
@@ -290,6 +289,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         
         let (id, locationName) = objects[indexPath.row]
+        
         let newSubLocations = findSubLocations(id)
         if id == 0{
             favoritesCell = true
@@ -304,22 +304,48 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         }
     }
     
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete && favoritesCell{
+            println("deleting \(indexPath)")
+            let (id, locationName) = objects[indexPath.row]
+            objects.removeAtIndex(indexPath.row)
+            dbManager.checkDatabaseFileAndOpen()
+            var result = dbManager.removeFavoriteFromDatabase(id)
+            println(result)
+            dbManager.closeDB()
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        }
+    }
+    
     @IBAction func addCellToFavorites(sender: UIButton) {
         
+        
+        
         dbManager.checkDatabaseFileAndOpen()
+        var locationName = dbManager.getConditionLocationWithID(sender.tag-1)
+        
         let addFavoriteQuery = "INSERT INTO Sub_location (LID, Parent_locationID) VALUES (\(sender.tag - 1), 0)"
         
         var statement:COpaquePointer = nil
-        
+        var result = "The query could not complete. Please try again."
         if sqlite3_prepare_v2(dbManager.db, addFavoriteQuery, -1, &statement, nil) == SQLITE_OK {
             
             if sqlite3_step(statement) == SQLITE_DONE {
-                println("Successfully added \(sender.tag) to favorites")
+                result = "Successfully added \(locationName) to favorites"
             } else {
-                println("Failed add \(sender.tag)")
+                result = "Failed add location with id \(sender.tag). Please try again."
             }
         }
         sqlite3_finalize(statement)
         dbManager.closeDB()
+        showAlert(result)
+    }
+    
+    func showAlert(msg:String) {
+        let controller2 = UIAlertController(title: msg,
+            message: "", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Ok", style: .Cancel, handler: nil)
+        controller2.addAction(cancelAction)
+        self.presentViewController(controller2, animated: true, completion: nil)
     }
 }

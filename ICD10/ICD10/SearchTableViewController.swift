@@ -42,6 +42,7 @@ class SearchTableViewController: UITableViewController {
         if searchType == "doctor" || searchType == "site" || searchType == "room"{
             let doctorName = singleDataSearchResults[indexPath.row]
             cell.textLabel!.text = doctorName
+            cell.detailTextLabel!.text = ""
         } else {
             let (dob, patientName) = tupleSearchResults[indexPath.row]
             cell.textLabel!.text = patientName

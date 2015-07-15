@@ -201,7 +201,6 @@ class DatabaseManager {
         var result = ""
         let insertHasType = "INSERT INTO Has_type (aptID,apt_code, ICD10_ID, visit_priority, icd_priority, extension) VALUES (\(aptID),'\(visitCodeText)', \(icd10CodeID), \(visitPriority), \(icdPriority), '\(extensionCode)')"
         var statement:COpaquePointer = nil
-        println(insertHasType)
         if sqlite3_prepare_v2(db, insertHasType, -1, &statement, nil) == SQLITE_OK {
             var sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
@@ -210,7 +209,6 @@ class DatabaseManager {
                result = "Failed visit code save:\(visitCodeText) icdCode: \(icd10CodeID)"
             }
         }
-        println(result)
         sqlite3_finalize(statement)
         return result
     }
@@ -264,6 +262,26 @@ class DatabaseManager {
         }
         sqlite3_finalize(statement)
         return result
+    }
+    
+    func removeFavoriteFromDatabase(id:Int) -> String{
+        println("Favorite id \(id)")
+        var result = ""
+        let removeFavoriteQuery = "DELETE FROM Sub_location WHERE LID=\(id) AND parent_locationID=0"
+        
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, removeFavoriteQuery, -1, &statement, nil) == SQLITE_OK {
+            var sqliteResult = sqlite3_step(statement)
+            if sqliteResult == SQLITE_DONE {
+                result = "Removed Favorite with id \(id)"
+            }else {
+                result = "Favorite \(id) not removed"
+            }
+        }
+        sqlite3_finalize(statement)
+        return result
+
     }
     
     // MARK: - Update information in the database
@@ -337,7 +355,6 @@ class DatabaseManager {
         
         if sqlite3_prepare_v2(db, doctorQuery, -1, &statement, nil) == SQLITE_OK {
             var result = sqlite3_step(statement)
-            println(result)
             if result == SQLITE_DONE || result == SQLITE_ROW {
                 
                 let docFName = sqlite3_column_text(statement, 0)
@@ -460,9 +477,8 @@ class DatabaseManager {
                 var visitCode = sqlite3_column_text(statement, 0)
                 var visitCodeString = String.fromCString(UnsafePointer<CChar>(visitCode))
                 
-                
                 var visitPriority = Int(sqlite3_column_int(statement, 1))
-                println("visitCode \(visitCodeString) priority \(visitPriority) size \(visitCodePriority.count)")
+                
                 if visitPriority >= visitCodePriority.count {
                     visitCodePriority.append(visitCodeString!)
                 }else {
@@ -475,7 +491,6 @@ class DatabaseManager {
             }
         }
         sqlite3_finalize(statement)
-        println("CodesForBill \(codesForBill)")
         return (codesForBill, visitCodePriority)
     }
     
@@ -504,7 +519,6 @@ class DatabaseManager {
             }
         }
         sqlite3_finalize(statement)
-        println("visitCode \(visitCode) with icdCodes \(conditionDiagnosed)")
         return conditionDiagnosed
     }
     
@@ -525,9 +539,26 @@ class DatabaseManager {
         return icd10CodeString
     }
     
+    func getConditionLocationWithID(lID:Int) -> String {
+        
+        var locationName = ""
+        
+        let locationQuery = "SELECT location_name FROM Condition_location WHERE LID=\(lID)"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, locationQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {
+                var location = sqlite3_column_text(statement, 0)
+                locationName = String.fromCString(UnsafePointer<CChar>(location))!
+            }
+        }
+        sqlite3_finalize(statement)
+        
+        return locationName
+    }
+    
     func getVisitCodeDescription(visitCode:String) -> String {
         var codeDescriptionString = ""
-        println("visitcode \(visitCode)")
         let cptQuery = "SELECT code_description FROM Apt_type WHERE apt_code='\(visitCode)'"
         
         var statement:COpaquePointer = nil
