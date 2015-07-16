@@ -47,8 +47,10 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         self.extensionPicker!.dataSource = self
         
         if extensionCodes.isEmpty {
+            println("Extension empty")
             self.extensionPicker!.removeFromSuperview()
             self.extensionLabel.removeFromSuperview()
+            self.extensionPicker = nil
         }
         
         if billViewController == nil {
@@ -139,9 +141,9 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                 var theICDCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = icdCodes
                 
                 
-                if let extensionCodePicker = extensionPicker {
+                if extensionPicker != nil {
                     
-                    var extensionRow = extensionCodePicker.selectedRowInComponent(0)
+                    var extensionRow = extensionPicker!.selectedRowInComponent(0)
                     var (extensionCode, extensionDescription) = extensionCodes[extensionRow]
                     let tuple = (icd10: ICD10Text!, icd9: ICD9Text!, icd10id: ICD10ID!, extensionCode:extensionCode)
                     theICDCodes.append(tuple)

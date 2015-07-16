@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AD04B32C1B5473F6002CF44F /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD04B32B1B5473F6002CF44F /* testDML.sqlite3 */; };
 		AD0798901B45BD1C0066A47B /* ICD10Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD07988F1B45BD1C0066A47B /* ICD10Cell.swift */; };
 		AD0926AC1B4B3AB000C6E3DD /* ICDDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0926AB1B4B3AB000C6E3DD /* ICDDeleteButton.swift */; };
 		AD1025251B333C8900308E36 /* AdminDocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1025241B333C8900308E36 /* AdminDocViewController.swift */; };
@@ -23,6 +22,7 @@
 		AD93D7311B28F667000EAF98 /* DirectSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */; };
 		ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAB0D381B210E71004C770C /* BillViewController.swift */; };
 		ADABFEBB1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */; };
+		ADB02E9A1B5851950063487B /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = ADB02E991B5851950063487B /* testDML.sqlite3 */; };
 		ADB59A151B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */; };
 		ADD4A8C41B220FC00083FAF1 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */; };
 		ADE77F361B1782F900CE48F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F351B1782F900CE48F1 /* AppDelegate.swift */; };
@@ -46,7 +46,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AD04B32B1B5473F6002CF44F /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		AD07988F1B45BD1C0066A47B /* ICD10Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICD10Cell.swift; sourceTree = "<group>"; };
 		AD0926AB1B4B3AB000C6E3DD /* ICDDeleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICDDeleteButton.swift; sourceTree = "<group>"; };
 		AD1025241B333C8900308E36 /* AdminDocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdminDocViewController.swift; path = ../AdminDocViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +61,7 @@
 		AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectSearchTableViewController.swift; sourceTree = "<group>"; };
 		ADAB0D381B210E71004C770C /* BillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewController.swift; sourceTree = "<group>"; };
 		ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeTokenCollectionViewCell.swift; sourceTree = "<group>"; };
+		ADB02E991B5851950063487B /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LXReorderableCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXReorderableCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 			children = (
 				ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */,
 				ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */,
-				AD04B32B1B5473F6002CF44F /* testDML.sqlite3 */,
+				ADB02E991B5851950063487B /* testDML.sqlite3 */,
 				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
 				AD1025241B333C8900308E36 /* AdminDocViewController.swift */,
 				ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */,
@@ -259,7 +259,7 @@
 				ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */,
 				ADE77F3F1B1782F900CE48F1 /* Images.xcassets in Resources */,
 				AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */,
-				AD04B32C1B5473F6002CF44F /* testDML.sqlite3 in Resources */,
+				ADB02E9A1B5851950063487B /* testDML.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

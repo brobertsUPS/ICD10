@@ -96,7 +96,6 @@ class DatabaseManager {
         
         var (firstName, lastName) = split(inputPatient)
         var result = ""
-        
         firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
         lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
         
@@ -264,8 +263,25 @@ class DatabaseManager {
         return result
     }
     
+    func removeBillWithPatientID(id:Int) -> String{
+        var result = ""
+        
+        let removeAptQuery = "DELETE FROM Appointment WHERE pID=\(id)"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, removeAptQuery, -1, &statement, nil) == SQLITE_OK {
+            var sqliteResult = sqlite3_step(statement)
+            if sqliteResult == SQLITE_DONE {
+                result = "Removed appointment"
+            }else {
+                result = "Remove appointment failed"
+            }
+        }
+        sqlite3_finalize(statement)
+        return result        
+    }
+    
     func removeFavoriteFromDatabase(id:Int) -> String{
-        println("Favorite id \(id)")
         var result = ""
         let removeFavoriteQuery = "DELETE FROM Sub_location WHERE LID=\(id) AND parent_locationID=0"
         
@@ -707,7 +723,7 @@ class DatabaseManager {
     func split(splitString:String) -> (String, String?){
         
         let fullNameArr = splitString.componentsSeparatedByString(" ")
-        if fullNameArr.count == 2{
+        if fullNameArr.count >= 2{
             var firstName: String = fullNameArr[0]
             var lastName: String =  fullNameArr[1]
             

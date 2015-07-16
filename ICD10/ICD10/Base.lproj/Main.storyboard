@@ -143,7 +143,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1635" y="1202"/>
+            <point key="canvasLocation" x="-1213" y="1212"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5z2-Rx-rav">
@@ -695,13 +695,19 @@
                                     </segue>
                                 </connections>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Please add yourself as the administering doctor" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ip-tH-ewa">
+                                <rect key="frame" x="16" y="182" width="568" height="47"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I10-Un-ip3">
                                 <rect key="frame" x="242" y="467" width="147" height="55"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="EZL-md-94c"/>
                                     <constraint firstAttribute="width" constant="147" id="vkR-xp-JP7"/>
                                 </constraints>
-                                <state key="normal" image="Start-50">
+                                <state key="normal" title="Start Bill">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -709,12 +715,6 @@
                                     <action selector="checkForDoctorAndAdd:" destination="bi9-wf-IVB" eventType="touchUpInside" id="IpH-lw-0bj"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Please add yourself as the administering doctor" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ip-tH-ewa">
-                                <rect key="frame" x="16" y="182" width="568" height="47"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.35294117647058826" green="0.78431372549019607" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -735,7 +735,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VzU-EU-FM1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1524" y="-1436"/>
+            <point key="canvasLocation" x="-1524" y="-1436.5"/>
         </scene>
         <!--Item-->
         <scene sceneID="y4A-YN-rO1">
@@ -781,12 +781,12 @@
                                         </variation>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Referred" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Edo-5W-iaW">
-                                        <rect key="frame" x="8" y="150" width="68" height="21"/>
+                                        <rect key="frame" x="8" y="145" width="68" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search Doctors" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ak3-nr-RY1">
+                                    <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search Referring Doctors" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ak3-nr-RY1">
                                         <rect key="frame" x="84" y="141" width="492" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -800,7 +800,7 @@
                                             </segue>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Site of visit" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p6d-99-gAp">
+                                    <textField opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Place of Service" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p6d-99-gAp">
                                         <rect key="frame" x="84" y="179" width="492" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="203" id="J0z-Ml-hpw"/>
@@ -836,7 +836,7 @@
                                             </segue>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="DOB" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9PO-MH-fLT">
+                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="MM/DD/YYYY" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9PO-MH-fLT">
                                         <rect key="frame" x="84" y="103" width="492" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -1050,6 +1050,7 @@
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSC-BO-UC4" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
                                                     <rect key="frame" x="556" y="5" width="36" height="25"/>
+                                                    <color key="backgroundColor" red="0.93272107712765961" green="0.089785684353754114" blue="0.12930532248376145" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="36" id="NQ5-j1-Vtw"/>
                                                     </constraints>
@@ -1133,6 +1134,24 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DOB" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r7c-PI-EHL">
+                                        <rect key="frame" x="14" y="107" width="62" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phl-UB-BF8">
+                                        <rect key="frame" x="8" y="221" width="68" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Site" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ClV-EB-uZx">
+                                        <rect key="frame" x="8" y="183" width="68" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="Edo-5W-iaW" firstAttribute="bottom" secondItem="Ak3-nr-RY1" secondAttribute="bottom" id="0Av-Yq-zK1"/>
@@ -1141,8 +1160,11 @@
                                     <constraint firstItem="fqA-MK-b1R" firstAttribute="leading" secondItem="2ot-ia-SDJ" secondAttribute="leading" id="3bR-IS-LWt"/>
                                     <constraint firstItem="xlg-bT-yQf" firstAttribute="top" secondItem="p6d-99-gAp" secondAttribute="bottom" constant="8" symbolic="YES" id="4FO-NW-7aj"/>
                                     <constraint firstItem="9PO-MH-fLT" firstAttribute="trailing" secondItem="Vjf-44-CSm" secondAttribute="trailing" id="4XM-Uy-T4U"/>
+                                    <constraint firstItem="r7c-PI-EHL" firstAttribute="leading" secondItem="2ot-ia-SDJ" secondAttribute="leading" constant="14" id="5SA-8m-WUy"/>
                                     <constraint firstItem="FVe-PN-0Qy" firstAttribute="leading" secondItem="2ot-ia-SDJ" secondAttribute="leading" constant="14" id="5X7-Ej-JZn"/>
                                     <constraint firstItem="WiF-Xc-XGO" firstAttribute="leading" secondItem="Edo-5W-iaW" secondAttribute="leading" id="7jY-oD-Vvz"/>
+                                    <constraint firstItem="Edo-5W-iaW" firstAttribute="top" secondItem="r7c-PI-EHL" secondAttribute="bottom" constant="17" id="BGL-OT-5Cp"/>
+                                    <constraint firstItem="FVe-PN-0Qy" firstAttribute="top" secondItem="phl-UB-BF8" secondAttribute="bottom" constant="13" id="BgY-I4-AWn"/>
                                     <constraint firstItem="QYl-TS-nGn" firstAttribute="top" secondItem="fqA-MK-b1R" secondAttribute="bottom" constant="7" id="CHp-1R-5Wy"/>
                                     <constraint firstItem="WiF-Xc-XGO" firstAttribute="leading" secondItem="2ot-ia-SDJ" secondAttribute="leadingMargin" id="CaT-St-gRY"/>
                                     <constraint firstItem="Vjf-44-CSm" firstAttribute="leading" secondItem="WiF-Xc-XGO" secondAttribute="trailing" constant="8" symbolic="YES" id="DJO-vs-ccf"/>
@@ -1153,26 +1175,34 @@
                                     <constraint firstItem="Vjf-44-CSm" firstAttribute="top" secondItem="0eR-FX-YAW" secondAttribute="bottom" constant="8" symbolic="YES" id="MgZ-Lm-rSN"/>
                                     <constraint firstItem="xlg-bT-yQf" firstAttribute="trailing" secondItem="wkg-4V-7jj" secondAttribute="trailing" id="OxN-4H-sZT"/>
                                     <constraint firstItem="FVe-PN-0Qy" firstAttribute="top" secondItem="xlg-bT-yQf" secondAttribute="bottom" constant="8" symbolic="YES" id="UgT-0U-1QY"/>
+                                    <constraint firstItem="r7c-PI-EHL" firstAttribute="top" secondItem="WiF-Xc-XGO" secondAttribute="bottom" constant="17" id="V4e-Aj-spK"/>
                                     <constraint firstItem="yTk-aQ-h7Y" firstAttribute="width" secondItem="Wah-I3-M7s" secondAttribute="width" id="VJx-Mq-BSj"/>
+                                    <constraint firstItem="xlg-bT-yQf" firstAttribute="leading" secondItem="phl-UB-BF8" secondAttribute="trailing" constant="8" id="X4N-ML-nIe"/>
                                     <constraint firstItem="WiF-Xc-XGO" firstAttribute="top" secondItem="aaJ-eH-upS" secondAttribute="bottom" constant="17" id="X73-xt-MmX"/>
                                     <constraint firstItem="Wah-I3-M7s" firstAttribute="leading" secondItem="yTk-aQ-h7Y" secondAttribute="trailing" constant="8" symbolic="YES" id="Xc3-ia-RHP"/>
                                     <constraint firstAttribute="trailing" secondItem="Wah-I3-M7s" secondAttribute="trailing" constant="18" id="YNS-vV-Xdl"/>
+                                    <constraint firstItem="p6d-99-gAp" firstAttribute="leading" secondItem="ClV-EB-uZx" secondAttribute="trailing" constant="8" id="YuA-y9-JTa"/>
                                     <constraint firstItem="p6d-99-gAp" firstAttribute="trailing" secondItem="Ak3-nr-RY1" secondAttribute="trailing" id="YvR-AM-oHN"/>
                                     <constraint firstItem="Ak3-nr-RY1" firstAttribute="trailing" secondItem="9PO-MH-fLT" secondAttribute="trailing" id="ZH4-kt-CHp"/>
                                     <constraint firstItem="Vjf-44-CSm" firstAttribute="leading" secondItem="9PO-MH-fLT" secondAttribute="leading" id="ZHV-ga-98X"/>
+                                    <constraint firstItem="phl-UB-BF8" firstAttribute="leading" secondItem="2ot-ia-SDJ" secondAttribute="leading" constant="8" id="b8N-J5-K6B"/>
                                     <constraint firstItem="WiF-Xc-XGO" firstAttribute="leading" secondItem="aaJ-eH-upS" secondAttribute="leading" id="bTD-VK-bgJ"/>
                                     <constraint firstItem="0eR-FX-YAW" firstAttribute="trailing" secondItem="Vjf-44-CSm" secondAttribute="trailing" id="cak-qS-B5w"/>
                                     <constraint firstItem="yTk-aQ-h7Y" firstAttribute="baseline" secondItem="Wah-I3-M7s" secondAttribute="baseline" id="cpZ-JS-Ewk"/>
                                     <constraint firstItem="0eR-FX-YAW" firstAttribute="top" secondItem="2ot-ia-SDJ" secondAttribute="top" constant="27" id="cuC-ef-O4I"/>
                                     <constraint firstItem="fqA-MK-b1R" firstAttribute="centerX" secondItem="2ot-ia-SDJ" secondAttribute="centerX" id="eUd-xX-WUM"/>
+                                    <constraint firstItem="ClV-EB-uZx" firstAttribute="top" secondItem="Edo-5W-iaW" secondAttribute="bottom" constant="17" id="ei0-6w-Qiw"/>
                                     <constraint firstItem="9PO-MH-fLT" firstAttribute="leading" secondItem="2ot-ia-SDJ" secondAttribute="leading" constant="84" id="f3k-qM-h1a"/>
                                     <constraint firstItem="fqA-MK-b1R" firstAttribute="top" secondItem="FVe-PN-0Qy" secondAttribute="bottom" constant="8" symbolic="YES" id="fKh-0k-OXb"/>
+                                    <constraint firstItem="ClV-EB-uZx" firstAttribute="leading" secondItem="2ot-ia-SDJ" secondAttribute="leading" constant="8" id="gDU-Kj-CHH"/>
                                     <constraint firstItem="QYl-TS-nGn" firstAttribute="top" secondItem="wkg-4V-7jj" secondAttribute="top" constant="-1" id="gnp-fK-WE3"/>
                                     <constraint firstItem="Vjf-44-CSm" firstAttribute="leading" secondItem="0eR-FX-YAW" secondAttribute="leading" id="iAT-tq-uD8"/>
                                     <constraint firstItem="9PO-MH-fLT" firstAttribute="top" secondItem="Vjf-44-CSm" secondAttribute="bottom" constant="8" symbolic="YES" id="jFN-rH-eMV"/>
+                                    <constraint firstItem="9PO-MH-fLT" firstAttribute="leading" secondItem="r7c-PI-EHL" secondAttribute="trailing" constant="8" id="lRb-ZR-Baj"/>
                                     <constraint firstItem="G2k-IG-tW4" firstAttribute="centerY" secondItem="QYl-TS-nGn" secondAttribute="centerY" id="mgR-ID-kvt"/>
                                     <constraint firstItem="yTk-aQ-h7Y" firstAttribute="baseline" secondItem="FVe-PN-0Qy" secondAttribute="baseline" id="mrl-tf-S8m"/>
                                     <constraint firstItem="xlg-bT-yQf" firstAttribute="leading" secondItem="p6d-99-gAp" secondAttribute="leading" id="nRA-M9-Abz"/>
+                                    <constraint firstItem="phl-UB-BF8" firstAttribute="top" secondItem="ClV-EB-uZx" secondAttribute="bottom" constant="17" id="ojb-Zz-49y"/>
                                     <constraint firstItem="xlg-bT-yQf" firstAttribute="trailing" secondItem="p6d-99-gAp" secondAttribute="trailing" id="pfZ-xy-UvS"/>
                                     <constraint firstAttribute="trailing" secondItem="fqA-MK-b1R" secondAttribute="trailing" id="uKu-If-1NL"/>
                                     <constraint firstItem="G2k-IG-tW4" firstAttribute="leading" secondItem="2ot-ia-SDJ" secondAttribute="leading" constant="23" id="vB3-Jh-kYI"/>
@@ -1212,16 +1242,16 @@
                         <outlet property="saveBillButton" destination="wkg-4V-7jj" id="HjR-Uw-O5o"/>
                         <outlet property="scrollView" destination="2ot-ia-SDJ" id="TcV-P4-3xM"/>
                         <outlet property="siteTextField" destination="p6d-99-gAp" id="OYu-UI-tGv"/>
-                        <segue destination="bi9-wf-IVB" kind="show" identifier="newBill" id="B79-P1-amM"/>
                         <segue destination="7bK-jq-Zjz" kind="show" identifier="beginICD10Search" id="OCB-Va-VDC"/>
                         <segue destination="Owr-9Y-QJ0" kind="popoverPresentation" identifier="visitCodeDescriptionPopover" popoverAnchorView="fqA-MK-b1R" id="Gjy-Dq-Xac">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
+                        <segue destination="bi9-wf-IVB" kind="show" identifier="newBill" id="y7i-um-yHJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q50-df-xDS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1603" y="-445.5"/>
+            <point key="canvasLocation" x="-1451" y="-498.5"/>
         </scene>
         <!--Visit Code Detail Controller-->
         <scene sceneID="kYu-Ci-EqO">
@@ -1366,7 +1396,7 @@
             <objects>
                 <tableViewController title="Master" clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="MasterViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="r7i-6Z-zg0">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="693"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1442,7 +1472,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-747" y="-359"/>
+            <point key="canvasLocation" x="-461" y="-177.5"/>
         </scene>
         <!--Search-->
         <scene sceneID="MSc-bV-FS8">
@@ -1489,18 +1519,17 @@
         <image name="Medical Doctor-50" width="25" height="25"/>
         <image name="Rules-50" width="25" height="25"/>
         <image name="Search Filled-50" width="25" height="25"/>
-        <image name="Start-50" width="50" height="50"/>
         <image name="Triangular Bandage-50" width="25" height="25"/>
         <image name="Up" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ivE-wa-30t"/>
         <segue reference="jsy-lt-xeY"/>
         <segue reference="edd-ny-Y2u"/>
-        <segue reference="2II-5o-t3P"/>
-        <segue reference="zKf-2S-qlA"/>
+        <segue reference="j9k-IG-ode"/>
+        <segue reference="y7i-um-yHJ"/>
         <segue reference="OCB-Va-VDC"/>
-        <segue reference="B79-P1-amM"/>
         <segue reference="t0l-p3-sB1"/>
+        <segue reference="zKf-2S-qlA"/>
+        <segue reference="w8A-RM-qYc"/>
     </inferredMetricsTieBreakers>
 </document>

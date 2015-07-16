@@ -139,7 +139,10 @@ INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (3, "12-2
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (4, "03-31-1931", "Leonard", "Nimoy", "");
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (5, "03-03-1920", "James", "Doohan", "");
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (6, "04-20-1937", "George", "Takei", "");
+
 INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (1, "Rodney", "Joe","Rodneyjoe@mac.com", 0);
+INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (2, "Doctor", "One","", 1);
+INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (3, "Doctor", "Two","", 1);
 
 --Place of service*******************************************************************************************************
 INSERT INTO Place_of_service (placeID, place_description) VALUES (1, "PSPH IN PATIENT");
@@ -460,7 +463,7 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (317,317);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (318, "Pharyngeal - esophago");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (318,11);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (318, "R13.14", "Dysphagia - Pharyngeal - esophago",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (318, "R13.14", "Dysphagia - Pharyngeal - esophago"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("787.24", "Dysphagia - Pharyngeal - esophago");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (318, "787.24");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (318,318);
@@ -517,7 +520,8 @@ INSERT INTO Sub_location (LID, parent_locationID) VALUES (13,1);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (322, "Unspecified FB in esoph");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (322,13);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (322, "T18.108", "Unspecified foreign body in esophagus",0); 
+
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (322, "T18.108", "Unspecified foreign body in esophagus"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("935.1", "Foreign body - esophagus");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (322, "935.1");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (322,322);
@@ -530,7 +534,7 @@ INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES (
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (323, "Food in esophagus");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (323,13);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (323, "T18.128", "Food in esophagus",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (323, "T18.128", "Food in esophagus"); 
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (323, "935.1");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (323,323);
 
@@ -696,7 +700,7 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (21,21);
 --Foreign body
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (22,2);
 
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (22, "T18.2", "Foreign body in stomach",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (22, "T18.2", "Foreign body in stomach"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("935.1", "Foreign body in stomach");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (22,"935.1");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (22,22);
@@ -723,49 +727,49 @@ INSERT INTO Sub_location (LID, parent_locationID) VALUES (324,2);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (325, "Acute with hemorrhage");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (325,324);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.0", "GU, acute w/ hemorrhage",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.0", "GU, acute w/ hemorrhage"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.00", "GU, acute w/ hemorrhage");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.0","531.00");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.0",325);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (326, "Chronic with hemorrhage");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (326,324);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.4", "GU, chronic w/ hemorrhage",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.4", "GU, chronic w/ hemorrhage"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.40", "GU, chronic w/ hemorrhage");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.4","531.40");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.4",326);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (327, "Acute without hemorrhage");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (327,324);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.3", "GU, acute w/o hemorrhage",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.3", "GU, acute w/o hemorrhage"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.30", "GU, acute w/o hemorrhage");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.3","531.30");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.3",327);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (328, "Chronic without hemorrhage");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (328,324);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.7", "GU, chronic w/o hemorrhage",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.7", "GU, chronic w/o hemorrhage"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.70", "GU, chronic w/o hemorrhage");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.7","531.70");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.7",328);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (329, "Acute with perforation");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (329,324);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.1", "GU, acute w/ perforation",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.1", "GU, acute w/ perforation"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.10", "GU, acute w/ perforation");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.1","531.10");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.1",329);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (330, "Chronic with perforation");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (330,324);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.5", "GU, chronic w/ perforation",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.5", "GU, chronic w/ perforation"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.50", "GU, acute w/o hemorrhage");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.5","531.50");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.5",330);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (331, "Gastric Ulcer");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (331,324);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.9", "Gastric ulcer",0); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES ("K25.9", "Gastric ulcer"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.90", "Gastric ulcer");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.9","531.90");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.9",331);

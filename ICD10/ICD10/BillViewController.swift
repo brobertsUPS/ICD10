@@ -85,10 +85,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         var screenWidth = screenSize.width
         var screenHeight = screenSize.height
         
-        println("ScreenWidth \(screenWidth) ScreenHeight \(screenHeight)")
-        
         screenHeight = screenHeight * 2
-        println("ScreenWidth \(screenWidth) ScreenHeight \(screenHeight)")
         
         self.scrollView.contentSize = CGSizeMake(screenWidth, screenHeight)
     }
@@ -143,6 +140,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     // MARK: - DidBeginBillWithPatientInformationDelegate
     
     func userEnteredPatientInformationForBill(fName:String, lName:String, dateOfBirth:String){
+        println("fName \(fName) lName \(lName) dob \(dateOfBirth)")
         patientTextField.text = fName + " " + lName
         patientDOBTextField.text = dateOfBirth
     }
@@ -151,7 +149,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     // MARK: -  Clicks and Actions
     
     @IBAction func clickedInTextBox(sender: UITextField) {
-        println("Clicked in textBox")
         
         switch sender.tag {
         case 0:self.performSegueWithIdentifier("patientSearchPopover", sender: self)
@@ -220,8 +217,18 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 }
             }
             //pop everything off of the stack
+            
+            
             self.navigationController!.viewControllers.first
             var viewControllers = self.navigationController!.viewControllers
+            for var i=0; i<viewControllers.count; i++ {
+                
+                
+                println(viewControllers[i])
+           
+            }
+            
+            
             self.performSegueWithIdentifier("newBill", sender: self)
         } else {
             showAlert(error)//popup with the error message
@@ -510,6 +517,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     // MARK: - Adding to Database
     
     func addPatientToDatabase(inputPatient:String, email:String) -> String{
+        
+        var (firstName, lastName) = self.split(inputPatient)
+        
+        println("To add firstName \(firstName) lastName \(lastName)")
+        
         var dateOfBirth = patientDOBTextField.text
         dbManager.checkDatabaseFileAndOpen()
         var result = dbManager.addPatientToDatabase(inputPatient, dateOfBirth: dateOfBirth, email:email)

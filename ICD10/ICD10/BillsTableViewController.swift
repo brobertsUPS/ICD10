@@ -55,7 +55,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         case MFMailComposeResultCancelled.value: println("Mail canceled")
         case MFMailComposeResultSaved.value: println("Mail saved")
         case MFMailComposeResultSent.value: println("Mail sent")
-        case MFMailComposeResultFailed.value: println("Mail failed")
+        case MFMailComposeResultFailed.value: self.showAlert("No email was detected on your device. Please configure an email in the device settings and submit the bills again.")
         default : break
         }
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -67,7 +67,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         
         let path = filePathForSelectedExport("html")
         //var csvLine = "Administering Doctor, Date, Patient Name, Patient Date of Birth, Referring Doctor, Place of Service, Room, CPT, MC, PC, ICD10, ICD9 \r\n"
-        var htmlLine = "<!DOCTYPE html> <html> <head> <meta charset='UTF-8'> <title>Title of the document</title> </head> <body style='background-color#B2B2B2'> <table border='1' style='width:100%'> <tr><td> Admin Doc </td><td> Date </td><td> Patient Name </td><td> Patient Date of Birth </td><td> Referring Doctor </td><td> Place of Service </td><td> Room </td><td> Visit Code </td><td> ICD10 </td><td> ICD9 </td> </tr>"
+        var htmlLine = "<!DOCTYPE html> <html> <head> <meta charset='UTF-8'> <title>Bills:\(date)</title> </head> <body style='background-color#B2B2B2'> <table border='1' style='width:100%'> <tr><td> Admin Doc </td><td> Date </td><td> Patient Name </td><td> Patient Date of Birth </td><td> Referring Doctor </td><td> Place of Service </td><td> Room </td><td> Visit Code </td><td> ICD10 </td><td> ICD9 </td> </tr>"
         
         var previousAdminDoc = ""
         

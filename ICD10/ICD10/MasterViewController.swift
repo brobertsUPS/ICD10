@@ -204,6 +204,8 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             let newSubLocations = findSubLocations(id)
             
             if newSubLocations.count == 0 && segue.identifier == "showCodes" {
+                
+                println("lID = \(id)")
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
                 
                 dbManager.checkDatabaseFileAndOpen()
@@ -211,9 +213,10 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 let query = "SELECT ICD10_code, description_text, ICD9_code, ICD10_ID FROM ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition WHERE ICD10_ID=(SELECT ICD10_ID FROM Located_in WHERE LID=\(id))"
                 
                 if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
-                    
-                    if sqlite3_step(statement) == SQLITE_ROW { // if we got the row back successfully
-                        
+                    var result = sqlite3_step(statement)
+                    println("Result \(result)")
+                    if result == SQLITE_ROW { // if we got the row back successfully
+                        println("Retrieved row from database")
                         let icd10Code = sqlite3_column_text(statement, 0)
                         let icd10CodeString = String.fromCString(UnsafePointer<CChar>(icd10Code))!
                         
@@ -238,6 +241,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 controller.billViewController = self.billViewController
                 controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
                 dbManager.closeDB()
+                
             } else if (segue.identifier == "showLocations" && newSubLocations.count > 0) {
                 
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
@@ -272,7 +276,6 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         let (id, location_name) = objects[indexPath.row]
         cell.textLabel!.text = location_name
         var arr = cell.contentView.subviews
-        println("ids in tableView \(id)")
         for var i=0; i<arr.count; i++ {
             if arr[i].isKindOfClass(UIButton) {
                 var button:UIButton = arr[i] as! UIButton
@@ -306,12 +309,10 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == UITableViewCellEditingStyle.Delete && favoritesCell{
-            println("deleting \(indexPath)")
             let (id, locationName) = objects[indexPath.row]
             objects.removeAtIndex(indexPath.row)
             dbManager.checkDatabaseFileAndOpen()
             var result = dbManager.removeFavoriteFromDatabase(id)
-            println(result)
             dbManager.closeDB()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
         }
