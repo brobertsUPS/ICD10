@@ -695,14 +695,14 @@
                                     </segue>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Please add yourself as the administering doctor" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ip-tH-ewa">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Please add yourself as the administering doctor" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ip-tH-ewa">
                                 <rect key="frame" x="16" y="182" width="568" height="47"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I10-Un-ip3">
-                                <rect key="frame" x="242" y="467" width="147" height="55"/>
+                                <rect key="frame" x="227" y="468" width="147" height="55"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="EZL-md-94c"/>
                                     <constraint firstAttribute="width" constant="147" id="vkR-xp-JP7"/>
@@ -721,6 +721,8 @@
                             <constraint firstItem="2Ip-tH-ewa" firstAttribute="top" secondItem="c8f-Hv-NfD" secondAttribute="bottom" constant="118" id="6PO-wb-skX"/>
                             <constraint firstItem="ek8-HK-f4h" firstAttribute="leading" secondItem="mIq-cC-9D9" secondAttribute="leadingMargin" id="Dx5-hI-BRq"/>
                             <constraint firstItem="I10-Un-ip3" firstAttribute="centerX" secondItem="2Ip-tH-ewa" secondAttribute="centerX" constant="15.5" id="Dy4-z8-k0J"/>
+                            <constraint firstItem="2Ip-tH-ewa" firstAttribute="trailing" secondItem="mIq-cC-9D9" secondAttribute="trailingMargin" id="Ewg-kk-hKm"/>
+                            <constraint firstItem="2Ip-tH-ewa" firstAttribute="leading" secondItem="mIq-cC-9D9" secondAttribute="leadingMargin" id="HhZ-6I-mZC"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ek8-HK-f4h" secondAttribute="trailing" id="gjg-Hz-eCQ"/>
                             <constraint firstItem="ek8-HK-f4h" firstAttribute="top" secondItem="2Ip-tH-ewa" secondAttribute="bottom" constant="8" symbolic="YES" id="muD-3p-62z"/>
                             <constraint firstItem="2Ip-tH-ewa" firstAttribute="centerX" secondItem="mIq-cC-9D9" secondAttribute="centerX" id="nIh-7r-qRt"/>
@@ -1527,8 +1529,8 @@
         <segue reference="edd-ny-Y2u"/>
         <segue reference="j9k-IG-ode"/>
         <segue reference="y7i-um-yHJ"/>
+        <segue reference="gnc-ff-Qqx"/>
         <segue reference="OCB-Va-VDC"/>
-        <segue reference="t0l-p3-sB1"/>
         <segue reference="zKf-2S-qlA"/>
         <segue reference="w8A-RM-qYc"/>
     </inferredMetricsTieBreakers>
