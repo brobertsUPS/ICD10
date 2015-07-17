@@ -110,8 +110,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     func fillFormTextFields(){                                          //Load data into the text fields
         
         let date = NSDate()
+        
         let formatter = NSDateFormatter()
         formatter.dateStyle = .ShortStyle
+        formatter.dateFormat = "MM-dd-yyyy"
         dateTextField.text = formatter.stringFromDate(date)
         
         if self.textFieldText.count > 0 {
