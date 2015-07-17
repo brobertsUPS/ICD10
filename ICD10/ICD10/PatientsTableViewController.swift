@@ -102,7 +102,7 @@ class PatientsTableViewController: UITableViewController {
             patients.removeAtIndex(indexPath.row)
             dbManager.checkDatabaseFileAndOpen()
             dbManager.removePatientFromDatabase(ids[indexPath.row])
-            println(dbManager.removeBillWithPatientID(ids[indexPath.row]))
+            dbManager.removeBillWithPatientID(ids[indexPath.row])
             dbManager.closeDB()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
         }

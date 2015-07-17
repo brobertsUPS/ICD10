@@ -159,6 +159,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             controller.administeringDoctor = self.billViewController?.administeringDoctor
             controller.icd10On = self.billViewController?.icd10On
             controller.visitCodePriority = self.billViewController!.visitCodePriority
+            controller.appointmentID = self.billViewController!.appointmentID
         }
     }
     

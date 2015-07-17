@@ -12,34 +12,41 @@ class BillDatesTableViewController: UITableViewController {
 
     var billDates:[String] = []
     var dbManager:DatabaseManager!
+    var hasIncompleteBills:[Int] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         dbManager = DatabaseManager()
-        getDates()
     }
     
     override func viewWillAppear(animated: Bool) {
         billDates = []
         getDates()
+        self.navigationItem.hidesBackButton = true
         self.tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() { super.didReceiveMemoryWarning() }
     
-    func getDates() {
+    func getDates() -> [String:Int] {
+        var areBillsIncomplete:[String:Int] = [:]
+        
         dbManager.checkDatabaseFileAndOpen()
+        
         let dateQuery = "SELECT date FROM Appointment GROUP BY date"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(dbManager.db, dateQuery, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
+                
                 var date = sqlite3_column_text(statement, 0)
                 var dateString = String.fromCString(UnsafePointer<CChar>(date))
+                
                 billDates.append(dateString!)                                      //if we got into this step the dateString is good
             }
         }
         sqlite3_finalize(statement)
         dbManager.closeDB()
+        return areBillsIncomplete
     }
     
     // MARK: - Navigation
@@ -49,51 +56,17 @@ class BillDatesTableViewController: UITableViewController {
         if segue.identifier == "showBillsForDate" {
             dbManager.checkDatabaseFileAndOpen()
             
-            var patientBills:[(id:Int, dob:String, name:String)] = []
-            var IDs:[(aptID:Int, placeID:Int, roomID:Int)] = []
-            var codeType:[Int] = []
-            
             let indexPath = self.tableView.indexPathForSelectedRow()
             let date = billDates[indexPath!.row]
             
-            let billsQuery = "SELECT pID,date_of_birth, f_name, l_name, aptID, placeID, roomID, code_type FROM Patient NATURAL JOIN Appointment WHERE date='\(date)'"
+            var (patientBills, IDs, codeType, complete) = dbManager.getBillsForDate(date)
             
-            var statement:COpaquePointer = nil
-            if sqlite3_prepare_v2(dbManager.db, billsQuery, -1, &statement, nil) == SQLITE_OK {
-                
-                while sqlite3_step(statement) == SQLITE_ROW {
-                    
-                    let patientID = Int(sqlite3_column_int(statement, 0))
-                    
-                    let patientDOB = sqlite3_column_text(statement, 1)
-                    let patientDOBString = String.fromCString(UnsafePointer<CChar>(patientDOB))
-                    
-                    let patientFName = sqlite3_column_text(statement, 2)
-                    let patientFNameString = String.fromCString(UnsafePointer<CChar>(patientFName))
-                    
-                    let patientLName = sqlite3_column_text(statement, 3)
-                    let patientLNameString = String.fromCString(UnsafePointer<CChar>(patientLName))
-                    
-                    let aptID = Int(sqlite3_column_int(statement, 4))
-                    
-                    let placeID = Int(sqlite3_column_int(statement, 5))
-                    let roomID = Int(sqlite3_column_int(statement, 6))
-                    let billCodeType = Int(sqlite3_column_int(statement, 7))
-                    
-                    
-                    let patientFullName = patientFNameString! + " " + patientLNameString!
-                    patientBills.append(id: patientID,dob: patientDOBString!, name: patientFullName)
-                    IDs.append(aptID:aptID, placeID:placeID, roomID:roomID )
-                    codeType.append(billCodeType)
-                }
-            }
             let controller = segue.destinationViewController as! BillsTableViewController
             controller.patientsInfo = patientBills
             controller.date = date
             controller.IDs = IDs
             controller.codeTypes = codeType
-            
-            sqlite3_finalize(statement)
+            controller.billsComplete = complete
         }
         dbManager.closeDB()
     }

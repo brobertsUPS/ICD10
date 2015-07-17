@@ -21,6 +21,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     var selectedPC:[String] = []
     
     var codeTypes:[Int] = []
+    var billsComplete:[Int] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,13 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     }
     
     override func viewWillAppear(animated: Bool) {
+        dbManager.checkDatabaseFileAndOpen()
+        var (patientBills, IDs, codeType, complete) = dbManager.getBillsForDate(date)
+        dbManager.closeDB()
+        patientsInfo = patientBills
+        self.IDs = IDs
+        codeTypes = codeType
+        billsComplete = complete
         self.tableView.reloadData()
     }
 
@@ -65,6 +73,13 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     
     @IBAction func submitAllBills(sender: UIBarButtonItem) {
         
+        for var i=0; i<billsComplete.count; i++ {
+            if billsComplete[i] == 0 {
+                self.showAlert("One or more bills is not ready to be submitted.")
+                return
+            }
+        }
+        
         let path = filePathForSelectedExport("html")
         //var csvLine = "Administering Doctor, Date, Patient Name, Patient Date of Birth, Referring Doctor, Place of Service, Room, CPT, MC, PC, ICD10, ICD9 \r\n"
         var htmlLine = "<!DOCTYPE html> <html> <head> <meta charset='UTF-8'> <title>Bills:\(date)</title> </head> <body style='background-color#B2B2B2'> <table border='1' style='width:100%'> <tr><td> Admin Doc </td><td> Date </td><td> Patient Name </td><td> Patient Date of Birth </td><td> Referring Doctor </td><td> Place of Service </td><td> Room </td><td> Visit Code </td><td> ICD10 </td><td> ICD9 </td> </tr>"
@@ -91,8 +106,6 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             dbManager.checkDatabaseFileAndOpen()
             let (codesForBill, visitCodePriorityFromDatbase) = dbManager.getVisitCodesForBill(aptID)
             dbManager.closeDB()
-            
-           // csvLine = csvLine + "\r\n" + makeCSVLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, cpt: cpt, mc: mc, pc: pc, icd10Codes: icd10Codes, codeType: codeType)
             
             htmlLine = htmlLine + makeHTMLLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, codesForBill: codesForBill, codeType: codeType, visitCodePriorityFromDatbase: visitCodePriorityFromDatbase)
         }
@@ -167,26 +180,6 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         return htmlLine
     }
     
-    func makeCSVLine(adminDoc:String, date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, cpt:[String], mc:[String], pc:[String], icd10Codes:[(icd10:String,icd9:String)], codeType:Int) -> String {
-        
-        var csvLine = ""
-        
-        var (icd10, icd9) = icd10Codes[0]
-        
-        
-        let cptRepresentation = "-".join(cpt)
-        let mcRep = "-".join(mc)
-        let pcRep = "-".join(pc)
-        
-        csvLine = " \(adminDoc), \(date), \(patientName), \(dob), \(doctorName), \(place), \(room), \(cptRepresentation), \(mcRep), \(pcRep), \(icd10), \(icd9)" //put all of the text field in (without the icd10 code)
-        
-        for var i=1; i<icd10Codes.count; i++ {
-            var (ithICD10, ithICD9) = icd10Codes[i]
-            csvLine += "\r\n , , , , , , , , , , \(ithICD10), \(ithICD9)" //put a new empty line for any additional icd10 codes
-        }
-        return csvLine
-    }
-    
     func filePathForSelectedExport(fileExtension:String) -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
         let documentsDirectory = paths[0] as! NSString
@@ -223,11 +216,19 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             controller.visitCodePriority = visitCodePriorityFromDatabase
             
             controller.appointmentID = aptID
+            println("aptID set to \(aptID)")
+            controller.administeringDoctor = adminDoc
             
             if codeType == 0{
                 controller.icd10On = false
             } else {
                 controller.icd10On = true
+            }
+            if billsComplete[indexPath!.row] == 1{
+                controller.billComplete = true
+            } else {
+                controller.billComplete = false
+                
             }
         }
     }
@@ -311,6 +312,19 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("billCell", forIndexPath: indexPath) as! UITableViewCell
         var (id, dob, name) = patientsInfo[indexPath.row]
+        var isBillComplete = billsComplete[indexPath.row]
+        
+        let imageName = "Flag Filled-50.png"
+        let image = UIImage(named: imageName)
+        let imageView = UIImageView(image: image!)
+        imageView.frame = CGRect(x: 0, y: 0, width: 15, height: 15)
+        
+        if isBillComplete == 0 {
+            cell.imageView?.image = imageView.image
+        } else {
+            cell.imageView?.image = nil
+        }
+        
         cell.textLabel!.text = name
         cell.detailTextLabel!.text = dob
         
@@ -319,5 +333,18 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.performSegueWithIdentifier("showBill", sender: self)
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            let (aptID, placeID, roomID) = IDs[indexPath.row]
+            IDs.removeAtIndex(indexPath.row)
+            patientsInfo.removeAtIndex(indexPath.row)
+            billsComplete.removeAtIndex(indexPath.row)
+            dbManager.checkDatabaseFileAndOpen()
+            dbManager.removeAppointmentFromDatabase(aptID)
+            dbManager.closeDB()
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        }
     }
 }

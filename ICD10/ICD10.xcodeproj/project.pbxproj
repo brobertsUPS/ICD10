@@ -16,13 +16,13 @@
 		AD7A73D21B2782590054DD55 /* PatientsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */; };
 		AD7A73D41B2783A90054DD55 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */; };
 		AD7A73D61B278D150054DD55 /* DoctorsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */; };
-		AD85015E1B55B28700B5C80C /* visitCodeDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD85015D1B55B28700B5C80C /* visitCodeDetailController.swift */; };
 		AD93D7251B28A104000EAF98 /* EditPatientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */; };
 		AD93D7271B28A2F8000EAF98 /* EditDoctorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD93D7261B28A2F8000EAF98 /* EditDoctorViewController.swift */; };
 		AD93D7311B28F667000EAF98 /* DirectSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */; };
 		ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAB0D381B210E71004C770C /* BillViewController.swift */; };
 		ADABFEBB1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */; };
-		ADB02E9A1B5851950063487B /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = ADB02E991B5851950063487B /* testDML.sqlite3 */; };
+		ADB02E9F1B5973390063487B /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = ADB02E9E1B5973390063487B /* testDML.sqlite3 */; };
+		ADB02EA11B59B3DB0063487B /* visitCodeDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB02EA01B59B3DB0063487B /* visitCodeDetailController.swift */; };
 		ADB59A151B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */; };
 		ADD4A8C41B220FC00083FAF1 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */; };
 		ADE77F361B1782F900CE48F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F351B1782F900CE48F1 /* AppDelegate.swift */; };
@@ -55,13 +55,13 @@
 		AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientsTableViewController.swift; sourceTree = "<group>"; };
 		AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoctorsTableViewController.swift; sourceTree = "<group>"; };
-		AD85015D1B55B28700B5C80C /* visitCodeDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = visitCodeDetailController.swift; sourceTree = "<group>"; };
 		AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPatientViewController.swift; sourceTree = "<group>"; };
 		AD93D7261B28A2F8000EAF98 /* EditDoctorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDoctorViewController.swift; sourceTree = "<group>"; };
 		AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectSearchTableViewController.swift; sourceTree = "<group>"; };
 		ADAB0D381B210E71004C770C /* BillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewController.swift; sourceTree = "<group>"; };
 		ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeTokenCollectionViewCell.swift; sourceTree = "<group>"; };
-		ADB02E991B5851950063487B /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
+		ADB02E9E1B5973390063487B /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
+		ADB02EA01B59B3DB0063487B /* visitCodeDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = visitCodeDetailController.swift; sourceTree = "<group>"; };
 		ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LXReorderableCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXReorderableCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 			children = (
 				ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */,
 				ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */,
-				ADB02E991B5851950063487B /* testDML.sqlite3 */,
+				ADB02E9E1B5973390063487B /* testDML.sqlite3 */,
 				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
 				AD1025241B333C8900308E36 /* AdminDocViewController.swift */,
 				ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */,
@@ -142,7 +142,7 @@
 				AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */,
 				ADE77F401B1782F900CE48F1 /* LaunchScreen.xib */,
 				AD4FAE761B18D9260010B411 /* Main.storyboard */,
-				AD85015D1B55B28700B5C80C /* visitCodeDetailController.swift */,
+				ADB02EA01B59B3DB0063487B /* visitCodeDetailController.swift */,
 				ADE77F3E1B1782F900CE48F1 /* Images.xcassets */,
 				ADE77F331B1782F900CE48F1 /* Supporting Files */,
 				ADE77F591B17BD1D00CE48F1 /* ICD10-Bridging-Header.h */,
@@ -259,7 +259,7 @@
 				ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */,
 				ADE77F3F1B1782F900CE48F1 /* Images.xcassets in Resources */,
 				AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */,
-				ADB02E9A1B5851950063487B /* testDML.sqlite3 in Resources */,
+				ADB02E9F1B5973390063487B /* testDML.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,7 +287,7 @@
 				AD93D7311B28F667000EAF98 /* DirectSearchTableViewController.swift in Sources */,
 				AD7A73D61B278D150054DD55 /* DoctorsTableViewController.swift in Sources */,
 				AD93D7271B28A2F8000EAF98 /* EditDoctorViewController.swift in Sources */,
-				AD85015E1B55B28700B5C80C /* visitCodeDetailController.swift in Sources */,
+				ADB02EA11B59B3DB0063487B /* visitCodeDetailController.swift in Sources */,
 				AD19EA971B2F473500A1AFF1 /* BillsTableViewController.swift in Sources */,
 				AD1025251B333C8900308E36 /* AdminDocViewController.swift in Sources */,
 				AD93D7251B28A104000EAF98 /* EditPatientViewController.swift in Sources */,
