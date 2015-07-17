@@ -681,12 +681,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="693"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please add yourself as the administering doctor" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ip-tH-ewa">
-                                <rect key="frame" x="16" y="91" width="568" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Administering doctor" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ek8-HK-f4h">
                                 <rect key="frame" x="16" y="120" width="568" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -701,6 +695,12 @@
                                     </segue>
                                 </connections>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please add yourself as the administering doctor" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ip-tH-ewa">
+                                <rect key="frame" x="16" y="91" width="568" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I10-Un-ip3">
                                 <rect key="frame" x="227" y="264" width="147" height="55"/>
                                 <constraints>
@@ -718,8 +718,8 @@
                         </subviews>
                         <color key="backgroundColor" red="0.35294117647058826" green="0.78431372549019607" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="I10-Un-ip3" firstAttribute="top" secondItem="ek8-HK-f4h" secondAttribute="bottom" constant="114" id="5ky-gt-d2i"/>
                             <constraint firstItem="2Ip-tH-ewa" firstAttribute="leading" secondItem="mIq-cC-9D9" secondAttribute="leadingMargin" id="AzB-nx-Q1m"/>
-                            <constraint firstItem="oFx-64-jfF" firstAttribute="top" secondItem="I10-Un-ip3" secondAttribute="bottom" constant="374" id="E3Q-Dm-5HG"/>
                             <constraint firstItem="ek8-HK-f4h" firstAttribute="trailing" secondItem="2Ip-tH-ewa" secondAttribute="trailing" id="QZZ-ps-3Ax"/>
                             <constraint firstItem="ek8-HK-f4h" firstAttribute="top" secondItem="2Ip-tH-ewa" secondAttribute="bottom" constant="8" symbolic="YES" id="ZWI-gr-VSv"/>
                             <constraint firstItem="ek8-HK-f4h" firstAttribute="leading" secondItem="2Ip-tH-ewa" secondAttribute="leading" id="lI4-40-hVs"/>
@@ -1553,9 +1553,9 @@
         <segue reference="ivE-wa-30t"/>
         <segue reference="edd-ny-Y2u"/>
         <segue reference="jsy-lt-xeY"/>
-        <segue reference="0NA-IR-rIR"/>
-        <segue reference="j9k-IG-ode"/>
+        <segue reference="gnc-ff-Qqx"/>
         <segue reference="y7i-um-yHJ"/>
+        <segue reference="j9k-IG-ode"/>
         <segue reference="T5X-ib-XxA"/>
         <segue reference="OCB-Va-VDC"/>
         <segue reference="zKf-2S-qlA"/>
