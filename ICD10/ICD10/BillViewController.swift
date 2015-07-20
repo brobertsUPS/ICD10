@@ -164,7 +164,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     // MARK: - DidBeginBillWithPatientInformationDelegate
     
     func userEnteredPatientInformationForBill(fName:String, lName:String, dateOfBirth:String){
-        println("fName \(fName) lName \(lName) dob \(dateOfBirth)")
         patientTextField.text = fName + " " + lName
         patientDOBTextField.text = dateOfBirth
     }
@@ -225,6 +224,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                     return
                 }
             }
+            
             var placeID = getPlaceOfServiceID(siteTextField.text)       //get the ids to input into the bill
             var roomID = getRoomID(roomTextField.text)
             var patientID = getPatientID(patientTextField.text, dateOfBirth: patientDOBTextField.text)
@@ -241,12 +241,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     func saveBillFromPreviousBill(aptID:Int, placeID:Int, roomID:Int, patientID:Int, referringDoctorID:Int, adminDoctorID:Int){
-        println("Save bill from previous \(aptID)")
         
         dbManager.checkDatabaseFileAndOpen()
         dbManager.removeHasDoc(aptID)
         dbManager.updateAppointment(aptID, pID: patientID, placeID: placeID, roomID: roomID, code_type: Int(codeVersion.on), complete: Int(billCompletionSwitch.on))
-        
         
         self.addHasDoc(aptID, dID: referringDoctorID)               //insert hasdoc for referring
         self.addHasDoc(aptID, dID: adminDoctorID)                   //insert hasdoc for admin
@@ -254,9 +252,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         dbManager.checkDatabaseFileAndOpen()
         let (initialCodes, visitPriority) = dbManager.getVisitCodesForBill(aptID)
-        println(dbManager.closeDB())
-        
-        println(visitPriority)
         
         for var i=0; i<visitPriority.count; i++ {
             dbManager.checkDatabaseFileAndOpen()
@@ -266,10 +261,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             
             /*
             / Checks for changes in codes for the bill. Does not detect changes in visit code priority. Will revise later.
-            
-            println("In visitCode deletion detection \(visitPriority[i])")
+        
             if (codesForBill[visitPriority[i]] == nil) {    //the entire visitcode was deleted
-                println("Deleting visitCode \(visitPriority[i])")
                 dbManager.checkDatabaseFileAndOpen()
                 println(dbManager.removeCodesFromDatabase(aptID, aptCode: visitPriority[i]))
                 dbManager.closeDB()
@@ -278,8 +271,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 var initialICDCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = initialCodes[visitPriority[i]]!
                 
                 if icdCodesForVisitCode.count != initialICDCodes.count {
-                    //delete the visitCode from the database so it can correctly be entered later
-                    println("Deleting visitCode from icd size differences \(visitPriority[i])")
                     dbManager.checkDatabaseFileAndOpen()
                     println(dbManager.removeCodesFromDatabase(aptID, aptCode: visitPriority[i]))
                     dbManager.closeDB()
@@ -287,7 +278,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                     for var j=0; j<icdCodesForVisitCode.count; j++ {
                         if icdCodesForVisitCode[j].icd10 != initialICDCodes[j].icd10 {
                             //remove whole visit code from the database 
-                            println("Deleting visitCode for icd ordering differences \(visitPriority[i])")
                             dbManager.checkDatabaseFileAndOpen()
                             println(dbManager.removeCodesFromDatabase(aptID, aptCode: visitPriority[i]))
                             dbManager.closeDB()
@@ -304,7 +294,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     func saveNewBill(placeID:Int, roomID:Int, patientID:Int, referringDoctorID:Int, adminDoctorID:Int){
-        println("Save new bill")
         var codeType = Int(codeVersion.on)
         var billComplete = Int(billCompletionSwitch.on)
         var (aptID, result) = addAppointmentToDatabase(patientID, date: dateTextField.text, placeID: placeID, roomID: roomID, codeType: codeType, billComplete: billComplete)
@@ -338,9 +327,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         if codesForBill.keys.array.isEmpty {
             error = "There were no visit codes for the bill. Please add a visitCode and an ICD code to the bill."
-            if codesForBill.values.array.isEmpty {
-                error = "There were no ICD codes for the bill. Please add an ICD code to the bill"
-            }
+        }
+
+        if codesForBill[codesForBill.keys.array[0]]!.isEmpty {
+            error = "There were no ICD codes for the bill. Please add an ICD code to the bill"
         }
         
         if patientTextField.text == "" {
@@ -622,8 +612,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     func addPatientToDatabase(inputPatient:String, email:String) -> String{
         
         var (firstName, lastName) = self.split(inputPatient)
-        
-        println("To add firstName \(firstName) lastName \(lastName)")
         
         var dateOfBirth = patientDOBTextField.text
         dbManager.checkDatabaseFileAndOpen()

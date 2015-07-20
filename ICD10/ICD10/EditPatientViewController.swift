@@ -41,9 +41,6 @@ class EditPatientViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        println("first view controller for new bill \((self.tabBarController!.viewControllers!.first! as! UINavigationController).topViewController)")
-        
-        println("All view controllers for new bill \((self.tabBarController!.viewControllers!.first!).viewControllers)")
         
         if (self.tabBarController!.viewControllers!.first! as! UINavigationController).topViewController is AdminDocViewController{
             beginBillWithPatientInformationDelegate = (self.tabBarController!.viewControllers!.first! as! UINavigationController).topViewController as! AdminDocViewController
@@ -100,7 +97,6 @@ class EditPatientViewController: UIViewController {
     @IBAction func beginBill(sender: UIButton) {
         self.tabBarController!.selectedIndex = 0;
         if let beginBillDelegate = beginBillWithPatientInformationDelegate {
-            println("beganBill \(beginBillDelegate)")
             beginBillDelegate.userEnteredPatientInformationForBill(firstNameField.text, lName: lastNameField.text, dateOfBirth: dobField.text)
         }
     }

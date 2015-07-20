@@ -19,7 +19,6 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var ICD9Code: UILabel!
     @IBOutlet weak var conditionDescription: UILabel!
     @IBOutlet weak var useInBillButton: UIButton!
-    @IBOutlet weak var extensionLabel: UILabel!
 
     
     var ICD10Text:String!                               //Variables to update the labels with (set these before the view is loaded)
@@ -38,7 +37,6 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         super.viewDidLoad()
         self.resignFirstResponder()
         dbManager = DatabaseManager()
-        println(ICD10Text)
         if ICD10Text != "" && ICD10Text != nil{
             extensionCodes = getExtensionCodes()
         }
@@ -47,9 +45,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         self.extensionPicker!.dataSource = self
         
         if extensionCodes.isEmpty {
-            println("Extension empty")
             self.extensionPicker!.removeFromSuperview()
-            self.extensionLabel.removeFromSuperview()
             self.extensionPicker = nil
         }
         

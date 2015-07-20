@@ -216,7 +216,6 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             controller.visitCodePriority = visitCodePriorityFromDatabase
             
             controller.appointmentID = aptID
-            println("aptID set to \(aptID)")
             controller.administeringDoctor = adminDoc
             
             if codeType == 0{

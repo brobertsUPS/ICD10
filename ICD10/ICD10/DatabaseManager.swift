@@ -321,11 +321,9 @@ class DatabaseManager {
         var result = "Error, the query did not run"
         
         let removeCodesQuery = "DELETE FROM Has_type WHERE aptID=\(aptID) AND apt_code='\(aptCode)'"
-        println(removeCodesQuery)
         var statement:COpaquePointer = nil
 
         var resultPrepare = sqlite3_prepare_v2(db, removeCodesQuery, -1, &statement, nil)
-        println("Result \(resultPrepare)")
         if resultPrepare == SQLITE_OK {
             var sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
@@ -346,7 +344,6 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         
         var resultPrepare = sqlite3_prepare_v2(db, removeDocsQuery, -1, &statement, nil)
-        println("Result \(resultPrepare)")
         if resultPrepare == SQLITE_OK {
             var sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
@@ -429,18 +426,14 @@ class DatabaseManager {
         var result = ""
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, updateAptQuery, -1, &statement, nil) == SQLITE_OK {
-            println("sqlite ok")
             if sqlite3_step(statement) == SQLITE_DONE {
                 result = "Apt Succesful upate \(attributeToUpdate)=\(valueOfAttribute)"
             } else {
                 result = "Apt update failed"
             }
         }
-        println(result)
         sqlite3_finalize(statement)
         return result
-
-        
     }
     
     // MARK: - Retrieve information from the database
@@ -602,12 +595,9 @@ class DatabaseManager {
         let cptQuery = "SELECT apt_code, visit_priority FROM Appointment NATURAL JOIN Has_type NATURAL JOIN Apt_type WHERE aptID=\(aptID) GROUP BY apt_code ORDER BY visit_priority"
         
         var statement:COpaquePointer = nil
-        println(cptQuery)
         
         var result = sqlite3_prepare_v2(db,cptQuery, -1, &statement, nil)
-        println("Resulg \(result)")
         if  result == SQLITE_OK {
-            println("VisitCodes for bill sqlite ok")
             while sqlite3_step(statement) == SQLITE_ROW {
                 
                 var icdCodesForVisitCode:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = []
@@ -626,12 +616,9 @@ class DatabaseManager {
                 icdCodesForVisitCode = getDiagnosesCodesForVisitCode(aptID, visitCode: visitCodeString!)
                 
                 codesForBill[visitCodeString!] = icdCodesForVisitCode
-                println("some codes for the bill \(visitCode)")
             }
         }
         sqlite3_finalize(statement)
-        println(codesForBill)
-        
         return (codesForBill, visitCodePriority)
     }
     

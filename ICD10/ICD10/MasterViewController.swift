@@ -205,7 +205,6 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             
             if newSubLocations.count == 0 && segue.identifier == "showCodes" {
                 
-                println("lID = \(id)")
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
                 
                 dbManager.checkDatabaseFileAndOpen()
@@ -214,9 +213,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 
                 if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
                     var result = sqlite3_step(statement)
-                    println("Result \(result)")
                     if result == SQLITE_ROW { // if we got the row back successfully
-                        println("Retrieved row from database")
                         let icd10Code = sqlite3_column_text(statement, 0)
                         let icd10CodeString = String.fromCString(UnsafePointer<CChar>(icd10Code))!
                         
