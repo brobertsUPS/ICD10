@@ -241,19 +241,65 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     func saveBillFromPreviousBill(aptID:Int, placeID:Int, roomID:Int, patientID:Int, referringDoctorID:Int, adminDoctorID:Int){
-        println("Save bill from previous")
+        println("Save bill from previous \(aptID)")
         
         dbManager.checkDatabaseFileAndOpen()
+        dbManager.removeHasDoc(aptID)
         dbManager.updateAppointment(aptID, pID: patientID, placeID: placeID, roomID: roomID, code_type: Int(codeVersion.on), complete: Int(billCompletionSwitch.on))
+        
         
         self.addHasDoc(aptID, dID: referringDoctorID)               //insert hasdoc for referring
         self.addHasDoc(aptID, dID: adminDoctorID)                   //insert hasdoc for admin
-        
-        var (initialCodes, initialPriority) = dbManager.getVisitCodesForBill(aptID)
         dbManager.closeDB()
-        //check for any deleted codes and remove them
         
+        dbManager.checkDatabaseFileAndOpen()
+        let (initialCodes, visitPriority) = dbManager.getVisitCodesForBill(aptID)
+        println(dbManager.closeDB())
         
+        println(visitPriority)
+        
+        for var i=0; i<visitPriority.count; i++ {
+            dbManager.checkDatabaseFileAndOpen()
+            dbManager.removeCodesFromDatabase(aptID, aptCode: visitPriority[i])
+            dbManager.closeDB()
+            
+            
+            /*
+            / Checks for changes in codes for the bill. Does not detect changes in visit code priority. Will revise later.
+            
+            println("In visitCode deletion detection \(visitPriority[i])")
+            if (codesForBill[visitPriority[i]] == nil) {    //the entire visitcode was deleted
+                println("Deleting visitCode \(visitPriority[i])")
+                dbManager.checkDatabaseFileAndOpen()
+                println(dbManager.removeCodesFromDatabase(aptID, aptCode: visitPriority[i]))
+                dbManager.closeDB()
+            } else {                                        //check if the icd priorities are the same
+                var icdCodesForVisitCode:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = codesForBill[visitPriority[i]]!
+                var initialICDCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = initialCodes[visitPriority[i]]!
+                
+                if icdCodesForVisitCode.count != initialICDCodes.count {
+                    //delete the visitCode from the database so it can correctly be entered later
+                    println("Deleting visitCode from icd size differences \(visitPriority[i])")
+                    dbManager.checkDatabaseFileAndOpen()
+                    println(dbManager.removeCodesFromDatabase(aptID, aptCode: visitPriority[i]))
+                    dbManager.closeDB()
+                } else {
+                    for var j=0; j<icdCodesForVisitCode.count; j++ {
+                        if icdCodesForVisitCode[j].icd10 != initialICDCodes[j].icd10 {
+                            //remove whole visit code from the database 
+                            println("Deleting visitCode for icd ordering differences \(visitPriority[i])")
+                            dbManager.checkDatabaseFileAndOpen()
+                            println(dbManager.removeCodesFromDatabase(aptID, aptCode: visitPriority[i]))
+                            dbManager.closeDB()
+                            break
+                        }
+                    }
+                }
+            }
+            */
+        }
+        
+        saveCodesForBill(aptID, referringDoctorID: referringDoctorID, adminDoctorID: adminDoctorID)
         self.performSegueWithIdentifier("ViewAllBills", sender: self)
     }
     

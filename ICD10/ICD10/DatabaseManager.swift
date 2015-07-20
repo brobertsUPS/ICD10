@@ -64,12 +64,9 @@ class DatabaseManager {
         }
     }
     
-    func closeDB() {
-        var closeResult = sqlite3_close_v2(db)
-        
-        if closeResult == SQLITE_OK {
-            //success
-        }
+    func closeDB() -> String{
+        var closeResult = sqlite3_close(db)
+        return "Close result \(closeResult)"
     }
     
     // MARK: - Adding information to the database
@@ -319,6 +316,50 @@ class DatabaseManager {
 
     }
     
+    func removeCodesFromDatabase(aptID:Int, aptCode:String) -> String{
+        
+        var result = "Error, the query did not run"
+        
+        let removeCodesQuery = "DELETE FROM Has_type WHERE aptID=\(aptID) AND apt_code='\(aptCode)'"
+        println(removeCodesQuery)
+        var statement:COpaquePointer = nil
+
+        var resultPrepare = sqlite3_prepare_v2(db, removeCodesQuery, -1, &statement, nil)
+        println("Result \(resultPrepare)")
+        if resultPrepare == SQLITE_OK {
+            var sqliteResult = sqlite3_step(statement)
+            if sqliteResult == SQLITE_DONE {
+                result = "Removed codes with aptID=\(aptID) AND aptCode='\(aptCode)'"
+            }else {
+                result = "aptID=\(aptID) AND aptCode='\(aptCode)' not removed"
+            }
+        }
+        sqlite3_finalize(statement)
+        return result
+
+    }
+    
+    func removeHasDoc(aptID:Int) -> String{
+        var result = ""
+        var removeDocsQuery = "DELETE FROM Has_doc WHERE aptID=\(aptID)"
+        
+        var statement:COpaquePointer = nil
+        
+        var resultPrepare = sqlite3_prepare_v2(db, removeDocsQuery, -1, &statement, nil)
+        println("Result \(resultPrepare)")
+        if resultPrepare == SQLITE_OK {
+            var sqliteResult = sqlite3_step(statement)
+            if sqliteResult == SQLITE_DONE {
+                result = "Removed docs from aptID=\(aptID)"
+            }else {
+                result = "Docs aptID=\(aptID) not removed"
+            }
+        }
+        sqlite3_finalize(statement)
+        return result
+
+    }
+    
     // MARK: - Update information in the database
     
     func updatePatient(firstName:String, lastName:String, dob:String, email:String, id:Int) -> String{
@@ -561,8 +602,12 @@ class DatabaseManager {
         let cptQuery = "SELECT apt_code, visit_priority FROM Appointment NATURAL JOIN Has_type NATURAL JOIN Apt_type WHERE aptID=\(aptID) GROUP BY apt_code ORDER BY visit_priority"
         
         var statement:COpaquePointer = nil
+        println(cptQuery)
         
-        if sqlite3_prepare_v2(db,cptQuery, -1, &statement, nil) == SQLITE_OK {
+        var result = sqlite3_prepare_v2(db,cptQuery, -1, &statement, nil)
+        println("Resulg \(result)")
+        if  result == SQLITE_OK {
+            println("VisitCodes for bill sqlite ok")
             while sqlite3_step(statement) == SQLITE_ROW {
                 
                 var icdCodesForVisitCode:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = []
@@ -581,9 +626,12 @@ class DatabaseManager {
                 icdCodesForVisitCode = getDiagnosesCodesForVisitCode(aptID, visitCode: visitCodeString!)
                 
                 codesForBill[visitCodeString!] = icdCodesForVisitCode
+                println("some codes for the bill \(visitCode)")
             }
         }
         sqlite3_finalize(statement)
+        println(codesForBill)
+        
         return (codesForBill, visitCodePriority)
     }
     

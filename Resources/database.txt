@@ -137,6 +137,8 @@ INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (1, "Rodney", "Joe"
 INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (2, "Doctor", "One","", 1);
 INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (3, "Doctor", "Two","", 1);
 
+
+
 --Place of service*******************************************************************************************************
 INSERT INTO Place_of_service (placeID, place_description) VALUES (1, "PSPH IN PATIENT");
 INSERT INTO Place_of_service (placeID, place_description) VALUES (2, "PSPH OUT PATIENT");
