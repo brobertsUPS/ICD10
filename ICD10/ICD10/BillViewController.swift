@@ -327,11 +327,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         if codesForBill.keys.array.isEmpty {
             error = "There were no visit codes for the bill. Please add a visitCode and an ICD code to the bill."
-        }
-
-        if codesForBill[codesForBill.keys.array[0]]!.isEmpty {
+            
+            
+        }else if codesForBill[codesForBill.keys.array[0]]!.isEmpty {
             error = "There were no ICD codes for the bill. Please add an ICD code to the bill"
         }
+
+        
         
         if patientTextField.text == "" {
             error = "Patient was missing from the bill form. Please add a patient to the bill."

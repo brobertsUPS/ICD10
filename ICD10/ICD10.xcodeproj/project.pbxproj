@@ -16,12 +16,15 @@
 		AD7A73D21B2782590054DD55 /* PatientsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */; };
 		AD7A73D41B2783A90054DD55 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */; };
 		AD7A73D61B278D150054DD55 /* DoctorsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */; };
+		AD801A2A1B5DA5A6001A2F98 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD801A291B5DA5A6001A2F98 /* testDML.sqlite3 */; };
+		AD801A341B5EB7D9001A2F98 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD801A311B5EB77F001A2F98 /* libsqlcipher.a */; };
+		AD801A361B5EC769001A2F98 /* PasswordCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD801A351B5EC769001A2F98 /* PasswordCreationViewController.swift */; };
+		AD801A391B5EC791001A2F98 /* EnterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD801A381B5EC791001A2F98 /* EnterPasswordViewController.swift */; };
 		AD93D7251B28A104000EAF98 /* EditPatientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */; };
 		AD93D7271B28A2F8000EAF98 /* EditDoctorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD93D7261B28A2F8000EAF98 /* EditDoctorViewController.swift */; };
 		AD93D7311B28F667000EAF98 /* DirectSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */; };
 		ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAB0D381B210E71004C770C /* BillViewController.swift */; };
 		ADABFEBB1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */; };
-		ADB02E9F1B5973390063487B /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = ADB02E9E1B5973390063487B /* testDML.sqlite3 */; };
 		ADB02EA11B59B3DB0063487B /* visitCodeDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB02EA01B59B3DB0063487B /* visitCodeDetailController.swift */; };
 		ADB59A151B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */; };
 		ADD4A8C41B220FC00083FAF1 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */; };
@@ -31,12 +34,24 @@
 		ADE77F3F1B1782F900CE48F1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADE77F3E1B1782F900CE48F1 /* Images.xcassets */; };
 		ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADE77F401B1782F900CE48F1 /* LaunchScreen.xib */; };
 		ADE77F4E1B1782F900CE48F1 /* ICD10Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE77F4D1B1782F900CE48F1 /* ICD10Tests.swift */; };
-		ADE77F581B17BCCB00CE48F1 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ADE77F571B17BCCB00CE48F1 /* libsqlite3.dylib */; };
-		E15EFCAC1B254F6E00301ED6 /* libsqlite3.dylib in Resources */ = {isa = PBXBuildFile; fileRef = ADE77F571B17BCCB00CE48F1 /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		ADE77F481B1782F900CE48F1 /* PBXContainerItemProxy */ = {
+		AD801A301B5EB77F001A2F98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD801A2B1B5EB77E001A2F98 /* sqlcipher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC046055464E500DB518D;
+			remoteInfo = sqlcipher;
+		};
+		AD801A321B5EB7C8001A2F98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD801A2B1B5EB77E001A2F98 /* sqlcipher.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC045055464E500DB518D;
+			remoteInfo = sqlcipher;
+		};
+		AD801A3B1B5EDDFE001A2F98 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADE77F281B1782F900CE48F1 /* Project object */;
 			proxyType = 1;
@@ -55,12 +70,15 @@
 		AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientsTableViewController.swift; sourceTree = "<group>"; };
 		AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoctorsTableViewController.swift; sourceTree = "<group>"; };
+		AD801A291B5DA5A6001A2F98 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
+		AD801A2B1B5EB77E001A2F98 /* sqlcipher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sqlcipher.xcodeproj; path = ../SQLCipherApp/sqlcipher/sqlcipher.xcodeproj; sourceTree = "<group>"; };
+		AD801A351B5EC769001A2F98 /* PasswordCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordCreationViewController.swift; sourceTree = "<group>"; };
+		AD801A381B5EC791001A2F98 /* EnterPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterPasswordViewController.swift; sourceTree = "<group>"; };
 		AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPatientViewController.swift; sourceTree = "<group>"; };
 		AD93D7261B28A2F8000EAF98 /* EditDoctorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDoctorViewController.swift; sourceTree = "<group>"; };
 		AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectSearchTableViewController.swift; sourceTree = "<group>"; };
 		ADAB0D381B210E71004C770C /* BillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewController.swift; sourceTree = "<group>"; };
 		ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeTokenCollectionViewCell.swift; sourceTree = "<group>"; };
-		ADB02E9E1B5973390063487B /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		ADB02EA01B59B3DB0063487B /* visitCodeDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = visitCodeDetailController.swift; sourceTree = "<group>"; };
 		ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LXReorderableCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXReorderableCollectionViewFlowLayout.m; sourceTree = "<group>"; };
@@ -75,7 +93,6 @@
 		ADE77F471B1782F900CE48F1 /* ICD10Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ICD10Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE77F4C1B1782F900CE48F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADE77F4D1B1782F900CE48F1 /* ICD10Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICD10Tests.swift; sourceTree = "<group>"; };
-		ADE77F571B17BCCB00CE48F1 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		ADE77F591B17BD1D00CE48F1 /* ICD10-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ICD10-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,7 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADE77F581B17BCCB00CE48F1 /* libsqlite3.dylib in Frameworks */,
+				AD801A341B5EB7D9001A2F98 /* libsqlcipher.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,10 +115,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AD801A2C1B5EB77E001A2F98 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AD801A311B5EB77F001A2F98 /* libsqlcipher.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		ADE77F271B1782F900CE48F1 = {
 			isa = PBXGroup;
 			children = (
-				ADE77F571B17BCCB00CE48F1 /* libsqlite3.dylib */,
+				AD801A2B1B5EB77E001A2F98 /* sqlcipher.xcodeproj */,
 				ADE77F321B1782F900CE48F1 /* ICD10 */,
 				ADE77F4A1B1782F900CE48F1 /* ICD10Tests */,
 				ADE77F311B1782F900CE48F1 /* Products */,
@@ -122,7 +147,7 @@
 			children = (
 				ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */,
 				ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */,
-				ADB02E9E1B5973390063487B /* testDML.sqlite3 */,
+				AD801A291B5DA5A6001A2F98 /* testDML.sqlite3 */,
 				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
 				AD1025241B333C8900308E36 /* AdminDocViewController.swift */,
 				ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */,
@@ -143,6 +168,8 @@
 				ADB02EA01B59B3DB0063487B /* visitCodeDetailController.swift */,
 				ADE77F401B1782F900CE48F1 /* LaunchScreen.xib */,
 				AD4FAE761B18D9260010B411 /* Main.storyboard */,
+				AD801A381B5EC791001A2F98 /* EnterPasswordViewController.swift */,
+				AD801A351B5EC769001A2F98 /* PasswordCreationViewController.swift */,
 				ADE77F3E1B1782F900CE48F1 /* Images.xcassets */,
 				ADE77F331B1782F900CE48F1 /* Supporting Files */,
 				ADE77F591B17BD1D00CE48F1 /* ICD10-Bridging-Header.h */,
@@ -189,6 +216,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD801A331B5EB7C8001A2F98 /* PBXTargetDependency */,
 			);
 			name = ICD10;
 			productName = ICD10;
@@ -206,7 +234,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				ADE77F491B1782F900CE48F1 /* PBXTargetDependency */,
+				AD801A3C1B5EDDFE001A2F98 /* PBXTargetDependency */,
 			);
 			name = ICD10Tests;
 			productName = ICD10Tests;
@@ -243,6 +271,12 @@
 			mainGroup = ADE77F271B1782F900CE48F1;
 			productRefGroup = ADE77F311B1782F900CE48F1 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = AD801A2C1B5EB77E001A2F98 /* Products */;
+					ProjectRef = AD801A2B1B5EB77E001A2F98 /* sqlcipher.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				ADE77F2F1B1782F900CE48F1 /* ICD10 */,
@@ -250,6 +284,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		AD801A311B5EB77F001A2F98 /* libsqlcipher.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libsqlcipher.a;
+			remoteRef = AD801A301B5EB77F001A2F98 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		ADE77F2E1B1782F900CE48F1 /* Resources */ = {
@@ -259,7 +303,7 @@
 				ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */,
 				ADE77F3F1B1782F900CE48F1 /* Images.xcassets in Resources */,
 				AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */,
-				ADB02E9F1B5973390063487B /* testDML.sqlite3 in Resources */,
+				AD801A2A1B5DA5A6001A2F98 /* testDML.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,7 +311,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E15EFCAC1B254F6E00301ED6 /* libsqlite3.dylib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,9 +323,11 @@
 			files = (
 				ADE77F361B1782F900CE48F1 /* AppDelegate.swift in Sources */,
 				AD19EA951B2F423800A1AFF1 /* BillDatesTableViewController.swift in Sources */,
+				AD801A361B5EC769001A2F98 /* PasswordCreationViewController.swift in Sources */,
 				ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */,
 				AD7A73D41B2783A90054DD55 /* DatabaseManager.swift in Sources */,
 				ADE77F3A1B1782F900CE48F1 /* DetailViewController.swift in Sources */,
+				AD801A391B5EC791001A2F98 /* EnterPasswordViewController.swift in Sources */,
 				AD0926AC1B4B3AB000C6E3DD /* ICDDeleteButton.swift in Sources */,
 				AD93D7311B28F667000EAF98 /* DirectSearchTableViewController.swift in Sources */,
 				AD7A73D61B278D150054DD55 /* DoctorsTableViewController.swift in Sources */,
@@ -311,10 +356,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		ADE77F491B1782F900CE48F1 /* PBXTargetDependency */ = {
+		AD801A331B5EB7C8001A2F98 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = sqlcipher;
+			targetProxy = AD801A321B5EB7C8001A2F98 /* PBXContainerItemProxy */;
+		};
+		AD801A3C1B5EDDFE001A2F98 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = ADE77F2F1B1782F900CE48F1 /* ICD10 */;
-			targetProxy = ADE77F481B1782F900CE48F1 /* PBXContainerItemProxy */;
+			targetProxy = AD801A3B1B5EDDFE001A2F98 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -374,6 +424,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					../sqlcipher/src,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -413,6 +468,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					../sqlcipher/src,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -432,6 +492,7 @@
 				INFOPLIST_FILE = ICD10/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ICD10/ICD10-Bridging-Header.h";
@@ -449,6 +510,7 @@
 				INFOPLIST_FILE = ICD10/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ICD10/ICD10-Bridging-Header.h";

@@ -12,11 +12,22 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var userHasValidPassword:Bool = false
     
-    var database:COpaquePointer!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        //Override point for customization after application launch.
+        
+        var dbManager:DatabaseManager = DatabaseManager()
+        
+        let theFileManager = NSFileManager.defaultManager()
+        let filePath = dbManager.dataFilePath()
+        
+        
+        if theFileManager.fileExistsAtPath(filePath) {  //database is there: go to EnterPasswordVC
+            println("Database file exists")
+        } else {                                        //database is not there: go to PasswordCreationVC
+            println("Database file does not exist")
+        }
         return true
     }
 

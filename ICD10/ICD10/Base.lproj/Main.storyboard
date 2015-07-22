@@ -130,6 +130,125 @@
             </objects>
             <point key="canvasLocation" x="-1213" y="1212"/>
         </scene>
+        <!--Enter Password View Controller-->
+        <scene sceneID="eSW-S2-GsY">
+            <objects>
+                <viewController id="mRk-hJ-5Sw" customClass="EnterPasswordViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eYa-w5-4tl"/>
+                        <viewControllerLayoutGuide type="bottom" id="qkq-Pz-CzJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cnd-X5-vfm">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vb6-m3-zyr">
+                                <rect key="frame" x="277" y="164" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="YhM-Yx-Uqo"/>
+                                </constraints>
+                                <state key="normal" title="Enter">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="enterApplication:" destination="mRk-hJ-5Sw" eventType="touchUpInside" id="6Ua-J8-Su0"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="r2r-qT-PrF">
+                                <rect key="frame" x="16" y="126" width="568" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="4Pl-Jb-BUh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter your passphrase to enter the app or to change the password" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vu1-Hc-sP7">
+                                <rect key="frame" x="45" y="28" width="510" height="90"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N6D-WY-LwK">
+                                <rect key="frame" x="237" y="202" width="126" height="30"/>
+                                <state key="normal" title="Change Password">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="changePassword:" destination="mRk-hJ-5Sw" eventType="touchUpInside" id="rqM-2H-WzS"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.35294117650000001" green="0.7843137255" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="qkq-Pz-CzJ" firstAttribute="top" secondItem="vb6-m3-zyr" secondAttribute="bottom" constant="199" id="7aU-My-rUw"/>
+                            <constraint firstItem="vb6-m3-zyr" firstAttribute="centerX" secondItem="cnd-X5-vfm" secondAttribute="centerX" id="8Jb-qO-EIa"/>
+                            <constraint firstItem="r2r-qT-PrF" firstAttribute="centerX" secondItem="vb6-m3-zyr" secondAttribute="centerX" id="Ph3-6H-aak"/>
+                            <constraint firstItem="vb6-m3-zyr" firstAttribute="top" secondItem="r2r-qT-PrF" secondAttribute="bottom" constant="68" id="uOK-QY-Zci"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="passwordTextField" destination="r2r-qT-PrF" id="YTY-ZX-oQi"/>
+                        <segue destination="anG-M4-aMi" kind="show" identifier="enterApplication" id="Gi9-w3-teC"/>
+                        <segue destination="2iq-EU-Dop" kind="show" identifier="changePassword" id="DhG-DR-LG9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5Vw-e9-Bbw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3861" y="-1083"/>
+        </scene>
+        <!--Password Creation View Controller-->
+        <scene sceneID="jYP-9f-MqY">
+            <objects>
+                <viewController id="2iq-EU-Dop" customClass="PasswordCreationViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HE8-pS-owz"/>
+                        <viewControllerLayoutGuide type="bottom" id="vzp-KN-Iix"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WXE-4L-bjO">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qCQ-eI-8le">
+                                <rect key="frame" x="16" y="193" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c6W-qc-kk0">
+                                <rect key="frame" x="16" y="155" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vKD-hW-4zY">
+                                <rect key="frame" x="231" y="231" width="139" height="30"/>
+                                <state key="normal" title="Save Password">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="savePasswordAndStart:" destination="2iq-EU-Dop" eventType="touchUpInside" id="Mty-bG-Fsu"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter a password to use for the application. Make sure to remember your password. The database cannot be used without it." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DBA-cV-FXt">
+                                <rect key="frame" x="16" y="20" width="568" height="127"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.35294117650000001" green="0.7843137255" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="confirmPasswordTextField" destination="qCQ-eI-8le" id="Gp1-wj-Ijq"/>
+                        <outlet property="passWordTextField" destination="c6W-qc-kk0" id="51e-2S-Anw"/>
+                        <segue destination="mRk-hJ-5Sw" kind="show" identifier="enterPassword" id="4Fi-FV-NRj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TWj-8x-Bai" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4615" y="-1083"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5z2-Rx-rav">
             <objects>
@@ -185,7 +304,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zY1-Ci-mFF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3691" y="-201"/>
+            <point key="canvasLocation" x="-3504" y="-204"/>
         </scene>
         <!--All Bills-->
         <scene sceneID="6xN-Re-ve1">
@@ -1282,7 +1401,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q50-df-xDS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1442" y="-323.5"/>
+            <point key="canvasLocation" x="-1524" y="-548.5"/>
         </scene>
         <!--Visit Code Detail Controller-->
         <scene sceneID="kYu-Ci-EqO">

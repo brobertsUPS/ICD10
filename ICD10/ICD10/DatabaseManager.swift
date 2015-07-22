@@ -10,6 +10,7 @@
 
 import UIKit
 
+
 class DatabaseManager {
     
     var db:COpaquePointer!
@@ -21,22 +22,31 @@ class DatabaseManager {
     *   Connects to the database after file is verified to be in the right spot.
     **/
     func checkDatabaseFileAndOpen(){
-        let theFileManager = NSFileManager.defaultManager()
-        let filePath = dataFilePath()
-        if theFileManager.fileExistsAtPath(filePath) {
-            db = openDBPath(filePath)
-        } else {
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        //if appDelegate.userHasValidPassword {
             
-            let pathToBundledDB = NSBundle.mainBundle().pathForResource("testDML", ofType: "sqlite3")// Copy the file from the Bundle and write it to the Device
-            let pathToDevice = dataFilePath()
-            var error:NSError?
+            let theFileManager = NSFileManager.defaultManager()
             
-            if (theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice, error: nil)) {
-                db = openDBPath(pathToDevice)
-            } else {
-                println("database failure")
+            let filePath = dataFilePath()
+            if theFileManager.fileExistsAtPath(filePath) {  //login with password
+                println("Open db")
+                db = openDBPath(filePath)
+                
+            } else {                                        //set password for the database
+                
+                let pathToBundledDB = NSBundle.mainBundle().pathForResource("testDML", ofType: "sqlite3")// Copy the file from the Bundle and write it to the Device
+                let pathToDevice = dataFilePath()
+                var error:NSError?
+                
+                if (theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice, error: nil)) {
+                    println("Open copied")
+                    db = openDBPath(pathToDevice)
+                } else {
+                    println("database failure")
+                }
             }
-        }
+       // }
     }
     
     /**
@@ -55,6 +65,8 @@ class DatabaseManager {
         
         var db:COpaquePointer  = nil
         var result = sqlite3_open(filePath, &db)
+        
+        println("Result of opening db \(result)")
         if result != SQLITE_OK {
             sqlite3_close(db)
             println("Failed To Open Database")
