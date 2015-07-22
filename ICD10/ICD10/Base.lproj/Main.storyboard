@@ -304,7 +304,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zY1-Ci-mFF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3504" y="-204"/>
+            <point key="canvasLocation" x="-3691" y="-213"/>
         </scene>
         <!--All Bills-->
         <scene sceneID="6xN-Re-ve1">
@@ -1471,7 +1471,7 @@
                             <outlet property="delegate" destination="ofU-rG-bPg" id="kdg-do-shX"/>
                         </connections>
                     </tableView>
-                    <value key="contentSizeForViewInPopover" type="size" width="200" height="400"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="200" height="300"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="200" height="300"/>

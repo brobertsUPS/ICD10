@@ -30,7 +30,6 @@ class DatabaseManager {
             
             let filePath = dataFilePath()
             if theFileManager.fileExistsAtPath(filePath) {  //login with password
-                println("Open db")
                 db = openDBPath(filePath)
                 
             } else {                                        //set password for the database
@@ -66,7 +65,6 @@ class DatabaseManager {
         var db:COpaquePointer  = nil
         var result = sqlite3_open(filePath, &db)
         
-        println("Result of opening db \(result)")
         if result != SQLITE_OK {
             sqlite3_close(db)
             println("Failed To Open Database")
@@ -412,7 +410,7 @@ class DatabaseManager {
         return result
     }
     
-    func updateAppointment(aptID:Int, pID:Int, placeID:Int, roomID:Int, code_type:Int, complete:Int){
+    func updateAppointment(aptID:Int, pID:Int, placeID:Int, roomID:Int, code_type:Int, complete:Int, date:String){
         
         var updateQueryBuilder = "UPDATE Appointment SET "
         if pID != -1 {
@@ -429,6 +427,8 @@ class DatabaseManager {
         
         updateAppointment(aptID, attributeToUpdate: "code_type", valueOfAttribute: code_type)
         updateAppointment(aptID, attributeToUpdate: "complete", valueOfAttribute: complete)
+        
+        updateAppointmentDate(aptID, date: date)
     }
     
     func updateAppointment(aptID:Int, attributeToUpdate:String, valueOfAttribute:Int) -> String{
@@ -440,6 +440,23 @@ class DatabaseManager {
         if sqlite3_prepare_v2(db, updateAptQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
                 result = "Apt Succesful upate \(attributeToUpdate)=\(valueOfAttribute)"
+            } else {
+                result = "Apt update failed"
+            }
+        }
+        sqlite3_finalize(statement)
+        return result
+    }
+    
+    func updateAppointmentDate(aptID:Int, date:String) -> String {
+        
+        let updateAptQuery = "UPDATE Appointment SET date='\(date)' WHERE aptID=\(aptID)"
+        
+        var result = ""
+        var statement:COpaquePointer = nil
+        if sqlite3_prepare_v2(db, updateAptQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_DONE {
+                result = "Apt Succesful upate date=\(date)"
             } else {
                 result = "Apt update failed"
             }
@@ -757,6 +774,25 @@ class DatabaseManager {
         
         let tuple:(patientBills:[(id:Int, dob:String, name:String)], IDs:[(aptID:Int, placeID:Int, roomID:Int)], codeType:[Int], complete:[Int]) = (patientBills, IDs, codeType, complete)
         return tuple
+    }
+    
+    func getDateForApt(aptID:Int) -> String{
+        
+        var dateString = ""
+    
+        let dateQuery = "SELECT date FROM Appointment WHERE aptID=\(aptID)"
+        
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db,dateQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {
+                var date = sqlite3_column_text(statement, 0)
+                dateString = String.fromCString(UnsafePointer<CChar>(date))!
+            }
+        }
+        sqlite3_finalize(statement)
+        return dateString
+
     }
     
     // MARK: - Searches

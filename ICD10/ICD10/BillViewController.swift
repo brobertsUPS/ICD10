@@ -126,7 +126,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         let formatter = NSDateFormatter()
         formatter.dateStyle = .ShortStyle
         formatter.dateFormat = "MM-dd-yyyy"
-        dateTextField.text = formatter.stringFromDate(date)
+        
+        if let aptID = appointmentID {
+            dbManager.checkDatabaseFileAndOpen()
+            dateTextField.text = dbManager.getDateForApt(aptID)
+            dbManager.closeDB()
+        }else {
+            dateTextField.text = formatter.stringFromDate(date)
+        }
         
         if self.textFieldText.count > 0 {
             patientTextField.text = textFieldText[0]
@@ -244,7 +251,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         dbManager.checkDatabaseFileAndOpen()
         dbManager.removeHasDoc(aptID)
-        dbManager.updateAppointment(aptID, pID: patientID, placeID: placeID, roomID: roomID, code_type: Int(codeVersion.on), complete: Int(billCompletionSwitch.on))
+        dbManager.updateAppointment(aptID, pID: patientID, placeID: placeID, roomID: roomID, code_type: Int(codeVersion.on), complete: Int(billCompletionSwitch.on), date:dateTextField.text)
         
         self.addHasDoc(aptID, dID: referringDoctorID)               //insert hasdoc for referring
         self.addHasDoc(aptID, dID: adminDoctorID)                   //insert hasdoc for admin
@@ -257,36 +264,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             dbManager.checkDatabaseFileAndOpen()
             dbManager.removeCodesFromDatabase(aptID, aptCode: visitPriority[i])
             dbManager.closeDB()
-            
-            
-            /*
-            / Checks for changes in codes for the bill. Does not detect changes in visit code priority. Will revise later.
-        
-            if (codesForBill[visitPriority[i]] == nil) {    //the entire visitcode was deleted
-                dbManager.checkDatabaseFileAndOpen()
-                println(dbManager.removeCodesFromDatabase(aptID, aptCode: visitPriority[i]))
-                dbManager.closeDB()
-            } else {                                        //check if the icd priorities are the same
-                var icdCodesForVisitCode:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = codesForBill[visitPriority[i]]!
-                var initialICDCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = initialCodes[visitPriority[i]]!
-                
-                if icdCodesForVisitCode.count != initialICDCodes.count {
-                    dbManager.checkDatabaseFileAndOpen()
-                    println(dbManager.removeCodesFromDatabase(aptID, aptCode: visitPriority[i]))
-                    dbManager.closeDB()
-                } else {
-                    for var j=0; j<icdCodesForVisitCode.count; j++ {
-                        if icdCodesForVisitCode[j].icd10 != initialICDCodes[j].icd10 {
-                            //remove whole visit code from the database 
-                            dbManager.checkDatabaseFileAndOpen()
-                            println(dbManager.removeCodesFromDatabase(aptID, aptCode: visitPriority[i]))
-                            dbManager.closeDB()
-                            break
-                        }
-                    }
-                }
-            }
-            */
         }
         
         saveCodesForBill(aptID, referringDoctorID: referringDoctorID, adminDoctorID: adminDoctorID)
@@ -374,6 +351,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 controller.billViewController?.appointmentID = self.appointmentID
             }else if segue.identifier == "newBill"{
                 let controller = segue.destinationViewController as! AdminDocViewController
+                controller.adminDoc = self.administeringDoctor
             }else if segue.identifier == "visitCodeDescriptionPopover" {
                 let popoverViewController = segue.destinationViewController as! visitCodeDetailController
                 popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover

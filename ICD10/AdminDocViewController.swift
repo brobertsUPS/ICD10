@@ -13,16 +13,21 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
     @IBOutlet weak var administeringDoctor: UITextField!
     var dbManager = DatabaseManager()
     var searchTableViewController:SearchTableViewController?
-    var adminDoc = ""
+    var adminDoc:String?
     
-    var patientFName = ""
-    var patientLName = ""
-    var patientDOB = ""
+    var patientFName:String?
+    var patientLName:String?
+    var patientDOB:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.hidesBackButton = true
-            }
+        
+        if let adminDoctor = adminDoc {
+            administeringDoctor.text = adminDoctor
+            self.performSegueWithIdentifier("beginBill", sender: self)
+        }
+    }
     
     override func viewWillAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDoctor:",name:"loadDoctor", object: nil)
@@ -111,8 +116,9 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
         if segue.identifier == "beginBill" {
             let controller = segue.destinationViewController as! BillViewController
             controller.administeringDoctor = self.administeringDoctor.text
-            if patientFName != "" {
-                controller.newPatient = patientFName + " " + patientLName
+            
+            if let patintFirstName = patientFName{
+                controller.newPatient = patientFName! + " " + patientLName!
                 controller.newPatientDOB = patientDOB
             }
         }

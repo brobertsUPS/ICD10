@@ -217,10 +217,11 @@ INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("443
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44388","P","Stoma, colon - Dx");
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44389","P","Stoma, colon - w/bx");
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44392","P","Stoma, colon - w/hot bx");
-INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44394","P","Stoma, colon - w/snare");
-INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("91010","P","Stoma, colon - Motility, esoph");
-INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("91122","P","Stoma, colon - Manometry, anorectal");
-INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("91110","P","Stoma, colon - Capsule");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44394","P","Stoma, colon - w/snare")
+
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("91010","P","Manometry - Esophageal");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("91122","P","Manometry - Ano-rectal");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("91110","P","Manometry - Capsule");
 
 
 -- Condition_location*********************************************************************************************
