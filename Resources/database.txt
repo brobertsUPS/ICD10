@@ -50,6 +50,22 @@ CREATE TABLE Apt_type (
 	type_description TEXT,
 	code_description TEXT
 	);
+	
+CREATE TABLE Modifier (
+	modifierID INTEGER PRIMARY KEY NOT NULL,
+	modifier TEXT NOT NULL,
+	modifier_description TEXT NOT NULL
+	);
+	
+CREATE TABLE Has_modifiers (
+	aptID INTEGER NOT NULL,
+	apt_code TEXT NOT NULL,
+	modifierID INTEGER NOT NULL,
+	PRIMARY KEY (aptID, apt_code, modifierID),
+	FOREIGN KEY (apt_code) REFERENCES Apt_type (apt_code) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (modifierID) REFERENCES Modifier (modifierID) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (aptID) REFERENCES Appointment (aptID) ON DELETE CASCADE ON UPDATE CASCADE
+	);
 
 CREATE TABLE ICD9_condition (
 	ICD9_code TEXT PRIMARY KEY NOT NULL,
@@ -138,6 +154,12 @@ INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (2, "Doctor", "One"
 INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (3, "Doctor", "Two","", 1);
 
 
+--Modifiers*************************************************************************************************************
+INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (0, "-22", "Unusual Srvs");
+INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (1, "-25", "Sign Sep ID e/M");
+INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (2, "-53", "Discontinued Procedure");
+INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (3, "-76", "Repeat Proc-Same Day");
+INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (4, "-77", "Repeat, dif MD-Same Day");
 
 --Place of service*******************************************************************************************************
 INSERT INTO Place_of_service (placeID, place_description) VALUES (1, "PSPH IN PATIENT");

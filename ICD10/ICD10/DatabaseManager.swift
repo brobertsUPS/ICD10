@@ -236,6 +236,24 @@ class DatabaseManager {
         return result
     }
     
+    func addHasModifiers(aptID:Int, aptCode:String, modifierID:Int) -> String {
+        
+        var result = ""
+        let insertHasModifier = "INSERT INTO Has_modifier (aptID, apt_code, modifierID) VALUES (\(aptID), '\(aptCode)', \(modifierID))"
+        
+        var statement:COpaquePointer = nil
+        if sqlite3_prepare_v2(db, insertHasModifier, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_DONE {
+                result = "Successful doc save aptID:\(aptID) aptCode \(aptCode) modifier \(modifierID)"
+            }else {
+                result = "Failed apt doc save:\(aptID) aptCode \(aptCode) modifier \(modifierID)"
+            }
+        }
+        sqlite3_finalize(statement)
+        return result
+
+    }
+    
     // MARK: - Remove From Database
     
     func removePatientFromDatabase(id:Int) -> String {
@@ -793,6 +811,33 @@ class DatabaseManager {
         sqlite3_finalize(statement)
         return dateString
 
+    }
+    
+    func getModifers() -> [(modID:Int, modifier:String, modifierDescription:String)] {
+        var modifiers:[(modID:Int, modifier:String, modifierDescription:String)] = []
+        
+        let modifierQuery = "SELECT modifierID, modifier, modifier_description FROM Modifier ORDER BY modifierID"
+        
+        var statement:COpaquePointer = nil
+        if sqlite3_prepare_v2(db, modifierQuery, -1, &statement, nil) == SQLITE_OK {
+            
+            while sqlite3_step(statement) == SQLITE_ROW {
+                
+                var modID = Int(sqlite3_column_int(statement, 0))
+                
+                var modifier = sqlite3_column_text(statement, 1)
+                var modifierString = String.fromCString(UnsafePointer<CChar>(modifier))!
+                
+                var modifierDescription = sqlite3_column_text(statement, 2)
+                var modifierDescriptionString = String.fromCString(UnsafePointer<CChar>(modifierDescription))!
+                
+                let tuple:(modID:Int, modifier:String, modifierDescription:String) = (modID, modifierString, modifierDescriptionString)
+                modifiers.append(tuple)
+            }
+        }
+        
+        sqlite3_finalize(statement)
+        return modifiers
     }
     
     // MARK: - Searches

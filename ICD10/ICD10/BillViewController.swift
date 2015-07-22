@@ -340,7 +340,16 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             popoverViewController.popoverPresentationController!.delegate = self
         }
         
-        if segue.identifier == "ViewAllBills"{
+        if segue.identifier == "modifierPopover" {
+            let controller = segue.destinationViewController as! ModifierTableViewController
+            controller.modalPresentationStyle = UIModalPresentationStyle.Popover
+            controller.popoverPresentationController!.delegate = self
+
+            dbManager.checkDatabaseFileAndOpen()
+            controller.modifiers = dbManager.getModifers()
+            dbManager.closeDB()
+
+        }else if segue.identifier == "ViewAllBills"{
             let controller = segue.destinationViewController as! BillDatesTableViewController
         }else {
             if segue.identifier == "beginICD10Search" {
@@ -832,6 +841,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         self.codeCollectionView.reloadData()
     }
+    
+    @IBAction func userClickedModifier(sender: UIButton) {
+        self.performSegueWithIdentifier("modifierPopover", sender: self)
+    }
+    
     
     @IBAction func shiftVisitCodeUp(sender: ICDDeleteButton) {
         
