@@ -11,10 +11,11 @@ import UIKit
 class ModifierTableViewController: UITableViewController {
     
     var modifiers:[(modID:Int, modifier:String, modifierDescription:String)]!
+    
+    var selectedModID:Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,6 +44,14 @@ class ModifierTableViewController: UITableViewController {
         cell.detailTextLabel!.text = modifier
 
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        var modifierTuple:(modID:Int, modifier:String, modifierDescription:String) = modifiers[indexPath.row]
+        selectedModID = modifierTuple.modID
+        NSNotificationCenter.defaultCenter().postNotificationName("loadModifier", object: selectedModID)
+        
     }
     
 

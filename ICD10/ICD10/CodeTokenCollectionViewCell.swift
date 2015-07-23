@@ -16,6 +16,7 @@ class CodeTokenCollectionViewCell: UICollectionReusableView {
     @IBOutlet weak var shiftUpButton: ICDDeleteButton!
     @IBOutlet weak var shiftDownButton: ICDDeleteButton!
     @IBOutlet weak var visitCodeDetailButton: UIButton!
+    @IBOutlet weak var modifierButton: ICDDeleteButton!
     
     var visitCodeText:String!
     

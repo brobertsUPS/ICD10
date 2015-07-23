@@ -24,7 +24,6 @@ class DatabaseManager {
     func checkDatabaseFileAndOpen(){
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        //if appDelegate.userHasValidPassword {
             
             let theFileManager = NSFileManager.defaultManager()
             
@@ -45,7 +44,6 @@ class DatabaseManager {
                     println("database failure")
                 }
             }
-       // }
     }
     
     /**
@@ -244,9 +242,9 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertHasModifier, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
-                result = "Successful doc save aptID:\(aptID) aptCode \(aptCode) modifier \(modifierID)"
+                result = "Successful mod save aptID:\(aptID) aptCode \(aptCode) modifier \(modifierID)"
             }else {
-                result = "Failed apt doc save:\(aptID) aptCode \(aptCode) modifier \(modifierID)"
+                result = "Failed apt nod save:\(aptID) aptCode \(aptCode) modifier \(modifierID)"
             }
         }
         sqlite3_finalize(statement)
@@ -358,6 +356,26 @@ class DatabaseManager {
                 result = "Removed codes with aptID=\(aptID) AND aptCode='\(aptCode)'"
             }else {
                 result = "aptID=\(aptID) AND aptCode='\(aptCode)' not removed"
+            }
+        }
+        sqlite3_finalize(statement)
+        return result
+
+    }
+    
+    func removeModifiersForBill(aptID:Int) -> String{
+        var result = ""
+        var removeModifiersQuery = "DELETE FROM Has_modifiers WHERE aptID=\(aptID)"
+        
+        var statement:COpaquePointer = nil
+        
+        var resultPrepare = sqlite3_prepare_v2(db, removeModifiersQuery, -1, &statement, nil)
+        if resultPrepare == SQLITE_OK {
+            var sqliteResult = sqlite3_step(statement)
+            if sqliteResult == SQLITE_DONE {
+                result = "Removed modifiers from aptID=\(aptID)"
+            }else {
+                result = "Modifiers for aptID=\(aptID) not removed"
             }
         }
         sqlite3_finalize(statement)
@@ -840,6 +858,47 @@ class DatabaseManager {
         return modifiers
     }
     
+    func getModifierWithID(modID:Int) -> String{
+        
+        var modifier = ""
+        let modifierQuery = "SELECT modifier FROM Modifier WHERE modifierID=\(modID)"
+        
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db,modifierQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {
+                var mod = sqlite3_column_text(statement, 0)
+                modifier = String.fromCString(UnsafePointer<CChar>(mod))!
+            }
+        }
+        sqlite3_finalize(statement)
+        return modifier
+    }
+    
+    func getModifiersForBill(aptID:Int) -> [String:Int] {
+        var modifiers:[String:Int] = [:]
+        
+        let modifierQuery = "SELECT modifierID, apt_code FROM Modifier NARURAL JOIN Has_modifiers WHERE aptID=\(aptID)"
+        
+        var statement:COpaquePointer = nil
+        if sqlite3_prepare_v2(db, modifierQuery, -1, &statement, nil) == SQLITE_OK {
+            
+            while sqlite3_step(statement) == SQLITE_ROW {
+                
+                var modID = Int(sqlite3_column_int(statement, 0))
+                
+                var visitCode = sqlite3_column_text(statement, 1)
+                var visitCodeString = String.fromCString(UnsafePointer<CChar>(visitCode))!
+                
+                modifiers[visitCodeString] = modID
+            }
+        }
+        
+        sqlite3_finalize(statement)
+        return modifiers
+
+    }
+    
     // MARK: - Searches
     /**
     *   Searches matching the text that was input into the textfield.
@@ -982,6 +1041,4 @@ class DatabaseManager {
         }
         return ("","")
     }
-    
-
 }
