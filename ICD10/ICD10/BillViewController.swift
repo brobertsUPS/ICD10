@@ -256,6 +256,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     func saveBillFromPreviousBill(aptID:Int, placeID:Int, roomID:Int, patientID:Int, referringDoctorID:Int, adminDoctorID:Int){
         
         dbManager.checkDatabaseFileAndOpen()
+        dbManager.removeModifiersForBill(aptID)
         dbManager.removeHasDoc(aptID)
         dbManager.updateAppointment(aptID, pID: patientID, placeID: placeID, roomID: roomID, code_type: Int(codeVersion.on), complete: Int(billCompletionSwitch.on), date:dateTextField.text)
         
@@ -306,10 +307,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     func saveModifierCodesForBill(aptID: Int) {
+        println("Save modifiers")
         dbManager.checkDatabaseFileAndOpen()
         
         let modifierKeys = modifierCodes.keys.array
-        
+        println("Modifier keys \(modifierKeys)")
         for var i=0; i<modifierKeys.count; i++ {
             var visitCode = modifierKeys[i]
             dbManager.addHasModifiers(aptID, aptCode: visitCode, modifierID: modifierCodes[visitCode]!)

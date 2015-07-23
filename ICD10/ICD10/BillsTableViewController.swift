@@ -105,9 +105,10 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             
             dbManager.checkDatabaseFileAndOpen()
             let (codesForBill, visitCodePriorityFromDatbase) = dbManager.getVisitCodesForBill(aptID)
+            let modifiersForBill = dbManager.getModifiersForBill(aptID)
             dbManager.closeDB()
             
-            htmlLine = htmlLine + makeHTMLLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, codesForBill: codesForBill, codeType: codeType, visitCodePriorityFromDatbase: visitCodePriorityFromDatbase)
+            htmlLine = htmlLine + makeHTMLLine(adminDoc,date: date, patientName: patientName, dob: dob, doctorName: referDoc, place: place, room: room, codesForBill: codesForBill, codeType: codeType, visitCodePriorityFromDatbase: visitCodePriorityFromDatbase, modifiers:modifiersForBill)
         }
         
         htmlLine = htmlLine + "</table></body> </html>"
@@ -131,7 +132,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         }
     }
     
-    func makeHTMLLine(adminDoc:String, date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, codesForBill:[String:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)]], codeType:Int, visitCodePriorityFromDatbase: [String]) -> String {
+    func makeHTMLLine(adminDoc:String, date:String, patientName:String, dob:String, doctorName:String, place:String, room:String, codesForBill:[String:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)]], codeType:Int, visitCodePriorityFromDatbase: [String], modifiers:[String:Int]) -> String {
         
         var htmlLine = ""
         
@@ -143,6 +144,12 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         
         if extensionCode != "" {
             firstICD10 = extensionCode           //if the extensionCode is available make sure to bill it
+        }
+        
+        if modifiers[firstVisitCode] != nil {
+            dbManager.checkDatabaseFileAndOpen()
+            firstVisitCode = firstVisitCode + dbManager.getModifierWithID(modifiers[firstVisitCode]!)
+            dbManager.closeDB()
         }
         
         htmlLine = htmlLine + "<tr><td> \(adminDoc) </td><td> \(date) </td><td> \(patientName) </td><td> \(dob) </td><td> \(doctorName) </td><td> \(place) </td><td> \(room) </td><td> \(firstVisitCode) </td><td> \(firstICD10) </td><td> \(firstICD9) </td> </tr>"
@@ -171,6 +178,12 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
                 
                 if extensionCode != "" {
                     icd10 = extensionCode           //if the extensionCode is available make sure to bill it
+                }
+                
+                if modifiers[visitCode] != nil {
+                    dbManager.checkDatabaseFileAndOpen()
+                    visitCode = visitCode + dbManager.getModifierWithID(modifiers[visitCode]!)
+                    dbManager.closeDB()
                 }
                 
                 htmlLine = htmlLine + "<tr> <td>  </td><td>  </td><td>  </td><td> </td><td> </td><td> </td><td> </td><td> \(visitCode) </td><td> \(icd10) </td><td> \(icd9) </td> </tr>"
@@ -218,6 +231,10 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             controller.appointmentID = aptID
             controller.administeringDoctor = adminDoc
             
+            dbManager.checkDatabaseFileAndOpen()
+            controller.modifierCodes = dbManager.getModifiersForBill(aptID)
+            dbManager.closeDB()
+            
             if codeType == 0{
                 controller.icd10On = false
             } else {
@@ -227,7 +244,6 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
                 controller.billComplete = true
             } else {
                 controller.billComplete = false
-                
             }
         }
     }

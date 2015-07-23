@@ -237,17 +237,19 @@ class DatabaseManager {
     func addHasModifiers(aptID:Int, aptCode:String, modifierID:Int) -> String {
         
         var result = ""
-        let insertHasModifier = "INSERT INTO Has_modifier (aptID, apt_code, modifierID) VALUES (\(aptID), '\(aptCode)', \(modifierID))"
-        
+        let insertHasModifier = "INSERT INTO Has_modifiers (aptID, apt_code, modifierID) VALUES (\(aptID), '\(aptCode)', \(modifierID))"
+        println(insertHasModifier)
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertHasModifier, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
                 result = "Successful mod save aptID:\(aptID) aptCode \(aptCode) modifier \(modifierID)"
+                
             }else {
                 result = "Failed apt nod save:\(aptID) aptCode \(aptCode) modifier \(modifierID)"
             }
         }
         sqlite3_finalize(statement)
+        println(result)
         return result
 
     }
@@ -878,9 +880,10 @@ class DatabaseManager {
     func getModifiersForBill(aptID:Int) -> [String:Int] {
         var modifiers:[String:Int] = [:]
         
-        let modifierQuery = "SELECT modifierID, apt_code FROM Modifier NARURAL JOIN Has_modifiers WHERE aptID=\(aptID)"
+        let modifierQuery = "SELECT modifierID, apt_code FROM Modifier NATURAL JOIN Has_modifiers WHERE aptID=\(aptID)"
         
         var statement:COpaquePointer = nil
+        
         if sqlite3_prepare_v2(db, modifierQuery, -1, &statement, nil) == SQLITE_OK {
             
             while sqlite3_step(statement) == SQLITE_ROW {
@@ -893,7 +896,7 @@ class DatabaseManager {
                 modifiers[visitCodeString] = modID
             }
         }
-        
+        println(modifiers)
         sqlite3_finalize(statement)
         return modifiers
 
