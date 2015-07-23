@@ -1748,14 +1748,14 @@
         <image name="Up-1" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ivE-wa-30t"/>
-        <segue reference="edd-ny-Y2u"/>
-        <segue reference="jsy-lt-xeY"/>
-        <segue reference="T5X-ib-XxA"/>
         <segue reference="j9k-IG-ode"/>
         <segue reference="y7i-um-yHJ"/>
+        <segue reference="T5X-ib-XxA"/>
         <segue reference="OCB-Va-VDC"/>
         <segue reference="t0l-p3-sB1"/>
+        <segue reference="w8A-RM-qYc"/>
         <segue reference="zKf-2S-qlA"/>
+        <segue reference="jsy-lt-xeY"/>
+        <segue reference="edd-ny-Y2u"/>
     </inferredMetricsTieBreakers>
 </document>

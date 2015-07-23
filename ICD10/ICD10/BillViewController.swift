@@ -351,12 +351,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        if segue.identifier == "visitCodeDescriptionPopover" {                      //Show description of visit code
-            let popoverViewController = segue.destinationViewController as! UIViewController
-            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
-            popoverViewController.popoverPresentationController!.delegate = self
-            
-        } else if segue.identifier == "modifierPopover" {                           //Show a list of possible modifiers
+        if segue.identifier == "modifierPopover" {                           //Show a list of possible modifiers
             let controller = segue.destinationViewController as! ModifierTableViewController
             controller.modalPresentationStyle = UIModalPresentationStyle.Popover
             controller.popoverPresentationController!.delegate = self
@@ -620,6 +615,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         if let controller = modifierTablieViewcontroller {
             let modID = controller.selectedModID
             
+            println("selected visitCode to add to \(selectedVisitCodeToAddTo) with mod id \(modID)")
             modifierCodes[selectedVisitCodeToAddTo!] = modID!
             self.dismissViewControllerAnimated(true, completion: nil)
             self.resignFirstResponder()
@@ -784,15 +780,20 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             
             var visitCodeForPriority = visitCodePriority[indexPath.section] //get the item we should display based on priority
             
-            var modifierForVisitCode = modifierCodes[visitCodeForPriority]
             
+            var modifierForVisitCode = modifierCodes[visitCodeForPriority]
+            println("visitCode \(visitCodeForPriority)")
             cell.visitCodeLabel.text = visitCodeForPriority
             
-            if let modID = modifierForVisitCode {
-                
+            if modifierForVisitCode != nil {
+                println("modifierForVisiCode not nil \(modifierForVisitCode!)")
                 dbManager.checkDatabaseFileAndOpen()
-                cell.modifierButton.setTitle(dbManager.getModifierWithID(modID), forState: UIControlState.Normal)
+                cell.modifierButton.setTitle(dbManager.getModifierWithID(modifierForVisitCode!), forState: UIControlState.Normal)
                 dbManager.closeDB()
+            } else {
+                println("Mod was nil for visitCode \(visitCodeForPriority)")
+                
+                cell.modifierButton.setTitle("Mod", forState: UIControlState.Normal)
             }
             
             
@@ -854,6 +855,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         var visitCode = visitCodePriority[sender.tag]
         codesForBill.removeValueForKey(visitCode)
+        modifierCodes.removeValueForKey(visitCode)
         
         var deleteResult = visitCodePriority.removeAtIndex(sender.tag)
         self.codeCollectionView.reloadData()

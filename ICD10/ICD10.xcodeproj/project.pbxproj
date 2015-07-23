@@ -14,11 +14,11 @@
 		AD19EA971B2F473500A1AFF1 /* BillsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */; };
 		AD359F391B60507400DC6C90 /* ModifierTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD359F381B60507400DC6C90 /* ModifierTableViewController.swift */; };
 		AD359F3B1B60541A00DC6C90 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD359F3A1B60541A00DC6C90 /* testDML.sqlite3 */; };
+		AD359F3F1B61927600DC6C90 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AD359F3E1B61927600DC6C90 /* libsqlite3.dylib */; };
 		AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD4FAE761B18D9260010B411 /* Main.storyboard */; };
 		AD7A73D21B2782590054DD55 /* PatientsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */; };
 		AD7A73D41B2783A90054DD55 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */; };
 		AD7A73D61B278D150054DD55 /* DoctorsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */; };
-		AD801A341B5EB7D9001A2F98 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD801A311B5EB77F001A2F98 /* libsqlcipher.a */; };
 		AD801A361B5EC769001A2F98 /* PasswordCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD801A351B5EC769001A2F98 /* PasswordCreationViewController.swift */; };
 		AD801A391B5EC791001A2F98 /* EnterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD801A381B5EC791001A2F98 /* EnterPasswordViewController.swift */; };
 		AD93D7251B28A104000EAF98 /* EditPatientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */; };
@@ -38,20 +38,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AD801A301B5EB77F001A2F98 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD801A2B1B5EB77E001A2F98 /* sqlcipher.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC046055464E500DB518D;
-			remoteInfo = sqlcipher;
-		};
-		AD801A321B5EB7C8001A2F98 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD801A2B1B5EB77E001A2F98 /* sqlcipher.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC045055464E500DB518D;
-			remoteInfo = sqlcipher;
-		};
 		AD801A3B1B5EDDFE001A2F98 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADE77F281B1782F900CE48F1 /* Project object */;
@@ -69,11 +55,11 @@
 		AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillsTableViewController.swift; sourceTree = "<group>"; };
 		AD359F381B60507400DC6C90 /* ModifierTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifierTableViewController.swift; sourceTree = "<group>"; };
 		AD359F3A1B60541A00DC6C90 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
+		AD359F3E1B61927600DC6C90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		AD4FAE771B18D9260010B411 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientsTableViewController.swift; sourceTree = "<group>"; };
 		AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoctorsTableViewController.swift; sourceTree = "<group>"; };
-		AD801A2B1B5EB77E001A2F98 /* sqlcipher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sqlcipher.xcodeproj; path = ../SQLCipherApp/sqlcipher/sqlcipher.xcodeproj; sourceTree = "<group>"; };
 		AD801A351B5EC769001A2F98 /* PasswordCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordCreationViewController.swift; sourceTree = "<group>"; };
 		AD801A381B5EC791001A2F98 /* EnterPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterPasswordViewController.swift; sourceTree = "<group>"; };
 		AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPatientViewController.swift; sourceTree = "<group>"; };
@@ -103,7 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD801A341B5EB7D9001A2F98 /* libsqlcipher.a in Frameworks */,
+				AD359F3F1B61927600DC6C90 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,18 +103,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AD801A2C1B5EB77E001A2F98 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AD801A311B5EB77F001A2F98 /* libsqlcipher.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		ADE77F271B1782F900CE48F1 = {
 			isa = PBXGroup;
 			children = (
-				AD801A2B1B5EB77E001A2F98 /* sqlcipher.xcodeproj */,
+				AD359F3E1B61927600DC6C90 /* libsqlite3.dylib */,
 				ADE77F321B1782F900CE48F1 /* ICD10 */,
 				ADE77F4A1B1782F900CE48F1 /* ICD10Tests */,
 				ADE77F311B1782F900CE48F1 /* Products */,
@@ -219,7 +197,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD801A331B5EB7C8001A2F98 /* PBXTargetDependency */,
 			);
 			name = ICD10;
 			productName = ICD10;
@@ -274,12 +251,6 @@
 			mainGroup = ADE77F271B1782F900CE48F1;
 			productRefGroup = ADE77F311B1782F900CE48F1 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = AD801A2C1B5EB77E001A2F98 /* Products */;
-					ProjectRef = AD801A2B1B5EB77E001A2F98 /* sqlcipher.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				ADE77F2F1B1782F900CE48F1 /* ICD10 */,
@@ -287,16 +258,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		AD801A311B5EB77F001A2F98 /* libsqlcipher.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libsqlcipher.a;
-			remoteRef = AD801A301B5EB77F001A2F98 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		ADE77F2E1B1782F900CE48F1 /* Resources */ = {
@@ -360,11 +321,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AD801A331B5EB7C8001A2F98 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = sqlcipher;
-			targetProxy = AD801A321B5EB7C8001A2F98 /* PBXContainerItemProxy */;
-		};
 		AD801A3C1B5EDDFE001A2F98 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = ADE77F2F1B1782F900CE48F1 /* ICD10 */;
