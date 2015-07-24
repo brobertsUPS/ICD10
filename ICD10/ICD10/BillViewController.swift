@@ -227,7 +227,15 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     @IBAction func saveBill(sender: UIButton) {
         
+        //test for the split of the name
+        var (fName, lName) = dbManager.split(patientTextField.text)
+        if fName == "" {
+            self.showAlert("There was an error saving the patient. Please enter a patient first name and last name separated by a space.")
+            return
+        }
+        
         if patientTextField.text == "" || patientDOBTextField.text == "" { //Make sure there is a patient to save for
+            
             self.showAlert("The bill must have a valid patient to be saved")
         } else{
             
@@ -242,6 +250,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             var placeID = getPlaceOfServiceID(siteTextField.text)           //get the ids to input into the bill
             var roomID = getRoomID(roomTextField.text)
             var patientID = getPatientID(patientTextField.text, dateOfBirth: patientDOBTextField.text)
+            
             var referringDoctorID = getDoctorID(doctorTextField.text)
             var adminDoctorID = getDoctorID(administeringDoctor)
             
@@ -307,11 +316,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     func saveModifierCodesForBill(aptID: Int) {
-        println("Save modifiers")
         dbManager.checkDatabaseFileAndOpen()
         
         let modifierKeys = modifierCodes.keys.array
-        println("Modifier keys \(modifierKeys)")
         for var i=0; i<modifierKeys.count; i++ {
             var visitCode = modifierKeys[i]
             dbManager.addHasModifiers(aptID, aptCode: visitCode, modifierID: modifierCodes[visitCode]!)
@@ -615,7 +622,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         if let controller = modifierTablieViewcontroller {
             let modID = controller.selectedModID
             
-            println("selected visitCode to add to \(selectedVisitCodeToAddTo) with mod id \(modID)")
             modifierCodes[selectedVisitCodeToAddTo!] = modID!
             self.dismissViewControllerAnimated(true, completion: nil)
             self.resignFirstResponder()
@@ -628,7 +634,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     func addPatientToDatabase(inputPatient:String, email:String) -> String{
         
-        var (firstName, lastName) = self.split(inputPatient)
+        
+        var (firstName, lastName) = dbManager.split(inputPatient)
         
         var dateOfBirth = patientDOBTextField.text
         dbManager.checkDatabaseFileAndOpen()
@@ -710,14 +717,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         dbManager.addHasDoc(aptID, dID: dID)
         dbManager.closeDB()
     }
-
-    func split(splitString:String) -> (String, String?){            //Splits a string with a space delimeter
-        
-        let fullNameArr = splitString.componentsSeparatedByString(" ")
-        var firstName: String = fullNameArr[0]
-        var lastName: String =  fullNameArr[1]
-        return (firstName, lastName)
-    }
     
     func showAlert(msg:String) {
         let controller2 = UIAlertController(title: msg,
@@ -782,17 +781,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             
             
             var modifierForVisitCode = modifierCodes[visitCodeForPriority]
-            println("visitCode \(visitCodeForPriority)")
             cell.visitCodeLabel.text = visitCodeForPriority
             
             if modifierForVisitCode != nil {
-                println("modifierForVisiCode not nil \(modifierForVisitCode!)")
                 dbManager.checkDatabaseFileAndOpen()
                 cell.modifierButton.setTitle(dbManager.getModifierWithID(modifierForVisitCode!), forState: UIControlState.Normal)
                 dbManager.closeDB()
             } else {
-                println("Mod was nil for visitCode \(visitCodeForPriority)")
-                
                 cell.modifierButton.setTitle("Mod", forState: UIControlState.Normal)
             }
             
@@ -885,7 +880,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         var section = sender.tag
         self.selectedVisitCodeToAddTo = visitCodePriority[section]
-        println("Selected visit code to add mod to \(selectedVisitCodeToAddTo)")
         self.performSegueWithIdentifier("modifierPopover", sender: self)
     }
     

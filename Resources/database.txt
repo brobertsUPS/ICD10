@@ -143,16 +143,8 @@ CREATE TABLE Contains_location (
 --Patients and doctors********************************************************************************************************
 
 INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (1, "12-04-1993", "Brandon", "Roberts", "");
-INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (2, "03-22-1931", "William", "Shatner", "");
-INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (3, "12-28-1932", "Nichelle", "Nichols", "");
-INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (4, "03-31-1931", "Leonard", "Nimoy", "");
-INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (5, "03-03-1920", "James", "Doohan", "");
-INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (6, "04-20-1937", "George", "Takei", "");
 
 INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (1, "Rodney", "Joe","Rodneyjoe@mac.com", 0);
-INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (2, "Doctor", "One","", 1);
-INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (3, "Doctor", "Two","", 1);
-
 
 --Modifiers*************************************************************************************************************
 INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (0, "-22", "Unusual Srvs");
@@ -239,7 +231,7 @@ INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("443
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44388","P","Stoma, colon - Dx");
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44389","P","Stoma, colon - w/bx");
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44392","P","Stoma, colon - w/hot bx");
-INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44394","P","Stoma, colon - w/snare")
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("44394","P","Stoma, colon - w/snare");
 
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("91010","P","Manometry - Esophageal");
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("91122","P","Manometry - Ano-rectal");

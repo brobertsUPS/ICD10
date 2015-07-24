@@ -238,7 +238,7 @@ class DatabaseManager {
         
         var result = ""
         let insertHasModifier = "INSERT INTO Has_modifiers (aptID, apt_code, modifierID) VALUES (\(aptID), '\(aptCode)', \(modifierID))"
-        println(insertHasModifier)
+        
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertHasModifier, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
@@ -249,7 +249,6 @@ class DatabaseManager {
             }
         }
         sqlite3_finalize(statement)
-        println(result)
         return result
 
     }
@@ -896,7 +895,6 @@ class DatabaseManager {
                 modifiers[visitCodeString] = modID
             }
         }
-        println(modifiers)
         sqlite3_finalize(statement)
         return modifiers
 

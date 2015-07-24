@@ -43,7 +43,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Description Text" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="cVj-EY-w3i">
+                            <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Description Text" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="cVj-EY-w3i">
                                 <rect key="frame" x="16" y="167" width="568" height="64"/>
                                 <color key="backgroundColor" red="0.88304924240000005" green="0.88304924240000005" blue="0.88304924240000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -1614,7 +1614,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aTT-m9-8Vw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-548" y="492"/>
+            <point key="canvasLocation" x="-461" y="553"/>
         </scene>
         <!--Master-->
         <scene sceneID="smW-Zh-WAh">
@@ -1748,13 +1748,13 @@
         <image name="Up-1" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="j9k-IG-ode"/>
+        <segue reference="2II-5o-t3P"/>
+        <segue reference="zKf-2S-qlA"/>
+        <segue reference="OCB-Va-VDC"/>
+        <segue reference="w8A-RM-qYc"/>
         <segue reference="y7i-um-yHJ"/>
         <segue reference="T5X-ib-XxA"/>
-        <segue reference="OCB-Va-VDC"/>
         <segue reference="t0l-p3-sB1"/>
-        <segue reference="w8A-RM-qYc"/>
-        <segue reference="zKf-2S-qlA"/>
         <segue reference="jsy-lt-xeY"/>
         <segue reference="edd-ny-Y2u"/>
     </inferredMetricsTieBreakers>
