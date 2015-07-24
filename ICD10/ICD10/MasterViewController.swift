@@ -30,6 +30,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         dbManager = DatabaseManager()
         
         
+        
         dbManager.checkDatabaseFileAndOpen()
         if objects.count == 0 {//get the root locations when we load up
             let query = "SELECT * FROM Condition_location cl WHERE NOT EXISTS (SELECT * FROM Sub_location sl WHERE cl.LID = sl.LID) ORDER BY LID"
@@ -207,6 +208,12 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
                 
+                var controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
+                controllerTitle.lineBreakMode = NSLineBreakMode.ByWordWrapping
+                controllerTitle.numberOfLines = 0
+                controllerTitle.text = locationName
+                controller.navigationItem.titleView = controllerTitle
+                
                 dbManager.checkDatabaseFileAndOpen()
                 var statement:COpaquePointer = nil
                 let query = "SELECT ICD10_code, description_text, ICD9_code, ICD10_ID FROM ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition WHERE ICD10_ID=(SELECT ICD10_ID FROM Located_in WHERE LID=\(id))"
@@ -239,12 +246,20 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
                 dbManager.closeDB()
                 
+                
+                
             } else if (segue.identifier == "showLocations" && newSubLocations.count > 0) {
                 
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
                 
                 controller.objects = newSubLocations
-                controller.title = locationName
+                var controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
+                controllerTitle.lineBreakMode = NSLineBreakMode.ByWordWrapping
+                controllerTitle.numberOfLines = 0
+                controllerTitle.text = locationName
+                
+                controller.navigationItem.titleView = controllerTitle
+
                 controller.navigationItem.leftItemsSupplementBackButton = true
                 controller.billViewController = self.billViewController
                 controller.favoritesCell = self.favoritesCell
@@ -294,6 +309,11 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         let newSubLocations = findSubLocations(id)
         if id == 0{
             favoritesCell = true
+            println("Favorites cell")
+            if newSubLocations.count == 0 {
+                self.showAlert("It looks like there are no favorites yet! Add some by hitting the star next to a description name!")
+                return
+            }
         } else {
             favoritesCell = false
         }
@@ -317,8 +337,6 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     }
     
     @IBAction func addCellToFavorites(sender: UIButton) {
-        
-        
         
         dbManager.checkDatabaseFileAndOpen()
         var locationName = dbManager.getConditionLocationWithID(sender.tag-1)

@@ -227,6 +227,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     @IBAction func saveBill(sender: UIButton) {
         
+        var validityErr = self.checkValidityOfProvidedInputs()
+        
+        
+        if validityErr != "" {
+            self.showAlert(validityErr)
+            return
+        }
+        
         //test for the split of the name
         var (fName, lName) = dbManager.split(patientTextField.text)
         if fName == "" {
@@ -324,6 +332,26 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             dbManager.addHasModifiers(aptID, aptCode: visitCode, modifierID: modifierCodes[visitCode]!)
         }
         dbManager.closeDB()
+    }
+    
+    func checkValidityOfProvidedInputs() -> String{
+        var err = ""
+        
+        if patientTextField.text != "" {
+            let fullNameArr = patientTextField.text.componentsSeparatedByString(" ")
+            if fullNameArr.count > 2 && fullNameArr[2] != ""{
+                err = "An error occured when saving the patient. Please enter a first name and last name separated by a space."
+            }
+        }
+        
+        if doctorTextField.text != "" {
+            let fullNameArr = doctorTextField.text.componentsSeparatedByString(" ")
+            if fullNameArr.count > 2 && fullNameArr[2] != ""{
+                err = "An error occured when saving the doctor. Please enter a first name and last name separated by a space."
+            }
+        }
+        
+        return err
     }
     
     func checkInputs() -> String{

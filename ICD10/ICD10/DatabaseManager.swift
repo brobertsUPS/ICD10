@@ -124,8 +124,11 @@ class DatabaseManager {
     
     func addDoctorToDatabase(inputDoctor:String, email:String, type:Int) -> String{
         
+        println("Adding doc")
         var (firstName, lastName) = split(inputDoctor)
         var result = ""
+        println("First name \(firstName) last name \(lastName)")
+        
         firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
         lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
         
@@ -152,7 +155,11 @@ class DatabaseManager {
     func checkForDoctorAndAdd(doctorInput:String) -> String {
         
         var result = ""
-        let (firstName, lastName) = split(doctorInput)
+        var (firstName, lastName) = split(doctorInput)
+       
+        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        
         if lastName == "" {
             result = "No last name was detected. Please input a first and last name separated by a space."
         } else {
@@ -166,6 +173,7 @@ class DatabaseManager {
             }
             sqlite3_finalize(statement)
         }
+        println(result)
         return result
     }
     
@@ -592,7 +600,11 @@ class DatabaseManager {
         }
         
         var pID = 0
-        let (firstName, lastName) = split(patientInput)
+        var (firstName, lastName) = split(patientInput)
+        
+        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        
         let patientQuery = "SELECT pID FROM Patient WHERE f_name='\(firstName)' AND l_name='\(lastName!)'"
         var statement:COpaquePointer = nil
         
@@ -615,7 +627,11 @@ class DatabaseManager {
         }
         
         var dID = 0
-        let (firstName, lastName) = split(doctorInput)
+        var (firstName, lastName) = split(doctorInput)
+        
+        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        
         let doctorQuery = "SELECT dID FROM Doctor WHERE f_name='\(firstName)' AND l_name='\(lastName!)';"
         var statement:COpaquePointer = nil
         
@@ -1037,7 +1053,6 @@ class DatabaseManager {
         if fullNameArr.count >= 2{
             var firstName: String = fullNameArr[0]
             var lastName: String =  fullNameArr[1]
-            
             return (firstName, lastName)
         }
         return ("","")

@@ -69,6 +69,13 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
     
     @IBAction func checkForDoctorAndAdd(sender: UIButton) {
         
+        let fullNameArr = administeringDoctor.text.componentsSeparatedByString(" ")
+        if fullNameArr.count > 2 && fullNameArr[2] != ""{
+            self.showAlert("An error occured when saving the doctor. Please enter a first name and last name separated by a space.")
+            return
+        }
+
+        
         dbManager.checkDatabaseFileAndOpen()
         var result = dbManager.checkForDoctorAndAdd(administeringDoctor.text)
         dbManager.closeDB()
