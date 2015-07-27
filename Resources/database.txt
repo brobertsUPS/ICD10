@@ -149,9 +149,10 @@ INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (1, "Rodney", "Joe"
 --Modifiers*************************************************************************************************************
 INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (0, "-22", "Unusual Srvs");
 INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (1, "-25", "Sign Sep ID e/M");
-INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (2, "-53", "Discontinued Procedure");
-INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (3, "-76", "Repeat Proc-Same Day");
-INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (4, "-77", "Repeat, dif MD-Same Day");
+INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (2, "-51", "Multiple Procedures");
+INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (3, "-53", "Discontinued Procedure");
+INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (4, "-76", "Repeat Proc-Same Day");
+INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (5, "-77", "Repeat, dif MD-Same Day");
 
 --Place of service*******************************************************************************************************
 INSERT INTO Place_of_service (placeID, place_description) VALUES (1, "PSPH IN PATIENT");
@@ -241,7 +242,7 @@ INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("911
 -- Condition_location*********************************************************************************************
 INSERT INTO Condition_location ( LID, location_name ) VALUES (0, "Favorites");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (1, "Esophagus");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (2, "Gastric/Stomach");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (2, "Stomach/Duodenum");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (3, "Small Bowel");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (4, "Colon");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (220, "Inflammatory Bowel Disease");
@@ -601,102 +602,10 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (19,19);
 --Dyspepsia
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (20,2);
 
-INSERT INTO Condition_location ( LID, location_name ) VALUES (142, "Epicastric pain (dyspepsia)");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (142,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (142, "R10.13", "Epicastric pain (dyspepsia)"); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (143, "K30", "Dyspepsia"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("536.8", "Dyspepsia");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (142,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (142,142);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (143, "Functional dyspepsia");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (143,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (143, "K30", "Functional dyspepsia"); 
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (143,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (143,143);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (144, "Acute dilatation of stomach");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (144,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (144,"K31.10", "Acute dilatation of stomach"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (144,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (144,144);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (145, "Adult hypertrophic pyloric stenosis");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (145,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (145, "K31.1", "Adult hypertrophic pyloric stenosis"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (145,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (145,145);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (146, "Hourglass stricture and stenosis");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (146,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (146,"K31.2", "Hourglass stricture and stenosis"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (146,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (146,146);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (147, "Pylorospasm, not elsewhere classified");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (147,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (147, "K31.3", "Pylorospasm, not elsewhere classified"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (147,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (147,147);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (148, "Gastric diverticulum");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (148,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (148, "K31.4", "Gastric diverticulum"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (148,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (148,148);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (149, "Obstruction of duodenum");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (149,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (149, "K31.5", "Obstruction of duodenum"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (149,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (149,149);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (150, "Fistula of stomach and duodenum");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (150,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (150, "K31.6", "Fistula of stomach and duodenum"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (150,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (150,150);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (151, "Polyp of stomach and duodenum");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (151,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (151,"K31.7", "Polyp of stomach and duodenum"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (151,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (151,151);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (152, "Angiodysplasia of stomach and duodenum with bleeding");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (152,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (152, "K31.811", "Angiodysplasia of stomach and duodenum with bleeding"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (152,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (152,152);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (153, "Angiodysplasia of stomach and duodenum without bleeding");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (153,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (153, "K31.819", "Angiodysplasia of stomach and duodenum without bleeding"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (153,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (153,153);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (154, "Dieulafoy lesion of stomach and duodenum");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (154,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (154, "K31.82", "Dieulafoy lesion of stomach and duodenum"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (154,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (154,154);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (155, "Achlorhydria");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (155,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (155, "K31.83", "Achlorhydria"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (155,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (155,155);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (156, "Gastroparesis");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (156,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (156, "K31.84", "Gastroparesis"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (156,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (156,156);
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (157, "Other disorders of stomach and duodenum");
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (157,20);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (157, "K31.89", "Other disorders of stomach and duodenum"); 
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (157,"536.8");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES (157,157);
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (143,20);
 
 --Dieulafoy
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (21,2);
