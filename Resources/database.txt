@@ -142,9 +142,6 @@ CREATE TABLE Contains_location (
 
 --Patients and doctors********************************************************************************************************
 
-INSERT INTO Patient (pID, date_of_birth, f_name, l_name, email) VALUES (1, "12-04-1993", "Brandon", "Roberts", "");
-
-INSERT INTO Doctor (dID, f_name, l_name, email, type) VALUES (1, "Rodney", "Joe","Rodneyjoe@mac.com", 0);
 
 --Modifiers*************************************************************************************************************
 INSERT INTO Modifier (modifierID, modifier, modifier_description) VALUES (0, "-22", "Unusual Srvs");
@@ -171,7 +168,7 @@ INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("992
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99252","C","Exp Prob Foc/Straight");
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99253","C","Detailed/Low");
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99254","C","Compreh/Moderate");
-INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99255","C","Comreh/High");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99255","C","Compreh/High");
 
 --Medicare
 
@@ -270,7 +267,7 @@ INSERT INTO Condition_location ( LID, location_name ) VALUES (24, "Gastroparesis
 INSERT INTO Condition_location ( LID, location_name ) VALUES (25, "Gastritis");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (26, "Nausea alone");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (27, "Nausea with vomiting");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (28, "Outlet obstruction");
+--INSERT INTO Condition_location ( LID, location_name ) VALUES (28, "Outlet obstruction");
 --INSERT INTO Condition_location ( LID, location_name ) VALUES (29, "Peptic ulcer, with heme");
 --INSERT INTO Condition_location ( LID, location_name ) VALUES (30, "Peptic ulcer, without heme");
 --INSERT INTO Condition_location ( LID, location_name ) VALUES (31, "Duodenal ulcer, with obstruction");
@@ -403,7 +400,7 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (128,128);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (129, "With dysplasia, unspecified");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (129,9);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (129, "K22.719", "Barrett's esophagus with dysplasia, unspecifieåd");
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (129, "K22.719", "Barrett's esophagus with dysplasia, unspecified");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (129,"530.85");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (129,129);
 
@@ -634,7 +631,7 @@ INSERT INTO Sub_location (LID, parent_locationID) VALUES (23,2);
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (24,2);
 
 INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (24, "K31.84", "Gastroparesis"); 
-INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("536.3.86", "Gastroparesis");
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("536.3", "Gastroparesis");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (24,"536.3");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (24,24);
 
@@ -646,50 +643,50 @@ INSERT INTO Condition_location ( LID, location_name ) VALUES (325, "Acute with h
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (325,324);
 INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (325, "K25.0", "GU, acute w/ hemorrhage"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.00", "GU, acute w/ hemorrhage");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.0","531.00");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.0",325);
+INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (325,"531.00");
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (325,325);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (326, "Chronic with hemorrhage");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (326,324);
 INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (326, "K25.4", "GU, chronic w/ hemorrhage"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.40", "GU, chronic w/ hemorrhage");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.4","531.40");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.4",326);
+INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (326,"531.40");
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (326,326);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (327, "Acute without hemorrhage");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (327,324);
 INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (327, "K25.3", "GU, acute w/o hemorrhage"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.30", "GU, acute w/o hemorrhage");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.3","531.30");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.3",327);
+INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (327,"531.30");
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (327,327);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (328, "Chronic without hemorrhage");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (328,324);
 INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (328, "K25.7", "GU, chronic w/o hemorrhage"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.70", "GU, chronic w/o hemorrhage");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.7","531.70");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.7",328);
+INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (328,"531.70");
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (328,328);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (329, "Acute with perforation");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (329,324);
 INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (329, "K25.1", "GU, acute w/ perforation"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.10", "GU, acute w/ perforation");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.1","531.10");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.1",329);
+INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (329,"531.10");
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (329,329);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (330, "Chronic with perforation");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (330,324);
 INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (330, "K25.5", "GU, chronic w/ perforation"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.50", "GU, acute w/o hemorrhage");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.5","531.50");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.5",330);
+INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (330,"531.50");
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (330,330);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (331, "Gastric Ulcer");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (331,324);
 INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (331, "K25.9", "Gastric ulcer"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("531.90", "Gastric ulcer");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES ("K25.9","531.90");
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K25.9",331);
+INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (331,"531.90");
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (331,331);
 
 --Gastritis
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (25,2);
