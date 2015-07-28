@@ -345,7 +345,7 @@ INSERT INTO Condition_location ( LID, location_name ) VALUES (98, "Naseau");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (99, "Nauseau with vomiting");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (100, "Occult blood in stool");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (101, "Polyps");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (102, "Post Op GI Disorder");
+--INSERT INTO Condition_location ( LID, location_name ) VALUES (102, "Post Op GI Disorder");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (103, "Rectal bleeding");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (104, "Ulcer");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (105, "Volvulus of intestine");
@@ -2050,7 +2050,7 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (252,252);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (253, "Inflam polyps of colon with other complication");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (253,228);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (263, "K51.418", "Inflam polyps of colon with other complication"); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (253, "K51.418", "Inflam polyps of colon with other complication"); 
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (253,"556.3");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (253,253);
 
@@ -2460,7 +2460,7 @@ INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (314,"569.83");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (314,314);
 
 --Post Op GI Disorder
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (102,8);
+--INSERT INTO Sub_location (LID, parent_locationID) VALUES (102,8);
 
 --Rectal bleeding
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (103,8);
@@ -2475,7 +2475,7 @@ INSERT INTO Sub_location (LID, parent_locationID) VALUES (104,8);
 
 --Volvulus of intestine
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (105,8);
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K56.2",105);
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (105,105);
 
 --Vomiting - persistent (symptom)
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (106,8);
@@ -2655,16 +2655,16 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (121,121);
 --Ulcer
 --Peptic with bleeding
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (122,104);
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K27.4",122);
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (122,122);
 
 --Peptic without bleeding
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (123,104);
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K27.7",123);
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (123,123);
 
 --DU with bleeding with obstruction
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (124,104);
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K26.4",124);
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (124,124);
 
 --DU with bleeding without obstruction
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (125,104);
-INSERT INTO Located_in (ICD10_ID, LID) VALUES ("K27.7",125);
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (125,125);
