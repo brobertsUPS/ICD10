@@ -412,6 +412,46 @@ class DatabaseManager {
 
     }
     
+    func removePatients() -> String{
+        var result = ""
+        
+        var removePatientsQuery = "DELETE FROM Patient"
+        
+        var statement:COpaquePointer = nil
+        
+        var resultPrepare = sqlite3_prepare_v2(db, removePatientsQuery, -1, &statement, nil)
+        
+        if resultPrepare == SQLITE_OK {
+            var sqliteResult = sqlite3_step(statement)
+            if sqliteResult == SQLITE_DONE {
+                result = "Removed patients from database"
+            }else {
+                result = "Patients not removed"
+            }
+        }
+        sqlite3_finalize(statement)
+        return result
+    }
+    
+    func removeAppointments() -> String {
+        var result = ""
+        let removeAptQuery = "DELETE FROM Appointment"
+        
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, removeAptQuery, -1, &statement, nil) == SQLITE_OK {
+            var sqliteResult = sqlite3_step(statement)
+            if sqliteResult == SQLITE_DONE {
+                result = "Removed Apts"
+            }else {
+                result = "Apts not removed"
+            }
+        }
+        sqlite3_finalize(statement)
+        return result
+
+    }
+    
     // MARK: - Update information in the database
     
     func updatePatient(firstName:String, lastName:String, dob:String, email:String, id:Int) -> String{

@@ -77,6 +77,30 @@ class PatientsTableViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    @IBAction func removeAllPatients(sender: UIButton) {
+        
+        let controller2 = UIAlertController(title: "Are you sure?",
+            message: "This will remove all patients and bills", preferredStyle: .Alert)
+        
+        let callConfirmActionHandler = { (action:UIAlertAction!) -> Void in
+            println("deleted")
+            self.dbManager.checkDatabaseFileAndOpen()
+            self.dbManager.removePatients()
+            self.dbManager.removeAppointments()
+            self.dbManager.closeDB()
+        }
+        
+        let cancelAction = UIAlertAction(title: "No", style: .Cancel, handler: nil)
+        let confirmAction = UIAlertAction(title: "Yes", style: .Default, handler: callConfirmActionHandler)
+        
+        controller2.addAction(cancelAction)
+        controller2.addAction(confirmAction)
+        
+        self.presentViewController(controller2, animated: true, completion: nil)
+        
+        self.tableView.reloadData()
+    }
 
     // MARK: - Table view data source
 

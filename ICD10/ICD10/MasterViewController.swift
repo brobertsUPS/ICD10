@@ -365,8 +365,8 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     }
     
     func showAlert(msg:String) {
-        let controller2 = UIAlertController(title: msg,
-            message: "", preferredStyle: .Alert)
+        let controller2 = UIAlertController(title: "Ooops!",
+            message: msg, preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Ok", style: .Cancel, handler: nil)
         controller2.addAction(cancelAction)
         self.presentViewController(controller2, animated: true, completion: nil)

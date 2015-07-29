@@ -48,8 +48,8 @@ class EditDoctorViewController: UIViewController {
     }
     
     func showAlert(msg:String) {
-        let controller2 = UIAlertController(title: msg,
-            message: "", preferredStyle: .Alert)
+        let controller2 = UIAlertController(title: "",
+            message: msg, preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
         controller2.addAction(cancelAction)
         self.presentViewController(controller2, animated: true, completion: nil)

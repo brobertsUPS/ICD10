@@ -42,8 +42,8 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     override func didReceiveMemoryWarning() { super.didReceiveMemoryWarning() }
     
     func showAlert(msg:String) {
-        let controller2 = UIAlertController(title: msg,
-            message: "", preferredStyle: .Alert)
+        let controller2 = UIAlertController(title: "Error!",
+            message: msg, preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
         controller2.addAction(cancelAction)
         self.presentViewController(controller2, animated: true, completion: nil)
@@ -123,6 +123,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             mc.mailComposeDelegate = self
             mc.setSubject(emailTitle)
             mc.setMessageBody(messageBody, isHTML: false)
+            
             
             var fileData:NSData = NSData(contentsOfFile: path)!
             mc.addAttachmentData(fileData, mimeType: "text/html", fileName: "Bills")

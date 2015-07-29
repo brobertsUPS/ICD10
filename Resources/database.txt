@@ -262,7 +262,7 @@ INSERT INTO Condition_location ( LID, location_name ) VALUES (19, "Anorexia");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (20, "Dyspepsia");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (21, "Dieulafoy");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (22, "Foreign body (Gastric/Stomach)");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (23, "Gastroenteritis");
+--INSERT INTO Condition_location ( LID, location_name ) VALUES (23, "Gastroenteritis");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (24, "Gastroparesis");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (25, "Gastritis");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (26, "Nausea alone");
@@ -296,8 +296,7 @@ INSERT INTO Condition_location ( LID, location_name ) VALUES (50, "Chrohns - sma
 INSERT INTO Condition_location ( LID, location_name ) VALUES (51, "Chrohns - large intestine");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (52, "Chrohns - small and large intestine");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (53, "Chrohns - unspecified");
---INSERT INTO Condition_location ( LID, location_name ) VALUES (54, "Gastroenteritis, U");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (55, "Ischemic");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (54, "Gastroenteritis, U");
 
 --Liver
 INSERT INTO Condition_location ( LID, location_name ) VALUES (61, "Abnormal LFT's");
@@ -347,8 +346,8 @@ INSERT INTO Condition_location ( LID, location_name ) VALUES (100, "Occult blood
 INSERT INTO Condition_location ( LID, location_name ) VALUES (101, "Polyps");
 --INSERT INTO Condition_location ( LID, location_name ) VALUES (102, "Post Op GI Disorder");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (103, "Rectal bleeding");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (104, "Ulcer");
-INSERT INTO Condition_location ( LID, location_name ) VALUES (105, "Volvulus of intestine");
+--INSERT INTO Condition_location ( LID, location_name ) VALUES (104, "Ulcer");
+--INSERT INTO Condition_location ( LID, location_name ) VALUES (105, "Volvulus of intestine");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (106, "Vomiting - persistent (symptom)");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (107, "Weight Loss");
 --abdominal pain
@@ -368,10 +367,12 @@ INSERT INTO Condition_location ( LID, location_name ) VALUES (119, "Small bowel 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (120, "Colon polyps");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (121, "Rectal polyps");
 --Ulcer
+/*
 INSERT INTO Condition_location ( LID, location_name ) VALUES (122, "Peptic with bleeding");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (123, "Peptic without bleeding");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (124, "DU with bleeding without obstruction");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (125, "DU with bleeding with obstruction");
+*/
 
 
 --*********************************************************************************************************
@@ -625,7 +626,7 @@ INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES (
 INSERT INTO Extension (Extension_code, ICD10_ID, Extension_description) VALUES ("T18.2xxS", 22, "Sequelae");
 
 --Gastroenteritis
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (23,2);
+--INSERT INTO Sub_location (LID, parent_locationID) VALUES (23,2);
 
 --Gastroparesis
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (24,2);
@@ -693,39 +694,52 @@ INSERT INTO Sub_location (LID, parent_locationID) VALUES (25,2);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (158, "Superficial");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (158,25);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (158, "K29.01", "Acute gastritis with bleeding"); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (158, "K29.30", "Gastritis, Superficial"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("535.01", "Gastritis");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (158,"535.01");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (158,158);
 
-INSERT INTO Condition_location ( LID, location_name ) VALUES (159, "Acute erosive gastritis");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (159, "Acute gastritis");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (159,25);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (159, "K29.00", "Acute gastritis without bleeding"); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (159, "K29.00", "Gastritis, Acute"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("535.00", "Acute Gastritis without bleeding");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (159,"535.00");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (159,159);
 
-
-INSERT INTO Condition_location ( LID, location_name ) VALUES (160, "Simple gastritis");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (160, "W/ bleeding unspecified");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (160,25);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (160,"K29.70", "Gastritis, unspecified, without bleeding"); 
-INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("535.50", "Gastritis, unspecified, without bleeding");
-INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (160,"535.50");
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (160,"K29.71", "Gastritis, with bleeding unspecified"); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("535.51", "Gastritis, unspecified, without bleeding");
+INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (160,"535.51");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (160,160);
 
-INSERT INTO Condition_location ( LID, location_name ) VALUES (161, "Atrophic gastritis");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (161, "Chronic gastritis");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (161,25);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (161, "K29.40", "Chronic atrophic gastritis without bleeding"); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (161, "K29.40", "Gastritis, Chronic Atrophic"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("535.10", "Acute Gastritis without hemorrhage");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (161,"535.10");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (161,161);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (162, "Bile gastritis");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (162,25);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (162, "K29.60", "Other gastritis without bleedings"); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (162, "K29.60", "Gastritis, Bile"); 
 INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("535.40", "Other gastritis, without hemorrhage ");
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (162,"535.40");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (162,162);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (422, "Unspecified gastritis");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (422,25);
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (422, "K29.90", "Gastritis, Unspecified"); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("535.50", "Gastritis, Unspecified");
+INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (422,"535.50");
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (422,422);
+
+INSERT INTO Condition_location ( LID, location_name ) VALUES (423, "Alcoholic");
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (423,25);
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (423, "K29.20", "Gastritis, Alcoholic"); 
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("535.30", "Gastritis, Alcoholic");
+INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (423,"535.30");
+INSERT INTO Located_in (ICD10_ID, LID) VALUES (423,423);
 
 --Hiatal Hernia
 INSERT INTO Condition_location ( LID, location_name ) VALUES (420, "Hiatal Hernia");
@@ -964,7 +978,7 @@ INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (356,"V76.51");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (356,356);
 
 --Gastroenteritis, U
-/*
+
 INSERT INTO Condition_location ( LID, location_name ) VALUES (191, "Unspecified");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (191,54);
 INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (191, "K52.9", "Gastroenteritis, unspecified"); 
@@ -974,10 +988,10 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (191,191);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (192, "Other specified, non-infect");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (192,54);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (192, "Gastroennteritis, other specified, non-infect"); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (192, "K52.89", "Gastroennteritis, other specified, non-infect"); 
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (192,"558.9");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (192,192);
-*/
+
 
 --Constipation
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (41,4);
@@ -1161,7 +1175,7 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (202,202);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (203, "Other");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (203,198);
-INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (230, "K64.8", "Hemorrhoid, other"); 
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (203, "K64.8", "Hemorrhoid, other"); 
 INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (203,"455");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (203,203);
 
@@ -2199,10 +2213,9 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (275,275);
 
 
 --Gastroenteritis, unspecified
---INSERT INTO Sub_location (LID, parent_locationID) VALUES (54,40);
+INSERT INTO Sub_location (LID, parent_locationID) VALUES (54,40);
 
 --Ischemic
-INSERT INTO Sub_location (LID, parent_locationID) VALUES (55,40);
 
 INSERT INTO Condition_location ( LID, location_name ) VALUES (354, "Ischemic Colitis, Acute");
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (354,40);
@@ -2654,7 +2667,11 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (121,121);
 
 --Ulcer
 --Peptic with bleeding
+/*
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (122,104);
+INSERT INTO ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (122, "-", "Peptic ulcer with bleeding");
+INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ("533.40", "Peptic with bleeding");
+INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (122,"211.4");
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (122,122);
 
 --Peptic without bleeding
@@ -2668,3 +2685,4 @@ INSERT INTO Located_in (ICD10_ID, LID) VALUES (124,124);
 --DU with bleeding without obstruction
 INSERT INTO Sub_location (LID, parent_locationID) VALUES (125,104);
 INSERT INTO Located_in (ICD10_ID, LID) VALUES (125,125);
+*/

@@ -747,8 +747,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     func showAlert(msg:String) {
-        let controller2 = UIAlertController(title: msg,
-            message: "", preferredStyle: .Alert)
+        let controller2 = UIAlertController(title: "Error!",
+            message: msg, preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
         controller2.addAction(cancelAction)
         self.presentViewController(controller2, animated: true, completion: nil)

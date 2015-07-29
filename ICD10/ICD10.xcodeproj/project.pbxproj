@@ -16,12 +16,10 @@
 		AD359F3F1B61927600DC6C90 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AD359F3E1B61927600DC6C90 /* libsqlite3.dylib */; };
 		AD359F491B62D7D300DC6C90 /* ConditionLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD359F481B62D7D300DC6C90 /* ConditionLocationTableViewCell.swift */; };
 		AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD4FAE761B18D9260010B411 /* Main.storyboard */; };
-		AD72DEB61B680A5C00C404FE /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD72DEB51B680A5C00C404FE /* testDML.sqlite3 */; };
+		AD72DEE11B69729900C404FE /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD72DEE01B69729900C404FE /* testDML.sqlite3 */; };
 		AD7A73D21B2782590054DD55 /* PatientsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */; };
 		AD7A73D41B2783A90054DD55 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */; };
 		AD7A73D61B278D150054DD55 /* DoctorsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */; };
-		AD801A361B5EC769001A2F98 /* PasswordCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD801A351B5EC769001A2F98 /* PasswordCreationViewController.swift */; };
-		AD801A391B5EC791001A2F98 /* EnterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD801A381B5EC791001A2F98 /* EnterPasswordViewController.swift */; };
 		AD93D7251B28A104000EAF98 /* EditPatientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */; };
 		AD93D7271B28A2F8000EAF98 /* EditDoctorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD93D7261B28A2F8000EAF98 /* EditDoctorViewController.swift */; };
 		AD93D7311B28F667000EAF98 /* DirectSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */; };
@@ -58,12 +56,10 @@
 		AD359F3E1B61927600DC6C90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		AD359F481B62D7D300DC6C90 /* ConditionLocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionLocationTableViewCell.swift; sourceTree = "<group>"; };
 		AD4FAE771B18D9260010B411 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		AD72DEB51B680A5C00C404FE /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
+		AD72DEE01B69729900C404FE /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientsTableViewController.swift; sourceTree = "<group>"; };
 		AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoctorsTableViewController.swift; sourceTree = "<group>"; };
-		AD801A351B5EC769001A2F98 /* PasswordCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordCreationViewController.swift; sourceTree = "<group>"; };
-		AD801A381B5EC791001A2F98 /* EnterPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterPasswordViewController.swift; sourceTree = "<group>"; };
 		AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPatientViewController.swift; sourceTree = "<group>"; };
 		AD93D7261B28A2F8000EAF98 /* EditDoctorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDoctorViewController.swift; sourceTree = "<group>"; };
 		AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectSearchTableViewController.swift; sourceTree = "<group>"; };
@@ -129,7 +125,7 @@
 			children = (
 				ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */,
 				ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */,
-				AD72DEB51B680A5C00C404FE /* testDML.sqlite3 */,
+				AD72DEE01B69729900C404FE /* testDML.sqlite3 */,
 				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
 				AD1025241B333C8900308E36 /* AdminDocViewController.swift */,
 				ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */,
@@ -149,11 +145,9 @@
 				AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */,
 				AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */,
 				ADB02EA01B59B3DB0063487B /* visitCodeDetailController.swift */,
+				AD359F481B62D7D300DC6C90 /* ConditionLocationTableViewCell.swift */,
 				ADE77F401B1782F900CE48F1 /* LaunchScreen.xib */,
 				AD4FAE761B18D9260010B411 /* Main.storyboard */,
-				AD359F481B62D7D300DC6C90 /* ConditionLocationTableViewCell.swift */,
-				AD801A381B5EC791001A2F98 /* EnterPasswordViewController.swift */,
-				AD801A351B5EC769001A2F98 /* PasswordCreationViewController.swift */,
 				ADE77F3E1B1782F900CE48F1 /* Images.xcassets */,
 				ADE77F331B1782F900CE48F1 /* Supporting Files */,
 				ADE77F591B17BD1D00CE48F1 /* ICD10-Bridging-Header.h */,
@@ -270,7 +264,7 @@
 				ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */,
 				ADE77F3F1B1782F900CE48F1 /* Images.xcassets in Resources */,
 				AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */,
-				AD72DEB61B680A5C00C404FE /* testDML.sqlite3 in Resources */,
+				AD72DEE11B69729900C404FE /* testDML.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,11 +284,9 @@
 			files = (
 				ADE77F361B1782F900CE48F1 /* AppDelegate.swift in Sources */,
 				AD19EA951B2F423800A1AFF1 /* BillDatesTableViewController.swift in Sources */,
-				AD801A361B5EC769001A2F98 /* PasswordCreationViewController.swift in Sources */,
 				ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */,
 				AD7A73D41B2783A90054DD55 /* DatabaseManager.swift in Sources */,
 				ADE77F3A1B1782F900CE48F1 /* DetailViewController.swift in Sources */,
-				AD801A391B5EC791001A2F98 /* EnterPasswordViewController.swift in Sources */,
 				AD0926AC1B4B3AB000C6E3DD /* ICDDeleteButton.swift in Sources */,
 				AD93D7311B28F667000EAF98 /* DirectSearchTableViewController.swift in Sources */,
 				AD7A73D61B278D150054DD55 /* DoctorsTableViewController.swift in Sources */,
