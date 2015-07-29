@@ -9,7 +9,7 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
+class MasterViewController: UITableViewController, UIPopoverPresentationControllerDelegate, UITextFieldDelegate {
     
   
     @IBOutlet weak var searchBar: UITextField!                              //The text field to search for direct codes
@@ -85,6 +85,12 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     **/
     @IBAction func textFieldDoneEditing(sender:UITextField){
         sender.resignFirstResponder()
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        println("textFieldShouldReturn")
+        textField.resignFirstResponder()
+        return true
     }
     
     /**
