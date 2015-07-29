@@ -70,15 +70,6 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         let screenSize: CGRect = UIScreen.mainScreen().bounds
         var screenWidth = screenSize.width
         var screenHeight = screenSize.height
-        /*
-        println("ScreenWidth \(screenWidth) ScreenHeight \(screenHeight)")
-        screenWidth = screenWidth/2
-        screenHeight = screenHeight * 1.5
-        println("ScreenWidth \(self.view.frame.size.width) ScreenHeight \(self.view.frame.size.height)")
-        self.scrollView.sizeToFit()
-        
-        self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height * 2)
-        */
     }
 
     override func didReceiveMemoryWarning() {

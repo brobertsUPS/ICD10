@@ -37,7 +37,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var pcTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
     
-    
     //MAKR: - Bill Data
     var administeringDoctor:String!
     var icd10On:Bool!
@@ -87,6 +86,17 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         self.scrollView.contentSize = CGSizeMake(screenWidth, screenHeight)
         
         billCompletionSwitch.on = false                                     //initially set the bill to incomplete
+        
+        var defaults = NSUserDefaults.standardUserDefaults()
+        if !defaults.boolForKey("notFirstBill") {
+            defaults.setBool(true, forKey: "notFirstBill")
+            showAlert("This is the bill page!", msg: "Fill in bill information and insert a visit code by searching for a CPT, Procedure, or Medicare code!")
+        }
+        
+        if codesForBill.values.array.count > 0 && !defaults.boolForKey("notFirstICD10Code") {
+            defaults.setBool(true, forKey: "notFirstICD10Code")
+            showAlert("ICD-10 Codes", msg: "You added your first ICD-10 code! If you add more than one to a particular visit code, you can tap and drag them to rearrange their priority!")
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -227,45 +237,52 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     @IBAction func saveBill(sender: UIButton) {
         
-        var validityErr = self.checkValidityOfProvidedInputs()
-        
-        
-        if validityErr != "" {
-            self.showAlert(validityErr)
-            return
-        }
-        
-        //test for the split of the name
-        var (fName, lName) = dbManager.split(patientTextField.text)
-        if fName == "" {
-            self.showAlert("There was an error saving the patient. Please enter a patient first name and last name separated by a space.")
-            return
-        }
-        
-        if patientTextField.text == "" || patientDOBTextField.text == "" { //Make sure there is a patient to save for
+        var defaults = NSUserDefaults.standardUserDefaults()
+        if !defaults.boolForKey("notFirstBillSave") {
+            defaults.setBool(true, forKey: "notFirstBillSave")
+            showAlert("Is your bill complete?", msg: "When saving, you can mark the bill as complete with the completion switch. If incomplete, the bill will have a red flag next to it in the bills tab so you can update it later.")
+        }else {
             
-            self.showAlert("The bill must have a valid patient to be saved")
-        } else{
+            var validityErr = self.checkValidityOfProvidedInputs()
             
-            if billCompletionSwitch.on {                                    //Make sure it has all the information if the bill is complete
-                var error = self.checkInputs()
-                if error != ""{
-                    self.showAlert("The bill was indicated as complete but an input is missing. \(error) ")
-                    return
-                }
+            
+            if validityErr != "" {
+                self.showAlert("Error!",msg: validityErr)
+                return
             }
             
-            var placeID = getPlaceOfServiceID(siteTextField.text)           //get the ids to input into the bill
-            var roomID = getRoomID(roomTextField.text)
-            var patientID = getPatientID(patientTextField.text, dateOfBirth: patientDOBTextField.text)
+            //test for the split of the name
+            var (fName, lName) = dbManager.split(patientTextField.text)
+            if fName == "" {
+                self.showAlert("Patient Error!", msg: "Please enter a patient first name and last name separated by a space.")
+                return
+            }
             
-            var referringDoctorID = getDoctorID(doctorTextField.text)
-            var adminDoctorID = getDoctorID(administeringDoctor)
-            
-            if let aptID = appointmentID {                                  // if this bill is being updated
-                saveBillFromPreviousBill(aptID, placeID: placeID, roomID: roomID, patientID: patientID, referringDoctorID: referringDoctorID, adminDoctorID: adminDoctorID)
-            }else {
-                saveNewBill(placeID, roomID: roomID, patientID: patientID, referringDoctorID: referringDoctorID, adminDoctorID: adminDoctorID)
+            if patientTextField.text == "" || patientDOBTextField.text == "" { //Make sure there is a patient to save for
+                
+                self.showAlert("Bill Save Error!", msg: "The bill must have a valid patient to be saved")
+            } else{
+                
+                if billCompletionSwitch.on {                                    //Make sure it has all the information if the bill is complete
+                    var error = self.checkInputs()
+                    if error != ""{
+                        self.showAlert("Bill Incomplete!", msg: "The bill was indicated as complete but an input is missing. \(error) ")
+                        return
+                    }
+                }
+                
+                var placeID = getPlaceOfServiceID(siteTextField.text)           //get the ids to input into the bill
+                var roomID = getRoomID(roomTextField.text)
+                var patientID = getPatientID(patientTextField.text, dateOfBirth: patientDOBTextField.text)
+                
+                var referringDoctorID = getDoctorID(doctorTextField.text)
+                var adminDoctorID = getDoctorID(administeringDoctor)
+                
+                if let aptID = appointmentID {                                  // if this bill is being updated
+                    saveBillFromPreviousBill(aptID, placeID: placeID, roomID: roomID, patientID: patientID, referringDoctorID: referringDoctorID, adminDoctorID: adminDoctorID)
+                }else {
+                    saveNewBill(placeID, roomID: roomID, patientID: patientID, referringDoctorID: referringDoctorID, adminDoctorID: adminDoctorID)
+                }
             }
         }
     }
@@ -305,6 +322,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         self.saveCodesForBill(aptID, referringDoctorID: referringDoctorID, adminDoctorID: adminDoctorID)
         
         self.performSegueWithIdentifier("newBill", sender: self)                //start up a new bill after we have saved everything for this bill
+
     }
     
     func saveCodesForBill(aptID:Int, referringDoctorID:Int, adminDoctorID:Int){ //save all the codes from codesForBill Dictionary
@@ -625,6 +643,16 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             
             self.dismissViewControllerAnimated(true, completion: nil)
             self.codeCollectionView.reloadData()
+            
+            
+            var defaults = NSUserDefaults.standardUserDefaults()
+            var notFirstRun = defaults.boolForKey("notFirstVisitCode")
+            println("Is not first run? \(notFirstRun)")
+            
+            if !defaults.boolForKey("notFirstVisitCode") {
+                defaults.setBool(true, forKey: "notFirstVisitCode")
+                showAlert("You inserted a visit code!", msg: "Add an ICD-10 code to this visit code by clicking the plus button! If you add more visit codes you can rearrange their priority with the up and down arrows!")
+            }
         }
     }
     
@@ -746,8 +774,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         dbManager.closeDB()
     }
     
-    func showAlert(msg:String) {
-        let controller2 = UIAlertController(title: "Error!",
+    func showAlert(title:String, msg:String) {
+        let controller2 = UIAlertController(title: title,
             message: msg, preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Phew!", style: .Cancel, handler: nil)
         controller2.addAction(cancelAction)
