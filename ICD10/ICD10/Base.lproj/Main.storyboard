@@ -981,8 +981,8 @@
                                             <constraint firstAttribute="height" constant="326" id="QMZ-x2-3Xo"/>
                                         </constraints>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ex7-7I-bzD">
-                                            <size key="itemSize" width="117" height="24"/>
-                                            <size key="headerReferenceSize" width="50" height="28"/>
+                                            <size key="itemSize" width="117" height="33"/>
+                                            <size key="headerReferenceSize" width="50" height="38"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
@@ -991,27 +991,13 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                    <rect key="frame" x="0.0" y="0.0" width="117" height="24"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="117" height="33"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ICD" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRy-d2-Q8y">
-                                                            <rect key="frame" x="40" y="5" width="29" height="21"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="53" id="gxQ-o7-28N"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                            <variation key="default">
-                                                                <mask key="constraints">
-                                                                    <exclude reference="gxQ-o7-28N"/>
-                                                                </mask>
-                                                            </variation>
-                                                        </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O2b-NX-7nH">
-                                                            <rect key="frame" x="1" y="5" width="31" height="21"/>
+                                                            <rect key="frame" x="8" y="5" width="17" height="21"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="31" id="2Hp-sN-Q3D"/>
+                                                                <constraint firstAttribute="width" constant="17" id="2Hp-sN-Q3D"/>
                                                                 <constraint firstAttribute="width" constant="13" id="7pH-Ir-a7K"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1030,7 +1016,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5x-dY-a4F" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
-                                                            <rect key="frame" x="77" y="-4" width="32" height="32"/>
+                                                            <rect key="frame" x="77" y="1" width="32" height="32"/>
                                                             <state key="normal" image="Delete Sign Filled-50">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1039,29 +1025,45 @@
                                                                 <action selector="userClickedDeleteICDCode:" destination="A0e-2y-MTR" eventType="touchUpInside" id="wKy-mK-FeP"/>
                                                             </connections>
                                                         </button>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ICD" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRy-d2-Q8y">
+                                                            <rect key="frame" x="30" y="6" width="29" height="21"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="53" id="gxQ-o7-28N"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="gxQ-o7-28N"/>
+                                                                </mask>
+                                                            </variation>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <color key="backgroundColor" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstItem="SRy-d2-Q8y" firstAttribute="baseline" secondItem="l5x-dY-a4F" secondAttribute="baseline" constant="-7" id="5Ej-YL-nGw"/>
-                                                    <constraint firstItem="SRy-d2-Q8y" firstAttribute="baseline" secondItem="O2b-NX-7nH" secondAttribute="baseline" id="A9m-Gs-ud2"/>
-                                                    <constraint firstItem="SRy-d2-Q8y" firstAttribute="leading" secondItem="O2b-NX-7nH" secondAttribute="trailing" constant="8" id="FWt-eU-Eg2"/>
+                                                    <constraint firstItem="SRy-d2-Q8y" firstAttribute="baseline" secondItem="l5x-dY-a4F" secondAttribute="baseline" constant="-11" id="5Ej-YL-nGw"/>
+                                                    <constraint firstItem="SRy-d2-Q8y" firstAttribute="baseline" secondItem="O2b-NX-7nH" secondAttribute="baseline" constant="1" id="A9m-Gs-ud2"/>
+                                                    <constraint firstItem="SRy-d2-Q8y" firstAttribute="leading" secondItem="O2b-NX-7nH" secondAttribute="trailing" constant="5" id="FWt-eU-Eg2"/>
                                                     <constraint firstItem="O2b-NX-7nH" firstAttribute="leading" secondItem="nOO-dR-Sey" secondAttribute="leadingMargin" id="L9a-Vm-1c2"/>
                                                     <constraint firstItem="O2b-NX-7nH" firstAttribute="leading" secondItem="nOO-dR-Sey" secondAttribute="leadingMargin" constant="21" id="O4p-xW-u4U"/>
-                                                    <constraint firstItem="l5x-dY-a4F" firstAttribute="baseline" secondItem="5ub-GW-jQg" secondAttribute="baseline" constant="6" id="S7Y-9c-nAc"/>
+                                                    <constraint firstItem="l5x-dY-a4F" firstAttribute="baseline" secondItem="5ub-GW-jQg" secondAttribute="baseline" constant="11" id="S7Y-9c-nAc"/>
                                                     <constraint firstAttribute="trailing" secondItem="l5x-dY-a4F" secondAttribute="trailing" constant="8" id="Tt5-ak-9MQ"/>
                                                     <constraint firstAttribute="trailingMargin" secondItem="5ub-GW-jQg" secondAttribute="trailing" constant="-3" id="V0g-yO-BZs"/>
-                                                    <constraint firstItem="l5x-dY-a4F" firstAttribute="leading" secondItem="SRy-d2-Q8y" secondAttribute="trailing" constant="8" id="cEI-4i-A87"/>
+                                                    <constraint firstItem="l5x-dY-a4F" firstAttribute="leading" secondItem="SRy-d2-Q8y" secondAttribute="trailing" constant="4" id="cEI-4i-A87"/>
+                                                    <constraint firstItem="O2b-NX-7nH" firstAttribute="leading" secondItem="nOO-dR-Sey" secondAttribute="leadingMargin" id="g2b-jp-MRP"/>
                                                     <constraint firstItem="l5x-dY-a4F" firstAttribute="centerY" secondItem="nOO-dR-Sey" secondAttribute="centerY" id="kIU-bu-1ee"/>
                                                     <constraint firstItem="SRy-d2-Q8y" firstAttribute="centerX" secondItem="nOO-dR-Sey" secondAttribute="centerX" constant="-14" id="vvb-Dm-t62"/>
                                                 </constraints>
-                                                <size key="customSize" width="117" height="24"/>
+                                                <size key="customSize" width="117" height="33"/>
                                                 <variation key="default">
                                                     <mask key="constraints">
                                                         <exclude reference="L9a-Vm-1c2"/>
                                                         <exclude reference="O4p-xW-u4U"/>
                                                         <exclude reference="vvb-Dm-t62"/>
+                                                        <exclude reference="cEI-4i-A87"/>
                                                     </mask>
                                                 </variation>
                                                 <connections>
@@ -1076,23 +1078,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="28"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puT-iQ-Be4" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
-                                                    <rect key="frame" x="153" y="2" width="30" height="23"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="30" id="9aY-wp-NkZ"/>
-                                                    </constraints>
-                                                    <state key="normal" backgroundImage="Down 4-50 (2)">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="shiftVisitCodeDown:" destination="A0e-2y-MTR" eventType="touchUpInside" id="4fx-Wf-nDb"/>
-                                                    </connections>
-                                                </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d3r-Rm-csc" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
-                                                    <rect key="frame" x="115" y="2" width="30" height="23"/>
+                                                    <rect key="frame" x="115" y="2" width="35" height="35"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="30" id="QXP-aR-Nop"/>
+                                                        <constraint firstAttribute="width" constant="35" id="QXP-aR-Nop"/>
                                                     </constraints>
                                                     <state key="normal" backgroundImage="Up-1">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1102,7 +1091,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lri-jH-ujS">
-                                                    <rect key="frame" x="464" y="1" width="32" height="25"/>
+                                                    <rect key="frame" x="478" y="3" width="32" height="32"/>
                                                     <state key="normal" image="Info-50 (1)">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
@@ -1111,7 +1100,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VisitCode" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="104" translatesAutoresizingMaskIntoConstraints="NO" id="Rpp-4f-eCf">
-                                                    <rect key="frame" x="8" y="2" width="55" height="24"/>
+                                                    <rect key="frame" x="8" y="8" width="55" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="55" id="Ju4-xI-Ama"/>
                                                     </constraints>
@@ -1133,7 +1122,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ukl-Rq-70x" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
-                                                    <rect key="frame" x="71" y="8" width="36" height="30"/>
+                                                    <rect key="frame" x="71" y="4" width="36" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="36" id="ZqJ-GY-o2L"/>
                                                     </constraints>
@@ -1146,9 +1135,9 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0Q-3r-G4H" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
-                                                    <rect key="frame" x="511" y="1" width="30" height="25"/>
+                                                    <rect key="frame" x="518" y="2" width="36" height="36"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="30" id="CCL-RO-nqE"/>
+                                                        <constraint firstAttribute="width" constant="36" id="CCL-RO-nqE"/>
                                                         <constraint firstAttribute="height" constant="25" id="J3N-9K-XeU"/>
                                                     </constraints>
                                                     <state key="normal" image="Plus-50">
@@ -1163,31 +1152,44 @@
                                                         <action selector="userClickedICD10Add:" destination="A0e-2y-MTR" eventType="touchUpInside" id="o3e-Y5-Nb3"/>
                                                     </connections>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puT-iQ-Be4" customClass="ICDDeleteButton" customModule="ICD10" customModuleProvider="target">
+                                                    <rect key="frame" x="153" y="2" width="35" height="35"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="35" id="9aY-wp-NkZ"/>
+                                                    </constraints>
+                                                    <state key="normal" backgroundImage="Down 4-50 (2)">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="shiftVisitCodeDown:" destination="A0e-2y-MTR" eventType="touchUpInside" id="4fx-Wf-nDb"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" red="0.30588235294117649" green="0.83137254901960789" blue="0.70196078431372544" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstItem="Lri-jH-ujS" firstAttribute="top" secondItem="KjM-t3-e6i" secondAttribute="topMargin" constant="-7" id="3d3-Rp-dIE"/>
+                                                <constraint firstItem="Lri-jH-ujS" firstAttribute="top" secondItem="KjM-t3-e6i" secondAttribute="topMargin" constant="-5" id="3d3-Rp-dIE"/>
                                                 <constraint firstItem="PSC-BO-UC4" firstAttribute="top" secondItem="KjM-t3-e6i" secondAttribute="top" constant="3" id="50q-ga-XBj"/>
-                                                <constraint firstItem="puT-iQ-Be4" firstAttribute="bottom" secondItem="Lri-jH-ujS" secondAttribute="bottom" constant="-1" id="5EM-d1-RbQ"/>
+                                                <constraint firstItem="puT-iQ-Be4" firstAttribute="bottom" secondItem="Lri-jH-ujS" secondAttribute="bottom" constant="2" id="5EM-d1-RbQ"/>
                                                 <constraint firstItem="Rpp-4f-eCf" firstAttribute="leading" secondItem="KjM-t3-e6i" secondAttribute="leadingMargin" id="6Kb-ia-INi"/>
                                                 <constraint firstItem="d3r-Rm-csc" firstAttribute="leading" secondItem="ukl-Rq-70x" secondAttribute="trailing" constant="8" id="9Xm-h3-g1w"/>
                                                 <constraint firstItem="d3r-Rm-csc" firstAttribute="top" secondItem="puT-iQ-Be4" secondAttribute="top" id="CWT-OI-bX8"/>
                                                 <constraint firstItem="d3r-Rm-csc" firstAttribute="leading" secondItem="Rpp-4f-eCf" secondAttribute="trailing" constant="15" id="Cyj-hS-xY2"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="PSC-BO-UC4" secondAttribute="trailing" id="OoH-jq-kCu"/>
                                                 <constraint firstItem="d3r-Rm-csc" firstAttribute="centerY" secondItem="Rpp-4f-eCf" secondAttribute="centerY" id="RM5-5w-hrL"/>
-                                                <constraint firstItem="Rpp-4f-eCf" firstAttribute="bottom" secondItem="d3r-Rm-csc" secondAttribute="bottom" constant="1" id="VZ8-5Q-Sjg"/>
-                                                <constraint firstItem="ukl-Rq-70x" firstAttribute="bottom" secondItem="PSC-BO-UC4" secondAttribute="bottom" constant="3" id="VvK-UM-z6X"/>
-                                                <constraint firstItem="Lri-jH-ujS" firstAttribute="bottom" secondItem="J0Q-3r-G4H" secondAttribute="bottom" id="XHW-d0-ya6"/>
-                                                <constraint firstItem="J0Q-3r-G4H" firstAttribute="leading" secondItem="Lri-jH-ujS" secondAttribute="trailing" constant="15" id="XUJ-Hj-Awb"/>
-                                                <constraint firstItem="Rpp-4f-eCf" firstAttribute="centerY" secondItem="KjM-t3-e6i" secondAttribute="centerY" id="YzN-Ah-fcr"/>
-                                                <constraint firstItem="PSC-BO-UC4" firstAttribute="leading" secondItem="J0Q-3r-G4H" secondAttribute="trailing" constant="15" id="bbG-88-Apt"/>
+                                                <constraint firstItem="Rpp-4f-eCf" firstAttribute="bottom" secondItem="d3r-Rm-csc" secondAttribute="bottom" constant="-5" id="VZ8-5Q-Sjg"/>
+                                                <constraint firstItem="ukl-Rq-70x" firstAttribute="bottom" secondItem="PSC-BO-UC4" secondAttribute="bottom" constant="-1" id="VvK-UM-z6X"/>
+                                                <constraint firstItem="Lri-jH-ujS" firstAttribute="bottom" secondItem="J0Q-3r-G4H" secondAttribute="bottom" constant="-3" id="XHW-d0-ya6"/>
+                                                <constraint firstItem="J0Q-3r-G4H" firstAttribute="leading" secondItem="Lri-jH-ujS" secondAttribute="trailing" constant="8" id="XUJ-Hj-Awb"/>
+                                                <constraint firstItem="Rpp-4f-eCf" firstAttribute="centerY" secondItem="KjM-t3-e6i" secondAttribute="centerY" constant="1" id="YzN-Ah-fcr"/>
+                                                <constraint firstItem="PSC-BO-UC4" firstAttribute="leading" secondItem="J0Q-3r-G4H" secondAttribute="trailing" constant="2" id="bbG-88-Apt"/>
                                                 <constraint firstItem="d3r-Rm-csc" firstAttribute="top" secondItem="KjM-t3-e6i" secondAttribute="topMargin" constant="-6" id="gIy-96-X0i"/>
-                                                <constraint firstItem="puT-iQ-Be4" firstAttribute="leading" secondItem="d3r-Rm-csc" secondAttribute="trailing" constant="8" id="gg5-bf-CJd"/>
-                                                <constraint firstItem="d3r-Rm-csc" firstAttribute="firstBaseline" secondItem="Rpp-4f-eCf" secondAttribute="firstBaseline" constant="-1" id="pLy-QF-5mY"/>
+                                                <constraint firstItem="puT-iQ-Be4" firstAttribute="leading" secondItem="d3r-Rm-csc" secondAttribute="trailing" constant="3" id="gg5-bf-CJd"/>
+                                                <constraint firstItem="d3r-Rm-csc" firstAttribute="firstBaseline" secondItem="Rpp-4f-eCf" secondAttribute="firstBaseline" constant="-7" id="pLy-QF-5mY"/>
                                                 <constraint firstItem="d3r-Rm-csc" firstAttribute="baseline" secondItem="puT-iQ-Be4" secondAttribute="baseline" id="qwm-O2-O62"/>
                                                 <constraint firstItem="ukl-Rq-70x" firstAttribute="leading" secondItem="Rpp-4f-eCf" secondAttribute="trailing" constant="8" id="w7r-oS-Hxu"/>
                                                 <constraint firstItem="puT-iQ-Be4" firstAttribute="bottom" secondItem="d3r-Rm-csc" secondAttribute="bottom" id="zFA-uy-cmd"/>
-                                                <constraint firstItem="J0Q-3r-G4H" firstAttribute="top" secondItem="Lri-jH-ujS" secondAttribute="top" id="zK0-cp-W6s"/>
+                                                <constraint firstItem="J0Q-3r-G4H" firstAttribute="top" secondItem="Lri-jH-ujS" secondAttribute="top" constant="-1" id="zK0-cp-W6s"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -1330,17 +1332,17 @@
         <scene sceneID="5Og-zo-cIR">
             <objects>
                 <tableViewController id="unq-uc-fOZ" customClass="ModifierTableViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3Mh-cV-JcV">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="57" sectionHeaderHeight="22" sectionFooterHeight="22" id="3Mh-cV-JcV">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="modifierCell" textLabel="81Y-9u-vDL" detailTextLabel="eHV-Bw-DzX" style="IBUITableViewCellStyleSubtitle" id="NAD-BI-c0l">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="modifierCell" textLabel="81Y-9u-vDL" detailTextLabel="eHV-Bw-DzX" rowHeight="57" style="IBUITableViewCellStyleSubtitle" id="NAD-BI-c0l">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NAD-BI-c0l" id="cHp-Lq-NKN">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="81Y-9u-vDL">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="81Y-9u-vDL">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1407,17 +1409,17 @@
         <scene sceneID="TkV-MA-MYG">
             <objects>
                 <tableViewController id="ofU-rG-bPg" customClass="SearchTableViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="49" sectionHeaderHeight="22" sectionFooterHeight="22" id="UcX-OS-uCG">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="58" sectionHeaderHeight="22" sectionFooterHeight="22" id="UcX-OS-uCG">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResultCell" textLabel="mWd-Gd-XLJ" detailTextLabel="99S-nj-Rwz" rowHeight="49" style="IBUITableViewCellStyleSubtitle" id="a8J-oo-Gb4">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResultCell" textLabel="mWd-Gd-XLJ" detailTextLabel="99S-nj-Rwz" rowHeight="58" style="IBUITableViewCellStyleSubtitle" id="a8J-oo-Gb4">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="a8J-oo-Gb4" id="LMP-cK-dd0">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mWd-Gd-XLJ">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mWd-Gd-XLJ">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1647,14 +1649,14 @@
         <image name="Up-1" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jsy-lt-xeY"/>
-        <segue reference="edd-ny-Y2u"/>
-        <segue reference="OCB-Va-VDC"/>
+        <segue reference="0NA-IR-rIR"/>
         <segue reference="j9k-IG-ode"/>
         <segue reference="y7i-um-yHJ"/>
-        <segue reference="gnc-ff-Qqx"/>
         <segue reference="T5X-ib-XxA"/>
+        <segue reference="OCB-Va-VDC"/>
         <segue reference="zKf-2S-qlA"/>
         <segue reference="w8A-RM-qYc"/>
+        <segue reference="edd-ny-Y2u"/>
+        <segue reference="jsy-lt-xeY"/>
     </inferredMetricsTieBreakers>
 </document>
