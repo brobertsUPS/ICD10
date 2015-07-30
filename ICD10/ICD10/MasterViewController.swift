@@ -198,6 +198,13 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             controller.ICD9Text = selectedCode!.icd9
             controller.ICD10ID = selectedCode!.icd10id
             
+            var controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
+            controllerTitle.lineBreakMode = NSLineBreakMode.ByWordWrapping
+            controllerTitle.numberOfLines = 0
+            controllerTitle.textAlignment = NSTextAlignment.Center
+            controllerTitle.text = selectedCode!.description
+            controller.navigationItem.titleView = controllerTitle
+            
             controller.title = selectedCode!.description
             controller.titleName = selectedCode!.description
             
@@ -217,6 +224,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 var controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
                 controllerTitle.lineBreakMode = NSLineBreakMode.ByWordWrapping
                 controllerTitle.numberOfLines = 0
+                controllerTitle.textAlignment = NSTextAlignment.Center
                 controllerTitle.text = locationName
                 controller.navigationItem.titleView = controllerTitle
                 
