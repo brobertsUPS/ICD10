@@ -2,16 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "Delete Property-32.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "Delete Property-50.png"
+      "filename" : "Delete Property-64.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "Delete Property-96.png"
     }
   ],
   "info" : {

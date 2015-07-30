@@ -2,16 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "Triangular Bandage-32.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "Triangular Bandage-50.png"
+      "filename" : "Triangular Bandage-64.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "Triangular Bandage-96.png"
     }
   ],
   "info" : {

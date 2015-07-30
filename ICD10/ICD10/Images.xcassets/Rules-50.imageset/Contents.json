@@ -2,16 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "Rules-32.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "Rules-50.png"
+      "filename" : "Rules-64.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "Rules-96.png"
     }
   ],
   "info" : {

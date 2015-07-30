@@ -2,16 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "Medical Doctor-32.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "Medical Doctor-50.png"
+      "filename" : "Medical Doctor-64.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "Medical Doctor-96.png"
     }
   ],
   "info" : {
