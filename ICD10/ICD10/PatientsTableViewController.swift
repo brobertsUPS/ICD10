@@ -89,6 +89,11 @@ class PatientsTableViewController: UITableViewController {
             self.dbManager.removePatients()
             self.dbManager.removeAppointments()
             self.dbManager.closeDB()
+            self.patients = []
+            self.ids = []
+            self.emails = []
+            
+            self.tableView.reloadData()
         }
         
         let cancelAction = UIAlertAction(title: "No", style: .Cancel, handler: nil)
@@ -98,7 +103,9 @@ class PatientsTableViewController: UITableViewController {
         controller2.addAction(confirmAction)
         
         self.presentViewController(controller2, animated: true, completion: nil)
-        
+    }
+    
+    func updateTableFromPatientsDelete(){
         self.tableView.reloadData()
     }
 

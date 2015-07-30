@@ -283,10 +283,10 @@
                     <navigationItem key="navigationItem" id="esG-6P-Ebv">
                         <barButtonItem key="leftBarButtonItem" id="L3h-Aw-a4e">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4wj-Z0-WDB">
-                                <rect key="frame" x="-23" y="-15" width="133" height="30"/>
+                                <rect key="frame" x="16" y="7" width="44" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                <state key="normal" title="Remove All"/>
+                                <state key="normal" backgroundImage="Delete Property-50"/>
                                 <connections>
                                     <action selector="removeAllPatients:" destination="8Nw-va-BjG" eventType="touchUpInside" id="G58-k0-1Ws"/>
                                 </connections>
@@ -677,7 +677,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Administering doctor" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ek8-HK-f4h">
-                                <rect key="frame" x="16" y="120" width="568" height="30"/>
+                                <rect key="frame" x="16" y="108" width="568" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
@@ -691,13 +691,13 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please add yourself as the administering doctor" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ip-tH-ewa">
-                                <rect key="frame" x="16" y="91" width="568" height="21"/>
+                                <rect key="frame" x="16" y="79" width="568" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I10-Un-ip3">
-                                <rect key="frame" x="227" y="264" width="147" height="55"/>
+                                <rect key="frame" x="227" y="252" width="147" height="55"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="RGF-Mz-xB2"/>
                                     <constraint firstAttribute="width" constant="147" id="hdZ-HO-Ray"/>
@@ -720,10 +720,11 @@
                             <constraint firstItem="ek8-HK-f4h" firstAttribute="leading" secondItem="2Ip-tH-ewa" secondAttribute="leading" id="lI4-40-hVs"/>
                             <constraint firstItem="ek8-HK-f4h" firstAttribute="centerX" secondItem="I10-Un-ip3" secondAttribute="centerX" id="soS-LP-yeN"/>
                             <constraint firstItem="ek8-HK-f4h" firstAttribute="trailing" secondItem="mIq-cC-9D9" secondAttribute="trailingMargin" id="xPg-pD-4eB"/>
-                            <constraint firstItem="2Ip-tH-ewa" firstAttribute="top" secondItem="c8f-Hv-NfD" secondAttribute="bottom" constant="71" id="yVH-bf-Iyb"/>
+                            <constraint firstItem="2Ip-tH-ewa" firstAttribute="top" secondItem="c8f-Hv-NfD" secondAttribute="bottom" constant="15" id="yVH-bf-Iyb"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="R0f-Qs-rXn"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="administeringDoctor" destination="ek8-HK-f4h" id="ivS-8v-h0V"/>
                         <segue destination="A0e-2y-MTR" kind="show" identifier="beginBill" id="j9k-IG-ode"/>
@@ -1634,6 +1635,7 @@
     <resources>
         <image name="Add To Favorites-50" width="50" height="50"/>
         <image name="Bill-50" width="25" height="25"/>
+        <image name="Delete Property-50" width="25" height="25"/>
         <image name="Delete Sign Filled-50" width="25" height="25"/>
         <image name="Down 4-50 (2)" width="50" height="50"/>
         <image name="Info-50 (1)" width="25" height="25"/>
@@ -1645,14 +1647,14 @@
         <image name="Up-1" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2II-5o-t3P"/>
-        <segue reference="zKf-2S-qlA"/>
-        <segue reference="OCB-Va-VDC"/>
-        <segue reference="w8A-RM-qYc"/>
-        <segue reference="y7i-um-yHJ"/>
-        <segue reference="T5X-ib-XxA"/>
-        <segue reference="t0l-p3-sB1"/>
         <segue reference="jsy-lt-xeY"/>
         <segue reference="edd-ny-Y2u"/>
+        <segue reference="OCB-Va-VDC"/>
+        <segue reference="j9k-IG-ode"/>
+        <segue reference="y7i-um-yHJ"/>
+        <segue reference="gnc-ff-Qqx"/>
+        <segue reference="T5X-ib-XxA"/>
+        <segue reference="zKf-2S-qlA"/>
+        <segue reference="w8A-RM-qYc"/>
     </inferredMetricsTieBreakers>
 </document>
