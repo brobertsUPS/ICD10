@@ -66,10 +66,6 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         
         self.navigationItem.title = titleName
         self.navigationItem.leftItemsSupplementBackButton = true
-        
-        let screenSize: CGRect = UIScreen.mainScreen().bounds
-        var screenWidth = screenSize.width
-        var screenHeight = screenSize.height
     }
 
     override func didReceiveMemoryWarning() {
