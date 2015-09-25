@@ -118,6 +118,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="ICD10Code" destination="EYP-o2-CRr" id="G81-gA-DdO"/>
                         <outlet property="ICD9Code" destination="6eC-Jm-2xc" id="Ufm-9v-1Ft"/>
@@ -1649,14 +1650,14 @@
         <image name="Up-1" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zKf-2S-qlA"/>
-        <segue reference="OCB-Va-VDC"/>
-        <segue reference="2II-5o-t3P"/>
-        <segue reference="T5X-ib-XxA"/>
-        <segue reference="y7i-um-yHJ"/>
-        <segue reference="0NA-IR-rIR"/>
-        <segue reference="w8A-RM-qYc"/>
         <segue reference="edd-ny-Y2u"/>
         <segue reference="jsy-lt-xeY"/>
+        <segue reference="T5X-ib-XxA"/>
+        <segue reference="2II-5o-t3P"/>
+        <segue reference="zKf-2S-qlA"/>
+        <segue reference="OCB-Va-VDC"/>
+        <segue reference="w8A-RM-qYc"/>
+        <segue reference="y7i-um-yHJ"/>
+        <segue reference="0NA-IR-rIR"/>
     </inferredMetricsTieBreakers>
 </document>

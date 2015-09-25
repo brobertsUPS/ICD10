@@ -15,6 +15,8 @@ class DatabaseManager {
     
     var db:COpaquePointer!
     
+    
+    
     // MARK: - Database File Management
     
     /**
@@ -22,6 +24,7 @@ class DatabaseManager {
     *   Connects to the database after file is verified to be in the right spot.
     **/
     func checkDatabaseFileAndOpen(){
+        NSUserDefaults.standardUserDefaults().setInteger(1, forKey:"DATABASE_VERSION")
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             
