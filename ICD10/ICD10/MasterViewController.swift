@@ -308,7 +308,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 var button:UIButton = arr[i] as! UIButton
                 button.tag = id + 1
                 
-                if favoritesCell  || button.tag == 221 || button.tag < 10 {
+                if favoritesCell  || button.tag == 221 || button.tag==460 || button.tag < 10 {
                     self.view.viewWithTag(button.tag)!.removeFromSuperview()
                 }
             }
