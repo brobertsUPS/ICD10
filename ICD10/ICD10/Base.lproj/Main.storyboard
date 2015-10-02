@@ -129,7 +129,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1203" y="1104"/>
+            <point key="canvasLocation" x="-656" y="1318"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5z2-Rx-rav">
@@ -733,7 +733,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VzU-EU-FM1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1524" y="-1436.5"/>
+            <point key="canvasLocation" x="-1490" y="-1545"/>
         </scene>
         <!--Item-->
         <scene sceneID="y4A-YN-rO1">
@@ -1327,7 +1327,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q50-df-xDS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1524" y="-548.5"/>
+            <point key="canvasLocation" x="-1504" y="-692.5"/>
         </scene>
         <!--Modifier Table View Controller-->
         <scene sceneID="5Og-zo-cIR">
@@ -1371,7 +1371,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9uv-Fp-oNK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1296" y="113"/>
+            <point key="canvasLocation" x="-1114" y="33"/>
         </scene>
         <!--Visit Code Detail Controller-->
         <scene sceneID="kYu-Ci-EqO">
@@ -1493,7 +1493,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AyQ-Ij-0Ys" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="299" y="293"/>
+            <point key="canvasLocation" x="287" y="-415"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qh9-8n-sN9">
@@ -1650,14 +1650,14 @@
         <image name="Up-1" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="edd-ny-Y2u"/>
-        <segue reference="jsy-lt-xeY"/>
         <segue reference="T5X-ib-XxA"/>
-        <segue reference="2II-5o-t3P"/>
-        <segue reference="zKf-2S-qlA"/>
+        <segue reference="j9k-IG-ode"/>
+        <segue reference="y7i-um-yHJ"/>
+        <segue reference="t0l-p3-sB1"/>
         <segue reference="OCB-Va-VDC"/>
         <segue reference="w8A-RM-qYc"/>
-        <segue reference="y7i-um-yHJ"/>
-        <segue reference="0NA-IR-rIR"/>
+        <segue reference="zKf-2S-qlA"/>
+        <segue reference="edd-ny-Y2u"/>
+        <segue reference="jsy-lt-xeY"/>
     </inferredMetricsTieBreakers>
 </document>

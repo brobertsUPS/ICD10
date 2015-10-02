@@ -169,9 +169,9 @@ INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("992
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99253","C","Detailed/Low");
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99254","C","Compreh/Moderate");
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99255","C","Compreh/High");
-INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99231","C","Level 1");
-INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99232","C","Level 2");
-INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99233","C","Level 3");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99231","C","Prob Foc/Low");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99232","C","Exp Prob Foc/Moderate");
+INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99233","C","Detailed/High");
 --Medicare
 
 INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ("99221","M","Detailed/Straight or Low");

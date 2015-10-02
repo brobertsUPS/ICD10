@@ -320,6 +320,10 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         
         let (id, locationName) = objects[indexPath.row]
         
+        if(id == -1){//if we clicked the blank row
+            //segue to the fill in page
+        }else{
+        
         let newSubLocations = findSubLocations(id)
         if id == 0{
             favoritesCell = true
@@ -336,6 +340,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             self.performSegueWithIdentifier("showCodes", sender: self)
         }else {
             self.performSegueWithIdentifier("showLocations", sender: self)
+        }
         }
     }
     
