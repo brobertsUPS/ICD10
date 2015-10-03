@@ -15,7 +15,7 @@
                         <viewControllerLayoutGuide type="bottom" id="GAO-Cl-Wes"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="svH-Pt-448">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="693"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="ICD9 code" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="6eC-Jm-2xc">
@@ -74,7 +74,7 @@
                                     <action selector="addCodeToBill:" destination="JEX-9P-axG" eventType="touchUpInside" id="VnO-ut-Wky"/>
                                 </connections>
                             </button>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dk5-vm-HF2">
+                            <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dk5-vm-HF2">
                                 <rect key="frame" x="16" y="438" width="568" height="162"/>
                             </pickerView>
                         </subviews>
@@ -130,23 +130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-934" y="948.5"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="5ZM-3c-QEr">
-            <objects>
-                <navigationController id="BWU-BX-4Jr" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5fr-Ac-1wA">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="JEX-9P-axG" kind="relationship" relationship="rootViewController" id="gZF-R9-MuC"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="DQy-xH-ZZh" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="163" y="656.5"/>
+            <point key="canvasLocation" x="-434" y="651"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5z2-Rx-rav">
@@ -1344,7 +1328,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q50-df-xDS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1221" y="-685.5"/>
+            <point key="canvasLocation" x="-1603" y="-675.5"/>
         </scene>
         <!--Modifier Table View Controller-->
         <scene sceneID="5Og-zo-cIR">
@@ -1510,14 +1494,14 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AyQ-Ij-0Ys" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="287" y="-415"/>
+            <point key="canvasLocation" x="461" y="-455"/>
         </scene>
         <!--Master-->
         <scene sceneID="smW-Zh-WAh">
             <objects>
                 <tableViewController title="Master" clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="MasterViewController" customModule="ICD10" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="r7i-6Z-zg0">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="693"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1593,8 +1577,8 @@
                     <connections>
                         <outlet property="searchBar" destination="wTJ-bi-dad" id="Vra-g1-Zdf"/>
                         <segue destination="O4K-Ig-l3r" kind="show" identifier="showLocations" id="w8A-RM-qYc"/>
-                        <segue destination="BWU-BX-4Jr" kind="show" identifier="showDirectSearchCode" id="sKV-1F-eBD"/>
-                        <segue destination="BWU-BX-4Jr" kind="show" identifier="showCodes" id="AHV-T4-Vcf"/>
+                        <segue destination="JEX-9P-axG" kind="show" identifier="showDirectSearchCode" id="Tfq-uK-9Al"/>
+                        <segue destination="JEX-9P-axG" kind="show" identifier="showCodes" id="SyI-aG-Mr6"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
@@ -1651,14 +1635,14 @@
         <image name="Up-1" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="T5X-ib-XxA"/>
+        <segue reference="jsy-lt-xeY"/>
+        <segue reference="edd-ny-Y2u"/>
         <segue reference="Y3M-hJ-xRY"/>
-        <segue reference="AHV-T4-Vcf"/>
+        <segue reference="SyI-aG-Mr6"/>
         <segue reference="OCB-Va-VDC"/>
         <segue reference="w8A-RM-qYc"/>
-        <segue reference="t0l-p3-sB1"/>
+        <segue reference="T5X-ib-XxA"/>
         <segue reference="y7i-um-yHJ"/>
-        <segue reference="edd-ny-Y2u"/>
-        <segue reference="jsy-lt-xeY"/>
+        <segue reference="t0l-p3-sB1"/>
     </inferredMetricsTieBreakers>
 </document>
