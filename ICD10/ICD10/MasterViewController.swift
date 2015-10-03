@@ -191,7 +191,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             
         } else if segue.identifier == "showDirectSearchCode"{  //The user searched for the direct code
             
-            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+            let controller = segue.destinationViewController as! DetailViewController
             
             controller.ICD10Text = selectedCode!.icd10
             controller.conditionDescriptionText = selectedCode!.description
@@ -219,7 +219,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             
             if newSubLocations.count == 0 && segue.identifier == "showCodes" {
                 
-                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+                let controller = segue.destinationViewController as! DetailViewController
                 
                 var controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
                 controllerTitle.lineBreakMode = NSLineBreakMode.ByWordWrapping

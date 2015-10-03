@@ -129,7 +129,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-656" y="1318"/>
+            <point key="canvasLocation" x="-357" y="731"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5z2-Rx-rav">
@@ -1495,22 +1495,6 @@
             </objects>
             <point key="canvasLocation" x="287" y="-415"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="qh9-8n-sN9">
-            <objects>
-                <navigationController id="Lpm-ud-qd3" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fe1-Vo-sZ8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="JEX-9P-axG" kind="relationship" relationship="rootViewController" id="Aou-bS-VFb"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aTT-m9-8Vw" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-461" y="553"/>
-        </scene>
         <!--Master-->
         <scene sceneID="smW-Zh-WAh">
             <objects>
@@ -1592,13 +1576,13 @@
                     <connections>
                         <outlet property="searchBar" destination="wTJ-bi-dad" id="Vra-g1-Zdf"/>
                         <segue destination="O4K-Ig-l3r" kind="show" identifier="showLocations" id="w8A-RM-qYc"/>
-                        <segue destination="Lpm-ud-qd3" kind="show" identifier="showCodes" id="zKf-2S-qlA"/>
-                        <segue destination="Lpm-ud-qd3" kind="show" identifier="showDirectSearchCode" id="XTM-Ii-pXh"/>
+                        <segue destination="JEX-9P-axG" kind="show" identifier="showCodes" id="4lE-Bu-9Yl"/>
+                        <segue destination="JEX-9P-axG" kind="show" identifier="showDirectSearchCode" id="NmI-kx-BLm"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-461" y="-177.5"/>
+            <point key="canvasLocation" x="-366" y="-187"/>
         </scene>
         <!--Search-->
         <scene sceneID="MSc-bV-FS8">
@@ -1651,12 +1635,12 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="T5X-ib-XxA"/>
-        <segue reference="j9k-IG-ode"/>
-        <segue reference="y7i-um-yHJ"/>
-        <segue reference="t0l-p3-sB1"/>
+        <segue reference="2II-5o-t3P"/>
+        <segue reference="NmI-kx-BLm"/>
         <segue reference="OCB-Va-VDC"/>
         <segue reference="w8A-RM-qYc"/>
-        <segue reference="zKf-2S-qlA"/>
+        <segue reference="t0l-p3-sB1"/>
+        <segue reference="y7i-um-yHJ"/>
         <segue reference="edd-ny-Y2u"/>
         <segue reference="jsy-lt-xeY"/>
     </inferredMetricsTieBreakers>
