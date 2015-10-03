@@ -103,6 +103,10 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     //MARK: - Navigation
     
+    @IBAction func addCodeToBill(sender: UIButton) {
+        self.performSegueWithIdentifier("verifyBill", sender: nil)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "verifyBill" {
             
