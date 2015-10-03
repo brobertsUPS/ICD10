@@ -264,21 +264,21 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 
             } else if (segue.identifier == "showLocations" && newSubLocations.count > 0) {
                 
-                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
-                
-                controller.objects = newSubLocations
-                var controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
-                controllerTitle.lineBreakMode = NSLineBreakMode.ByWordWrapping
-                controllerTitle.numberOfLines = 0
-                controllerTitle.text = locationName
-                
-                controller.navigationItem.titleView = controllerTitle
-
-                controller.navigationItem.leftItemsSupplementBackButton = true
-                controller.billViewController = self.billViewController
-                controller.favoritesCell = self.favoritesCell
-                controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
-                controller.rootMasterViewController = self.rootMasterViewController
+//                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
+//                
+//                controller.objects = newSubLocations
+//                var controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
+//                controllerTitle.lineBreakMode = NSLineBreakMode.ByWordWrapping
+//                controllerTitle.numberOfLines = 0
+//                controllerTitle.text = locationName
+//                
+//                controller.navigationItem.titleView = controllerTitle
+//
+//                controller.navigationItem.leftItemsSupplementBackButton = true
+//                controller.billViewController = self.billViewController
+//                controller.favoritesCell = self.favoritesCell
+//                controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
+//                controller.rootMasterViewController = self.rootMasterViewController
             }
         }
     }
@@ -339,8 +339,28 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         if newSubLocations.count == 0 {
             self.performSegueWithIdentifier("showCodes", sender: self)
         }else {
-            self.performSegueWithIdentifier("showLocations", sender: self)
+            //sself.performSegueWithIdentifier("showLocations", sender: self)
             //push the new view manually
+            
+            let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            let controller = storyBoard.instantiateViewControllerWithIdentifier("MasterViewController") as! MasterViewController
+            
+            
+            
+            controller.objects = newSubLocations
+            var controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
+            controllerTitle.lineBreakMode = NSLineBreakMode.ByWordWrapping
+            controllerTitle.numberOfLines = 0
+            controllerTitle.text = locationName
+            
+            controller.navigationItem.titleView = controllerTitle
+            
+            controller.navigationItem.leftItemsSupplementBackButton = true
+            controller.billViewController = self.billViewController
+            controller.favoritesCell = self.favoritesCell
+            controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
+            controller.rootMasterViewController = self.rootMasterViewController
+            self.navigationController?.pushViewController(controller, animated: true)
         }
         }
     }
