@@ -88,7 +88,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        println("textFieldShouldReturn")
+        print("textFieldShouldReturn")
         textField.resignFirstResponder()
         return true
     }
@@ -98,7 +98,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     **/
     @IBAction func userChangedCodeSearch(sender: UITextField) {
         
-        let codeInformation = searchCodes(sender.text)
+        let codeInformation = searchCodes(sender.text!)
         if let codeSearchViewController = directSearchTableViewController {
             codeSearchViewController.codeInfo = codeInformation
             codeSearchViewController.tableView.reloadData()
@@ -213,7 +213,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
         } else {
             
-            let indexPath = self.tableView.indexPathForSelectedRow()
+            let indexPath = self.tableView.indexPathForSelectedRow
             let (id, locationName) = objects[indexPath!.row]
             let newSubLocations = findSubLocations(id)
             
@@ -298,14 +298,14 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) 
         
         let (id, location_name) = objects[indexPath.row]
         cell.textLabel!.text = location_name
         var arr = cell.contentView.subviews
         for var i=0; i<arr.count; i++ {
             if arr[i].isKindOfClass(UIButton) {
-                var button:UIButton = arr[i] as! UIButton
+                let button:UIButton = arr[i] as! UIButton
                 button.tag = id + 1
                 
                 if favoritesCell  || button.tag == 221 || button.tag==460 || button.tag < 10 {
@@ -327,7 +327,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         let newSubLocations = findSubLocations(id)
         if id == 0{
             favoritesCell = true
-            println("Favorites cell")
+            print("Favorites cell")
             if newSubLocations.count == 0 {
                 self.showAlert("It looks like there are no favorites yet! Add some by hitting the star next to a description name!")
                 return
@@ -348,7 +348,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             
             
             controller.objects = newSubLocations
-            var controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
+            let controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
             controllerTitle.lineBreakMode = NSLineBreakMode.ByWordWrapping
             controllerTitle.numberOfLines = 0
             controllerTitle.text = locationName
@@ -379,7 +379,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     @IBAction func addCellToFavorites(sender: UIButton) {
         
         dbManager.checkDatabaseFileAndOpen()
-        var locationName = dbManager.getConditionLocationWithID(sender.tag-1)
+        let locationName = dbManager.getConditionLocationWithID(sender.tag-1)
         
         let addFavoriteQuery = "INSERT INTO Sub_location (LID, Parent_locationID) VALUES (\(sender.tag - 1), 0)"
         

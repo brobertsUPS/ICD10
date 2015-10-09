@@ -66,20 +66,20 @@ class EditPatientViewController: UIViewController {
     //MARK: - Patient Database Interaction
     
     @IBAction func savePatientInfo(sender: UIButton) {
-        firstName = firstNameField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        lastName = lastNameField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        firstName = firstNameField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        lastName = lastNameField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 
         if newPatient {
-            var fullName = firstName + " " + lastName
-            showAlert(self.addPatientToDatabase(fullName, dateOfBirth: dobField.text, email: emailField.text))
+            let fullName = firstName + " " + lastName
+            showAlert(self.addPatientToDatabase(fullName, dateOfBirth: dobField.text!, email: emailField.text!))
         }else{
-            showAlert(self.updatePatient(firstName, lastName: lastName, dob: dobField.text, email: emailField.text, id: id))
+            showAlert(self.updatePatient(firstName, lastName: lastName, dob: dobField.text!, email: emailField.text!, id: id))
         }
     }
     
     func addPatientToDatabase(inputPatient:String, dateOfBirth:String, email:String) -> String{
         dbManager.checkDatabaseFileAndOpen()
-        var result = dbManager.addPatientToDatabase(inputPatient, dateOfBirth: dateOfBirth, email:email)
+        let result = dbManager.addPatientToDatabase(inputPatient, dateOfBirth: dateOfBirth, email:email)
         dbManager.closeDB()
         return result
     }
@@ -87,7 +87,7 @@ class EditPatientViewController: UIViewController {
     func updatePatient(firstName:String, lastName:String, dob:String, email:String, id:Int) -> String{
         
         dbManager.checkDatabaseFileAndOpen()
-        var result = dbManager.updatePatient(firstName, lastName: lastName, dob: dob, email: email, id: id)
+        let result = dbManager.updatePatient(firstName, lastName: lastName, dob: dob, email: email, id: id)
         dbManager.closeDB()
         return result
     }
@@ -97,7 +97,7 @@ class EditPatientViewController: UIViewController {
     @IBAction func beginBill(sender: UIButton) {
         self.tabBarController!.selectedIndex = 0;
         if let beginBillDelegate = beginBillWithPatientInformationDelegate {
-            beginBillDelegate.userEnteredPatientInformationForBill(firstNameField.text, lName: lastNameField.text, dateOfBirth: dobField.text)
+            beginBillDelegate.userEnteredPatientInformationForBill(firstNameField.text!, lName: lastNameField.text!, dateOfBirth: dobField.text!)
         }
     }
     

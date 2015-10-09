@@ -37,7 +37,7 @@ class SearchTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("searchResultCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("searchResultCell", forIndexPath: indexPath) 
     
         if searchType == "doctor" || searchType == "site" || searchType == "room"{
             let doctorName = singleDataSearchResults[indexPath.row]

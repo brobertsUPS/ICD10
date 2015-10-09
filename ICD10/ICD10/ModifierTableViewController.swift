@@ -36,7 +36,7 @@ class ModifierTableViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("modifierCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("modifierCell", forIndexPath: indexPath) 
         
         var (modID, modifier, modifierDescription) = modifiers[indexPath.row]
 
@@ -48,7 +48,7 @@ class ModifierTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        var modifierTuple:(modID:Int, modifier:String, modifierDescription:String) = modifiers[indexPath.row]
+        let modifierTuple:(modID:Int, modifier:String, modifierDescription:String) = modifiers[indexPath.row]
         selectedModID = modifierTuple.modID
         NSNotificationCenter.defaultCenter().postNotificationName("loadModifier", object: selectedModID)
         

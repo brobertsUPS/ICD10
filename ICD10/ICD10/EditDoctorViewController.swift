@@ -69,27 +69,27 @@ class EditDoctorViewController: UIViewController {
     //MARK: - Doctor Database Interaction
     
     @IBAction func saveDoctorInfo(sender: UIButton) {
-        firstName = firstNameField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        lastName = lastNameField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        firstName = firstNameField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        lastName = lastNameField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         if newDoctor {
-            showAlert(self.addDoctorToDatabase(firstName, lastName: lastName, email: emailField.text, type: docType))
+            showAlert(self.addDoctorToDatabase(firstName, lastName: lastName, email: emailField.text!, type: docType))
         }else{
-            showAlert(self.updateDoctor(firstName, lastName: lastName, email: emailField.text, id: id, type: docType))
+            showAlert(self.updateDoctor(firstName, lastName: lastName, email: emailField.text!, id: id, type: docType))
         }
     }
     
     func addDoctorToDatabase(firstName:String, lastName:String, email:String, type:Int) -> String {
-        var fullName = "\(firstName) \(lastName)"
+        let fullName = "\(firstName) \(lastName)"
         dbManager.checkDatabaseFileAndOpen()
-        var result = dbManager.addDoctorToDatabase(fullName, email: email, type: type)
+        let result = dbManager.addDoctorToDatabase(fullName, email: email, type: type)
         dbManager.closeDB()
         return result
     }
     
     func updateDoctor(firstName:String, lastName:String, email:String, id:Int, type: Int) -> String{
         dbManager.checkDatabaseFileAndOpen()
-        var result = dbManager.updateDoctor(firstName, lastName: lastName, email: email, id: id, type: type)
+        let result = dbManager.updateDoctor(firstName, lastName: lastName, email: email, id: id, type: type)
         dbManager.closeDB()
         return result
     }

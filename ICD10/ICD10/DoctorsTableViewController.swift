@@ -44,7 +44,7 @@ class DoctorsTableViewController: UITableViewController {
     
     func findDoctors() {
         dbManager.checkDatabaseFileAndOpen()
-        var doctorSearch = "SELECT * FROM Doctor"
+        let doctorSearch = "SELECT * FROM Doctor"
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(dbManager.db, doctorSearch, -1, &statement, nil) == SQLITE_OK {
@@ -84,7 +84,7 @@ class DoctorsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return doctors.count }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("doctorsPageResultCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("doctorsPageResultCell", forIndexPath: indexPath) 
         let doctorName = doctors[indexPath.row]
         cell.textLabel!.text = doctorName
         return cell
@@ -96,7 +96,7 @@ class DoctorsTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == UITableViewCellEditingStyle.Delete {
-            let doctor = doctors[indexPath.row]
+            _ = doctors[indexPath.row]
             doctors.removeAtIndex(indexPath.row)
             dbManager.checkDatabaseFileAndOpen()
             dbManager.removeDoctorFromDatabase(ids[indexPath.row])
@@ -119,15 +119,15 @@ class DoctorsTableViewController: UITableViewController {
             controller.newDoctor = true
         }else{
             
-            let indexPath = self.tableView.indexPathForSelectedRow()
+            let indexPath = self.tableView.indexPathForSelectedRow
             let fullName = doctors[indexPath!.row]
             let dID = ids[indexPath!.row]
             let email = emails[indexPath!.row]
             let type = types[indexPath!.row]
             
-            var fullNameArr = split(fullName) {$0 == " "}
-            var firstName: String = fullNameArr[0]
-            var lastName: String =  fullNameArr[1]
+            var fullNameArr = fullName.componentsSeparatedByString(" ")
+            let firstName: String = fullNameArr[0]
+            let lastName: String =  fullNameArr[1]
             
             let controller = segue.destinationViewController as! EditDoctorViewController
             

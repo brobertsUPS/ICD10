@@ -54,7 +54,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             var arr = self.view.subviews
             for var i=0; i<arr.count; i++ {
                 if arr[i].isKindOfClass(UIButton) {
-                    var button:UIButton = arr[i] as! UIButton
+                    let button:UIButton = arr[i] as! UIButton
                     button.removeFromSuperview()
                 }
             }
@@ -84,11 +84,11 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         if sqlite3_prepare_v2(dbManager.db, extensionQuery, -1, &statement, nil) == SQLITE_OK {
 
             while sqlite3_step(statement) == SQLITE_ROW {
-                var extensionCode = sqlite3_column_text(statement, 0)
-                var extensionCodeString = String.fromCString(UnsafePointer<CChar>(extensionCode))
+                let extensionCode = sqlite3_column_text(statement, 0)
+                let extensionCodeString = String.fromCString(UnsafePointer<CChar>(extensionCode))
                 
-                var extensionDescription = sqlite3_column_text(statement, 1)
-                var extensionDescriptionString = String.fromCString(UnsafePointer<CChar>(extensionDescription))
+                let extensionDescription = sqlite3_column_text(statement, 1)
+                let extensionDescriptionString = String.fromCString(UnsafePointer<CChar>(extensionDescription))
                 
                 let tuple = (ExtensionCode:extensionCodeString!, ExtensionDescription:extensionDescriptionString!)
                 
@@ -110,7 +110,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "verifyBill" {
             
-            var controller = segue.destinationViewController as! BillViewController
+            let controller = segue.destinationViewController as! BillViewController
             
             controller.textFieldText.append(self.billViewController!.patientTextField!.text!)
             controller.textFieldText.append(self.billViewController!.patientDOBTextField!.text!)
@@ -130,7 +130,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                 
                 if extensionPicker != nil {
                     
-                    var extensionRow = extensionPicker!.selectedRowInComponent(0)
+                    let extensionRow = extensionPicker!.selectedRowInComponent(0)
                     var (extensionCode, extensionDescription) = extensionCodes[extensionRow]
                     let tuple = (icd10: ICD10Text!, icd9: ICD9Text!, icd10id: ICD10ID!, extensionCode:extensionCode)
                     theICDCodes.append(tuple)

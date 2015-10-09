@@ -52,7 +52,7 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
     @IBAction func userChangedDocSearch(sender: UITextField) {
         dbManager.checkDatabaseFileAndOpen()
         
-        let doctors = dbManager.doctorSearch(administeringDoctor.text, type: 0)
+        let doctors = dbManager.doctorSearch(administeringDoctor.text!, type: 0)
         if let doctorSearchViewController = searchTableViewController {
             doctorSearchViewController.singleDataSearchResults = doctors
             doctorSearchViewController.tableView.reloadData()
@@ -69,7 +69,7 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
     
     @IBAction func checkForDoctorAndAdd(sender: UIButton) {
         
-        let fullNameArr = administeringDoctor.text.componentsSeparatedByString(" ")
+        let fullNameArr = administeringDoctor.text!.componentsSeparatedByString(" ")
         if fullNameArr.count > 2 && fullNameArr[2] != ""{
             self.showAlert("An error occured when saving the doctor. Please enter a first name and last name separated by a space.")
             return
@@ -77,7 +77,7 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
 
         
         dbManager.checkDatabaseFileAndOpen()
-        var result = dbManager.checkForDoctorAndAdd(administeringDoctor.text)
+        var result = dbManager.checkForDoctorAndAdd(administeringDoctor.text!)
         dbManager.closeDB()
         
         if result == "" {
@@ -160,12 +160,12 @@ class AdminDocViewController: UIViewController, UITextFieldDelegate, UIPopoverPr
         
         if segue.identifier == "doctorSearchPopover" {
             dbManager.checkDatabaseFileAndOpen()
-            let popoverViewController = (segue.destinationViewController as! UIViewController) as! SearchTableViewController
+            let popoverViewController = (segue.destinationViewController ) as! SearchTableViewController
             self.searchTableViewController = popoverViewController                          //set our view controller as the SearchPopover
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
             popoverViewController.searchType = "doctor"
-            popoverViewController.singleDataSearchResults = dbManager.doctorSearch(administeringDoctor!.text, type: 0)
+            popoverViewController.singleDataSearchResults = dbManager.doctorSearch(administeringDoctor!.text!, type: 0)
         }
     }
 }

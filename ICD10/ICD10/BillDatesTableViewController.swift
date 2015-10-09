@@ -29,7 +29,7 @@ class BillDatesTableViewController: UITableViewController {
     override func didReceiveMemoryWarning() { super.didReceiveMemoryWarning() }
     
     func getDates() -> [String:Int] {
-        var areBillsIncomplete:[String:Int] = [:]
+        let areBillsIncomplete:[String:Int] = [:]
         
         dbManager.checkDatabaseFileAndOpen()
         
@@ -38,8 +38,8 @@ class BillDatesTableViewController: UITableViewController {
         if sqlite3_prepare_v2(dbManager.db, dateQuery, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
                 
-                var date = sqlite3_column_text(statement, 0)
-                var dateString = String.fromCString(UnsafePointer<CChar>(date))
+                let date = sqlite3_column_text(statement, 0)
+                let dateString = String.fromCString(UnsafePointer<CChar>(date))
                 
                 billDates.append(dateString!)                                      //if we got into this step the dateString is good
             }
@@ -56,8 +56,8 @@ class BillDatesTableViewController: UITableViewController {
         if segue.identifier == "showBillsForDate" {
             dbManager.checkDatabaseFileAndOpen()
             
-            let indexPath = self.tableView.indexPathForSelectedRow()
-            let date = billDates[indexPath!.row]
+            let indexPath = self.tableView.indexPathForSelectedRow!
+            let date = billDates[indexPath.row]
             
             var (patientBills, IDs, codeType, complete) = dbManager.getBillsForDate(date)
             
@@ -78,7 +78,7 @@ class BillDatesTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return billDates.count }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("billDateCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("billDateCell", forIndexPath: indexPath) 
         let date = billDates[indexPath.row]
         cell.textLabel!.text = date
         return cell

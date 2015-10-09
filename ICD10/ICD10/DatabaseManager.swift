@@ -23,10 +23,10 @@ class DatabaseManager {
     *   Checks that the database file is on the device. If not, copies the database file to the device.
     *   Connects to the database after file is verified to be in the right spot.
     **/
-    func checkDatabaseFileAndOpen(){
+    func checkDatabaseFileAndOpen() {
         NSUserDefaults.standardUserDefaults().setInteger(1, forKey:"DATABASE_VERSION")
         
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        _ = UIApplication.sharedApplication().delegate as! AppDelegate
             
             let theFileManager = NSFileManager.defaultManager()
             
@@ -38,14 +38,18 @@ class DatabaseManager {
                 
                 let pathToBundledDB = NSBundle.mainBundle().pathForResource("testDML", ofType: "sqlite3")// Copy the file from the Bundle and write it to the Device
                 let pathToDevice = dataFilePath()
-                var error:NSError?
+                //var error:NSError?
                 
-                if (theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice, error: nil)) {
-                    println("Open copied")
+                do {
+                    try theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice)
                     db = openDBPath(pathToDevice)
-                } else {
-                    println("database failure")
+                    print("Open copied")
+                    // use jsonData
+                } catch {
+                    // report error
+                    print("database failure")
                 }
+                
             }
     }
     
@@ -54,7 +58,7 @@ class DatabaseManager {
     **/
     func dataFilePath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        let documentsDirectory = paths[0] as! NSString
+        let documentsDirectory = paths[0] as NSString
         return documentsDirectory.stringByAppendingPathComponent("testDML.sqlite3") as String
     }
     
@@ -64,11 +68,11 @@ class DatabaseManager {
     func openDBPath(filePath:String) -> COpaquePointer {
         
         var db:COpaquePointer  = nil
-        var result = sqlite3_open(filePath, &db)
+        let result = sqlite3_open(filePath, &db)
         
         if result != SQLITE_OK {
             sqlite3_close(db)
-            println("Failed To Open Database")
+            print("Failed To Open Database")
             return nil
         }else {
             return db
@@ -76,7 +80,7 @@ class DatabaseManager {
     }
     
     func closeDB() -> String{
-        var closeResult = sqlite3_close(db)
+        let closeResult = sqlite3_close(db)
         return "Close result \(closeResult)"
     }
     
@@ -104,8 +108,8 @@ class DatabaseManager {
         
         var (firstName, lastName) = split(inputPatient)
         var result = ""
-        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
-        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
+        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
         
         if lastName == "" {
             result = "No last name input was detected. Please enter a first and last name for the patient."
@@ -113,7 +117,7 @@ class DatabaseManager {
             let query = "INSERT INTO Patient (pID,date_of_birth,f_name,l_name, email) VALUES (NULL, '\(dateOfBirth)', '\(firstName)', '\(lastName!)', '\(email)')"
             var statement:COpaquePointer = nil
             if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
-                var sqliteResult = sqlite3_step(statement)
+                let sqliteResult = sqlite3_step(statement)
                 if sqliteResult == SQLITE_DONE {
                     result = "Saved \(firstName) \(lastName!)"
                 }else {
@@ -127,23 +131,23 @@ class DatabaseManager {
     
     func addDoctorToDatabase(inputDoctor:String, email:String, type:Int) -> String{
         
-        println("Adding doc")
+        print("Adding doc")
         var (firstName, lastName) = split(inputDoctor)
         var result = ""
-        println("First name \(firstName) last name \(lastName)")
+        print("First name \(firstName) last name \(lastName)")
         
-        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
-        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
+        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
         
         if lastName == "" {
             result = "No last name input was detected. Please enter a first and last name for the doctor."
         }else{
-            var firstPart = "INSERT INTO Doctor (dID,f_name,l_name, email, type) VALUES (NULL,'" +  firstName + "', '"
+            let firstPart = "INSERT INTO Doctor (dID,f_name,l_name, email, type) VALUES (NULL,'" +  firstName + "', '"
             let query =  firstPart + lastName! + "', '" + email + "', \(type))"
             var statement:COpaquePointer = nil
             
             if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
-                var sqliteResult = sqlite3_step(statement)
+                let sqliteResult = sqlite3_step(statement)
                 if sqliteResult == SQLITE_DONE {
                     result = "Saved \(firstName) \(lastName!)"
                 }else {
@@ -160,8 +164,8 @@ class DatabaseManager {
         var result = ""
         var (firstName, lastName) = split(doctorInput)
        
-        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
-        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
+        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
         
         if lastName == "" {
             result = "No last name was detected. Please input a first and last name separated by a space."
@@ -176,7 +180,7 @@ class DatabaseManager {
             }
             sqlite3_finalize(statement)
         }
-        println(result)
+        print(result)
         return result
     }
     
@@ -185,7 +189,7 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         var result = ""
         if sqlite3_prepare_v2(db, insertPlaceQuery, -1, &statement, nil) == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 result = "Saved \(placeInput)"
             }else if sqliteResult == SQLITE_ERROR {
@@ -201,7 +205,7 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         var result = ""
         if sqlite3_prepare_v2(db, insertPlaceQuery, -1, &statement, nil) == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 result = "Successful room save \(roomInput)"
             }else if sqliteResult == SQLITE_ERROR {
@@ -217,7 +221,7 @@ class DatabaseManager {
         let insertHasType = "INSERT INTO Has_type (aptID,apt_code, ICD10_ID, visit_priority, icd_priority, extension) VALUES (\(aptID),'\(visitCodeText)', \(icd10CodeID), \(visitPriority), \(icdPriority), '\(extensionCode)')"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertHasType, -1, &statement, nil) == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 result = "Successful visit code save:\(visitCodeText) icdCode: \(icd10CodeID) visitPriority: \(visitPriority)"
             }else {
@@ -273,7 +277,7 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, removePatientQuery, -1, &statement, nil) == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 result = "Removed patient with id \(id)"
             }
@@ -289,7 +293,7 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, removeDocQuery, -1, &statement, nil) == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 result = "Removed doc with id \(id)"
             }
@@ -305,7 +309,7 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, removeAptQuery, -1, &statement, nil) == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 result = "Removed appointment"
             }else {
@@ -323,7 +327,7 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, removeFavoriteQuery, -1, &statement, nil) == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 result = "Removed Favorite with id \(id)"
             }else {
@@ -342,7 +346,7 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, removeAptQuery, -1, &statement, nil) == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 result = "Removed Apt with id \(aptID)"
             }else {
@@ -361,9 +365,9 @@ class DatabaseManager {
         let removeCodesQuery = "DELETE FROM Has_type WHERE aptID=\(aptID) AND apt_code='\(aptCode)'"
         var statement:COpaquePointer = nil
 
-        var resultPrepare = sqlite3_prepare_v2(db, removeCodesQuery, -1, &statement, nil)
+        let resultPrepare = sqlite3_prepare_v2(db, removeCodesQuery, -1, &statement, nil)
         if resultPrepare == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 result = "Removed codes with aptID=\(aptID) AND aptCode='\(aptCode)'"
             }else {
@@ -377,13 +381,13 @@ class DatabaseManager {
     
     func removeModifiersForBill(aptID:Int) -> String{
         var result = ""
-        var removeModifiersQuery = "DELETE FROM Has_modifiers WHERE aptID=\(aptID)"
+        let removeModifiersQuery = "DELETE FROM Has_modifiers WHERE aptID=\(aptID)"
         
         var statement:COpaquePointer = nil
         
-        var resultPrepare = sqlite3_prepare_v2(db, removeModifiersQuery, -1, &statement, nil)
+        let resultPrepare = sqlite3_prepare_v2(db, removeModifiersQuery, -1, &statement, nil)
         if resultPrepare == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 result = "Removed modifiers from aptID=\(aptID)"
             }else {
@@ -397,13 +401,13 @@ class DatabaseManager {
     
     func removeHasDoc(aptID:Int) -> String{
         var result = ""
-        var removeDocsQuery = "DELETE FROM Has_doc WHERE aptID=\(aptID)"
+        let removeDocsQuery = "DELETE FROM Has_doc WHERE aptID=\(aptID)"
         
         var statement:COpaquePointer = nil
         
-        var resultPrepare = sqlite3_prepare_v2(db, removeDocsQuery, -1, &statement, nil)
+        let resultPrepare = sqlite3_prepare_v2(db, removeDocsQuery, -1, &statement, nil)
         if resultPrepare == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 result = "Removed docs from aptID=\(aptID)"
             }else {
@@ -418,14 +422,14 @@ class DatabaseManager {
     func removePatients() -> String{
         var result = ""
         
-        var removePatientsQuery = "DELETE FROM Patient"
+        let removePatientsQuery = "DELETE FROM Patient"
         
         var statement:COpaquePointer = nil
         
-        var resultPrepare = sqlite3_prepare_v2(db, removePatientsQuery, -1, &statement, nil)
+        let resultPrepare = sqlite3_prepare_v2(db, removePatientsQuery, -1, &statement, nil)
         
         if resultPrepare == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 result = "Removed patients from database"
             }else {
@@ -443,7 +447,7 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, removeAptQuery, -1, &statement, nil) == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 result = "Removed Apts"
             }else {
@@ -459,8 +463,8 @@ class DatabaseManager {
     
     func updatePatient(firstName:String, lastName:String, dob:String, email:String, id:Int) -> String{
         
-        var firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
-        var lastName = lastName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        let firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
+        let lastName = lastName.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
 
         let query = "UPDATE Patient SET date_of_birth='\(dob)', f_name='\(firstName)', l_name='\(lastName)', email='\(email)' WHERE pID='\(id)';"
         var result = ""
@@ -480,8 +484,8 @@ class DatabaseManager {
     
     func updateDoctor(firstName:String, lastName:String, email:String, id:Int, type:Int) -> String {
         
-        var firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
-        var lastName = lastName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        let firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
+        let lastName = lastName.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
         
         let query = "UPDATE Doctor SET email='\(email)', f_name='\(firstName)', l_name='\(lastName)', type=\(type) WHERE dID='\(id)';"
         var result = ""
@@ -584,7 +588,7 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         
         if sqlite3_prepare_v2(db, doctorQuery, -1, &statement, nil) == SQLITE_OK {
-            var result = sqlite3_step(statement)
+            let result = sqlite3_step(statement)
             if result == SQLITE_DONE || result == SQLITE_ROW {
                 
                 let docFName = sqlite3_column_text(statement, 0)
@@ -609,7 +613,7 @@ class DatabaseManager {
         
         if sqlite3_prepare_v2(db, placeQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
-                var retrievedPlace = sqlite3_column_text(statement, 0)
+                let retrievedPlace = sqlite3_column_text(statement, 0)
                 place = String.fromCString(UnsafePointer<CChar>(retrievedPlace))!
             }
         }
@@ -628,7 +632,7 @@ class DatabaseManager {
         
         if sqlite3_prepare_v2(db, roomQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
-                var retrievedRoom = sqlite3_column_text(statement, 0)
+                let retrievedRoom = sqlite3_column_text(statement, 0)
                 room = String.fromCString(UnsafePointer<CChar>(retrievedRoom))!
             }
         }
@@ -645,8 +649,8 @@ class DatabaseManager {
         var pID = 0
         var (firstName, lastName) = split(patientInput)
         
-        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
-        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
+        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
         
         let patientQuery = "SELECT pID FROM Patient WHERE f_name='\(firstName)' AND l_name='\(lastName!)'"
         var statement:COpaquePointer = nil
@@ -672,8 +676,8 @@ class DatabaseManager {
         var dID = 0
         var (firstName, lastName) = split(doctorInput)
         
-        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
-        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: nil, range: nil)
+        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
+        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
         
         let doctorQuery = "SELECT dID FROM Doctor WHERE f_name='\(firstName)' AND l_name='\(lastName!)';"
         var statement:COpaquePointer = nil
@@ -721,16 +725,16 @@ class DatabaseManager {
         
         var statement:COpaquePointer = nil
         
-        var result = sqlite3_prepare_v2(db,cptQuery, -1, &statement, nil)
+        let result = sqlite3_prepare_v2(db,cptQuery, -1, &statement, nil)
         if  result == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
                 
                 var icdCodesForVisitCode:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = []
                 
-                var visitCode = sqlite3_column_text(statement, 0)
-                var visitCodeString = String.fromCString(UnsafePointer<CChar>(visitCode))
+                let visitCode = sqlite3_column_text(statement, 0)
+                let visitCodeString = String.fromCString(UnsafePointer<CChar>(visitCode))
                 
-                var visitPriority = Int(sqlite3_column_int(statement, 1))
+                let visitPriority = Int(sqlite3_column_int(statement, 1))
                 
                 if visitPriority >= visitCodePriority.count {
                     visitCodePriority.append(visitCodeString!)
@@ -756,18 +760,18 @@ class DatabaseManager {
         
         if sqlite3_prepare_v2(db, conditionQuery, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
-                var conditionICD10 = sqlite3_column_text(statement, 0)
-                var conditionString = String.fromCString(UnsafePointer<CChar>(conditionICD10))
+                let conditionICD10 = sqlite3_column_text(statement, 0)
+                let conditionString = String.fromCString(UnsafePointer<CChar>(conditionICD10))
                 
-                var conditionICD9 = sqlite3_column_text(statement, 1)
-                var conditionICD9String = String.fromCString(UnsafePointer<CChar>(conditionICD9))
+                let conditionICD9 = sqlite3_column_text(statement, 1)
+                let conditionICD9String = String.fromCString(UnsafePointer<CChar>(conditionICD9))
                 
-                var icd10ID = Int(sqlite3_column_int(statement, 2))
+                let icd10ID = Int(sqlite3_column_int(statement, 2))
                 
-                var extensionCode = sqlite3_column_text(statement, 3)
-                var extensionString = String.fromCString(UnsafePointer<CChar>(extensionCode))
+                let extensionCode = sqlite3_column_text(statement, 3)
+                let extensionString = String.fromCString(UnsafePointer<CChar>(extensionCode))
                 
-                var tuple = (icd10:conditionString!, icd9:conditionICD9String!, icd10ID:icd10ID, extensionCode:extensionString!)
+                let tuple = (icd10:conditionString!, icd9:conditionICD9String!, icd10ID:icd10ID, extensionCode:extensionString!)
                 conditionDiagnosed += [(tuple)]
             }
         }
@@ -783,7 +787,7 @@ class DatabaseManager {
         
         if sqlite3_prepare_v2(db, icdQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
-                var icd10Code = sqlite3_column_text(statement, 0)
+                let icd10Code = sqlite3_column_text(statement, 0)
                 icd10CodeString = String.fromCString(UnsafePointer<CChar>(icd10Code))!
             }
         }
@@ -801,7 +805,7 @@ class DatabaseManager {
         
         if sqlite3_prepare_v2(db, locationQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
-                var location = sqlite3_column_text(statement, 0)
+                let location = sqlite3_column_text(statement, 0)
                 locationName = String.fromCString(UnsafePointer<CChar>(location))!
             }
         }
@@ -818,7 +822,7 @@ class DatabaseManager {
         
         if sqlite3_prepare_v2(db,cptQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
-                var codeDescription = sqlite3_column_text(statement, 0)
+                let codeDescription = sqlite3_column_text(statement, 0)
                 codeDescriptionString = String.fromCString(UnsafePointer<CChar>(codeDescription))!
             }
         }
@@ -882,7 +886,7 @@ class DatabaseManager {
         
         if sqlite3_prepare_v2(db,dateQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
-                var date = sqlite3_column_text(statement, 0)
+                let date = sqlite3_column_text(statement, 0)
                 dateString = String.fromCString(UnsafePointer<CChar>(date))!
             }
         }
@@ -901,13 +905,13 @@ class DatabaseManager {
             
             while sqlite3_step(statement) == SQLITE_ROW {
                 
-                var modID = Int(sqlite3_column_int(statement, 0))
+                let modID = Int(sqlite3_column_int(statement, 0))
                 
-                var modifier = sqlite3_column_text(statement, 1)
-                var modifierString = String.fromCString(UnsafePointer<CChar>(modifier))!
+                let modifier = sqlite3_column_text(statement, 1)
+                let modifierString = String.fromCString(UnsafePointer<CChar>(modifier))!
                 
-                var modifierDescription = sqlite3_column_text(statement, 2)
-                var modifierDescriptionString = String.fromCString(UnsafePointer<CChar>(modifierDescription))!
+                let modifierDescription = sqlite3_column_text(statement, 2)
+                let modifierDescriptionString = String.fromCString(UnsafePointer<CChar>(modifierDescription))!
                 
                 let tuple:(modID:Int, modifier:String, modifierDescription:String) = (modID, modifierString, modifierDescriptionString)
                 modifiers.append(tuple)
@@ -927,7 +931,7 @@ class DatabaseManager {
         
         if sqlite3_prepare_v2(db,modifierQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
-                var mod = sqlite3_column_text(statement, 0)
+                let mod = sqlite3_column_text(statement, 0)
                 modifier = String.fromCString(UnsafePointer<CChar>(mod))!
             }
         }
@@ -946,10 +950,10 @@ class DatabaseManager {
             
             while sqlite3_step(statement) == SQLITE_ROW {
                 
-                var modID = Int(sqlite3_column_int(statement, 0))
+                let modID = Int(sqlite3_column_int(statement, 0))
                 
-                var visitCode = sqlite3_column_text(statement, 1)
-                var visitCodeString = String.fromCString(UnsafePointer<CChar>(visitCode))!
+                let visitCode = sqlite3_column_text(statement, 1)
+                let visitCodeString = String.fromCString(UnsafePointer<CChar>(visitCode))!
                 
                 modifiers[visitCodeString] = modID
             }
@@ -1061,8 +1065,8 @@ class DatabaseManager {
         if sqlite3_prepare_v2(db, siteSearchQuery, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
                 
-                var description = sqlite3_column_text(statement, 0)
-                var descriptionString = String.fromCString(UnsafePointer<CChar>(description))
+                let description = sqlite3_column_text(statement, 0)
+                let descriptionString = String.fromCString(UnsafePointer<CChar>(description))
                 siteResults.append(descriptionString!)
             }
         }
@@ -1077,8 +1081,8 @@ class DatabaseManager {
         if sqlite3_prepare_v2(db, roomSearchQuery, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
                 
-                var description = sqlite3_column_text(statement, 0)
-                var descriptionString = String.fromCString(UnsafePointer<CChar>(description))
+                let description = sqlite3_column_text(statement, 0)
+                let descriptionString = String.fromCString(UnsafePointer<CChar>(description))
                 roomResults.append(descriptionString!)
             }
         }
@@ -1094,8 +1098,8 @@ class DatabaseManager {
         
         let fullNameArr = splitString.componentsSeparatedByString(" ")
         if fullNameArr.count >= 2{
-            var firstName: String = fullNameArr[0]
-            var lastName: String =  fullNameArr[1]
+            let firstName: String = fullNameArr[0]
+            let lastName: String =  fullNameArr[1]
             return (firstName, lastName)
         }
         return ("","")

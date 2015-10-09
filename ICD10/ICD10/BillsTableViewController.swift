@@ -52,18 +52,19 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     // MARK: - Mail Functions
     
     @IBAction func sendMail(sender: AnyObject) {
-        var picker = MFMailComposeViewController()
+        let picker = MFMailComposeViewController()
         picker.mailComposeDelegate = self
         picker.setSubject("Bills for \(date)")
         presentViewController(picker, animated: true, completion: nil)
     }
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
-        switch result.value {
-        case MFMailComposeResultCancelled.value: println("Mail canceled")
-        case MFMailComposeResultSaved.value: println("Mail saved")
-        case MFMailComposeResultSent.value: println("Mail sent")
-        case MFMailComposeResultFailed.value: self.showAlert("No email was detected on your device. Please configure an email in the device settings and submit the bills again.")
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        
+        switch result.rawValue {
+        case MFMailComposeResultCancelled.rawValue: print("Mail canceled")
+        case MFMailComposeResultSaved.rawValue: print("Mail saved")
+        case MFMailComposeResultSent.rawValue: print("Mail sent")
+        case MFMailComposeResultFailed.rawValue: self.showAlert("No email was detected on your device. Please configure an email in the device settings and submit the bills again.")
         default : break
         }
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -113,7 +114,11 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         
         htmlLine = htmlLine + "</table></body> </html>"
         
-        htmlLine.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding, error: nil)
+        do{
+            try htmlLine.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding)
+        }catch{
+            
+        }
         
         if MFMailComposeViewController.canSendMail() {
             var emailTitle = "Bill"
@@ -196,7 +201,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     
     func filePathForSelectedExport(fileExtension:String) -> String {
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        let documentsDirectory = paths[0] as! NSString
+        let documentsDirectory = paths[0] as NSString
         return documentsDirectory.stringByAppendingPathComponent("Bills.\(fileExtension)") as String
     }
 
@@ -204,7 +209,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        var indexPath = self.tableView.indexPathForSelectedRow()
+        var indexPath = self.tableView.indexPathForSelectedRow
         var (id, dob, name) = patientsInfo[indexPath!.row]
         var (aptID, placeID, roomID) = IDs[indexPath!.row]
         var codeType = codeTypes[indexPath!.row]
@@ -263,14 +268,14 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         
         if sqlite3_prepare_v2(dbManager.db, doctorQuery, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
-                var firstName = sqlite3_column_text(statement, 0)
-                var firstNameString = String.fromCString(UnsafePointer<CChar>(firstName))
+                let firstName = sqlite3_column_text(statement, 0)
+                let firstNameString = String.fromCString(UnsafePointer<CChar>(firstName))
                 
-                var lastName = sqlite3_column_text(statement, 1)
-                var lastNameString = String.fromCString(UnsafePointer<CChar>(lastName))
+                let lastName = sqlite3_column_text(statement, 1)
+                let lastNameString = String.fromCString(UnsafePointer<CChar>(lastName))
                 nameString = "\(firstNameString!) \(lastNameString!)"
                 
-                var docType = Int(sqlite3_column_int(statement, 2))
+                let docType = Int(sqlite3_column_int(statement, 2))
                 if docType == 1 {
                     referringString = nameString
                 } else {
@@ -292,7 +297,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         if sqlite3_prepare_v2(dbManager.db, placeQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
                 
-                var resultPlace = sqlite3_column_text(statement, 0)
+                let resultPlace = sqlite3_column_text(statement, 0)
                 place = String.fromCString(UnsafePointer<CChar>(resultPlace))!
             }
         }
@@ -309,7 +314,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         
         if sqlite3_prepare_v2(dbManager.db, roomQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_ROW {
-                var resultRoom = sqlite3_column_text(statement, 0)
+                let resultRoom = sqlite3_column_text(statement, 0)
                 room = String.fromCString(UnsafePointer<CChar>(resultRoom))!
             }
         }
@@ -326,9 +331,9 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("billCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("billCell", forIndexPath: indexPath) 
         var (id, dob, name) = patientsInfo[indexPath.row]
-        var isBillComplete = billsComplete[indexPath.row]
+        let isBillComplete = billsComplete[indexPath.row]
         
         let imageName = "Flag Filled-50.png"
         let image = UIImage(named: imageName)

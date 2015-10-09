@@ -38,7 +38,7 @@ class PatientsTableViewController: UITableViewController {
     
     func findPatients(){
         dbManager.checkDatabaseFileAndOpen()
-        var query = "SELECT * FROM Patient"
+        let query = "SELECT * FROM Patient"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
@@ -84,7 +84,7 @@ class PatientsTableViewController: UITableViewController {
             message: "This will remove all patients and bills", preferredStyle: .Alert)
         
         let callConfirmActionHandler = { (action:UIAlertAction!) -> Void in
-            println("deleted")
+            print("deleted")
             self.dbManager.checkDatabaseFileAndOpen()
             self.dbManager.removePatients()
             self.dbManager.removeAppointments()
@@ -116,7 +116,7 @@ class PatientsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return patients.count }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("patientPageResultCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("patientPageResultCell", forIndexPath: indexPath) 
         let (dob, patientName) = patients[indexPath.row]
         cell.textLabel!.text = patientName
         cell.detailTextLabel!.text = dob
@@ -151,13 +151,13 @@ class PatientsTableViewController: UITableViewController {
             let controller = segue.destinationViewController as! EditPatientViewController
             controller.newPatient = true
         }else{
-            let indexPath = self.tableView.indexPathForSelectedRow()
+            let indexPath = self.tableView.indexPathForSelectedRow
             let (dob, fullName) = patients[indexPath!.row]
             let pID = ids[indexPath!.row]
             let email = emails[indexPath!.row]
             let controller = segue.destinationViewController as! EditPatientViewController
-            
-            var fullNameArr = split(fullName) {$0 == " "}
+            var fullNameArr = fullName.componentsSeparatedByString(" ")
+            //var fullNameArr = split(fullName) {$0 == " "}
             var firstName: String = fullNameArr[0]
             var lastName: String =  fullNameArr[1]
             
