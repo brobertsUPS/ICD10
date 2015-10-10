@@ -25,6 +25,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var billCompletionLabel: UILabel!
     @IBOutlet weak var billCompletionSwitch: UISwitch!
     @IBOutlet weak var saveBillButton: UIButton!
+    @IBOutlet weak var adminDocButton: UIButton!
+    
     
     //MARK: - TextFields
     @IBOutlet weak var patientTextField: UITextField!
@@ -38,7 +40,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBOutlet weak var dateTextField: UITextField!
     
     //MAKR: - Bill Data
-    var administeringDoctor:String!
+    var administeringDoctor:String?
     var icd10On:Bool!
     var textFieldText:[String] = []                                         //A list of saved items for the bill
     var codesForBill:[String:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)]] = [:]
@@ -52,6 +54,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     var newPatient:String?
     var newPatientDOB:String?
     var selectedVisitCodeToAddTo:String?
+    var shouldRemoveBackButton:Bool?
     
     // MARK: - View Management
     
@@ -59,6 +62,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         super.viewDidLoad()
         dbManager = DatabaseManager()
+        dbManager.checkDatabaseVersionAndUpdate()
+        
         self.navigationItem.title = "Bill"
         self.fillFormTextFields()
         
@@ -124,6 +129,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 billCompletionLabel.text = "Bill Incomplete"
             }
         }
+        
+        if let hasAdminDoc = administeringDoctor {
+            self.adminDocButton.setTitle(administeringDoctor, forState: UIControlState.Normal)
+        }
+        
+        if((shouldRemoveBackButton) != nil){
+            self.navigationItem.hidesBackButton = true
+        }
         self.addNotifications()
         self.codeCollectionView.reloadData()                                //Update the collectionView with any new data
         
@@ -141,6 +154,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateSite:",name:"loadSite", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateRoom:",name:"loadRoom", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateModifier:",name:"loadModifier", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAdminDoctor:",name:"loadAdminDoctor", object: nil)
     }
     
     func fillFormTextFields(){                                          //Load data into the text fields
@@ -217,6 +231,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
     }
     
+    @IBAction func clickedChangeAdmin(sender: UIButton) {
+        self.performSegueWithIdentifier("adminDoctorSearchPopover", sender: self)
+    }
+    
+    
     @IBAction func clickedVisitCodeDescriptionButton(sender: UIButton) {
         self.performSegueWithIdentifier("visitCodeDescriptionPopover", sender: sender)
     }
@@ -283,7 +302,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 var patientID = getPatientID(patientTextField.text!, dateOfBirth: patientDOBTextField.text!)
                 
                 var referringDoctorID = getDoctorID(doctorTextField.text!)
-                var adminDoctorID = getDoctorID(administeringDoctor)
+                var adminDoctorID = getDoctorID(administeringDoctor!)
                 
                 if let aptID = appointmentID {                                  // if this bill is being updated
                     saveBillFromPreviousBill(aptID, placeID: placeID, roomID: roomID, patientID: patientID, referringDoctorID: referringDoctorID, adminDoctorID: adminDoctorID)
@@ -328,8 +347,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         self.saveCodesForBill(aptID, referringDoctorID: referringDoctorID, adminDoctorID: adminDoctorID)
         
-        self.performSegueWithIdentifier("newBill", sender: self)                //start up a new bill after we have saved everything for this bill
-
+//        self.performSegueWithIdentifier("newBill", sender: self)                //start up a new bill after we have saved everything for this bill
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let controller = storyBoard.instantiateViewControllerWithIdentifier("BillViewController") as! BillViewController
+        controller.administeringDoctor = self.administeringDoctor
+        controller.shouldRemoveBackButton = true
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     func saveCodesForBill(aptID:Int, referringDoctorID:Int, adminDoctorID:Int){ //save all the codes from codesForBill Dictionary
@@ -365,15 +388,21 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         if patientTextField.text != "" {
             let fullNameArr = patientTextField.text!.componentsSeparatedByString(" ")
             if fullNameArr.count > 2 && fullNameArr[2] != ""{
-                err = "An error occured when saving the patient. Please enter a first name and last name separated by a space."
+                err = "An error occurred when saving the patient. Please enter a first name and last name separated by a space."
             }
         }
         
         if doctorTextField.text != "" {
             let fullNameArr = doctorTextField.text!.componentsSeparatedByString(" ")
             if fullNameArr.count > 2 && fullNameArr[2] != ""{
-                err = "An error occured when saving the doctor. Please enter a first name and last name separated by a space."
+                err = "An error occurred when saving the doctor. Please enter a first name and last name separated by a space."
             }
+        }
+        
+        if let adminDocValid = administeringDoctor {
+            
+        }else {
+            err = "Please select an admin doctor to save the bill. Add an admin doctor on the 'Doctor' tab."
         }
         
         return err
@@ -446,33 +475,53 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 popoverViewController.visitCodeDetail = dbManager.getVisitCodeDescription(visitCodePriority[sender!.tag])
                 dbManager.closeDB()
                 
-            }else {                                                                 //Show a search popover
+            }else{//Show a search popover
                 
                 dbManager.checkDatabaseFileAndOpen()
-                let popoverViewController = (segue.destinationViewController ) as! SearchTableViewController
+                let popoverViewController = segue.destinationViewController as! SearchTableViewController
                 self.searchTableViewController = popoverViewController
                 popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
                 popoverViewController.popoverPresentationController!.delegate = self
+                
                 
                 switch segue.identifier! {                                          //Do the initial empty searches
                 case "patientSearchPopover":
                     popoverViewController.tupleSearchResults = dbManager.patientSearch(patientTextField!.text!)
                     popoverViewController.searchType = "patient"
+                    var absoluteframe = patientTextField!.convertRect(patientTextField!.frame, fromView: self.scrollView)
+                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 60,absoluteframe.minY + 20,0,0)
+
                 case "doctorSearchPopover":
                     popoverViewController.singleDataSearchResults = dbManager.doctorSearch(doctorTextField!.text!, type: 1)
                     popoverViewController.searchType = "doctor"
+                    var absoluteframe = doctorTextField!.convertRect(doctorTextField!.frame, fromView: self.scrollView)
+                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 60,absoluteframe.minY + 20,0,0)
                 case "siteSearchPopover":
                     popoverViewController.singleDataSearchResults = dbManager.siteSearch(siteTextField.text!)
                     popoverViewController.searchType = "site"
+                    var absoluteframe = siteTextField!.convertRect(siteTextField!.frame, fromView: self.scrollView)
+                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 60,absoluteframe.minY + 20,0,0)
                 case "roomSearchPopover":
                     popoverViewController.singleDataSearchResults = dbManager.roomSearch(roomTextField.text!)
                     popoverViewController.searchType = "room"
+                    var absoluteframe = roomTextField!.convertRect(roomTextField!.frame, fromView: self.scrollView)
+                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 60,absoluteframe.minY + 20,0,0)
                 case "cptSearch":
                     popoverViewController.tupleSearchResults = dbManager.codeSearch("C", cptTextFieldText: cptTextField.text!, mcTextFieldText: "", pcTextFieldText: "")
+                    var absoluteframe = cptTextField!.convertRect(cptTextField!.frame, fromView: self.scrollView)
+                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 20,absoluteframe.minY + 20,0,0)
                 case "mcSearch":
                     popoverViewController.tupleSearchResults = dbManager.codeSearch("M", cptTextFieldText: "", mcTextFieldText: mcTextField.text!, pcTextFieldText: "")
+                    var absoluteframe = mcTextField!.convertRect(mcTextField!.frame, fromView: self.scrollView)
+                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 20,absoluteframe.minY + 20,0,0)
                 case "pcSearch":
                     popoverViewController.tupleSearchResults = dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: "", pcTextFieldText: pcTextField.text!)
+                    var absoluteframe = pcTextField!.convertRect(pcTextField!.frame, fromView: self.scrollView)
+                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 20,absoluteframe.minY + 20,0,0)
+                case "adminDoctorSearchPopover": popoverViewController.singleDataSearchResults = dbManager.doctorSearch("", type: 0)
+                    popoverViewController.searchType = "adminDoctor"
+                var absoluteframe = adminDocButton!.convertRect(adminDocButton!.frame, fromView: self.scrollView)
+                popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX,absoluteframe.minY,0,0)
                 default:break
                 }
                 dbManager.closeDB()
@@ -485,6 +534,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     // MARK: -  Changes in search fields
+    
+    
     
     @IBAction func userChangedPatientSearch(sender: UITextField) {
         dbManager.checkDatabaseFileAndOpen()
@@ -628,6 +679,14 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         self.doctorTextField.text = doctorName
         self.dismissViewControllerAnimated(true, completion: nil)
         doctorTextField.resignFirstResponder()
+    }
+    
+    func updateAdminDoctor(notification: NSNotification) {
+        let doctorName = searchTableViewController?.selectedDoctor
+        self.adminDocButton.setTitle(doctorName, forState: UIControlState.Normal)
+        self.administeringDoctor = doctorName
+        self.dismissViewControllerAnimated(true, completion: nil)
+        adminDocButton.resignFirstResponder()
     }
     
     func updateCPT(notification:NSNotification){

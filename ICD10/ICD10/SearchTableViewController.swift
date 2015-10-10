@@ -29,7 +29,7 @@ class SearchTableViewController: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int { return 1 }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchType == "doctor" || searchType == "site" || searchType == "room" {
+        if searchType == "doctor" || searchType == "site" || searchType == "room" || searchType == "adminDoctor"{
             return singleDataSearchResults.count
         }else {
             return tupleSearchResults.count
@@ -39,7 +39,7 @@ class SearchTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("searchResultCell", forIndexPath: indexPath) 
     
-        if searchType == "doctor" || searchType == "site" || searchType == "room"{
+        if searchType == "doctor" || searchType == "site" || searchType == "room" || searchType == "adminDoctor" {
             let doctorName = singleDataSearchResults[indexPath.row]
             cell.textLabel!.text = doctorName
             cell.detailTextLabel!.text = ""
@@ -52,7 +52,10 @@ class SearchTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
-        if searchType == "doctor" {
+        if searchType == "adminDoctor"{
+            selectedDoctor = singleDataSearchResults[indexPath.row]
+            NSNotificationCenter.defaultCenter().postNotificationName("loadAdminDoctor", object: selectedDoctor)
+        }else if searchType == "doctor" {
             selectedDoctor = singleDataSearchResults[indexPath.row]
             NSNotificationCenter.defaultCenter().postNotificationName("loadDoctor", object: selectedDoctor)
         }else if searchType == "patient"{

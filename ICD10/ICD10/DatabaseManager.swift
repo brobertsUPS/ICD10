@@ -20,37 +20,64 @@ class DatabaseManager {
     // MARK: - Database File Management
     
     /**
+    *
+    **/
+    func checkDatabaseVersionAndUpdate(){
+        
+        checkDatabaseFileAndOpen() //check to see if the database is already on file and create it if not
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        if defaults.integerForKey("DATABASE_VERSION") != 1 { //check if the database we have matches the database for the current application
+            print("UPDATE Reached")//UPDATE
+            
+            //open the database we have in our project directory
+            
+            //open the database the user has on their device
+        }
+        
+        
+    }
+    
+    /**
     *   Checks that the database file is on the device. If not, copies the database file to the device.
     *   Connects to the database after file is verified to be in the right spot.
     **/
     func checkDatabaseFileAndOpen() {
-        NSUserDefaults.standardUserDefaults().setInteger(1, forKey:"DATABASE_VERSION")
+        
         
         _ = UIApplication.sharedApplication().delegate as! AppDelegate
             
             let theFileManager = NSFileManager.defaultManager()
             
             let filePath = dataFilePath()
-            if theFileManager.fileExistsAtPath(filePath) {  //login with password
+            if theFileManager.fileExistsAtPath(filePath) {
+                
                 db = openDBPath(filePath)
                 
-            } else {                                        //set password for the database
-                
-                let pathToBundledDB = NSBundle.mainBundle().pathForResource("testDML", ofType: "sqlite3")// Copy the file from the Bundle and write it to the Device
-                let pathToDevice = dataFilePath()
-                //var error:NSError?
-                
-                do {
-                    try theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice)
-                    db = openDBPath(pathToDevice)
-                    print("Open copied")
-                    // use jsonData
-                } catch {
-                    // report error
-                    print("database failure")
-                }
-                
+            } else {
+                createFirstTimeDatabase(theFileManager)
             }
+    }
+    
+    func createFirstTimeDatabase(theFileManager:NSFileManager){
+        NSUserDefaults.standardUserDefaults().setInteger(1, forKey:"DATABASE_VERSION")
+        
+        
+        let pathToBundledDB = NSBundle.mainBundle().pathForResource("testDML", ofType: "sqlite3")// Copy the file from the Bundle and write it to the Device
+        let pathToDevice = dataFilePath()
+        //var error:NSError?
+        
+        do {
+            try theFileManager.copyItemAtPath(pathToBundledDB!, toPath:pathToDevice)
+            db = openDBPath(pathToDevice)
+            print("Open copied")
+            // use jsonData
+        } catch {
+            // report error
+            print("database failure")
+        }
+
     }
     
     /**

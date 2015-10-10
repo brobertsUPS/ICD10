@@ -188,6 +188,8 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             popoverViewController.popoverPresentationController!.delegate = self
             popoverViewController.billViewController = billViewController
             popoverViewController.navigationItem.title = "Direct Search"
+            var absoluteframe = searchBar!.convertRect(searchBar!.frame, fromView: self.view)
+            popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX,absoluteframe.minY,0,0)
             
         } else if segue.identifier == "showDirectSearchCode"{  //The user searched for the direct code
             
