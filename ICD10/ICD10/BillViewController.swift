@@ -140,6 +140,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         self.addNotifications()
         self.codeCollectionView.reloadData()                                //Update the collectionView with any new data
         
+        print(codesForBill)
+        print(visitCodePriority)
         
     }
     
@@ -394,6 +396,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         if doctorTextField.text != "" {
             let fullNameArr = doctorTextField.text!.componentsSeparatedByString(" ")
+            print("fullNameArr: \(fullNameArr)")
+            if fullNameArr.count < 2 {
+                err = "An error occurred when saving the referring doctor. Please enter a first name and last name separated by a space."
+            }
             if fullNameArr.count > 2 && fullNameArr[2] != ""{
                 err = "An error occurred when saving the doctor. Please enter a first name and last name separated by a space."
             }
@@ -402,7 +408,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         if let adminDocValid = administeringDoctor {
             
         }else {
-            err = "Please select an admin doctor to save the bill. Add an admin doctor on the 'Doctor' tab."
+            err = "Please select an admin doctor to save the bill. Add an admin doctor on the Doctor tab."
         }
         
         return err
@@ -430,9 +436,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         if siteTextField.text == "" {
             error = "Site was missing from the bill form. Please add a site to the bill"
         }
-        if roomTextField.text == "" {
-            error = "Room was missing from the bill form. Please add a room to the bill."
-        }
+//        if roomTextField.text == "" {
+//            error = "Room was missing from the bill form. Please add a room to the bill."
+//        }
         return error
     }
     

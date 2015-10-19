@@ -51,6 +51,12 @@ CREATE TABLE Apt_type (
 	code_description TEXT
 	);
 	
+CREATE TABLE User_Apt_type (
+	apt_code TEXT PRIMARY KEY NOT NULL,
+	type_description TEXT,
+	code_description TEXT
+	);
+	
 CREATE TABLE Modifier (
 	modifierID INTEGER PRIMARY KEY NOT NULL,
 	modifier TEXT NOT NULL,
@@ -68,12 +74,23 @@ CREATE TABLE Has_modifiers (
 	);
 
 CREATE TABLE ICD9_condition (
-	ICD9_code TEXT PRIMARY KEY NOT NULL,
+	ICD9_code TEXT PRIMARY KEY,
+	condition_name TEXT NOT NULL
+	);
+	
+CREATE TABLE User_ICD9_condition (
+	ICD9_code TEXT PRIMARY KEY,
 	condition_name TEXT NOT NULL
 	);
 
 CREATE TABLE ICD10_condition (
-	ICD10_ID INTEGER PRIMARU KEY NOT NULL,
+	ICD10_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+	ICD10_code TEXT NOT NULL,
+	description_text TEXT
+	);
+	
+CREATE TABLE User_ICD10_condition (
+	ICD10_ID INTEGER PRIMARY KEY AUTOINCREMENT,
 	ICD10_code TEXT NOT NULL,
 	description_text TEXT
 	);
@@ -250,6 +267,8 @@ INSERT INTO Condition_location ( LID, location_name ) VALUES (6, "Biliary/Pancre
 INSERT INTO Condition_location ( LID, location_name ) VALUES (7, "Cancer");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (8, "Symptoms/Findings");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (459, "Other Selected Diagnoses");
+INSERT INTO Condition_location ( LID, location_name ) VALUES (481, "Create New ICD10 For Bill");
+
 --Esophagus
 INSERT INTO Condition_location ( LID, location_name ) VALUES (9, "Barrett's");
 INSERT INTO Condition_location ( LID, location_name ) VALUES (10, "Chest pain, noncardiac");

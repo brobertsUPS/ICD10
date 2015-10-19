@@ -15,8 +15,9 @@
 		AD359F391B60507400DC6C90 /* ModifierTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD359F381B60507400DC6C90 /* ModifierTableViewController.swift */; };
 		AD359F3F1B61927600DC6C90 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AD359F3E1B61927600DC6C90 /* libsqlite3.dylib */; };
 		AD359F491B62D7D300DC6C90 /* ConditionLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD359F481B62D7D300DC6C90 /* ConditionLocationTableViewCell.swift */; };
-		AD36355F1BB9D6DB0059A586 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD36355E1BB9D6DB0059A586 /* testDML.sqlite3 */; };
 		AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD4FAE761B18D9260010B411 /* Main.storyboard */; };
+		AD73FDD61BD56052000781CA /* CustomDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD73FDD51BD56051000781CA /* CustomDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		AD73FDDC1BD575C0000781CA /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = AD73FDDB1BD575C0000781CA /* testDML.sqlite3 */; settings = {ASSET_TAGS = (); }; };
 		AD7A73D21B2782590054DD55 /* PatientsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */; };
 		AD7A73D41B2783A90054DD55 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */; };
 		AD7A73D61B278D150054DD55 /* DoctorsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */; };
@@ -55,8 +56,9 @@
 		AD359F381B60507400DC6C90 /* ModifierTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifierTableViewController.swift; sourceTree = "<group>"; };
 		AD359F3E1B61927600DC6C90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		AD359F481B62D7D300DC6C90 /* ConditionLocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionLocationTableViewCell.swift; sourceTree = "<group>"; };
-		AD36355E1BB9D6DB0059A586 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		AD4FAE771B18D9260010B411 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AD73FDD51BD56051000781CA /* CustomDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomDetailViewController.swift; sourceTree = "<group>"; };
+		AD73FDDB1BD575C0000781CA /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testDML.sqlite3; sourceTree = "<group>"; };
 		AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientsTableViewController.swift; sourceTree = "<group>"; };
 		AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoctorsTableViewController.swift; sourceTree = "<group>"; };
@@ -123,7 +125,7 @@
 		ADE77F321B1782F900CE48F1 /* ICD10 */ = {
 			isa = PBXGroup;
 			children = (
-				AD36355E1BB9D6DB0059A586 /* testDML.sqlite3 */,
+				AD73FDDB1BD575C0000781CA /* testDML.sqlite3 */,
 				ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */,
 				ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */,
 				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
@@ -139,6 +141,7 @@
 				ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */,
 				ADE77F371B1782F900CE48F1 /* MasterViewController.swift */,
 				ADE77F391B1782F900CE48F1 /* DetailViewController.swift */,
+				AD73FDD51BD56051000781CA /* CustomDetailViewController.swift */,
 				AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */,
 				AD93D7261B28A2F8000EAF98 /* EditDoctorViewController.swift */,
 				AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */,
@@ -266,7 +269,7 @@
 				ADE77F421B1782F900CE48F1 /* LaunchScreen.xib in Resources */,
 				ADE77F3F1B1782F900CE48F1 /* Images.xcassets in Resources */,
 				AD4FAE781B18D9260010B411 /* Main.storyboard in Resources */,
-				AD36355F1BB9D6DB0059A586 /* testDML.sqlite3 in Resources */,
+				AD73FDDC1BD575C0000781CA /* testDML.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +291,7 @@
 				AD19EA951B2F423800A1AFF1 /* BillDatesTableViewController.swift in Sources */,
 				ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */,
 				AD7A73D41B2783A90054DD55 /* DatabaseManager.swift in Sources */,
+				AD73FDD61BD56052000781CA /* CustomDetailViewController.swift in Sources */,
 				ADE77F3A1B1782F900CE48F1 /* DetailViewController.swift in Sources */,
 				AD0926AC1B4B3AB000C6E3DD /* ICDDeleteButton.swift in Sources */,
 				AD93D7311B28F667000EAF98 /* DirectSearchTableViewController.swift in Sources */,

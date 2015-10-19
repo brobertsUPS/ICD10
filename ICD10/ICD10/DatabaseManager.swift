@@ -31,11 +31,12 @@ class DatabaseManager {
         if defaults.integerForKey("DATABASE_VERSION") != 1 { //check if the database we have matches the database for the current application
             print("UPDATE Reached")//UPDATE
             
-            //open the database we have in our project directory
+            //create the new tables
             
-            //open the database the user has on their device
+            //insertCreateNewICD10ForBill()//insert the new condition location
         }
         
+        closeDB()
         
     }
     
@@ -111,7 +112,114 @@ class DatabaseManager {
         return "Close result \(closeResult)"
     }
     
+    /*
+    This was originally for creating the tables for the database
+    Not needed since we will do a clean install
+    func insertCreateNewICD10ForBill() -> Int{
+        var result = -1;
+        let insertLocation = "INSERT INTO Condition_location ( LID, location_name ) VALUES (481, 'Create New ICD10 For Bill');"
+        var statement:COpaquePointer = nil
+        if sqlite3_prepare_v2(db, insertLocation, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_DONE {
+                result = Int(sqlite3_last_insert_rowid(db))
+            }
+        }
+        sqlite3_finalize(statement)
+        
+        return result
+    }
+    
+    func createNewTables(){
+        var createUserICD10Table = "CREATE TABLE User_ICD10_condition (ICD10_ID INTEGER PRIMARY KEY AUTOINCREMENT,ICD10_code TEXT NOT NULL, description_text TEXT);"
+        sqlite3_exec(db, createUserICD10Table, nil, nil, nil);
+        
+        var createUserICD9Table = "CREATE TABLE User_ICD10_condition (ICD10_ID INTEGER PRIMARY KEY AUTOINCREMENT,ICD10_code TEXT NOT NULL, description_text TEXT);"
+        sqlite3_exec(db, createUserICD9Table, nil, nil, nil);
+        
+        //change the table definitions to auto-increment
+        
+    }
+*/
+    
     // MARK: - Adding information to the database
+    
+    func addUserICD10ToDatabase(icd10:String) -> Int{
+       
+        var result = -1
+        let insertICD10 = "INSERT INTO User_ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (NULL, '\(icd10)', '');"
+        var statement:COpaquePointer = nil
+        if sqlite3_prepare_v2(db, insertICD10, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_DONE {
+                result = Int(sqlite3_last_insert_rowid(db))
+            }
+        }
+        sqlite3_finalize(statement)
+        
+        return result
+    }
+    
+    func addICD10ToDatabase(icd10:String) -> Int{
+        
+        var result = -1
+        let insertICD10 = "INSERT INTO ICD10_condition (ICD10_code, description_text) VALUES ('\(icd10)', '');"
+        var statement:COpaquePointer = nil
+        if sqlite3_prepare_v2(db, insertICD10, -1, &statement, nil) == SQLITE_OK {
+            var sqliteResult = sqlite3_step(statement)
+            print(sqliteResult)
+            if sqliteResult == SQLITE_DONE {
+                
+                result = Int(sqlite3_last_insert_rowid(db))
+                print("sqlite_done with last insert id = \(result)")
+            }
+        }
+        sqlite3_finalize(statement)
+        return result
+    }
+    
+    func addCharacterizedByToDatabase(icd10ID: Int, icd9:String) -> Int{
+        
+        
+        var result = -1
+        let insertICD10 = "INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (\(icd10ID),'\(icd9)');"
+        var statement:COpaquePointer = nil
+        if sqlite3_prepare_v2(db, insertICD10, -1, &statement, nil) == SQLITE_OK {
+            var sqliteResult = sqlite3_step(statement)
+            print(sqliteResult)
+            if sqliteResult == SQLITE_DONE {
+                
+                result = Int(sqlite3_last_insert_rowid(db))
+                print("sqlite_done with last insert id = \(result)")
+            }
+        }
+        sqlite3_finalize(statement)
+        return result
+    }
+    
+    func addUserICD9ToDatabase(icd9:String) -> Int {
+        var result = -1
+        let insertICD10 = "INSERT INTO User_ICD9_condition (ICD9_code, condition_name) VALUES ('\(icd9)', '');"
+        var statement:COpaquePointer = nil
+        if sqlite3_prepare_v2(db, insertICD10, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_DONE {
+                result = Int(sqlite3_last_insert_rowid(db))
+            }
+        }
+        sqlite3_finalize(statement)
+        return result
+    }
+    
+    func addICD9ToDatabase(icd9:String) -> Int {
+        var result = -1
+        let insertICD10 = "INSERT INTO ICD9_condition (ICD9_code, condition_name) VALUES ('\(icd9)', '');"
+        var statement:COpaquePointer = nil
+        if sqlite3_prepare_v2(db, insertICD10, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_DONE {
+                result = Int(sqlite3_last_insert_rowid(db))
+            }
+        }
+        sqlite3_finalize(statement)
+        return result
+    }
     
     func addAppointmentToDatabase(patientID:Int, date:String, placeID:Int, roomID:Int, codeType:Int, billComplete:Int) -> (Int, String){
         
@@ -744,6 +852,7 @@ class DatabaseManager {
     }
     
     func getVisitCodesForBill(aptID:Int) -> ([String:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)]], [String]) {
+        print("Getting visitcodes for bill: ")
         
         var codesForBill:[String:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)]] = [:]
         var visitCodePriority:[String] = []
@@ -779,6 +888,7 @@ class DatabaseManager {
     }
     
     func getDiagnosesCodesForVisitCode(aptID:Int, visitCode:String) -> [(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] {
+        print("getting diagnoses codes for bill: ")
         
         var conditionDiagnosed:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = []
         

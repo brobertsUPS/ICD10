@@ -51,6 +51,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "codeSelected:",name:"loadCode", object: nil)
         self.tableView.reloadData()
     }
@@ -88,7 +89,6 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        print("textFieldShouldReturn")
         textField.resignFirstResponder()
         return true
     }
@@ -264,23 +264,11 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 
                 
                 
-            } else if (segue.identifier == "showLocations" && newSubLocations.count > 0) {
+            } else if (segue.identifier == "createICD10") {
                 
-//                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MasterViewController
-//                
-//                controller.objects = newSubLocations
-//                var controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
-//                controllerTitle.lineBreakMode = NSLineBreakMode.ByWordWrapping
-//                controllerTitle.numberOfLines = 0
-//                controllerTitle.text = locationName
-//                
-//                controller.navigationItem.titleView = controllerTitle
-//
-//                controller.navigationItem.leftItemsSupplementBackButton = true
-//                controller.billViewController = self.billViewController
-//                controller.favoritesCell = self.favoritesCell
-//                controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
-//                controller.rootMasterViewController = self.rootMasterViewController
+                let controller = segue.destinationViewController as! CustomDetailViewController
+                controller.billViewController = self.billViewController
+                controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
             }
         }
     }
@@ -300,7 +288,8 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) 
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+        
         
         let (id, location_name) = objects[indexPath.row]
         cell.textLabel!.text = location_name
@@ -310,10 +299,15 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 let button:UIButton = arr[i] as! UIButton
                 button.tag = id + 1
                 
-                if favoritesCell  || button.tag == 221 || button.tag==460 || button.tag < 10 {
+                if favoritesCell  || button.tag == 221 || button.tag == 482 || button.tag==460 || button.tag < 10 {
                     self.view.viewWithTag(button.tag)!.removeFromSuperview()
                 }
             }
+        }
+        if(self.tabBarController!.selectedIndex == 4){
+        if(id == 481){
+            cell.hidden = true
+        }
         }
         return cell
     }
@@ -322,14 +316,13 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
         
         let (id, locationName) = objects[indexPath.row]
         
-        if(id == -1){//if we clicked the blank row
-            //segue to the fill in page
+        if(id == 481){//if we clicked the blank row
+            self.performSegueWithIdentifier("createICD10", sender: self)
         }else{
         
         let newSubLocations = findSubLocations(id)
         if id == 0{
             favoritesCell = true
-            print("Favorites cell")
             if newSubLocations.count == 0 {
                 self.showAlert("It looks like there are no favorites yet! Add some by hitting the star next to a description name!")
                 return
