@@ -3,4 +3,5 @@ A repository to hold all implementation for an iOS application for translating I
 
 #How to navigate this directory!
 IC10 - This folder is holds the source code to the project. 
+
 Resources - This folder holds the database and the design files for the project.
