@@ -30,7 +30,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     
     override func viewWillAppear(animated: Bool) {
         dbManager.checkDatabaseFileAndOpen()
-        var (patientBills, IDs, codeType, complete) = dbManager.getBillsForDate(date)
+        let (patientBills, IDs, codeType, complete) = dbManager.getBillsForDate(date)
         dbManager.closeDB()
         patientsInfo = patientBills
         self.IDs = IDs
@@ -89,9 +89,9 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         
         for var i = 0; i<patientsInfo.count; i++ { //for every bill in the list get the information needed to submit
             
-            var (id, dob, patientName) = patientsInfo[i]
-            var (aptID, placeID, roomID) = IDs[i]
-            var codeType = codeTypes[i]
+            let (_, dob, patientName) = patientsInfo[i]
+            let (aptID, placeID, roomID) = IDs[i]
+            let codeType = codeTypes[i]
             
             var (adminDoc, referDoc) = getDoctorForBill(aptID)//doctor
             let place = getPlaceForBill(placeID)//place
@@ -121,16 +121,16 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         }
         
         if MFMailComposeViewController.canSendMail() {
-            var emailTitle = "Bills For \(date)"
-            var messageBody = "The bills for \(date) are attached."
-            var mc:MFMailComposeViewController = MFMailComposeViewController()
+            let emailTitle = "Bills For \(date)"
+            let messageBody = "The bills for \(date) are attached."
+            let mc:MFMailComposeViewController = MFMailComposeViewController()
             
             mc.mailComposeDelegate = self
             mc.setSubject(emailTitle)
             mc.setMessageBody(messageBody, isHTML: false)
             
             
-            var fileData:NSData = NSData(contentsOfFile: path)!
+            let fileData:NSData = NSData(contentsOfFile: path)!
             mc.addAttachmentData(fileData, mimeType: "text/html", fileName: "Bills")
             self.presentViewController(mc, animated: true, completion: nil)
         } else {
@@ -146,7 +146,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         
         var icdCodesForFirstVisitCode:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = codesForBill[firstVisitCode]!
         
-        var (firstICD10, firstICD9, icd10ID, extensionCode) = icdCodesForFirstVisitCode[0]
+        var (firstICD10, firstICD9, _, extensionCode) = icdCodesForFirstVisitCode[0]
         
         if extensionCode != "" {
             firstICD10 = extensionCode           //if the extensionCode is available make sure to bill it
@@ -163,7 +163,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         
         for var k=1; k<icdCodesForFirstVisitCode.count; k++ { //get the rest of the codes from the first visit code
             
-            var (icd10, icd9, icd10ID, extensionCode) = icdCodesForFirstVisitCode[k]
+            var (icd10, icd9, _, extensionCode) = icdCodesForFirstVisitCode[k]
             
             if extensionCode != "" {
                 icd10 = extensionCode           //if the extensionCode is available make sure to bill it
@@ -180,7 +180,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             
             for var j=0; j<icdCodes.count; j++ { //icdCodes
 
-                var (icd10, icd9, icd10ID, extensionCode) = icdCodes[j]
+                var (icd10, icd9, _, extensionCode) = icdCodes[j]
                 
                 if extensionCode != "" {
                     icd10 = extensionCode           //if the extensionCode is available make sure to bill it
@@ -209,13 +209,13 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        var indexPath = self.tableView.indexPathForSelectedRow
-        var (id, dob, name) = patientsInfo[indexPath!.row]
-        var (aptID, placeID, roomID) = IDs[indexPath!.row]
-        var codeType = codeTypes[indexPath!.row]
+        let indexPath = self.tableView.indexPathForSelectedRow
+        let (_, dob, name) = patientsInfo[indexPath!.row]
+        let (aptID, placeID, roomID) = IDs[indexPath!.row]
+        let codeType = codeTypes[indexPath!.row]
         
         if segue.identifier == "showBill" {
-            let controller = segue.destinationViewController as! BillViewController
+            _ = segue.destinationViewController as! BillViewController
             
             let (adminDoc, referDoc) = getDoctorForBill(aptID)//doctor
             let place = getPlaceForBill(placeID)//place
@@ -225,31 +225,31 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             let (codesFromDatabase, visitCodePriorityFromDatabase) = dbManager.getVisitCodesForBill(aptID)
             dbManager.closeDB()
             
-            controller.textFieldText.append(name)
-            controller.textFieldText.append(dob)
-            controller.textFieldText.append(referDoc)
-            controller.textFieldText.append(place)
-            controller.textFieldText.append(room)
+            Bill.CurrentBill.textFieldText.append(name)
+            Bill.CurrentBill.textFieldText.append(dob)
+            Bill.CurrentBill.textFieldText.append(referDoc)
+            Bill.CurrentBill.textFieldText.append(place)
+            Bill.CurrentBill.textFieldText.append(room)
             
-            controller.codesForBill = codesFromDatabase
-            controller.visitCodePriority = visitCodePriorityFromDatabase
+            Bill.CurrentBill.codesForBill = codesFromDatabase
+            Bill.CurrentBill.visitCodePriority = visitCodePriorityFromDatabase
             
-            controller.appointmentID = aptID
-            controller.administeringDoctor = adminDoc
+            Bill.CurrentBill.appointmentID = aptID
+            Bill.CurrentBill.administeringDoctor = adminDoc
             
             dbManager.checkDatabaseFileAndOpen()
-            controller.modifierCodes = dbManager.getModifiersForBill(aptID)
+            Bill.CurrentBill.modifierCodes = dbManager.getModifiersForBill(aptID)
             dbManager.closeDB()
             
             if codeType == 0{
-                controller.icd10On = false
+                Bill.CurrentBill.icd10On = false
             } else {
-                controller.icd10On = true
+                Bill.CurrentBill.icd10On = true
             }
             if billsComplete[indexPath!.row] == 1{
-                controller.billComplete = true
+                Bill.CurrentBill.billComplete = true
             } else {
-                controller.billComplete = false
+                Bill.CurrentBill.billComplete = false
             }
         }
     }
@@ -332,7 +332,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("billCell", forIndexPath: indexPath) 
-        var (id, dob, name) = patientsInfo[indexPath.row]
+        let (_, dob, name) = patientsInfo[indexPath.row]
         let isBillComplete = billsComplete[indexPath.row]
         
         let imageName = "Flag Filled-50.png"
@@ -358,7 +358,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == UITableViewCellEditingStyle.Delete {
-            let (aptID, placeID, roomID) = IDs[indexPath.row]
+            let (aptID, _, roomID) = IDs[indexPath.row]
             IDs.removeAtIndex(indexPath.row)
             patientsInfo.removeAtIndex(indexPath.row)
             billsComplete.removeAtIndex(indexPath.row)

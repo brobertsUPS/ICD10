@@ -12,8 +12,6 @@ class CustomDetailViewController: UIViewController {
     
     var dbManager:DatabaseManager!
     
-    var billViewController:BillViewController?     //A bill that is passed along to hold all of the codes for the final bill
-
     @IBOutlet weak var ICD10TextField: UITextField!
     @IBOutlet weak var ICD9TextField: UITextField!
     var visitCodeToAddICDTo:String!
@@ -25,7 +23,7 @@ class CustomDetailViewController: UIViewController {
         dbManager = DatabaseManager()
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -43,9 +41,9 @@ class CustomDetailViewController: UIViewController {
         //save to the database
         dbManager.checkDatabaseFileAndOpen()
         let addICD10Result = dbManager.addICD10ToDatabase(ICD10TextField.text!)//save ICD10
-        let addUserICD10Result = dbManager.addUserICD10ToDatabase(ICD10TextField.text!)//save ICD9
-        let addICD9Result = dbManager.addICD9ToDatabase(ICD9TextField.text!)
-        let addUserICD9Result = dbManager.addUserICD9ToDatabase(ICD9TextField.text!)
+        _ = dbManager.addUserICD10ToDatabase(ICD10TextField.text!)//save ICD9
+        _ = dbManager.addICD9ToDatabase(ICD9TextField.text!)
+        _ = dbManager.addUserICD9ToDatabase(ICD9TextField.text!)
         let addCharacterizedByResult = dbManager.addCharacterizedByToDatabase(addICD10Result, icd9: ICD9TextField.text!)
         dbManager.closeDB()
         
@@ -64,43 +62,26 @@ class CustomDetailViewController: UIViewController {
         controller2.addAction(cancelAction)
         self.presentViewController(controller2, animated: true, completion: nil)
     }
-
-
+    
+    
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
         if segue.identifier == "useCustomICD10InBill" {
-        let controller = segue.destinationViewController as! BillViewController
-        
-        controller.textFieldText.append(self.billViewController!.patientTextField!.text!)
-        controller.textFieldText.append(self.billViewController!.patientDOBTextField!.text!)
-        controller.textFieldText.append(self.billViewController!.doctorTextField!.text!)
-        controller.textFieldText.append(self.billViewController!.siteTextField!.text!)
-        controller.textFieldText.append(self.billViewController!.roomTextField!.text!)
-        
-        controller.codesForBill = self.billViewController!.codesForBill                     //update the codes with what we had before
-        var codesForBill = self.billViewController!.codesForBill                            //get the codes so we can update them
+            _ = segue.destinationViewController as! BillViewController
             
-            if let icdCodes  = codesForBill[visitCodeToAddICDTo] {
+            if let icdCodes  = Bill.CurrentBill.codesForBill[visitCodeToAddICDTo] {
                 
                 var theICDCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = icdCodes
                 
                 let tuple = (icd10: ICD10TextField.text!, icd9: ICD9TextField.text!, icd10id: ICD10ID!, extensionCode:"")
                 theICDCodes.append(tuple)
                 
-                controller.codesForBill[visitCodeToAddICDTo] = theICDCodes                             //put the new icdCodes on at the right position
+                Bill.CurrentBill.codesForBill[visitCodeToAddICDTo] = theICDCodes                             //put the new icdCodes on at the right position
             }
-            
-            controller.administeringDoctor = self.billViewController?.administeringDoctor
-            controller.icd10On = self.billViewController?.icd10On
-            controller.visitCodePriority = self.billViewController!.visitCodePriority
-            controller.appointmentID = self.billViewController!.appointmentID
-            controller.modifierCodes = self.billViewController!.modifierCodes
         }
-
     }
-    
-
 }

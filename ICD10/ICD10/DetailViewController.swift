@@ -11,8 +11,6 @@ import UIKit
 class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     var dbManager:DatabaseManager!
-
-    var billViewController:BillViewController?     //A bill that is passed along to hold all of the codes for the final bill
     
     @IBOutlet weak var detailDescriptionLabel: UILabel! //Labels for the codes (update these when the view is loaded)
     @IBOutlet weak var ICD10Code: UILabel! 
@@ -49,7 +47,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             self.extensionPicker = nil
         }
         
-        if billViewController == nil {
+        if Bill.CurrentBill.selectedVisitCodeToAddTo == nil {
             
             var arr = self.view.subviews
             for var i=0; i<arr.count; i++ {
@@ -79,7 +77,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         let extensionQuery = "SELECT Extension_code, Extension_description FROM Extension WHERE ICD10_ID=\(ICD10ID!)"
         
         var statement:COpaquePointer = nil
-        var prepareResult = sqlite3_prepare_v2(dbManager.db, extensionQuery, -1, &statement, nil)
+        _ = sqlite3_prepare_v2(dbManager.db, extensionQuery, -1, &statement, nil)
         
         if sqlite3_prepare_v2(dbManager.db, extensionQuery, -1, &statement, nil) == SQLITE_OK {
 
@@ -110,28 +108,16 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "verifyBill" {
             
-            let controller = segue.destinationViewController as! BillViewController
-            
-            controller.textFieldText.append(self.billViewController!.patientTextField!.text!)
-            controller.textFieldText.append(self.billViewController!.patientDOBTextField!.text!)
-            controller.textFieldText.append(self.billViewController!.doctorTextField!.text!)
-            controller.textFieldText.append(self.billViewController!.siteTextField!.text!)
-            controller.textFieldText.append(self.billViewController!.roomTextField!.text!)
-            
-            controller.codesForBill = self.billViewController!.codesForBill                     //update the codes with what we had before
-            var codesForBill = self.billViewController!.codesForBill                            //get the codes so we can update them
-            
+            _ = segue.destinationViewController as! BillViewController
            
-            
-            if let icdCodes  = codesForBill[visitCodeToAddICDTo] {
+            if let icdCodes  = Bill.CurrentBill.codesForBill[Bill.CurrentBill.selectedVisitCodeToAddTo!] {
                 
                 var theICDCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = icdCodes
-                
                 
                 if extensionPicker != nil {
                     
                     let extensionRow = extensionPicker!.selectedRowInComponent(0)
-                    var (extensionCode, extensionDescription) = extensionCodes[extensionRow]
+                    let (extensionCode, _) = extensionCodes[extensionRow]
                     let tuple = (icd10: ICD10Text!, icd9: ICD9Text!, icd10id: ICD10ID!, extensionCode:extensionCode)
                     theICDCodes.append(tuple)
                     
@@ -140,14 +126,8 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                     theICDCodes.append(tuple)
                 }
                 
-                controller.codesForBill[visitCodeToAddICDTo] = theICDCodes                             //put the new icdCodes on at the right position
+                Bill.CurrentBill.codesForBill[Bill.CurrentBill.selectedVisitCodeToAddTo!] = theICDCodes                             //put the new icdCodes on at the right position
             }
-
-            controller.administeringDoctor = self.billViewController?.administeringDoctor
-            controller.icd10On = self.billViewController?.icd10On
-            controller.visitCodePriority = self.billViewController!.visitCodePriority
-            controller.appointmentID = self.billViewController!.appointmentID
-            controller.modifierCodes = self.billViewController!.modifierCodes
         }
     }
     
@@ -159,8 +139,8 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         return extensionCodes.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        var (extensionCode, extensionDescription) = extensionCodes[row]
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let (extensionCode, extensionDescription) = extensionCodes[row]
         return extensionCode + " " + extensionDescription
     }
 }

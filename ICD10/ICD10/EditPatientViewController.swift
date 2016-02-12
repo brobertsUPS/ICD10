@@ -42,10 +42,6 @@ class EditPatientViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         
-        if (self.tabBarController!.viewControllers!.first! as! UINavigationController).topViewController is AdminDocViewController{
-            beginBillWithPatientInformationDelegate = (self.tabBarController!.viewControllers!.first! as! UINavigationController).topViewController as! AdminDocViewController
-        }
-        
         if (self.tabBarController!.viewControllers!.first! as! UINavigationController).topViewController is BillViewController{
             beginBillWithPatientInformationDelegate = (self.tabBarController!.viewControllers!.first! as! UINavigationController).topViewController as! BillViewController
         }

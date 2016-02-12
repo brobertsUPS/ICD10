@@ -34,7 +34,7 @@ class DirectSearchTableViewController: UITableViewController{
         
         let cell = tableView.dequeueReusableCellWithIdentifier("directSearchCell", forIndexPath: indexPath) 
         let tuple = codeInfo[indexPath.row]
-        let (code, codeDescription, icd10id) = tuple
+        let (code, codeDescription, _) = tuple
         cell.textLabel!.text = codeDescription
         cell.detailTextLabel!.text = code
         

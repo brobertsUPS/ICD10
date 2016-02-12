@@ -19,10 +19,8 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     var detailViewController: DetailViewController? = nil                   //The detail page of the application
     var objects:[(id:Int,name:String)] = []
     var dbManager:DatabaseManager!
-    var billViewController:BillViewController?
     
     var favoritesCell:Bool = false
-    var visitCodeToAddICDTo:String!
     var rootMasterViewController:Bool = true
     
     override func viewDidLoad() {
@@ -135,7 +133,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     func codeSelected(notification: NSNotification) {
         if let controller = directSearchTableViewController {
             if let tuple = controller.selectedCode {
-                let (icd10,description,icd9, icd10ID) = tuple
+                let (icd10,_,_, _) = tuple
                 self.searchBar.text = icd10
                 self.dismissViewControllerAnimated(true, completion: nil)
                 searchBar.resignFirstResponder()
@@ -186,9 +184,8 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             self.directSearchTableViewController = popoverViewController
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
-            popoverViewController.billViewController = billViewController
             popoverViewController.navigationItem.title = "Direct Search"
-            var absoluteframe = searchBar!.convertRect(searchBar!.frame, fromView: self.view)
+            let absoluteframe = searchBar!.convertRect(searchBar!.frame, fromView: self.view)
             popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX,absoluteframe.minY,0,0)
             
         } else if segue.identifier == "showDirectSearchCode"{  //The user searched for the direct code
@@ -200,7 +197,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             controller.ICD9Text = selectedCode!.icd9
             controller.ICD10ID = selectedCode!.icd10id
             
-            var controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
+            let controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
             controllerTitle.lineBreakMode = NSLineBreakMode.ByWordWrapping
             controllerTitle.numberOfLines = 0
             controllerTitle.textAlignment = NSTextAlignment.Center
@@ -211,8 +208,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             controller.titleName = selectedCode!.description
             
             controller.navigationItem.leftItemsSupplementBackButton = true
-            controller.billViewController = self.billViewController
-            controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
+
         } else {
             
             let indexPath = self.tableView.indexPathForSelectedRow
@@ -223,7 +219,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 
                 let controller = segue.destinationViewController as! DetailViewController
                 
-                var controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
+                let controllerTitle:UILabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 50))
                 controllerTitle.lineBreakMode = NSLineBreakMode.ByWordWrapping
                 controllerTitle.numberOfLines = 0
                 controllerTitle.textAlignment = NSTextAlignment.Center
@@ -235,7 +231,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 let query = "SELECT ICD10_code, description_text, ICD9_code, ICD10_ID FROM ICD10_condition NATURAL JOIN characterized_by NATURAL JOIN ICD9_condition WHERE ICD10_ID=(SELECT ICD10_ID FROM Located_in WHERE LID=\(id))"
                 
                 if sqlite3_prepare_v2(dbManager.db, query, -1, &statement, nil) == SQLITE_OK {
-                    var result = sqlite3_step(statement)
+                    let result = sqlite3_step(statement)
                     if result == SQLITE_ROW { // if we got the row back successfully
                         let icd10Code = sqlite3_column_text(statement, 0)
                         let icd10CodeString = String.fromCString(UnsafePointer<CChar>(icd10Code))!
@@ -258,17 +254,13 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 controller.title = locationName
                 controller.titleName = locationName
                 controller.navigationItem.leftItemsSupplementBackButton = true
-                controller.billViewController = self.billViewController
-                controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
                 dbManager.closeDB()
                 
                 
                 
             } else if (segue.identifier == "createICD10") {
                 
-                let controller = segue.destinationViewController as! CustomDetailViewController
-                controller.billViewController = self.billViewController
-                controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
+                _ = segue.destinationViewController as! CustomDetailViewController
             }
         }
     }
@@ -351,9 +343,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             controller.navigationItem.titleView = controllerTitle
             
             controller.navigationItem.leftItemsSupplementBackButton = true
-            controller.billViewController = self.billViewController
             controller.favoritesCell = self.favoritesCell
-            controller.visitCodeToAddICDTo = self.visitCodeToAddICDTo
             controller.rootMasterViewController = self.rootMasterViewController
             self.navigationController?.pushViewController(controller, animated: true)
         }
@@ -362,10 +352,10 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == UITableViewCellEditingStyle.Delete && favoritesCell{
-            let (id, locationName) = objects[indexPath.row]
+            let (id, _) = objects[indexPath.row]
             objects.removeAtIndex(indexPath.row)
             dbManager.checkDatabaseFileAndOpen()
-            var result = dbManager.removeFavoriteFromDatabase(id)
+            _ = dbManager.removeFavoriteFromDatabase(id)
             dbManager.closeDB()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
         }
