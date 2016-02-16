@@ -84,7 +84,6 @@ class PatientsTableViewController: UITableViewController {
             message: "This will remove all patients and bills", preferredStyle: .Alert)
         
         let callConfirmActionHandler = { (action:UIAlertAction!) -> Void in
-            print("deleted")
             self.dbManager.checkDatabaseFileAndOpen()
             self.dbManager.removePatients()
             self.dbManager.removeAppointments()

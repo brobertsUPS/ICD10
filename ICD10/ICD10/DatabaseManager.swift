@@ -165,11 +165,9 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertICD10, -1, &statement, nil) == SQLITE_OK {
             var sqliteResult = sqlite3_step(statement)
-            print(sqliteResult)
             if sqliteResult == SQLITE_DONE {
                 
                 result = Int(sqlite3_last_insert_rowid(db))
-                print("sqlite_done with last insert id = \(result)")
             }
         }
         sqlite3_finalize(statement)
@@ -184,11 +182,10 @@ class DatabaseManager {
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertICD10, -1, &statement, nil) == SQLITE_OK {
             var sqliteResult = sqlite3_step(statement)
-            print(sqliteResult)
+            
             if sqliteResult == SQLITE_DONE {
                 
                 result = Int(sqlite3_last_insert_rowid(db))
-                print("sqlite_done with last insert id = \(result)")
             }
         }
         sqlite3_finalize(statement)
@@ -225,7 +222,7 @@ class DatabaseManager {
         
         var aptID:Int = 0
         var result = ""
-        let insertAPTQuery = "INSERT INTO Appointment (aptID, pID, date, placeID, roomID, code_type, complete) VALUES (NULL, \(patientID), '\(date)', \(placeID), \(roomID), \(codeType), \(billComplete));"
+        let insertAPTQuery = "INSERT INTO Appointment (aptID, pID, date, placeID, roomID, code_type, complete, submitted) VALUES (NULL, \(patientID), '\(date)', \(placeID), \(roomID), \(codeType), \(billComplete), 0);"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertAPTQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
@@ -266,10 +263,8 @@ class DatabaseManager {
     
     func addDoctorToDatabase(inputDoctor:String, email:String, type:Int) -> String{
         
-        print("Adding doc")
         var (firstName, lastName) = split(inputDoctor)
         var result = ""
-        print("First name \(firstName) last name \(lastName)")
         
         firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
         lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
@@ -315,7 +310,6 @@ class DatabaseManager {
             }
             sqlite3_finalize(statement)
         }
-        print(result)
         return result
     }
     
@@ -852,7 +846,6 @@ class DatabaseManager {
     }
     
     func getVisitCodesForBill(aptID:Int) -> ([String:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)]], [String]) {
-        print("Getting visitcodes for bill: ")
         
         var codesForBill:[String:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)]] = [:]
         var visitCodePriority:[String] = []
@@ -888,7 +881,6 @@ class DatabaseManager {
     }
     
     func getDiagnosesCodesForVisitCode(aptID:Int, visitCode:String) -> [(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] {
-        print("getting diagnoses codes for bill: ")
         
         var conditionDiagnosed:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = []
         
@@ -967,14 +959,20 @@ class DatabaseManager {
         return codeDescriptionString
     }
     
-    func getBillsForDate(date:String) -> (patientBills:[(id:Int, dob:String, name:String)], IDs:[(aptID:Int, placeID:Int, roomID:Int)], codeType:[Int], complete:[Int]){
+    func getBills(date:String) -> (patientBills:[(id:Int, dob:String, name:String)], IDs:[(aptID:Int, placeID:Int, roomID:Int)], codeType:[Int], complete:[Int], submitted:[Int]){
         
         var patientBills:[(id:Int, dob:String, name:String)] = []
         var IDs:[(aptID:Int, placeID:Int, roomID:Int)] = []
         var codeType:[Int] = []
         var complete:[Int] = []
+        var submitted:[Int] = []
         
-        let billsQuery = "SELECT pID,date_of_birth, f_name, l_name, aptID, placeID, roomID, code_type, complete FROM Patient NATURAL JOIN Appointment WHERE date='\(date)'"
+        var whereDate = ""
+        if date != ""{
+            whereDate = "WHERE date='\(date)'"
+        }
+        
+        let billsQuery = "SELECT pID,date_of_birth, f_name, l_name, aptID, placeID, roomID, code_type, complete, submitted FROM Patient NATURAL JOIN Appointment \(whereDate) ORDER BY l_name, f_name, date"
         
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, billsQuery, -1, &statement, nil) == SQLITE_OK {
@@ -998,6 +996,7 @@ class DatabaseManager {
                 let roomID = Int(sqlite3_column_int(statement, 6))
                 let billCodeType = Int(sqlite3_column_int(statement, 7))
                 let billComplete = Int(sqlite3_column_int(statement, 8))
+                let billSubmitted = Int(sqlite3_column_int(statement, 9))
                 
                 
                 let patientFullName = patientFNameString! + " " + patientLNameString!
@@ -1005,11 +1004,12 @@ class DatabaseManager {
                 IDs.append(aptID:aptID, placeID:placeID, roomID:roomID )
                 codeType.append(billCodeType)
                 complete.append(billComplete)
+                submitted.append(billSubmitted)
             }
         }
         sqlite3_finalize(statement)
         
-        let tuple:(patientBills:[(id:Int, dob:String, name:String)], IDs:[(aptID:Int, placeID:Int, roomID:Int)], codeType:[Int], complete:[Int]) = (patientBills, IDs, codeType, complete)
+        let tuple:(patientBills:[(id:Int, dob:String, name:String)], IDs:[(aptID:Int, placeID:Int, roomID:Int)], codeType:[Int], complete:[Int], submitted:[Int]) = (patientBills, IDs, codeType, complete, submitted)
         return tuple
     }
     
@@ -1075,6 +1075,72 @@ class DatabaseManager {
         sqlite3_finalize(statement)
         return modifier
     }
+    
+    func getDoctorForBill(aptID:Int) -> (String, String){
+        var nameString = ""
+        var adminString = ""
+        var referringString = ""
+        
+        let doctorQuery = "SELECT f_name, l_name, type FROM Appointment NATURAL JOIN Has_doc NATURAL JOIN Doctor WHERE aptID=\(aptID)"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, doctorQuery, -1, &statement, nil) == SQLITE_OK {
+            while sqlite3_step(statement) == SQLITE_ROW {
+                let firstName = sqlite3_column_text(statement, 0)
+                let firstNameString = String.fromCString(UnsafePointer<CChar>(firstName))
+                
+                let lastName = sqlite3_column_text(statement, 1)
+                let lastNameString = String.fromCString(UnsafePointer<CChar>(lastName))
+                nameString = "\(firstNameString!) \(lastNameString!)"
+                
+                let docType = Int(sqlite3_column_int(statement, 2))
+                if docType == 1 {
+                    referringString = nameString
+                } else {
+                    adminString = nameString
+                }
+            }
+        }
+        sqlite3_finalize(statement)
+        
+        return (adminString, referringString)
+    }
+    
+    func getPlaceForBill(placeID:Int) -> String {
+        
+        var place = ""
+        let placeQuery = "SELECT place_description FROM Place_of_service WHERE placeID=\(placeID)"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, placeQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {
+                
+                let resultPlace = sqlite3_column_text(statement, 0)
+                place = String.fromCString(UnsafePointer<CChar>(resultPlace))!
+            }
+        }
+        sqlite3_finalize(statement)
+        
+        return place
+    }
+    
+    func getRoomForBill(roomID:Int) -> String {
+       
+        var room = ""
+        let roomQuery = "SELECT room_description FROM Room WHERE roomID=\(roomID)"
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, roomQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_ROW {
+                let resultRoom = sqlite3_column_text(statement, 0)
+                room = String.fromCString(UnsafePointer<CChar>(resultRoom))!
+            }
+        }
+        sqlite3_finalize(statement)
+        
+        return room
+    }
+
     
     func getModifiersForBill(aptID:Int) -> [String:Int] {
         var modifiers:[String:Int] = [:]

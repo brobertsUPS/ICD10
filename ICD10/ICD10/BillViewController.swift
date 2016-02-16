@@ -109,8 +109,12 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             }
         }
         
-        if let _ = Bill.CurrentBill.administeringDoctor {
-            self.adminDocButton.setTitle(Bill.CurrentBill.administeringDoctor, forState: UIControlState.Normal)
+        if let adminDoc = Bill.CurrentBill.administeringDoctor {
+            if (adminDoc == ""){
+                self.adminDocButton.setTitle("Admin Doc", forState: UIControlState.Normal)
+            }else{
+                self.adminDocButton.setTitle(Bill.CurrentBill.administeringDoctor, forState: UIControlState.Normal)
+            }
         }
         
         if((Bill.CurrentBill.shouldRemoveBackButton) != nil){
@@ -278,8 +282,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 let referringDoctorID = getDoctorID(doctorTextField.text!)
                 let adminDoctorID = getDoctorID(Bill.CurrentBill.administeringDoctor!)
                 
-                print("place: \(placeID), room: \(roomID), patient: \(patientID), refer: \(referringDoctorID), admin: \(adminDoctorID) ")
-                
                 if let aptID = Bill.CurrentBill.appointmentID {                                  // if this bill is being updated
                     saveBillFromPreviousBill(aptID, placeID: placeID, roomID: roomID, patientID: patientID, referringDoctorID: referringDoctorID, adminDoctorID: adminDoctorID)
                 }else {
@@ -314,6 +316,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     func saveNewBill(placeID:Int, roomID:Int, patientID:Int, referringDoctorID:Int, adminDoctorID:Int){
+        
         let codeType = Int(codeVersion.on)
         let billComplete = Int(billCompletionSwitch.on)
         let (aptID, _) = addAppointmentToDatabase(patientID, date: dateTextField.text!, placeID: placeID, roomID: roomID, codeType: codeType, billComplete: billComplete)
@@ -326,7 +329,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)    //start up a new bill after we have saved everything for this bill
         let controller = storyBoard.instantiateViewControllerWithIdentifier("BillViewController") as! BillViewController
         Bill.CurrentBill.administeringDoctor = Bill.CurrentBill.administeringDoctor
-        Bill.CurrentBill.shouldRemoveBackButton = true
         Bill.CurrentBill.codesForBill = [:]
         self.navigationController?.pushViewController(controller, animated: true)
     }
@@ -370,7 +372,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         if doctorTextField.text != "" {
             let fullNameArr = doctorTextField.text!.componentsSeparatedByString(" ")
-            print("fullNameArr: \(fullNameArr)")
             if fullNameArr.count < 2 {
                 err = "An error occurred when saving the referring doctor. Please enter a first name and last name separated by a space."
             }
@@ -587,6 +588,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             self.patientDOBTextField.text = dob
             let pID = getPatientID(name, dateOfBirth: dob)
             
+            Bill.CurrentBill.textFieldText[0] = name
+            Bill.CurrentBill.textFieldText[1] = dob
+            
             updateFromPreviousBill(pID)
             self.dismissViewControllerAnimated(true, completion: nil)
             patientTextField.resignFirstResponder()
@@ -647,6 +651,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         self.doctorTextField.text = doctorName
         self.dismissViewControllerAnimated(true, completion: nil)
         doctorTextField.resignFirstResponder()
+        Bill.CurrentBill.textFieldText[2] = doctorName!
     }
     
     func updateAdminDoctor(notification: NSNotification) {
@@ -678,10 +683,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             self.dismissViewControllerAnimated(true, completion: nil)
             self.codeCollectionView.reloadData()
             
-            
             let defaults = NSUserDefaults.standardUserDefaults()
-            let notFirstRun = defaults.boolForKey("notFirstVisitCode")
-            print("Is not first run? \(notFirstRun)")
             
             if !defaults.boolForKey("notFirstVisitCode") {
                 defaults.setBool(true, forKey: "notFirstVisitCode")
@@ -696,6 +698,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             self.siteTextField.text = site
             self.dismissViewControllerAnimated(true, completion: nil)
             self.resignFirstResponder()
+            Bill.CurrentBill.textFieldText[3] = site
         }
     }
     
@@ -705,6 +708,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             self.roomTextField.text = room
             self.dismissViewControllerAnimated(true, completion: nil)
             self.resignFirstResponder()
+            Bill.CurrentBill.textFieldText[4] = room
         }
     }
     

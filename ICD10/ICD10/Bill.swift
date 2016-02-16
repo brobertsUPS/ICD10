@@ -14,7 +14,16 @@ class Bill {
         //MAKR: - Bill Data
         static var administeringDoctor:String?
         static var icd10On:Bool!
-        static var textFieldText:[String] = []                                         //A list of saved items for the bill
+        
+        /*
+        patientTextField.text = Bill.CurrentBill.textFieldText[0]
+        patientDOBTextField.text = Bill.CurrentBill.textFieldText[1]
+        doctorTextField.text = Bill.CurrentBill.textFieldText[2]
+        siteTextField.text = Bill.CurrentBill.textFieldText[3]
+        roomTextField.text = Bill.CurrentBill.textFieldText[4]
+        */
+        
+        static var textFieldText:[String] = ["","","","","", "", ""]                                         //A list of saved items for the bill
         static var codesForBill:[String:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)]] = [:]
         static var visitCodePriority:[String] = []
         static var modifierCodes:[String:Int] = [:]                                    //visitCode -> modifierCode
