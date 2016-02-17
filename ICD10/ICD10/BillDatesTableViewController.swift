@@ -86,7 +86,7 @@ class BillDatesTableViewController: UITableViewController, MFMailComposeViewCont
         
         let path = filePathForSelectedExport("html")
         let htmlLine = billFormatter.formatBill("")
-        print(htmlLine)
+        //print(htmlLine)
         
         do{
             try htmlLine.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding)
