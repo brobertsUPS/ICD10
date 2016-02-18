@@ -19,6 +19,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     var detailViewController: DetailViewController? = nil                   //The detail page of the application
     var objects:[(id:Int,name:String)] = []
     var dbManager:DatabaseManager!
+    var bill:Bill!
     
     var favoritesCell:Bool = false
     var rootMasterViewController:Bool = true
@@ -26,6 +27,8 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     override func viewDidLoad() {
         super.viewDidLoad()
         dbManager = DatabaseManager()
+        
+        print("MasterBill: \(bill)")
         
         
         
@@ -208,6 +211,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             controller.titleName = selectedCode!.description
             
             controller.navigationItem.leftItemsSupplementBackButton = true
+            controller.bill = self.bill
 
         } else {
             
@@ -254,13 +258,15 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
                 controller.title = locationName
                 controller.titleName = locationName
                 controller.navigationItem.leftItemsSupplementBackButton = true
+                controller.bill = self.bill
                 dbManager.closeDB()
                 
                 
                 
             } else if (segue.identifier == "createICD10") {
                 
-                _ = segue.destinationViewController as! CustomDetailViewController
+                let controller = segue.destinationViewController as! CustomDetailViewController
+                controller.bill = self.bill
             }
         }
     }
@@ -345,6 +351,7 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
             controller.navigationItem.leftItemsSupplementBackButton = true
             controller.favoritesCell = self.favoritesCell
             controller.rootMasterViewController = self.rootMasterViewController
+            controller.bill = self.bill
             self.navigationController?.pushViewController(controller, animated: true)
         }
         }

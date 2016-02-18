@@ -11,6 +11,7 @@ import UIKit
 class CustomDetailViewController: UIViewController {
     
     var dbManager:DatabaseManager!
+    var bill:Bill!
     
     @IBOutlet weak var ICD10TextField: UITextField!
     @IBOutlet weak var ICD9TextField: UITextField!
@@ -71,16 +72,17 @@ class CustomDetailViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "useCustomICD10InBill" {
-            _ = segue.destinationViewController as! BillViewController
+            let controller = segue.destinationViewController as! BillViewController
             
-            if let icdCodes  = Bill.CurrentBill.codesForBill[visitCodeToAddICDTo] {
+            if let icdCodes  = bill.codesForBill[visitCodeToAddICDTo] {
                 
                 var theICDCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = icdCodes
                 
                 let tuple = (icd10: ICD10TextField.text!, icd9: ICD9TextField.text!, icd10id: ICD10ID!, extensionCode:"")
                 theICDCodes.append(tuple)
                 
-                Bill.CurrentBill.codesForBill[visitCodeToAddICDTo] = theICDCodes                             //put the new icdCodes on at the right position
+                bill.codesForBill[visitCodeToAddICDTo] = theICDCodes                             //put the new icdCodes on at the right position
+                controller.bill = self.bill
             }
         }
     }

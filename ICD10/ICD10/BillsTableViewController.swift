@@ -15,6 +15,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     var dbManager:DatabaseManager!
     var billFormatter:BillFormatter!
     
+    
     var patientsInfo:[(id:Int,dob:String, name:String)] = [] //the pID maps to the date of birth and the patient name
     var IDs:[(aptID:Int, placeID:Int, roomID:Int)] = []
     var date:String = ""
@@ -148,7 +149,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
         let codeType = codeTypes[indexPath!.row]
         
         if segue.identifier == "showBill" {
-            _ = segue.destinationViewController as! BillViewController
+            let controller = segue.destinationViewController as! BillViewController
             
             dbManager.checkDatabaseFileAndOpen()
             let (adminDoc, referDoc) = dbManager.getDoctorForBill(aptID)//doctor
@@ -157,32 +158,35 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             let (codesFromDatabase, visitCodePriorityFromDatabase) = dbManager.getVisitCodesForBill(aptID)
             dbManager.closeDB()
             
-            Bill.CurrentBill.textFieldText[0] = (name)
-            Bill.CurrentBill.textFieldText[1] = (dob)
-            Bill.CurrentBill.textFieldText[2] = (referDoc)
-            Bill.CurrentBill.textFieldText[3] = (place)
-            Bill.CurrentBill.textFieldText[4] = (room)
+            var bill:Bill = Bill()
             
-            Bill.CurrentBill.codesForBill = codesFromDatabase
-            Bill.CurrentBill.visitCodePriority = visitCodePriorityFromDatabase
+            bill.textFieldText[0] = (name)
+            bill.textFieldText[1] = (dob)
+            bill.textFieldText[2] = (referDoc)
+            bill.textFieldText[3] = (place)
+            bill.textFieldText[4] = (room)
             
-            Bill.CurrentBill.appointmentID = aptID
-            Bill.CurrentBill.administeringDoctor = adminDoc
+            bill.codesForBill = codesFromDatabase
+            bill.visitCodePriority = visitCodePriorityFromDatabase
+            
+            bill.appointmentID = aptID
+            bill.administeringDoctor = adminDoc
             
             dbManager.checkDatabaseFileAndOpen()
-            Bill.CurrentBill.modifierCodes = dbManager.getModifiersForBill(aptID)
+            bill.modifierCodes = dbManager.getModifiersForBill(aptID)
             dbManager.closeDB()
             
             if codeType == 0{
-                Bill.CurrentBill.icd10On = false
+                bill.icd10On = false
             } else {
-                Bill.CurrentBill.icd10On = true
+                bill.icd10On = true
             }
             if billsComplete[indexPath!.row] == 1{
-                Bill.CurrentBill.billComplete = true
+                bill.billComplete = true
             } else {
-                Bill.CurrentBill.billComplete = false
+                bill.billComplete = false
             }
+            controller.bill = bill
         }
     }
         

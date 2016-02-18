@@ -11,13 +11,14 @@ import UIKit
 class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     var dbManager:DatabaseManager!
+    var bill:Bill?
     
     @IBOutlet weak var detailDescriptionLabel: UILabel! //Labels for the codes (update these when the view is loaded)
     @IBOutlet weak var ICD10Code: UILabel! 
     @IBOutlet weak var ICD9Code: UILabel!
     @IBOutlet weak var conditionDescription: UILabel!
     @IBOutlet weak var useInBillButton: UIButton!
-
+    
     
     var ICD10Text:String!                               //Variables to update the labels with (set these before the view is loaded)
     var ICD9Text:String!
@@ -46,9 +47,10 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             self.extensionPicker!.removeFromSuperview()
             self.extensionPicker = nil
         }
-        
-        if Bill.CurrentBill.selectedVisitCodeToAddTo == nil {
-            
+       
+        if let runningBill = bill{
+
+        }else{
             var arr = self.view.subviews
             for var i=0; i<arr.count; i++ {
                 if arr[i].isKindOfClass(UIButton) {
@@ -108,9 +110,11 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "verifyBill" {
             
-            _ = segue.destinationViewController as! BillViewController
+            let controller = segue.destinationViewController as! BillViewController
            
-            if let icdCodes  = Bill.CurrentBill.codesForBill[Bill.CurrentBill.selectedVisitCodeToAddTo!] {
+            
+            if let runningBill = bill {
+            if let icdCodes  = bill!.codesForBill[bill!.selectedVisitCodeToAddTo!] {
                 
                 var theICDCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = icdCodes
                 
@@ -126,7 +130,9 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                     theICDCodes.append(tuple)
                 }
                 
-                Bill.CurrentBill.codesForBill[Bill.CurrentBill.selectedVisitCodeToAddTo!] = theICDCodes                             //put the new icdCodes on at the right position
+                bill!.codesForBill[bill!.selectedVisitCodeToAddTo!] = theICDCodes                             //put the new icdCodes on at the right position
+                }
+                controller.bill = self.bill
             }
         }
     }
