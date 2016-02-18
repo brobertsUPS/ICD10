@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, DidBeginBillWithPatientInformationDelegate, LXReorderableCollectionViewDataSource, LXReorderableCollectionViewDelegateFlowLayout{
+class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, DidBeginBillWithPatientInformationDelegate, LXReorderableCollectionViewDataSource, LXReorderableCollectionViewDelegateFlowLayout, ACEAutocompleteDataSource, ACEAutocompleteDelegate{
     
     
     //MARK: - Controllers, Views and Database manager
@@ -57,9 +57,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         self.navigationItem.title = "Bill"
         self.fillFormTextFields()
         
-        
-        
-        
         if let billPatient = bill!.newPatient {  //Possible received newPatient from AdminDocVC
             
             patientTextField.text = billPatient
@@ -68,7 +65,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 patientDOBTextField.text = patientDOB
             }
         }
-
+        
         codeCollectionView.delegate = self                                  //Set the BillVC as the controller for the collectionView
         codeCollectionView.dataSource = self
         codeCollectionView.collectionViewLayout = LXReorderableCollectionViewFlowLayout()
@@ -98,6 +95,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             defaults.setBool(true, forKey: "notFirstICD10Code")
             showAlert("ICD-10 Codes", msg: "You added your first ICD-10 code! If you add more than one to a particular visit code, you can tap and drag them to rearrange their priority!")
         }
+        addAutocompleteDelegates()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -232,8 +230,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     /**
-    *   Registers clicking return and resigns the keyboard
-    **/
+     *   Registers clicking return and resigns the keyboard
+     **/
     @IBAction func textFieldDoneEditing(sender:UITextField){
         sender.resignFirstResponder()
     }
@@ -346,7 +344,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     func saveCodesForBill(aptID:Int, referringDoctorID:Int, adminDoctorID:Int){ //save all the codes from bill.codesForBill Dictionary
-
+        
         for var i=0; i<bill!.visitCodePriority.count; i++ {
             
             let visitCode = bill!.visitCodePriority[i]                                //retrieve visitCodes in the correct order
@@ -435,13 +433,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             let controller = segue.destinationViewController as! ModifierTableViewController
             controller.modalPresentationStyle = UIModalPresentationStyle.Popover
             controller.popoverPresentationController!.delegate = self
-
+            
             dbManager.checkDatabaseFileAndOpen()
             controller.modifiers = dbManager.getModifers()
             dbManager.closeDB()
             
             self.modifierTablieViewcontroller = controller
-
+            
         } else if segue.identifier == "ViewAllBills"{                               //Show all dates that have bills
             _ = segue.destinationViewController as! BillDatesTableViewController
             
@@ -474,7 +472,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                     popoverViewController.searchType = "patient"
                     let absoluteframe = patientTextField!.convertRect(patientTextField!.frame, fromView: self.scrollView)
                     popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 60,absoluteframe.minY + 20,0,0)
-
+                    
                 case "doctorSearchPopover":
                     popoverViewController.singleDataSearchResults = dbManager.doctorSearch(doctorTextField!.text!, type: 1)
                     popoverViewController.searchType = "doctor"
@@ -503,7 +501,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                     let absoluteframe = pcTextField!.convertRect(pcTextField!.frame, fromView: self.scrollView)
                     popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 20,absoluteframe.minY + 20,0,0)
                 case "adminDoctorSearchPopover": popoverViewController.singleDataSearchResults = dbManager.doctorSearch("", type: 0)
-                    popoverViewController.searchType = "adminDoctor"
+                popoverViewController.searchType = "adminDoctor"
                 let absoluteframe = adminDocButton!.convertRect(adminDocButton!.frame, fromView: self.scrollView)
                 popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX,absoluteframe.minY,0,0)
                 default:break
@@ -655,7 +653,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             dbManager.closeDB()
             
             self.codeCollectionView.reloadData()
-
+            
         }
     }
     
@@ -848,11 +846,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            return CGSize(width: 160  , height: 35)                 //A header size needs to be specified for the special layout
+        return CGSize(width: 160  , height: 35)                 //A header size needs to be specified for the special layout
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-
+        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CONTENT", forIndexPath: indexPath) as! ICD10Cell
         
         let visitCodeForPriority = bill!.visitCodePriority[indexPath.section] //get the item we should display based on priority
@@ -875,7 +873,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         cell.deleteICDButton.tag = indexPath.row
         cell.deleteICDButton.section = indexPath.section
         cell.deleteICDButton.codeToAddTo = visitCodeForPriority
-
+        
         return cell
     }
     
@@ -1014,4 +1012,80 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             self.codeCollectionView.reloadData()
         }
     }
+    
+    //MARK: - Autocomplete Delegate
+    
+    func textField(textField: UITextField!, didSelectObject object: AnyObject!, inInputView inputView: ACEAutocompleteInputView!) {
+        textField.text = String(object)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    //MARK: - Autocomplete Data Source
+    
+    func minimumCharactersToTrigger(inputView: ACEAutocompleteInputView!) -> UInt {
+        return 1
+    }
+    
+    func inputView(inputView: ACEAutocompleteInputView!, itemsFor query: String!, result resultBlock: (([AnyObject]!) -> Void)!) {
+        
+        inputView.hidden = false
+        inputView.alpha = 0.75
+        
+        print("itemsFor query: \(query). result: \(resultBlock). inputView: \(inputView)")
+        
+        if resultBlock != nil{
+            
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            
+                var data:NSMutableArray = []
+                
+                if(self.patientTextField.isFirstResponder()){
+                    self.dbManager.checkDatabaseFileAndOpen()
+                    let patients = self.dbManager.patientSearch(self.patientTextField!.text!)
+                    self.dbManager.closeDB()
+                    
+                    var fullNames = [String]()
+                    for (_, name) in patients {
+                        data.addObject(name)
+                    }
+                }
+                
+                print("data \(data)")
+                
+                dispatch_async(dispatch_get_main_queue()) {resultBlock(data as [AnyObject])}
+            }
+            
+        }
+        
+    }
+    
+    func addAutocompleteDelegates(){
+        
+        self.patientTextField.setAutocompleteWithDataSource(self, delegate: self, customize: {
+            
+            inputView in
+            
+            // customize the view (optional)
+            inputView.font = UIFont.systemFontOfSize(20)
+            inputView.textColor = UIColor.whiteColor()
+            inputView.backgroundColor = UIColor.blueColor()
+            inputView.hidden = false
+            print("\(inputView.hidden)")
+        })
+        self.doctorTextField.setAutocompleteWithDataSource(self, delegate: self, customize: nil)
+        self.siteTextField.setAutocompleteWithDataSource(self, delegate: self, customize: nil)
+        self.roomTextField.setAutocompleteWithDataSource(self, delegate: self, customize: nil)
+        self.pcTextField.setAutocompleteWithDataSource(self, delegate: self, customize: nil)
+        self.mcTextField.setAutocompleteWithDataSource(self, delegate: self, customize: nil)
+        self.cptTextField.setAutocompleteWithDataSource(self, delegate: self, customize: nil)
+        
+    }
+    
+    
+    
 }

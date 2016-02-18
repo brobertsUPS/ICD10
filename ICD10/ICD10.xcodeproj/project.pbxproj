@@ -12,6 +12,10 @@
 		8428724E1C739781003C54B7 /* testDML.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 8428724C1C739781003C54B7 /* testDML.sqlite3 */; };
 		842872501C73AE09003C54B7 /* BillFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428724F1C73AE09003C54B7 /* BillFormatter.swift */; };
 		842872511C73AE09003C54B7 /* BillFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428724F1C73AE09003C54B7 /* BillFormatter.swift */; };
+		8479D0B51C76439B0004EA3F /* ACEAutocompleteInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479D0B41C76439B0004EA3F /* ACEAutocompleteInputView.m */; };
+		8479D0B61C76439B0004EA3F /* ACEAutocompleteInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479D0B41C76439B0004EA3F /* ACEAutocompleteInputView.m */; };
+		8479D0B91C7643B30004EA3F /* UITextField+ACEAutocompleteBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479D0B81C7643B30004EA3F /* UITextField+ACEAutocompleteBar.m */; };
+		8479D0BA1C7643B30004EA3F /* UITextField+ACEAutocompleteBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479D0B81C7643B30004EA3F /* UITextField+ACEAutocompleteBar.m */; };
 		AD0798901B45BD1C0066A47B /* ICD10Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD07988F1B45BD1C0066A47B /* ICD10Cell.swift */; };
 		AD0926AC1B4B3AB000C6E3DD /* ICDDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0926AB1B4B3AB000C6E3DD /* ICDDeleteButton.swift */; };
 		AD19EA951B2F423800A1AFF1 /* BillDatesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */; };
@@ -54,6 +58,11 @@
 		841804A81C6E657300FA7224 /* Bill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bill.swift; sourceTree = "<group>"; };
 		8428724C1C739781003C54B7 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; name = testDML.sqlite3; path = ../../Resources/testDML.sqlite3; sourceTree = "<group>"; };
 		8428724F1C73AE09003C54B7 /* BillFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillFormatter.swift; sourceTree = "<group>"; };
+		8479D0AB1C7643290004EA3F /* ACEAutocompleteBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ACEAutocompleteBar.h; path = "../../../../Desktop/ACEAutocompleteBar-master/ACEAutocompleteBar/ACEAutocompleteBar.h"; sourceTree = "<group>"; };
+		8479D0AC1C7643330004EA3F /* ACEAutocompleteInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ACEAutocompleteInputView.h; path = "../../../../Desktop/ACEAutocompleteBar-master/ACEAutocompleteBar/ACEAutocompleteInputView.h"; sourceTree = "<group>"; };
+		8479D0B41C76439B0004EA3F /* ACEAutocompleteInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ACEAutocompleteInputView.m; path = "../../../../Downloads/ACEAutocompleteBar-master/ACEAutocompleteBar/ACEAutocompleteInputView.m"; sourceTree = "<group>"; };
+		8479D0B71C7643AD0004EA3F /* UITextField+ACEAutocompleteBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITextField+ACEAutocompleteBar.h"; path = "../../../../Downloads/ACEAutocompleteBar-master/ACEAutocompleteBar/UITextField+ACEAutocompleteBar.h"; sourceTree = "<group>"; };
+		8479D0B81C7643B30004EA3F /* UITextField+ACEAutocompleteBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITextField+ACEAutocompleteBar.m"; path = "../../../../Downloads/ACEAutocompleteBar-master/ACEAutocompleteBar/UITextField+ACEAutocompleteBar.m"; sourceTree = "<group>"; };
 		AD07988F1B45BD1C0066A47B /* ICD10Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICD10Cell.swift; sourceTree = "<group>"; };
 		AD0926AB1B4B3AB000C6E3DD /* ICDDeleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICDDeleteButton.swift; sourceTree = "<group>"; };
 		AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillDatesTableViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +138,11 @@
 		ADE77F321B1782F900CE48F1 /* ICD10 */ = {
 			isa = PBXGroup;
 			children = (
+				8479D0B81C7643B30004EA3F /* UITextField+ACEAutocompleteBar.m */,
+				8479D0B71C7643AD0004EA3F /* UITextField+ACEAutocompleteBar.h */,
+				8479D0B41C76439B0004EA3F /* ACEAutocompleteInputView.m */,
+				8479D0AC1C7643330004EA3F /* ACEAutocompleteInputView.h */,
+				8479D0AB1C7643290004EA3F /* ACEAutocompleteBar.h */,
 				8428724C1C739781003C54B7 /* testDML.sqlite3 */,
 				ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */,
 				ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */,
@@ -233,7 +247,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Brandon S Roberts";
 				TargetAttributes = {
@@ -296,6 +310,7 @@
 				ADE77F361B1782F900CE48F1 /* AppDelegate.swift in Sources */,
 				AD19EA951B2F423800A1AFF1 /* BillDatesTableViewController.swift in Sources */,
 				ADAB0D391B210E71004C770C /* BillViewController.swift in Sources */,
+				8479D0B51C76439B0004EA3F /* ACEAutocompleteInputView.m in Sources */,
 				AD7A73D41B2783A90054DD55 /* DatabaseManager.swift in Sources */,
 				AD73FDD61BD56052000781CA /* CustomDetailViewController.swift in Sources */,
 				ADE77F3A1B1782F900CE48F1 /* DetailViewController.swift in Sources */,
@@ -308,6 +323,7 @@
 				842872501C73AE09003C54B7 /* BillFormatter.swift in Sources */,
 				AD19EA971B2F473500A1AFF1 /* BillsTableViewController.swift in Sources */,
 				AD93D7251B28A104000EAF98 /* EditPatientViewController.swift in Sources */,
+				8479D0B91C7643B30004EA3F /* UITextField+ACEAutocompleteBar.m in Sources */,
 				AD0798901B45BD1C0066A47B /* ICD10Cell.swift in Sources */,
 				ADB59A151B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m in Sources */,
 				AD7A73D21B2782590054DD55 /* PatientsTableViewController.swift in Sources */,
@@ -323,7 +339,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8479D0B61C76439B0004EA3F /* ACEAutocompleteInputView.m in Sources */,
 				ADE77F4E1B1782F900CE48F1 /* ICD10Tests.swift in Sources */,
+				8479D0BA1C7643B30004EA3F /* UITextField+ACEAutocompleteBar.m in Sources */,
 				842872511C73AE09003C54B7 /* BillFormatter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -494,6 +512,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -507,6 +526,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "UPS.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ICD10/ICD10Tests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ICD10.app/ICD10";
 			};
 			name = Debug;
@@ -515,6 +536,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -524,6 +546,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "UPS.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ICD10/ICD10Tests-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ICD10.app/ICD10";
 			};
 			name = Release;
