@@ -796,6 +796,30 @@ class DatabaseManager {
         return pID
     }
     
+    func getPatientDOB(patientInput: String) -> String{
+        
+        var dob = ""
+        
+        var (firstName, lastName) = split(patientInput)
+        firstName = firstName.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
+        lastName = lastName!.stringByReplacingOccurrencesOfString("'", withString: "''", options: [], range: nil)
+        
+        let dobQuery = "SELECT date_of_birth FROM Patient WHERE f_name='\(firstName)' AND l_name='\(lastName!)'"
+        
+        var statement:COpaquePointer = nil
+        
+        if sqlite3_prepare_v2(db, dobQuery, -1, &statement, nil) == SQLITE_OK {
+            let result = sqlite3_step(statement)
+            if  result == SQLITE_ROW{
+                let dateOfBirth = sqlite3_column_text(statement, 0)
+                dob = String.fromCString(UnsafePointer<CChar>(dateOfBirth))!
+            }
+        }
+        sqlite3_finalize(statement)
+
+        return dob
+    }
+    
     func getDoctorID(doctorInput:String) -> Int {
         
         if doctorInput == "" {
@@ -1202,6 +1226,9 @@ class DatabaseManager {
         return patients
     }
     
+    /**
+    *
+    **/
     func doctorSearch(inputDoctor:String, type:Int) -> [String] {
         
         var doctors:[String] = []

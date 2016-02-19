@@ -208,7 +208,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     // MARK: -  Clicks and Actions
     
     @IBAction func clickedInTextBox(sender: UITextField) {
-        
+        /*
         switch sender.tag {
         case 0:self.performSegueWithIdentifier("patientSearchPopover", sender: self)
         case 2:self.performSegueWithIdentifier("doctorSearchPopover", sender: self)
@@ -219,6 +219,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         case 7:self.performSegueWithIdentifier("pcSearch", sender: self)
         default:break
         }
+*/
     }
     
     @IBAction func clickedChangeAdmin(sender: UIButton) {
@@ -428,6 +429,8 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        self.captureBillInformation()
         
         if segue.identifier == "modifierPopover" {                           //Show a list of possible modifiers
             let controller = segue.destinationViewController as! ModifierTableViewController
@@ -701,6 +704,35 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 showAlert("You inserted a visit code!", msg: "Add an ICD-10 code to this visit code by clicking the plus button! If you add more visit codes you can rearrange their priority with the up and down arrows!")
             }
         }
+    }
+    
+    func updateCPTFromBar(code_description:String){
+        
+        cptTextField.text = ""
+        pcTextField.text = ""
+        mcTextField.text = ""
+        
+        cptTextField.resignFirstResponder()
+        mcTextField.resignFirstResponder()
+        pcTextField.resignFirstResponder()
+        
+        let inBillAlready = bill!.codesForBill[code_description] != nil
+        
+        if !inBillAlready {                                             //only add a new code if it isn't already in the bill
+            bill!.codesForBill[code_description] = []
+            bill!.visitCodePriority.append(code_description)
+        }
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+        self.codeCollectionView.reloadData()
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        if !defaults.boolForKey("notFirstVisitCode") {
+            defaults.setBool(true, forKey: "notFirstVisitCode")
+            showAlert("You inserted a visit code!", msg: "Add an ICD-10 code to this visit code by clicking the plus button! If you add more visit codes you can rearrange their priority with the up and down arrows!")
+        }
+
     }
     
     func updateSite(notification:NSNotification) {
@@ -1016,7 +1048,34 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     //MARK: - Autocomplete Delegate
     
     func textField(textField: UITextField!, didSelectObject object: AnyObject!, inInputView inputView: ACEAutocompleteInputView!) {
-        textField.text = String(object)
+        
+        var textFieldText = String(object)
+        
+        if textField == self.cptTextField || textField == self.pcTextField || textField == self.mcTextField {
+            updateCPTFromBar(textFieldText)
+        }else if textField == self.patientTextField {
+            
+            dbManager.checkDatabaseFileAndOpen()
+            patientDOBTextField.text = dbManager.getPatientDOB(textFieldText)
+            textField.text = textFieldText
+            dbManager.closeDB()
+            
+            bill!.textFieldText[0] = patientDOBTextField.text!
+            bill!.textFieldText[1] = textFieldText
+        }else if textField == self.doctorTextField{
+            
+            textField.text = textFieldText
+            bill!.textFieldText[2] = textFieldText
+        }else if textField == self.siteTextField {
+            
+            textField.text = textFieldText
+            bill!.textFieldText[3] = textFieldText
+        }else if textField == self.siteTextField {
+            
+            textField.text = textFieldText
+            bill!.textFieldText[4] = textFieldText
+        }
+        
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -1027,15 +1086,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     //MARK: - Autocomplete Data Source
     
     func minimumCharactersToTrigger(inputView: ACEAutocompleteInputView!) -> UInt {
-        return 1
+        return 0
     }
     
     func inputView(inputView: ACEAutocompleteInputView!, itemsFor query: String!, result resultBlock: (([AnyObject]!) -> Void)!) {
         
         inputView.hidden = false
         inputView.alpha = 0.75
-        
-        print("itemsFor query: \(query). result: \(resultBlock). inputView: \(inputView)")
         
         if resultBlock != nil{
             
@@ -1045,28 +1102,41 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 var data:NSMutableArray = []
                 
                 if(self.patientTextField.isFirstResponder()){
-                    self.dbManager.checkDatabaseFileAndOpen()
-                    let patients = self.dbManager.patientSearch(self.patientTextField!.text!)
-                    self.dbManager.closeDB()
-                    
-                    var fullNames = [String]()
-                    for (_, name) in patients {
-                        data.addObject(name)
-                    }
+                    data = self.autoCompleteBarSearch(query, searchType: "Patient")
+                }else if(self.doctorTextField.isFirstResponder()){
+                    data = self.autoCompleteBarSearch(query, searchType: "Doctor")
+                }else if(self.siteTextField.isFirstResponder()){
+                    data = self.autoCompleteBarSearch(query, searchType: "Site")
+                }else if(self.roomTextField.isFirstResponder()){
+                    data = self.autoCompleteBarSearch(query, searchType: "Room")
+                }else if(self.cptTextField.isFirstResponder()){
+                    data = self.autoCompleteBarSearch(query, searchType: "CPT")
+                }else if(self.pcTextField.isFirstResponder()){
+                    data = self.autoCompleteBarSearch(query, searchType: "PC")
+                }else if(self.mcTextField.isFirstResponder()){
+                    data = self.autoCompleteBarSearch(query, searchType: "MC")
                 }
-                
-                print("data \(data)")
                 
                 dispatch_async(dispatch_get_main_queue()) {resultBlock(data as [AnyObject])}
             }
-            
         }
-        
     }
     
     func addAutocompleteDelegates(){
         
-        self.patientTextField.setAutocompleteWithDataSource(self, delegate: self, customize: {
+        self.addAutoCompleteDelegate(self.patientTextField)
+        self.addAutoCompleteDelegate(self.doctorTextField)
+        self.addAutoCompleteDelegate(self.siteTextField)
+        self.addAutoCompleteDelegate(self.roomTextField)
+        self.addAutoCompleteDelegate(self.pcTextField)
+        self.addAutoCompleteDelegate(self.mcTextField)
+        self.addAutoCompleteDelegate(self.cptTextField)
+        
+    }
+    
+    func addAutoCompleteDelegate(textField:UITextField){
+        
+        textField.setAutocompleteWithDataSource(self, delegate: self, customize: {
             
             inputView in
             
@@ -1075,17 +1145,72 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             inputView.textColor = UIColor.whiteColor()
             inputView.backgroundColor = UIColor.blueColor()
             inputView.hidden = false
-            print("\(inputView.hidden)")
         })
-        self.doctorTextField.setAutocompleteWithDataSource(self, delegate: self, customize: nil)
-        self.siteTextField.setAutocompleteWithDataSource(self, delegate: self, customize: nil)
-        self.roomTextField.setAutocompleteWithDataSource(self, delegate: self, customize: nil)
-        self.pcTextField.setAutocompleteWithDataSource(self, delegate: self, customize: nil)
-        self.mcTextField.setAutocompleteWithDataSource(self, delegate: self, customize: nil)
-        self.cptTextField.setAutocompleteWithDataSource(self, delegate: self, customize: nil)
-        
     }
     
+    func autoCompleteBarSearch(query:String, searchType:String) -> NSMutableArray{
+        
+        var data:NSMutableArray = []
+        
+        dbManager.checkDatabaseFileAndOpen()
+        if searchType == "Patient" {
+            let patients = self.dbManager.patientSearch(query)
+            
+            for (_, name) in patients {
+                data.addObject(name)
+            }
+        }else if searchType == "Doctor"{
+            
+            data = NSMutableArray(array: self.dbManager.doctorSearch(query, type: 1))
+            
+        }else if searchType == "Room"{
+            
+            data = NSMutableArray(array: self.dbManager.roomSearch(query))
+            
+        }else if searchType == "Site"{
+            
+            data = NSMutableArray(array: self.dbManager.siteSearch(query))
+            
+        }else if searchType == "CPT"{
+            
+            let codes = self.dbManager.codeSearch("C", cptTextFieldText: query, mcTextFieldText: "", pcTextFieldText: "")
+            
+            for (apt_code, _) in codes {
+                data.addObject(apt_code)
+            }
+            
+        }else if searchType == "PC"{
+            
+            let codes = self.dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: "", pcTextFieldText: query)
+            
+            for (apt_code, _) in codes {
+                data.addObject(apt_code)
+            }
+            
+        }else if searchType == "MC"{
+            
+            let codes = self.dbManager.codeSearch("M", cptTextFieldText: "", mcTextFieldText: query, pcTextFieldText: "")
+            
+            for (apt_code, _) in codes {
+                data.addObject(apt_code)
+            }
+        }
+        
+        dbManager.closeDB()
+        
+        return data
+    }
+    
+    
+    
+    func captureBillInformation(){
+        
+        bill!.textFieldText[0] = self.patientTextField.text!
+        bill!.textFieldText[1] = self.patientDOBTextField.text!
+        bill!.textFieldText[2] = self.doctorTextField.text!
+        bill!.textFieldText[3] = self.siteTextField.text!
+        bill!.textFieldText[4] = self.roomTextField.text!
+    }
     
     
 }
