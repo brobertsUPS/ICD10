@@ -520,6 +520,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     // MARK: -  Changes in search fields
     
+    /*
     @IBAction func userChangedPatientSearch(sender: UITextField) {
         dbManager.checkDatabaseFileAndOpen()
         
@@ -589,6 +590,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
         dbManager.closeDB()
     }
+*/
     
     // MARK: -  Update search fields
     

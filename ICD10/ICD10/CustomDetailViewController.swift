@@ -73,15 +73,16 @@ class CustomDetailViewController: UIViewController {
         
         if segue.identifier == "useCustomICD10InBill" {
             let controller = segue.destinationViewController as! BillViewController
+            print(bill)
             
-            if let icdCodes  = bill.codesForBill[visitCodeToAddICDTo] {
+            if let icdCodes  = bill!.codesForBill[bill!.selectedVisitCodeToAddTo!] {
                 
                 var theICDCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = icdCodes
                 
                 let tuple = (icd10: ICD10TextField.text!, icd9: ICD9TextField.text!, icd10id: ICD10ID!, extensionCode:"")
                 theICDCodes.append(tuple)
                 
-                bill.codesForBill[visitCodeToAddICDTo] = theICDCodes                             //put the new icdCodes on at the right position
+                bill.codesForBill[bill!.selectedVisitCodeToAddTo!] = theICDCodes                             //put the new icdCodes on at the right position
                 controller.bill = self.bill
             }
         }

@@ -823,7 +823,6 @@
                                             <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="e6r-df-hhk"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="Kpc-mk-tOE"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="l35-ev-fMR"/>
-                                            <action selector="userChangedDoctorSearch:" destination="A0e-2y-MTR" eventType="editingChanged" id="Hps-LL-0I3"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="doctorSearchPopover" popoverAnchorView="Ak3-nr-RY1" id="fTG-tX-zJT">
                                                 <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
                                             </segue>
@@ -846,7 +845,6 @@
                                             <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="3zA-l6-OK6"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="9tv-s6-orA"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="QCR-kk-yer"/>
-                                            <action selector="userChangedSiteSearch:" destination="A0e-2y-MTR" eventType="editingChanged" id="dfV-jE-q3s"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="siteSearchPopover" popoverAnchorView="p6d-99-gAp" id="pkc-NL-pqa">
                                                 <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
                                             </segue>
@@ -860,7 +858,6 @@
                                             <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="yW3-5S-RZ8"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="Utl-BH-RpJ"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="l2f-gY-kf3"/>
-                                            <action selector="userChangedVisitCodeSearch:" destination="A0e-2y-MTR" eventType="editingChanged" id="WmL-N1-PIr"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="pcSearch" popoverAnchorView="yTk-aQ-h7Y" id="YwG-2Q-MzL">
                                                 <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES"/>
                                             </segue>
@@ -901,7 +898,6 @@
                                             <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="eHH-aM-Fad"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="fEz-Wb-6jb"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="un8-Cq-Cl8"/>
-                                            <action selector="userChangedVisitCodeSearch:" destination="A0e-2y-MTR" eventType="editingChanged" id="vCG-bL-kRN"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="cptSearch" popoverAnchorView="FVe-PN-0Qy" id="733-tF-isA">
                                                 <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES"/>
                                             </segue>
@@ -923,7 +919,6 @@
                                             <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="lI4-0I-pHk"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="Uvt-v8-5pa"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="yjW-al-Sgj"/>
-                                            <action selector="userChangedVisitCodeSearch:" destination="A0e-2y-MTR" eventType="editingChanged" id="l61-QB-2uN"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="mcSearch" popoverAnchorView="Wah-I3-M7s" id="0NA-IR-rIR">
                                                 <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES"/>
                                             </segue>
@@ -937,7 +932,6 @@
                                             <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="ucY-qX-NDw"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="O1f-cT-qp9"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="R8T-3B-2eo"/>
-                                            <action selector="userChangedRoomSearch:" destination="A0e-2y-MTR" eventType="editingChanged" id="KCv-QZ-pg6"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="roomSearchPopover" popoverAnchorView="xlg-bT-yQf" id="t0l-p3-sB1">
                                                 <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
                                             </segue>
@@ -951,7 +945,6 @@
                                             <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="1X2-fq-17b"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="9rY-oN-xec"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="K2M-EX-BKI"/>
-                                            <action selector="userChangedPatientSearch:" destination="A0e-2y-MTR" eventType="editingChanged" id="eLE-fT-7M2"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="patientSearchPopover" popoverAnchorView="Vjf-44-CSm" id="mPz-1b-nYJ">
                                                 <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
                                             </segue>
