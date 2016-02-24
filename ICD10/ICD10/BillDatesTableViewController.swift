@@ -75,7 +75,6 @@ class BillDatesTableViewController: UITableViewController, MFMailComposeViewCont
     }
     
     @IBAction func submitAllBills(sender: UIButton) {
-        print("Submitting Bills")
         
         for var i=0; i<hasIncompleteBills.count; i++ {
             if(hasIncompleteBills[i] == 0){
@@ -86,7 +85,6 @@ class BillDatesTableViewController: UITableViewController, MFMailComposeViewCont
         
         let path = filePathForSelectedExport("html")
         let htmlLine = billFormatter.formatBill("")
-        //print(htmlLine)
         
         do{
             try htmlLine.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding)

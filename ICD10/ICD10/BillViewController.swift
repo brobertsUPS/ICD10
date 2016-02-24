@@ -44,10 +44,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         super.viewDidLoad()
         
-        print("bill \(bill)")
-        
         if bill == nil{
-            print("new bill made")
             bill = Bill()
         }
         
@@ -204,23 +201,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         patientDOBTextField.text = dateOfBirth
     }
     
-    
     // MARK: -  Clicks and Actions
-    
-    @IBAction func clickedInTextBox(sender: UITextField) {
-        /*
-        switch sender.tag {
-        case 0:self.performSegueWithIdentifier("patientSearchPopover", sender: self)
-        case 2:self.performSegueWithIdentifier("doctorSearchPopover", sender: self)
-        case 3:self.performSegueWithIdentifier("siteSearchPopover", sender: self)
-        case 4:self.performSegueWithIdentifier("roomSearchPopover", sender: self)
-        case 5:self.performSegueWithIdentifier("cptSearch", sender: self)
-        case 6:self.performSegueWithIdentifier("mcSearch", sender: self)
-        case 7:self.performSegueWithIdentifier("pcSearch", sender: self)
-        default:break
-        }
-*/
-    }
     
     @IBAction func clickedChangeAdmin(sender: UIButton) {
         self.performSegueWithIdentifier("adminDoctorSearchPopover", sender: self)
@@ -235,17 +216,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
      **/
     @IBAction func textFieldDoneEditing(sender:UITextField){
         sender.resignFirstResponder()
-    }
-    
-    @IBAction func backgroundTap(sender: UIControl){
-        patientTextField.resignFirstResponder()
-        patientDOBTextField.resignFirstResponder()
-        doctorTextField.resignFirstResponder()
-        siteTextField.resignFirstResponder()
-        roomTextField.resignFirstResponder()
-        cptTextField.resignFirstResponder()
-        mcTextField.resignFirstResponder()
-        pcTextField.resignFirstResponder()
     }
     
     // MARK: - Save Bill
@@ -361,8 +331,10 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     func saveModifierCodesForBill(aptID: Int) {
+        
         dbManager.checkDatabaseFileAndOpen()
         let modifierKeys = [String](bill!.modifierCodes.keys)
+        
         //let modifierKeys = bill.modifierCodes.keys.array
         for var i=0; i<modifierKeys.count; i++ {
             let visitCode = modifierKeys[i]
@@ -459,57 +431,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                 dbManager.checkDatabaseFileAndOpen()
                 popoverViewController.visitCodeDetail = dbManager.getVisitCodeDescription(bill!.visitCodePriority[sender!.tag])
                 dbManager.closeDB()
-                
-            }else{//Show a search popover
-                
-                dbManager.checkDatabaseFileAndOpen()
-                let popoverViewController = segue.destinationViewController as! SearchTableViewController
-                self.searchTableViewController = popoverViewController
-                popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
-                popoverViewController.popoverPresentationController!.delegate = self
-                
-                
-                switch segue.identifier! {                                          //Do the initial empty searches
-                case "patientSearchPopover":
-                    popoverViewController.tupleSearchResults = dbManager.patientSearch(patientTextField!.text!)
-                    popoverViewController.searchType = "patient"
-                    let absoluteframe = patientTextField!.convertRect(patientTextField!.frame, fromView: self.scrollView)
-                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 60,absoluteframe.minY + 20,0,0)
-                    
-                case "doctorSearchPopover":
-                    popoverViewController.singleDataSearchResults = dbManager.doctorSearch(doctorTextField!.text!, type: 1)
-                    popoverViewController.searchType = "doctor"
-                    let absoluteframe = doctorTextField!.convertRect(doctorTextField!.frame, fromView: self.scrollView)
-                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 60,absoluteframe.minY + 20,0,0)
-                case "siteSearchPopover":
-                    popoverViewController.singleDataSearchResults = dbManager.siteSearch(siteTextField.text!)
-                    popoverViewController.searchType = "site"
-                    let absoluteframe = siteTextField!.convertRect(siteTextField!.frame, fromView: self.scrollView)
-                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 60,absoluteframe.minY + 20,0,0)
-                case "roomSearchPopover":
-                    popoverViewController.singleDataSearchResults = dbManager.roomSearch(roomTextField.text!)
-                    popoverViewController.searchType = "room"
-                    let absoluteframe = roomTextField!.convertRect(roomTextField!.frame, fromView: self.scrollView)
-                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 60,absoluteframe.minY + 20,0,0)
-                case "cptSearch":
-                    popoverViewController.tupleSearchResults = dbManager.codeSearch("C", cptTextFieldText: cptTextField.text!, mcTextFieldText: "", pcTextFieldText: "")
-                    let absoluteframe = cptTextField!.convertRect(cptTextField!.frame, fromView: self.scrollView)
-                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 20,absoluteframe.minY + 20,0,0)
-                case "mcSearch":
-                    popoverViewController.tupleSearchResults = dbManager.codeSearch("M", cptTextFieldText: "", mcTextFieldText: mcTextField.text!, pcTextFieldText: "")
-                    let absoluteframe = mcTextField!.convertRect(mcTextField!.frame, fromView: self.scrollView)
-                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 20,absoluteframe.minY + 20,0,0)
-                case "pcSearch":
-                    popoverViewController.tupleSearchResults = dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: "", pcTextFieldText: pcTextField.text!)
-                    let absoluteframe = pcTextField!.convertRect(pcTextField!.frame, fromView: self.scrollView)
-                    popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX + 20,absoluteframe.minY + 20,0,0)
-                case "adminDoctorSearchPopover": popoverViewController.singleDataSearchResults = dbManager.doctorSearch("", type: 0)
-                popoverViewController.searchType = "adminDoctor"
-                let absoluteframe = adminDocButton!.convertRect(adminDocButton!.frame, fromView: self.scrollView)
-                popoverViewController.popoverPresentationController!.sourceRect = CGRectMake(absoluteframe.minX,absoluteframe.minY,0,0)
-                default:break
-                }
-                dbManager.closeDB()
             }
         }
     }
@@ -517,80 +438,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool { //only allow segues that are called programmatically
         return false
     }
-    
-    // MARK: -  Changes in search fields
-    
-    /*
-    @IBAction func userChangedPatientSearch(sender: UITextField) {
-        dbManager.checkDatabaseFileAndOpen()
-        
-        let patients = dbManager.patientSearch(patientTextField!.text!)                          //retrieve any patients that match the input
-        if let patientSearchViewController = searchTableViewController {
-            patientSearchViewController.tupleSearchResults = patients
-            patientSearchViewController.tableView.reloadData()                                  //update the list in the popup
-        }
-        dbManager.closeDB()
-    }
-    
-    @IBAction func userChangedDoctorSearch(sender:UITextField){
-        dbManager.checkDatabaseFileAndOpen()
-        
-        let doctors = dbManager.doctorSearch(doctorTextField!.text!, type: 1)
-        if let doctorSearchViewController = searchTableViewController {
-            doctorSearchViewController.singleDataSearchResults = doctors
-            doctorSearchViewController.tableView.reloadData()
-        }
-        
-        dbManager.closeDB()
-    }
-    
-    @IBAction func userChangedVisitCodeSearch(sender:UITextField) {
-        
-        dbManager.checkDatabaseFileAndOpen()
-        
-        var visitCodes:[(String,String)] = []
-        
-        switch sender.tag {
-        case 5:
-            visitCodes = dbManager.codeSearch("C", cptTextFieldText: cptTextField.text!, mcTextFieldText: "", pcTextFieldText: "")
-        case 6:
-            visitCodes =  dbManager.codeSearch("M", cptTextFieldText: "", mcTextFieldText: mcTextField.text!, pcTextFieldText: "")
-        case 7:
-            visitCodes = dbManager.codeSearch("P", cptTextFieldText: "", mcTextFieldText: "", pcTextFieldText: pcTextField.text!)
-        default:break
-        }
-        
-        if let visitCodeViewController = searchTableViewController {
-            visitCodeViewController.tupleSearchResults = visitCodes
-            visitCodeViewController.tableView.reloadData()
-        }
-        dbManager.closeDB()
-    }
-    
-    @IBAction func userChangedSiteSearch(sender: UITextField) {
-        
-        dbManager.checkDatabaseFileAndOpen()
-        
-        let siteResults = dbManager.siteSearch(siteTextField.text!)
-        if let siteSearchViewController = searchTableViewController {
-            siteSearchViewController.singleDataSearchResults = siteResults
-            siteSearchViewController.tableView.reloadData()
-        }
-        dbManager.closeDB()
-    }
-    
-    @IBAction func userChangedRoomSearch(sender: UITextField) {
-        
-        dbManager.checkDatabaseFileAndOpen()
-        
-        let roomResults = dbManager.roomSearch(roomTextField.text!)
-        if let roomSearchViewController = searchTableViewController {
-            roomSearchViewController.singleDataSearchResults = roomResults
-            roomSearchViewController.tableView.reloadData()
-        }
-        dbManager.closeDB()
-    }
-*/
     
     // MARK: -  Update search fields
     
@@ -613,7 +460,9 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
     }
     
-    func updateFromPreviousBill(patientID:Int) {                                    //grab the patients previous information and put it in the bill automatically
+    func updateFromPreviousBill(patientID:Int) {
+        
+        //grab the patients previous information and put it in the bill automatically
         dbManager.checkDatabaseFileAndOpen()
         
         var aptID:Int!
@@ -997,7 +846,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     }
     
     @IBAction func userClickedICD10Add(sender: ICDDeleteButton) {
-        print("SelectedVisitCodeToAddTo \(sender.codeToAddTo!)")
         bill!.selectedVisitCodeToAddTo = sender.codeToAddTo!
         self.performSegueWithIdentifier("beginICD10Search", sender: sender)
     }
@@ -1051,7 +899,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     func textField(textField: UITextField!, didSelectObject object: AnyObject!, inInputView inputView: ACEAutocompleteInputView!) {
         
-        var textFieldText = String(object)
+        let textFieldText = String(object)
         
         if textField == self.cptTextField || textField == self.pcTextField || textField == self.mcTextField {
             updateCPTFromBar(textFieldText)
@@ -1202,8 +1050,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         return data
     }
-    
-    
     
     func captureBillInformation(){
         

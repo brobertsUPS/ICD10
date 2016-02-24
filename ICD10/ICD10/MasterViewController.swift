@@ -25,12 +25,9 @@ class MasterViewController: UITableViewController, UIPopoverPresentationControll
     var rootMasterViewController:Bool = true
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         dbManager = DatabaseManager()
-        
-        print("MasterBill: \(bill)")
-        
-        
         
         dbManager.checkDatabaseFileAndOpen()
         if objects.count == 0 {//get the root locations when we load up
