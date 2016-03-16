@@ -28,7 +28,7 @@ class DatabaseManager {
         
         let defaults = NSUserDefaults.standardUserDefaults()
         
-        if defaults.integerForKey("DATABASE_VERSION") != 2 { //check if the database we have matches the database for the current application
+        if defaults.integerForKey("DATABASE_VERSION") != 1 { //check if the database we have matches the database for the current application
             print("UPDATE Reached")//UPDATE
             
             //create the new tables
@@ -164,7 +164,7 @@ class DatabaseManager {
         let insertICD10 = "INSERT INTO ICD10_condition (ICD10_code, description_text) VALUES ('\(icd10)', '');"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertICD10, -1, &statement, nil) == SQLITE_OK {
-            let sqliteResult = sqlite3_step(statement)
+            var sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 
                 result = Int(sqlite3_last_insert_rowid(db))
@@ -181,7 +181,7 @@ class DatabaseManager {
         let insertICD10 = "INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (\(icd10ID),'\(icd9)');"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertICD10, -1, &statement, nil) == SQLITE_OK {
-            let sqliteResult = sqlite3_step(statement)
+            var sqliteResult = sqlite3_step(statement)
             
             if sqliteResult == SQLITE_DONE {
                 
@@ -216,36 +216,6 @@ class DatabaseManager {
         }
         sqlite3_finalize(statement)
         return result
-    }
-    
-    func addUserAPTTypeToDatabase(aptCode:String, typeDescription:String)-> Int{
-        var result = -1
-        let insertAPT = "INSERT INTO User_Apt_type (apt_code, type_description, code_description) VALUES ('\(aptCode)', '\(typeDescription)', '');"
-        
-        var statement:COpaquePointer = nil
-        if sqlite3_prepare_v2(db, insertAPT, -1, &statement, nil) == SQLITE_OK {
-            if sqlite3_step(statement) == SQLITE_DONE {
-                result = Int(sqlite3_last_insert_rowid(db))
-            }
-        }
-        sqlite3_finalize(statement)
-        return result
-        
-    }
-    
-    func addAPTTypeToDatabase(aptCode:String, typeDescription:String)-> Int{
-        var result = -1
-        let insertAPT = "INSERT INTO Apt_type (apt_code, type_description, code_description) VALUES ('\(aptCode)', '\(typeDescription)', '');"
-        
-        var statement:COpaquePointer = nil
-        if sqlite3_prepare_v2(db, insertAPT, -1, &statement, nil) == SQLITE_OK {
-            if sqlite3_step(statement) == SQLITE_DONE {
-                result = Int(sqlite3_last_insert_rowid(db))
-            }
-        }
-        sqlite3_finalize(statement)
-        return result
-        
     }
     
     func addAppointmentToDatabase(patientID:Int, date:String, placeID:Int, roomID:Int, codeType:Int, billComplete:Int) -> (Int, String){

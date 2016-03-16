@@ -820,6 +820,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
+                                            <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="e6r-df-hhk"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="Kpc-mk-tOE"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="l35-ev-fMR"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="doctorSearchPopover" popoverAnchorView="Ak3-nr-RY1" id="fTG-tX-zJT">
@@ -841,6 +842,7 @@
                                             </mask>
                                         </variation>
                                         <connections>
+                                            <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="3zA-l6-OK6"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="9tv-s6-orA"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="QCR-kk-yer"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="siteSearchPopover" popoverAnchorView="p6d-99-gAp" id="pkc-NL-pqa">
@@ -853,6 +855,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
+                                            <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="yW3-5S-RZ8"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="Utl-BH-RpJ"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="l2f-gY-kf3"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="pcSearch" popoverAnchorView="yTk-aQ-h7Y" id="YwG-2Q-MzL">
@@ -892,6 +895,7 @@
                                             </mask>
                                         </variation>
                                         <connections>
+                                            <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="eHH-aM-Fad"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="fEz-Wb-6jb"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="un8-Cq-Cl8"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="cptSearch" popoverAnchorView="FVe-PN-0Qy" id="733-tF-isA">
@@ -912,6 +916,7 @@
                                             </mask>
                                         </variation>
                                         <connections>
+                                            <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="lI4-0I-pHk"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="Uvt-v8-5pa"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="yjW-al-Sgj"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="mcSearch" popoverAnchorView="Wah-I3-M7s" id="0NA-IR-rIR">
@@ -924,6 +929,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
+                                            <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="ucY-qX-NDw"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="O1f-cT-qp9"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="R8T-3B-2eo"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="roomSearchPopover" popoverAnchorView="xlg-bT-yQf" id="t0l-p3-sB1">
@@ -936,6 +942,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
+                                            <action selector="clickedInTextBox:" destination="A0e-2y-MTR" eventType="editingDidBegin" id="1X2-fq-17b"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="touchDownRepeat" id="9rY-oN-xec"/>
                                             <action selector="textFieldDoneEditing:" destination="A0e-2y-MTR" eventType="editingDidEndOnExit" id="K2M-EX-BKI"/>
                                             <segue destination="ofU-rG-bPg" kind="popoverPresentation" identifier="patientSearchPopover" popoverAnchorView="Vjf-44-CSm" id="mPz-1b-nYJ">
@@ -1263,7 +1270,6 @@
                                     <constraint firstItem="p6d-99-gAp" firstAttribute="trailing" secondItem="Ak3-nr-RY1" secondAttribute="trailing" id="YvR-AM-oHN"/>
                                     <constraint firstItem="Ak3-nr-RY1" firstAttribute="trailing" secondItem="9PO-MH-fLT" secondAttribute="trailing" id="ZH4-kt-CHp"/>
                                     <constraint firstItem="Vjf-44-CSm" firstAttribute="leading" secondItem="9PO-MH-fLT" secondAttribute="leading" id="ZHV-ga-98X"/>
-                                    <constraint firstItem="Wah-I3-M7s" firstAttribute="width" secondItem="FVe-PN-0Qy" secondAttribute="width" id="ZHp-8F-ae8"/>
                                     <constraint firstItem="phl-UB-BF8" firstAttribute="leading" secondItem="2ot-ia-SDJ" secondAttribute="leading" constant="8" id="b8N-J5-K6B"/>
                                     <constraint firstItem="WiF-Xc-XGO" firstAttribute="leading" secondItem="aaJ-eH-upS" secondAttribute="leading" id="bTD-VK-bgJ"/>
                                     <constraint firstItem="0eR-FX-YAW" firstAttribute="trailing" secondItem="Vjf-44-CSm" secondAttribute="trailing" id="cak-qS-B5w"/>

@@ -67,11 +67,13 @@ class CustomDetailViewController: UIViewController {
     
     
     // MARK: - Navigation
-
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "useCustomICD10InBill" {
             let controller = segue.destinationViewController as! BillViewController
+            print(bill)
             
             if let icdCodes  = bill!.codesForBill[bill!.selectedVisitCodeToAddTo!] {
                 
