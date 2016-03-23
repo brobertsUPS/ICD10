@@ -208,18 +208,18 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     // MARK: -  Clicks and Actions
     
     @IBAction func clickedInTextBox(sender: UITextField) {
-        /*
+        
         switch sender.tag {
-        case 0:self.performSegueWithIdentifier("patientSearchPopover", sender: self)
-        case 2:self.performSegueWithIdentifier("doctorSearchPopover", sender: self)
+        //case 0:self.performSegueWithIdentifier("patientSearchPopover", sender: self)
+        //case 2:self.performSegueWithIdentifier("doctorSearchPopover", sender: self)
         case 3:self.performSegueWithIdentifier("siteSearchPopover", sender: self)
-        case 4:self.performSegueWithIdentifier("roomSearchPopover", sender: self)
+        //case 4:self.performSegueWithIdentifier("roomSearchPopover", sender: self)
         case 5:self.performSegueWithIdentifier("cptSearch", sender: self)
         case 6:self.performSegueWithIdentifier("mcSearch", sender: self)
         case 7:self.performSegueWithIdentifier("pcSearch", sender: self)
         default:break
         }
-*/
+
     }
     
     @IBAction func clickedChangeAdmin(sender: UIButton) {
@@ -520,7 +520,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     // MARK: -  Changes in search fields
     
-    /*
+    
     @IBAction func userChangedPatientSearch(sender: UITextField) {
         dbManager.checkDatabaseFileAndOpen()
         
@@ -590,7 +590,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         }
         dbManager.closeDB()
     }
-*/
     
     // MARK: -  Update search fields
     
@@ -1111,13 +1110,13 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                     data = self.autoCompleteBarSearch(query, searchType: "Site")
                 }else if(self.roomTextField.isFirstResponder()){
                     data = self.autoCompleteBarSearch(query, searchType: "Room")
-                }else if(self.cptTextField.isFirstResponder()){
+                }/*else if(self.cptTextField.isFirstResponder()){
                     data = self.autoCompleteBarSearch(query, searchType: "CPT")
                 }else if(self.pcTextField.isFirstResponder()){
                     data = self.autoCompleteBarSearch(query, searchType: "PC")
                 }else if(self.mcTextField.isFirstResponder()){
                     data = self.autoCompleteBarSearch(query, searchType: "MC")
-                }
+                }*/
                 
                 dispatch_async(dispatch_get_main_queue()) {resultBlock(data as [AnyObject])}
             }
@@ -1128,11 +1127,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         self.addAutoCompleteDelegate(self.patientTextField)
         self.addAutoCompleteDelegate(self.doctorTextField)
-        self.addAutoCompleteDelegate(self.siteTextField)
+        //self.addAutoCompleteDelegate(self.siteTextField)
         self.addAutoCompleteDelegate(self.roomTextField)
-        self.addAutoCompleteDelegate(self.pcTextField)
-        self.addAutoCompleteDelegate(self.mcTextField)
-        self.addAutoCompleteDelegate(self.cptTextField)
+        //self.addAutoCompleteDelegate(self.pcTextField)
+        //self.addAutoCompleteDelegate(self.mcTextField)
+        //self.addAutoCompleteDelegate(self.cptTextField)
         
     }
     
