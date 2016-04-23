@@ -121,7 +121,7 @@ class BillDatesTableViewController: UITableViewController, MFMailComposeViewCont
     func markBillsAsSubmitted(){
         
         dbManager.checkDatabaseFileAndOpen()
-        let (patientsInfo, IDs, codeTypes, _, submitted) = dbManager.getBills("")
+        let (_, IDs, codeTypes, _, _) = dbManager.getBills("")
         
         for var i=0; i<IDs.count; i++ {
             let (aptID, _, _) = IDs[i]
@@ -150,7 +150,7 @@ class BillDatesTableViewController: UITableViewController, MFMailComposeViewCont
             let indexPath = self.tableView.indexPathForSelectedRow!
             let date = billDates[indexPath.row]
             
-            var (patientBills, IDs, codeType, complete, submitted) = dbManager.getBills(date)
+            let (patientBills, IDs, codeType, complete, submitted) = dbManager.getBills(date)
             
             let controller = segue.destinationViewController as! BillsTableViewController
             

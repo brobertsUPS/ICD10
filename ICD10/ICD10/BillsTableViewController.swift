@@ -158,7 +158,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
             let (codesFromDatabase, visitCodePriorityFromDatabase) = dbManager.getVisitCodesForBill(aptID)
             dbManager.closeDB()
             
-            var bill:Bill = Bill()
+            let bill:Bill = Bill()
             
             bill.textFieldText[0] = (name)
             bill.textFieldText[1] = (dob)
@@ -225,7 +225,7 @@ class BillsTableViewController: UITableViewController, MFMailComposeViewControll
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == UITableViewCellEditingStyle.Delete {
-            let (aptID, _, roomID) = IDs[indexPath.row]
+            let (aptID, _, _) = IDs[indexPath.row]
             IDs.removeAtIndex(indexPath.row)
             patientsInfo.removeAtIndex(indexPath.row)
             billsComplete.removeAtIndex(indexPath.row)

@@ -38,7 +38,7 @@ class ModifierTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("modifierCell", forIndexPath: indexPath) 
         
-        var (modID, modifier, modifierDescription) = modifiers[indexPath.row]
+        let (_, modifier, modifierDescription) = modifiers[indexPath.row]
 
         cell.textLabel!.text = modifierDescription
         cell.detailTextLabel!.text = modifier

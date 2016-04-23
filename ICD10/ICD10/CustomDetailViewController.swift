@@ -14,7 +14,7 @@ class CustomDetailViewController: UIViewController {
     var bill:Bill!
     
     @IBOutlet weak var ICD10TextField: UITextField!
-    @IBOutlet weak var ICD9TextField: UITextField!
+    @IBOutlet weak var ICD10DescriptionTextField: UITextField!
     var visitCodeToAddICDTo:String!
     var ICD10ID:Int?
     
@@ -35,17 +35,20 @@ class CustomDetailViewController: UIViewController {
         if ICD10TextField.text == "" {
             self.showAlert("Error!", msg: "No ICD10 code was detected Please enter an ICD10 code and try again.")
         }
-        if ICD9TextField.text == "" {
-            self.showAlert("Error!", msg: "No ICD9 code was detected Please enter an ICD9 code and try again.")
+        
+        
+        var ICD10Description = ""
+        if let ICD10DescriptionValid = ICD10DescriptionTextField.text{
+            ICD10Description = ICD10DescriptionValid
         }
         
         //save to the database
         dbManager.checkDatabaseFileAndOpen()
-        let addICD10Result = dbManager.addICD10ToDatabase(ICD10TextField.text!)//save ICD10
-        _ = dbManager.addUserICD10ToDatabase(ICD10TextField.text!)//save ICD9
-        _ = dbManager.addICD9ToDatabase(ICD9TextField.text!)
-        _ = dbManager.addUserICD9ToDatabase(ICD9TextField.text!)
-        let addCharacterizedByResult = dbManager.addCharacterizedByToDatabase(addICD10Result, icd9: ICD9TextField.text!)
+        let addICD10Result = dbManager.addICD10ToDatabase(ICD10TextField.text!, icd10Description: ICD10Description)//save ICD10
+        _ = dbManager.addUserICD10ToDatabase(ICD10TextField.text!, icd10Description: ICD10Description)//save ICD9
+        _ = dbManager.addICD9ToDatabase("")
+        _ = dbManager.addUserICD9ToDatabase("")
+        let addCharacterizedByResult = dbManager.addCharacterizedByToDatabase(addICD10Result, icd9: "")
         dbManager.closeDB()
         
         if(addICD10Result == -1 || addCharacterizedByResult == -1){
@@ -79,7 +82,7 @@ class CustomDetailViewController: UIViewController {
                 
                 var theICDCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = icdCodes
                 
-                let tuple = (icd10: ICD10TextField.text!, icd9: ICD9TextField.text!, icd10id: ICD10ID!, extensionCode:"")
+                let tuple = (icd10: ICD10TextField.text!, icd9: "", icd10id: ICD10ID!, extensionCode:"")
                 theICDCodes.append(tuple)
                 
                 bill.codesForBill[bill!.selectedVisitCodeToAddTo!] = theICDCodes                             //put the new icdCodes on at the right position

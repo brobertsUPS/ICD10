@@ -13,11 +13,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     //MARK: - Controllers, Views and Database manager
     var dbManager:DatabaseManager!
-    var bill:Bill?
+    var bill:Bill?                                                          //A bill that is passed along to hold all of the codes for the final bills
     var searchTableViewController: SearchTableViewController?               //A view controller for the popup table view
     var modifierTablieViewcontroller: ModifierTableViewController?          //TVC for the modifier popup
     @IBOutlet weak var codeCollectionView: UICollectionView!
-    @IBOutlet weak var scrollView: UIScrollView!//A bill that is passed along to hold all of the codes for the final bill
+    @IBOutlet weak var scrollView: UIScrollView!
     
     //MARK: - Action Buttons/Switches
     @IBOutlet weak var codeVersion: UISwitch!                               //Determines what version of codes to use in the bill (ICD10 default)
@@ -44,10 +44,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         super.viewDidLoad()
         
-        print("bill \(bill)")
-        
         if bill == nil{
-            print("new bill made")
             bill = Bill()
         }
         
@@ -96,6 +93,16 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             showAlert("ICD-10 Codes", msg: "You added your first ICD-10 code! If you add more than one to a particular visit code, you can tap and drag them to rearrange their priority!")
         }
         addAutocompleteDelegates()
+        
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -210,10 +217,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     @IBAction func clickedInTextBox(sender: UITextField) {
         
         switch sender.tag {
-        //case 0:self.performSegueWithIdentifier("patientSearchPopover", sender: self)
-        //case 2:self.performSegueWithIdentifier("doctorSearchPopover", sender: self)
         case 3:self.performSegueWithIdentifier("siteSearchPopover", sender: self)
-        //case 4:self.performSegueWithIdentifier("roomSearchPopover", sender: self)
         case 5:self.performSegueWithIdentifier("cptSearch", sender: self)
         case 6:self.performSegueWithIdentifier("mcSearch", sender: self)
         case 7:self.performSegueWithIdentifier("pcSearch", sender: self)
@@ -228,6 +232,11 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     @IBAction func clickedVisitCodeDescriptionButton(sender: UIButton) {
         self.performSegueWithIdentifier("visitCodeDescriptionPopover", sender: sender)
+    }
+    
+    @IBAction func textFieldDidBeginEditing(textfield : UITextField)
+    {
+        textfield.autocapitalizationType = .Words
     }
     
     /**
@@ -247,6 +256,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         mcTextField.resignFirstResponder()
         pcTextField.resignFirstResponder()
     }
+    
     
     // MARK: - Save Bill
     
@@ -770,39 +780,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
     
     // MARK: - Adding to Database
     
-    func addPatientToDatabase(inputPatient:String, email:String) -> String{
-        
-        
-        var (_, _) = dbManager.split(inputPatient)
-        
-        let dateOfBirth = patientDOBTextField.text
-        dbManager.checkDatabaseFileAndOpen()
-        let result = dbManager.addPatientToDatabase(inputPatient, dateOfBirth: dateOfBirth!, email:email)
-        dbManager.closeDB()
-        return result
-    }
-    
-    func addDoctorToDatabase(inputDoctor:String, email:String) -> String{
-        dbManager.checkDatabaseFileAndOpen()
-        let result = dbManager.addDoctorToDatabase(inputDoctor, email: email, type: 1)
-        dbManager.closeDB()
-        return result
-    }
-    
-    func addPlaceOfService(placeInput:String) -> String{
-        dbManager.checkDatabaseFileAndOpen()
-        let result = dbManager.addPlaceOfService(placeInput)
-        dbManager.closeDB()
-        return result
-    }
-    
-    func addRoom(roomInput:String) -> String {
-        dbManager.checkDatabaseFileAndOpen()
-        let result = dbManager.addRoom(roomInput)
-        dbManager.closeDB()
-        return result
-    }
-    
     func getPlaceOfServiceID(placeInput:String) -> Int {
         var placeID = 0
         dbManager.checkDatabaseFileAndOpen()
@@ -1076,7 +1053,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
             textField.text = textFieldText
             bill!.textFieldText[4] = textFieldText
         }
-        
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -1110,13 +1086,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
                     data = self.autoCompleteBarSearch(query, searchType: "Site")
                 }else if(self.roomTextField.isFirstResponder()){
                     data = self.autoCompleteBarSearch(query, searchType: "Room")
-                }/*else if(self.cptTextField.isFirstResponder()){
-                    data = self.autoCompleteBarSearch(query, searchType: "CPT")
-                }else if(self.pcTextField.isFirstResponder()){
-                    data = self.autoCompleteBarSearch(query, searchType: "PC")
-                }else if(self.mcTextField.isFirstResponder()){
-                    data = self.autoCompleteBarSearch(query, searchType: "MC")
-                }*/
+                }
                 
                 dispatch_async(dispatch_get_main_queue()) {resultBlock(data as [AnyObject])}
             }
@@ -1127,11 +1097,7 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         self.addAutoCompleteDelegate(self.patientTextField)
         self.addAutoCompleteDelegate(self.doctorTextField)
-        //self.addAutoCompleteDelegate(self.siteTextField)
         self.addAutoCompleteDelegate(self.roomTextField)
-        //self.addAutoCompleteDelegate(self.pcTextField)
-        //self.addAutoCompleteDelegate(self.mcTextField)
-        //self.addAutoCompleteDelegate(self.cptTextField)
         
     }
     
@@ -1201,8 +1167,6 @@ class BillViewController: UIViewController, UITextFieldDelegate, UIPopoverPresen
         
         return data
     }
-    
-    
     
     func captureBillInformation(){
         

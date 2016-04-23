@@ -128,7 +128,7 @@ class PatientsTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == UITableViewCellEditingStyle.Delete {
-            let patient = patients[indexPath.row]
+            _ = patients[indexPath.row]
             patients.removeAtIndex(indexPath.row)
             dbManager.checkDatabaseFileAndOpen()
             dbManager.removePatientFromDatabase(ids[indexPath.row])
@@ -157,8 +157,8 @@ class PatientsTableViewController: UITableViewController {
             let controller = segue.destinationViewController as! EditPatientViewController
             var fullNameArr = fullName.componentsSeparatedByString(" ")
             //var fullNameArr = split(fullName) {$0 == " "}
-            var firstName: String = fullNameArr[0]
-            var lastName: String =  fullNameArr[1]
+            let firstName: String = fullNameArr[0]
+            let lastName: String =  fullNameArr[1]
             
             controller.firstName = firstName
             controller.lastName = lastName

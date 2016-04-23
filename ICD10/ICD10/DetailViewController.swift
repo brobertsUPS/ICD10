@@ -48,7 +48,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             self.extensionPicker = nil
         }
        
-        if let runningBill = bill{
+        if let _ = bill{
 
         }else{
             var arr = self.view.subviews
@@ -113,7 +113,7 @@ class DetailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             let controller = segue.destinationViewController as! BillViewController
            
             
-            if let runningBill = bill {
+            if let _ = bill {
             if let icdCodes  = bill!.codesForBill[bill!.selectedVisitCodeToAddTo!] {
                 
                 var theICDCodes:[(icd10:String, icd9:String, icd10id:Int, extensionCode:String)] = icdCodes

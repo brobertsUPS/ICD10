@@ -143,10 +143,10 @@ class DatabaseManager {
     
     // MARK: - Adding information to the database
     
-    func addUserICD10ToDatabase(icd10:String) -> Int{
+    func addUserICD10ToDatabase(icd10:String, icd10Description:String) -> Int{
        
         var result = -1
-        let insertICD10 = "INSERT INTO User_ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (NULL, '\(icd10)', '');"
+        let insertICD10 = "INSERT INTO User_ICD10_condition (ICD10_ID, ICD10_code, description_text) VALUES (NULL, '\(icd10)', '\(icd10Description)');"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertICD10, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
@@ -158,13 +158,13 @@ class DatabaseManager {
         return result
     }
     
-    func addICD10ToDatabase(icd10:String) -> Int{
+    func addICD10ToDatabase(icd10:String, icd10Description:String) -> Int{
         
         var result = -1
-        let insertICD10 = "INSERT INTO ICD10_condition (ICD10_code, description_text) VALUES ('\(icd10)', '');"
+        let insertICD10 = "INSERT INTO ICD10_condition (ICD10_code, description_text) VALUES ('\(icd10)', '\(icd10Description)');"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertICD10, -1, &statement, nil) == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             if sqliteResult == SQLITE_DONE {
                 
                 result = Int(sqlite3_last_insert_rowid(db))
@@ -181,7 +181,7 @@ class DatabaseManager {
         let insertICD10 = "INSERT INTO Characterized_by (ICD10_ID, ICD9_code) VALUES (\(icd10ID),'\(icd9)');"
         var statement:COpaquePointer = nil
         if sqlite3_prepare_v2(db, insertICD10, -1, &statement, nil) == SQLITE_OK {
-            var sqliteResult = sqlite3_step(statement)
+            let sqliteResult = sqlite3_step(statement)
             
             if sqliteResult == SQLITE_DONE {
                 
@@ -633,7 +633,7 @@ class DatabaseManager {
     
     func updateAppointment(aptID:Int, pID:Int, placeID:Int, roomID:Int, code_type:Int, complete:Int, date:String){
         
-        var updateQueryBuilder = "UPDATE Appointment SET "
+        _ = "UPDATE Appointment SET "
         if pID != -1 {
             updateAppointment(aptID, attributeToUpdate: "pID", valueOfAttribute: pID)
         }
@@ -1205,7 +1205,7 @@ class DatabaseManager {
         if sqlite3_prepare_v2(db, patientSearch, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
                 
-                let id = sqlite3_column_int(statement, 0)
+                _ = sqlite3_column_int(statement, 0)
                 
                 let patientDOB = sqlite3_column_text(statement, 1)
                 let patientDOBString = String.fromCString(UnsafePointer<CChar>(patientDOB))
@@ -1237,7 +1237,7 @@ class DatabaseManager {
         
         if sqlite3_prepare_v2(db, doctorSearch, -1, &statement, nil) == SQLITE_OK {
             while sqlite3_step(statement) == SQLITE_ROW {
-                let id = sqlite3_column_int(statement, 0)
+                _ = sqlite3_column_int(statement, 0)
                 
                 let doctorFName = sqlite3_column_text(statement, 1)
                 let doctorFNameString = String.fromCString(UnsafePointer<CChar>(doctorFName))
