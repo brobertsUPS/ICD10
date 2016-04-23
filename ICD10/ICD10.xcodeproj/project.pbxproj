@@ -55,46 +55,46 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		841804A81C6E657300FA7224 /* Bill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bill.swift; sourceTree = "<group>"; };
-		8428724C1C739781003C54B7 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; name = testDML.sqlite3; path = ../../Resources/testDML.sqlite3; sourceTree = "<group>"; };
-		8428724F1C73AE09003C54B7 /* BillFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillFormatter.swift; sourceTree = "<group>"; };
-		8479D0AB1C7643290004EA3F /* ACEAutocompleteBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ACEAutocompleteBar.h; path = "../../../../Desktop/ACEAutocompleteBar-master/ACEAutocompleteBar/ACEAutocompleteBar.h"; sourceTree = "<group>"; };
-		8479D0AC1C7643330004EA3F /* ACEAutocompleteInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ACEAutocompleteInputView.h; path = "../../../../Desktop/ACEAutocompleteBar-master/ACEAutocompleteBar/ACEAutocompleteInputView.h"; sourceTree = "<group>"; };
-		8479D0B41C76439B0004EA3F /* ACEAutocompleteInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ACEAutocompleteInputView.m; path = "../../../../Downloads/ACEAutocompleteBar-master/ACEAutocompleteBar/ACEAutocompleteInputView.m"; sourceTree = "<group>"; };
-		8479D0B71C7643AD0004EA3F /* UITextField+ACEAutocompleteBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITextField+ACEAutocompleteBar.h"; path = "../../../../Downloads/ACEAutocompleteBar-master/ACEAutocompleteBar/UITextField+ACEAutocompleteBar.h"; sourceTree = "<group>"; };
-		8479D0B81C7643B30004EA3F /* UITextField+ACEAutocompleteBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITextField+ACEAutocompleteBar.m"; path = "../../../../Downloads/ACEAutocompleteBar-master/ACEAutocompleteBar/UITextField+ACEAutocompleteBar.m"; sourceTree = "<group>"; };
-		AD07988F1B45BD1C0066A47B /* ICD10Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICD10Cell.swift; sourceTree = "<group>"; };
-		AD0926AB1B4B3AB000C6E3DD /* ICDDeleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICDDeleteButton.swift; sourceTree = "<group>"; };
-		AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillDatesTableViewController.swift; sourceTree = "<group>"; };
-		AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillsTableViewController.swift; sourceTree = "<group>"; };
-		AD359F381B60507400DC6C90 /* ModifierTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifierTableViewController.swift; sourceTree = "<group>"; };
+		841804A81C6E657300FA7224 /* Bill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Bill.swift; path = ICD10/Bill.swift; sourceTree = "<group>"; };
+		8428724C1C739781003C54B7 /* testDML.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; name = testDML.sqlite3; path = ../Resources/testDML.sqlite3; sourceTree = "<group>"; };
+		8428724F1C73AE09003C54B7 /* BillFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BillFormatter.swift; path = ICD10/BillFormatter.swift; sourceTree = "<group>"; };
+		8479D0AB1C7643290004EA3F /* ACEAutocompleteBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ACEAutocompleteBar.h; path = "../../../Desktop/ACEAutocompleteBar-master/ACEAutocompleteBar/ACEAutocompleteBar.h"; sourceTree = "<group>"; };
+		8479D0AC1C7643330004EA3F /* ACEAutocompleteInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ACEAutocompleteInputView.h; path = "../../../Desktop/ACEAutocompleteBar-master/ACEAutocompleteBar/ACEAutocompleteInputView.h"; sourceTree = "<group>"; };
+		8479D0B41C76439B0004EA3F /* ACEAutocompleteInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ACEAutocompleteInputView.m; path = "../../../Downloads/ACEAutocompleteBar-master/ACEAutocompleteBar/ACEAutocompleteInputView.m"; sourceTree = "<group>"; };
+		8479D0B71C7643AD0004EA3F /* UITextField+ACEAutocompleteBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITextField+ACEAutocompleteBar.h"; path = "../../../Downloads/ACEAutocompleteBar-master/ACEAutocompleteBar/UITextField+ACEAutocompleteBar.h"; sourceTree = "<group>"; };
+		8479D0B81C7643B30004EA3F /* UITextField+ACEAutocompleteBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITextField+ACEAutocompleteBar.m"; path = "../../../Downloads/ACEAutocompleteBar-master/ACEAutocompleteBar/UITextField+ACEAutocompleteBar.m"; sourceTree = "<group>"; };
+		AD07988F1B45BD1C0066A47B /* ICD10Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ICD10Cell.swift; path = ICD10/ICD10Cell.swift; sourceTree = "<group>"; };
+		AD0926AB1B4B3AB000C6E3DD /* ICDDeleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ICDDeleteButton.swift; path = ICD10/ICDDeleteButton.swift; sourceTree = "<group>"; };
+		AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BillDatesTableViewController.swift; path = ICD10/BillDatesTableViewController.swift; sourceTree = "<group>"; };
+		AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BillsTableViewController.swift; path = ICD10/BillsTableViewController.swift; sourceTree = "<group>"; };
+		AD359F381B60507400DC6C90 /* ModifierTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModifierTableViewController.swift; path = ICD10/ModifierTableViewController.swift; sourceTree = "<group>"; };
 		AD359F3E1B61927600DC6C90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		AD359F481B62D7D300DC6C90 /* ConditionLocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionLocationTableViewCell.swift; sourceTree = "<group>"; };
+		AD359F481B62D7D300DC6C90 /* ConditionLocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConditionLocationTableViewCell.swift; path = ICD10/ConditionLocationTableViewCell.swift; sourceTree = "<group>"; };
 		AD4FAE771B18D9260010B411 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		AD73FDD51BD56051000781CA /* CustomDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomDetailViewController.swift; sourceTree = "<group>"; };
-		AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientsTableViewController.swift; sourceTree = "<group>"; };
-		AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
-		AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoctorsTableViewController.swift; sourceTree = "<group>"; };
-		AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPatientViewController.swift; sourceTree = "<group>"; };
-		AD93D7261B28A2F8000EAF98 /* EditDoctorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDoctorViewController.swift; sourceTree = "<group>"; };
-		AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectSearchTableViewController.swift; sourceTree = "<group>"; };
-		ADAB0D381B210E71004C770C /* BillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewController.swift; sourceTree = "<group>"; };
-		ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeTokenCollectionViewCell.swift; sourceTree = "<group>"; };
-		ADB02EA01B59B3DB0063487B /* visitCodeDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = visitCodeDetailController.swift; sourceTree = "<group>"; };
-		ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LXReorderableCollectionViewFlowLayout.h; sourceTree = "<group>"; };
-		ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXReorderableCollectionViewFlowLayout.m; sourceTree = "<group>"; };
-		ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		AD73FDD51BD56051000781CA /* CustomDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomDetailViewController.swift; path = ICD10/CustomDetailViewController.swift; sourceTree = "<group>"; };
+		AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PatientsTableViewController.swift; path = ICD10/PatientsTableViewController.swift; sourceTree = "<group>"; };
+		AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseManager.swift; path = ICD10/DatabaseManager.swift; sourceTree = "<group>"; };
+		AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoctorsTableViewController.swift; path = ICD10/DoctorsTableViewController.swift; sourceTree = "<group>"; };
+		AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditPatientViewController.swift; path = ICD10/EditPatientViewController.swift; sourceTree = "<group>"; };
+		AD93D7261B28A2F8000EAF98 /* EditDoctorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditDoctorViewController.swift; path = ICD10/EditDoctorViewController.swift; sourceTree = "<group>"; };
+		AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DirectSearchTableViewController.swift; path = ICD10/DirectSearchTableViewController.swift; sourceTree = "<group>"; };
+		ADAB0D381B210E71004C770C /* BillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BillViewController.swift; path = ICD10/BillViewController.swift; sourceTree = "<group>"; };
+		ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CodeTokenCollectionViewCell.swift; path = ICD10/CodeTokenCollectionViewCell.swift; sourceTree = "<group>"; };
+		ADB02EA01B59B3DB0063487B /* visitCodeDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = visitCodeDetailController.swift; path = ICD10/visitCodeDetailController.swift; sourceTree = "<group>"; };
+		ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LXReorderableCollectionViewFlowLayout.h; path = ICD10/LXReorderableCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LXReorderableCollectionViewFlowLayout.m; path = ICD10/LXReorderableCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchTableViewController.swift; path = ICD10/SearchTableViewController.swift; sourceTree = "<group>"; };
 		ADE77F301B1782F900CE48F1 /* ICD10.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICD10.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE77F341B1782F900CE48F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ADE77F351B1782F900CE48F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		ADE77F371B1782F900CE48F1 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		ADE77F391B1782F900CE48F1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		ADE77F3E1B1782F900CE48F1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		ADE77F351B1782F900CE48F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ICD10/AppDelegate.swift; sourceTree = "<group>"; };
+		ADE77F371B1782F900CE48F1 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MasterViewController.swift; path = ICD10/MasterViewController.swift; sourceTree = "<group>"; };
+		ADE77F391B1782F900CE48F1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DetailViewController.swift; path = ICD10/DetailViewController.swift; sourceTree = "<group>"; };
+		ADE77F3E1B1782F900CE48F1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ICD10/Images.xcassets; sourceTree = "<group>"; };
 		ADE77F411B1782F900CE48F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		ADE77F471B1782F900CE48F1 /* ICD10Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ICD10Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE77F4C1B1782F900CE48F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADE77F4D1B1782F900CE48F1 /* ICD10Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICD10Tests.swift; sourceTree = "<group>"; };
-		ADE77F591B17BD1D00CE48F1 /* ICD10-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ICD10-Bridging-Header.h"; sourceTree = "<group>"; };
+		ADE77F591B17BD1D00CE48F1 /* ICD10-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "ICD10-Bridging-Header.h"; path = "ICD10/ICD10-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,11 +116,85 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		840EA9AF1CCC2143006BCA74 /* ICD10 */ = {
+			isa = PBXGroup;
+			children = (
+				84D8D76E1CCC27F300A25656 /* Store */,
+				84D8D76C1CCC267A00A25656 /* Models */,
+				84D8D76B1CCC265600A25656 /* Controllers */,
+				84D8D76A1CCC262C00A25656 /* Imports */,
+				8428724C1C739781003C54B7 /* testDML.sqlite3 */,
+				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
+				8428724F1C73AE09003C54B7 /* BillFormatter.swift */,
+				ADE77F401B1782F900CE48F1 /* LaunchScreen.xib */,
+				AD4FAE761B18D9260010B411 /* Main.storyboard */,
+				ADE77F3E1B1782F900CE48F1 /* Images.xcassets */,
+				ADE77F331B1782F900CE48F1 /* Supporting Files */,
+			);
+			name = ICD10;
+			sourceTree = "<group>";
+		};
+		84D8D76A1CCC262C00A25656 /* Imports */ = {
+			isa = PBXGroup;
+			children = (
+				ADE77F591B17BD1D00CE48F1 /* ICD10-Bridging-Header.h */,
+				ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */,
+				ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */,
+				8479D0B81C7643B30004EA3F /* UITextField+ACEAutocompleteBar.m */,
+				8479D0B71C7643AD0004EA3F /* UITextField+ACEAutocompleteBar.h */,
+				8479D0B41C76439B0004EA3F /* ACEAutocompleteInputView.m */,
+				8479D0AC1C7643330004EA3F /* ACEAutocompleteInputView.h */,
+				8479D0AB1C7643290004EA3F /* ACEAutocompleteBar.h */,
+			);
+			name = Imports;
+			sourceTree = "<group>";
+		};
+		84D8D76B1CCC265600A25656 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AD359F481B62D7D300DC6C90 /* ConditionLocationTableViewCell.swift */,
+				ADB02EA01B59B3DB0063487B /* visitCodeDetailController.swift */,
+				ADE77F391B1782F900CE48F1 /* DetailViewController.swift */,
+				AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */,
+				ADAB0D381B210E71004C770C /* BillViewController.swift */,
+				AD359F381B60507400DC6C90 /* ModifierTableViewController.swift */,
+				ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */,
+				ADE77F371B1782F900CE48F1 /* MasterViewController.swift */,
+				AD73FDD51BD56051000781CA /* CustomDetailViewController.swift */,
+				AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */,
+				AD93D7261B28A2F8000EAF98 /* EditDoctorViewController.swift */,
+				AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */,
+				AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */,
+				AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */,
+				AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		84D8D76C1CCC267A00A25656 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AD0926AB1B4B3AB000C6E3DD /* ICDDeleteButton.swift */,
+				841804A81C6E657300FA7224 /* Bill.swift */,
+				AD07988F1B45BD1C0066A47B /* ICD10Cell.swift */,
+				ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		84D8D76E1CCC27F300A25656 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */,
+			);
+			name = Store;
+			sourceTree = "<group>";
+		};
 		ADE77F271B1782F900CE48F1 = {
 			isa = PBXGroup;
 			children = (
+				840EA9AF1CCC2143006BCA74 /* ICD10 */,
 				AD359F3E1B61927600DC6C90 /* libsqlite3.dylib */,
-				ADE77F321B1782F900CE48F1 /* ICD10 */,
 				ADE77F4A1B1782F900CE48F1 /* ICD10Tests */,
 				ADE77F311B1782F900CE48F1 /* Products */,
 			);
@@ -135,54 +209,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		ADE77F321B1782F900CE48F1 /* ICD10 */ = {
-			isa = PBXGroup;
-			children = (
-				8479D0B81C7643B30004EA3F /* UITextField+ACEAutocompleteBar.m */,
-				8479D0B71C7643AD0004EA3F /* UITextField+ACEAutocompleteBar.h */,
-				8479D0B41C76439B0004EA3F /* ACEAutocompleteInputView.m */,
-				8479D0AC1C7643330004EA3F /* ACEAutocompleteInputView.h */,
-				8479D0AB1C7643290004EA3F /* ACEAutocompleteBar.h */,
-				8428724C1C739781003C54B7 /* testDML.sqlite3 */,
-				ADB59A131B4D8B4A00A0BE66 /* LXReorderableCollectionViewFlowLayout.h */,
-				ADB59A141B4D8B5400A0BE66 /* LXReorderableCollectionViewFlowLayout.m */,
-				ADE77F351B1782F900CE48F1 /* AppDelegate.swift */,
-				ADABFEBA1B449C0B002ED513 /* CodeTokenCollectionViewCell.swift */,
-				AD07988F1B45BD1C0066A47B /* ICD10Cell.swift */,
-				AD7A73D31B2783A90054DD55 /* DatabaseManager.swift */,
-				AD19EA941B2F423800A1AFF1 /* BillDatesTableViewController.swift */,
-				8428724F1C73AE09003C54B7 /* BillFormatter.swift */,
-				AD19EA961B2F473500A1AFF1 /* BillsTableViewController.swift */,
-				ADAB0D381B210E71004C770C /* BillViewController.swift */,
-				841804A81C6E657300FA7224 /* Bill.swift */,
-				AD359F381B60507400DC6C90 /* ModifierTableViewController.swift */,
-				AD0926AB1B4B3AB000C6E3DD /* ICDDeleteButton.swift */,
-				ADD4A8C31B220FBF0083FAF1 /* SearchTableViewController.swift */,
-				ADE77F371B1782F900CE48F1 /* MasterViewController.swift */,
-				ADE77F391B1782F900CE48F1 /* DetailViewController.swift */,
-				AD73FDD51BD56051000781CA /* CustomDetailViewController.swift */,
-				AD93D7301B28F667000EAF98 /* DirectSearchTableViewController.swift */,
-				AD93D7261B28A2F8000EAF98 /* EditDoctorViewController.swift */,
-				AD93D7241B28A104000EAF98 /* EditPatientViewController.swift */,
-				AD7A73D11B2782590054DD55 /* PatientsTableViewController.swift */,
-				AD7A73D51B278D150054DD55 /* DoctorsTableViewController.swift */,
-				ADB02EA01B59B3DB0063487B /* visitCodeDetailController.swift */,
-				AD359F481B62D7D300DC6C90 /* ConditionLocationTableViewCell.swift */,
-				ADE77F401B1782F900CE48F1 /* LaunchScreen.xib */,
-				AD4FAE761B18D9260010B411 /* Main.storyboard */,
-				ADE77F3E1B1782F900CE48F1 /* Images.xcassets */,
-				ADE77F331B1782F900CE48F1 /* Supporting Files */,
-				ADE77F591B17BD1D00CE48F1 /* ICD10-Bridging-Header.h */,
-			);
-			path = ICD10;
-			sourceTree = "<group>";
-		};
 		ADE77F331B1782F900CE48F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				ADE77F341B1782F900CE48F1 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			path = ICD10;
 			sourceTree = "<group>";
 		};
 		ADE77F4A1B1782F900CE48F1 /* ICD10Tests */ = {
@@ -363,6 +396,7 @@
 				AD4FAE771B18D9260010B411 /* Base */,
 			);
 			name = Main.storyboard;
+			path = ICD10;
 			sourceTree = "<group>";
 		};
 		ADE77F401B1782F900CE48F1 /* LaunchScreen.xib */ = {
@@ -371,6 +405,7 @@
 				ADE77F411B1782F900CE48F1 /* Base */,
 			);
 			name = LaunchScreen.xib;
+			path = ICD10;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
